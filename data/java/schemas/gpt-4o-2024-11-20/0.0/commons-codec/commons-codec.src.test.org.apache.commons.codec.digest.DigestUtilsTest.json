@@ -1,0 +1,821 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/digest/DigestUtilsTest.java",
+    "imports": {
+        "20-20:import static org.apache.commons.codec.binary.StringUtils.getBytesUtf8;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.apache.commons.codec.binary.StringUtils.getBytesUtf8;"
+        },
+        "21-21:import static org.junit.Assert.assertArrayEquals;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertArrayEquals;"
+        },
+        "22-22:import static org.junit.Assert.assertEquals;": {
+            "start": 22,
+            "end": 22,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "23-23:import static org.junit.Assert.assertTrue;": {
+            "start": 23,
+            "end": 23,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "24-24:import static org.junit.Assert.assertFalse;": {
+            "start": 24,
+            "end": 24,
+            "body": "import static org.junit.Assert.assertFalse;"
+        },
+        "25-25:import static org.junit.Assert.assertNotNull;": {
+            "start": 25,
+            "end": 25,
+            "body": "import static org.junit.Assert.assertNotNull;"
+        },
+        "27-27:import java.io.ByteArrayInputStream;": {
+            "start": 27,
+            "end": 27,
+            "body": "import java.io.ByteArrayInputStream;"
+        },
+        "28-28:import java.io.File;": {
+            "start": 28,
+            "end": 28,
+            "body": "import java.io.File;"
+        },
+        "29-29:import java.io.FileInputStream;": {
+            "start": 29,
+            "end": 29,
+            "body": "import java.io.FileInputStream;"
+        },
+        "30-30:import java.io.FileOutputStream;": {
+            "start": 30,
+            "end": 30,
+            "body": "import java.io.FileOutputStream;"
+        },
+        "31-31:import java.io.IOException;": {
+            "start": 31,
+            "end": 31,
+            "body": "import java.io.IOException;"
+        },
+        "32-32:import java.io.RandomAccessFile;": {
+            "start": 32,
+            "end": 32,
+            "body": "import java.io.RandomAccessFile;"
+        },
+        "33-33:import java.nio.ByteBuffer;": {
+            "start": 33,
+            "end": 33,
+            "body": "import java.nio.ByteBuffer;"
+        },
+        "34-34:import java.nio.file.Files;": {
+            "start": 34,
+            "end": 34,
+            "body": "import java.nio.file.Files;"
+        },
+        "35-35:import java.nio.file.Path;": {
+            "start": 35,
+            "end": 35,
+            "body": "import java.nio.file.Path;"
+        },
+        "36-36:import java.nio.file.Paths;": {
+            "start": 36,
+            "end": 36,
+            "body": "import java.nio.file.Paths;"
+        },
+        "37-37:import java.util.Locale;": {
+            "start": 37,
+            "end": 37,
+            "body": "import java.util.Locale;"
+        },
+        "38-38:import java.util.Random;": {
+            "start": 38,
+            "end": 38,
+            "body": "import java.util.Random;"
+        },
+        "40-40:import org.apache.commons.codec.binary.Hex;": {
+            "start": 40,
+            "end": 40,
+            "body": "import org.apache.commons.codec.binary.Hex;"
+        },
+        "41-41:import org.apache.commons.codec.binary.StringUtils;": {
+            "start": 41,
+            "end": 41,
+            "body": "import org.apache.commons.codec.binary.StringUtils;"
+        },
+        "42-42:import org.junit.After;": {
+            "start": 42,
+            "end": 42,
+            "body": "import org.junit.After;"
+        },
+        "43-43:import org.junit.Assume;": {
+            "start": 43,
+            "end": 43,
+            "body": "import org.junit.Assume;"
+        },
+        "44-44:import org.junit.Before;": {
+            "start": 44,
+            "end": 44,
+            "body": "import org.junit.Before;"
+        },
+        "45-45:import org.junit.Test;": {
+            "start": 45,
+            "end": 45,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "51-153:DigestUtilsTest": {
+            "start": 51,
+            "end": 153,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "63-65:getTestData": {
+                    "start": 63,
+                    "end": 65,
+                    "body": [
+                        "byte[] getTestData() {",
+                        "        return testData;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "getTestData()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "67-69:getTestFile": {
+                    "start": 67,
+                    "end": 69,
+                    "body": [
+                        "File getTestFile() {",
+                        "        return testFile;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "File"
+                    ],
+                    "body_types": [],
+                    "signature": "getTestFile()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "71-73:getTestPath": {
+                    "start": 71,
+                    "end": 73,
+                    "body": [
+                        "Path getTestPath() {",
+                        "        return testFile.toPath();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "Path"
+                    ],
+                    "body_types": [],
+                    "signature": "getTestPath()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.File",
+                            "toPath()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Path": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "75-77:getTestRandomAccessFile": {
+                    "start": 75,
+                    "end": 77,
+                    "body": [
+                        "RandomAccessFile getTestRandomAccessFile() {",
+                        "        return testRandomAccessFileWrapper;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "RandomAccessFile"
+                    ],
+                    "body_types": [],
+                    "signature": "getTestRandomAccessFile()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "RandomAccessFile": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "79-92:setUp": {
+                    "start": 79,
+                    "end": 92,
+                    "body": [
+                        "@Before",
+                        "    public void setUp() throws Exception {",
+                        "        new Random().nextBytes(testData);",
+                        "        testFile = File.createTempFile(DigestUtilsTest.class.getName(), \".dat\");",
+                        "        try (final FileOutputStream fos = new FileOutputStream(testFile)) {",
+                        "            fos.write(testData);",
+                        "        }",
+                        "",
+                        "        testRandomAccessFile = File.createTempFile(DigestUtilsTest.class.getName(), \".dat\");",
+                        "        try (final FileOutputStream fos = new FileOutputStream(testRandomAccessFile)) {",
+                        "            fos.write(testData);",
+                        "        }",
+                        "        testRandomAccessFileWrapper = new RandomAccessFile(testRandomAccessFile, \"rw\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Before"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Random",
+                        "DigestUtilsTest",
+                        "FileOutputStream",
+                        "RandomAccessFile"
+                    ],
+                    "signature": "setUp()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Random",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Random",
+                            "nextBytes(byte[])"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getName()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "createTempFile(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileOutputStream",
+                            "<init>(java.io.File)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileOutputStream",
+                            "write(byte[])"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileOutputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ],
+                        [
+                            "library",
+                            "java.io.RandomAccessFile",
+                            "<init>(java.io.File,java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Random": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DigestUtilsTest": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "RandomAccessFile": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "94-103:tearDown": {
+                    "start": 94,
+                    "end": 103,
+                    "body": [
+                        "@After",
+                        "    public void tearDown() {",
+                        "        if (!testFile.delete()) {",
+                        "            testFile.deleteOnExit();",
+                        "        }",
+                        "",
+                        "        if (!testRandomAccessFile.delete()) {",
+                        "            testRandomAccessFile.deleteOnExit();",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@After"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "tearDown()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.File",
+                            "delete()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "deleteOnExit()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "53-53:EMPTY_STRING": {
+                    "start": 53,
+                    "end": 53,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final String EMPTY_STRING = \"\";"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "55-55:testData": {
+                    "start": 55,
+                    "end": 55,
+                    "enum_constant": false,
+                    "body": [
+                        "private final byte[] testData = new byte[1024 * 1024];"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "57-57:testFile": {
+                    "start": 57,
+                    "end": 57,
+                    "enum_constant": false,
+                    "body": [
+                        "private File testFile;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "File"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "59-59:testRandomAccessFile": {
+                    "start": 59,
+                    "end": 59,
+                    "enum_constant": false,
+                    "body": [
+                        "private File testRandomAccessFile;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "File"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "61-61:testRandomAccessFileWrapper": {
+                    "start": 61,
+                    "end": 61,
+                    "enum_constant": false,
+                    "body": [
+                        "private RandomAccessFile testRandomAccessFileWrapper;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "RandomAccessFile"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "RandomAccessFile": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/digest/DigestUtilsTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/digest/DigestUtilsTest_test.cj",
+    "import_map": {
+        "getBytesUtf8": "static org.apache.commons.codec.binary.StringUtils.getBytesUtf8",
+        "assertArrayEquals": "static org.junit.Assert.assertArrayEquals",
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "assertFalse": "static org.junit.Assert.assertFalse",
+        "assertNotNull": "static org.junit.Assert.assertNotNull",
+        "ByteArrayInputStream": "java.io.ByteArrayInputStream",
+        "File": "java.io.File",
+        "FileInputStream": "java.io.FileInputStream",
+        "FileOutputStream": "java.io.FileOutputStream",
+        "IOException": "java.io.IOException",
+        "RandomAccessFile": "java.io.RandomAccessFile",
+        "ByteBuffer": "java.nio.ByteBuffer",
+        "Files": "java.nio.file.Files",
+        "Path": "java.nio.file.Path",
+        "Paths": "java.nio.file.Paths",
+        "Locale": "java.util.Locale",
+        "Random": "java.util.Random",
+        "Hex": "org.apache.commons.codec.binary.Hex",
+        "StringUtils": "org.apache.commons.codec.binary.StringUtils",
+        "After": "org.junit.After",
+        "Assume": "org.junit.Assume",
+        "Before": "org.junit.Before",
+        "Test": "org.junit.Test"
+    }
+}

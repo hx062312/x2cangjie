@@ -1,0 +1,1245 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/binary/BaseNCodecInputStream.java",
+    "imports": {
+        "20-20:import static org.apache.commons.codec.binary.BaseNCodec.EOF;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.apache.commons.codec.binary.BaseNCodec.EOF;"
+        },
+        "22-22:import java.io.FilterInputStream;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.io.FilterInputStream;"
+        },
+        "23-23:import java.io.IOException;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.io.IOException;"
+        },
+        "24-24:import java.io.InputStream;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.io.InputStream;"
+        },
+        "25-25:import java.util.Objects;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.util.Objects;"
+        },
+        "27-27:import org.apache.commons.codec.binary.BaseNCodec.Context;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.apache.commons.codec.binary.BaseNCodec.Context;"
+        }
+    },
+    "classes": {
+        "34-237:BaseNCodecInputStream": {
+            "start": 34,
+            "end": 237,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "java.io.FilterInputStream"
+            ],
+            "methods": {
+                "46-51:BaseNCodecInputStream": {
+                    "start": 46,
+                    "end": 51,
+                    "body": [
+                        "protected BaseNCodecInputStream(final InputStream input, final BaseNCodec baseNCodec, final boolean doEncode) {",
+                        "        super(input);",
+                        "        this.doEncode = doEncode;",
+                        "        this.baseNCodec = baseNCodec;",
+                        "        this.buf = new byte[doEncode ? 4096 : 8192];",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [],
+                    "body_types": [
+                        "byte"
+                    ],
+                    "signature": "BaseNCodecInputStream(final InputStream input, final BaseNCodec baseNCodec, final boolean doEncode)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "InputStream",
+                            "name": "input"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "BaseNCodec",
+                            "name": "baseNCodec"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "doEncode"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.FilterInputStream",
+                            "<init>(java.io.InputStream)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodec",
+                            "60-122:Context",
+                            "107-108:Context"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|InputStream|input": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|BaseNCodec|baseNCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|doEncode": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "60-68:available": {
+                    "start": 60,
+                    "end": 68,
+                    "body": [
+                        "@Override",
+                        "    public int available() throws IOException {",
+                        "        // Note: the logic is similar to the InflaterInputStream:",
+                        "        //       as long as we have not reached EOF, indicate that there is more",
+                        "        //       data available. As we do not know for sure how much data is left,",
+                        "        //       just return 1 as a safe guess.",
+                        "",
+                        "        return context.eof ? 0 : 1;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "available()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "80-82:isStrictDecoding": {
+                    "start": 80,
+                    "end": 82,
+                    "body": [
+                        "public boolean isStrictDecoding() {",
+                        "        return baseNCodec.isStrictDecoding();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isStrictDecoding()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodec",
+                            "51-729:BaseNCodec",
+                            "693-695:isStrictDecoding"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "92-95:mark": {
+                    "start": 92,
+                    "end": 95,
+                    "body": [
+                        "@Override",
+                        "    public synchronized void mark(final int readLimit) {",
+                        "        // noop",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "synchronized"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "mark(final int readLimit)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "readLimit"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|int|readLimit": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "102-105:markSupported": {
+                    "start": 102,
+                    "end": 105,
+                    "body": [
+                        "@Override",
+                        "    public boolean markSupported() {",
+                        "        return false; // not an easy job to support marks",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "markSupported()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "114-125:read": {
+                    "start": 114,
+                    "end": 125,
+                    "body": [
+                        "@Override",
+                        "    public int read() throws IOException {",
+                        "        int r = read(singleByte, 0, 1);",
+                        "        while (r == 0) {",
+                        "            r = read(singleByte, 0, 1);",
+                        "        }",
+                        "        if (r > 0) {",
+                        "            final byte b = singleByte[0];",
+                        "            return b < 0 ? 256 + b : b;",
+                        "        }",
+                        "        return EOF;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "int",
+                        "byte"
+                    ],
+                    "signature": "read()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecInputStream",
+                            "34-237:BaseNCodecInputStream",
+                            "114-125:read"
+                        ],
+                        [
+                            "library",
+                            "java.util.Objects",
+                            "requireNonNull(java.lang.Object,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.IndexOutOfBoundsException",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodec",
+                            "51-729:BaseNCodec",
+                            "634-636:hasData"
+                        ],
+                        [
+                            "library",
+                            "java.io.InputStream",
+                            "read(byte[])"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodec",
+                            "51-729:BaseNCodec",
+                            "484-490:encode"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodec",
+                            "51-729:BaseNCodec",
+                            "428-439:decode"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodec",
+                            "51-729:BaseNCodec",
+                            "713-728:readResults"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "146-195:read": {
+                    "start": 146,
+                    "end": 195,
+                    "body": [
+                        "@Override",
+                        "    public int read(final byte array[], final int offset, final int len) throws IOException {",
+                        "        Objects.requireNonNull(array, \"array\");",
+                        "        if (offset < 0 || len < 0) {",
+                        "            throw new IndexOutOfBoundsException();",
+                        "        }",
+                        "        if (offset > array.length || offset + len > array.length) {",
+                        "            throw new IndexOutOfBoundsException();",
+                        "        }",
+                        "        if (len == 0) {",
+                        "            return 0;",
+                        "        }",
+                        "        int readLen = 0;",
+                        "        /*",
+                        "         Rationale for while-loop on (readLen == 0):",
+                        "         -----",
+                        "         Base32.readResults() usually returns > 0 or EOF (-1).  In the",
+                        "         rare case where it returns 0, we just keep trying.",
+                        "",
+                        "         This is essentially an undocumented contract for InputStream",
+                        "         implementors that want their code to work properly with",
+                        "         java.io.InputStreamReader, since the latter hates it when",
+                        "         InputStream.read(byte[]) returns a zero.  Unfortunately our",
+                        "         readResults() call must return 0 if a large amount of the data",
+                        "         being decoded was non-base32, so this while-loop enables proper",
+                        "         interop with InputStreamReader for that scenario.",
+                        "         -----",
+                        "         This is a fix for CODEC-101",
+                        "        */",
+                        "        // Attempt to read the request length",
+                        "        while (readLen < len) {",
+                        "            if (!baseNCodec.hasData(context)) {",
+                        "                // Obtain more data.",
+                        "                // buf is reused across calls to read to avoid repeated allocations",
+                        "                final int c = in.read(buf);",
+                        "                if (doEncode) {",
+                        "                    baseNCodec.encode(buf, 0, c, context);",
+                        "                } else {",
+                        "                    baseNCodec.decode(buf, 0, c, context);",
+                        "                }",
+                        "            }",
+                        "            final int read = baseNCodec.readResults(array, offset + readLen, len - readLen, context);",
+                        "            if (read < 0) {",
+                        "                // Return the amount read or EOF",
+                        "                return readLen != 0 ? readLen : -1;",
+                        "            }",
+                        "            readLen += read;",
+                        "        }",
+                        "        return readLen;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "IndexOutOfBoundsException",
+                        "int"
+                    ],
+                    "signature": "read(final byte array, final int offset, final int len)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte",
+                            "name": "array"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "offset"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "len"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecInputStream",
+                            "34-237:BaseNCodecInputStream",
+                            "114-125:read"
+                        ],
+                        [
+                            "library",
+                            "java.lang.IndexOutOfBoundsException",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "IndexOutOfBoundsException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte|array": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|offset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|len": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "205-208:reset": {
+                    "start": 205,
+                    "end": 208,
+                    "body": [
+                        "@Override",
+                        "    public synchronized void reset() throws IOException {",
+                        "        throw new IOException(\"mark/reset not supported\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "synchronized"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "IOException"
+                    ],
+                    "signature": "reset()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.IOException",
+                            "<init>(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "IOException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "216-236:skip": {
+                    "start": 216,
+                    "end": 236,
+                    "body": [
+                        "@Override",
+                        "    public long skip(final long n) throws IOException {",
+                        "        if (n < 0) {",
+                        "            throw new IllegalArgumentException(\"Negative skip length: \" + n);",
+                        "        }",
+                        "",
+                        "        // skip in chunks of 512 bytes",
+                        "        final byte[] b = new byte[512];",
+                        "        long todo = n;",
+                        "",
+                        "        while (todo > 0) {",
+                        "            int len = (int) Math.min(b.length, todo);",
+                        "            len = this.read(b, 0, len);",
+                        "            if (len == EOF) {",
+                        "                break;",
+                        "            }",
+                        "            todo -= len;",
+                        "        }",
+                        "",
+                        "        return n - todo;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "long"
+                    ],
+                    "body_types": [
+                        "IllegalArgumentException",
+                        "byte[]",
+                        "byte",
+                        "long",
+                        "int"
+                    ],
+                    "signature": "skip(final long n)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "long",
+                            "name": "n"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(long)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.IllegalArgumentException",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "min(long,long)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecInputStream",
+                            "34-237:BaseNCodecInputStream",
+                            "114-125:read"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "IllegalArgumentException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|long|n": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "36-36:baseNCodec": {
+                    "start": 36,
+                    "end": 36,
+                    "enum_constant": false,
+                    "body": [
+                        "private final BaseNCodec baseNCodec;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "BaseNCodec"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "BaseNCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "38-38:doEncode": {
+                    "start": 38,
+                    "end": 38,
+                    "enum_constant": false,
+                    "body": [
+                        "private final boolean doEncode;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "40-40:singleByte": {
+                    "start": 40,
+                    "end": 40,
+                    "enum_constant": false,
+                    "body": [
+                        "private final byte[] singleByte = new byte[1];"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "42-42:buf": {
+                    "start": 42,
+                    "end": 42,
+                    "enum_constant": false,
+                    "body": [
+                        "private final byte[] buf;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "44-44:context": {
+                    "start": 44,
+                    "end": 44,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Context context = new Context();"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Context"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Context": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/binary/BaseNCodecInputStream.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/binary/BaseNCodecInputStream.cj",
+    "import_map": {
+        "EOF": "static org.apache.commons.codec.binary.BaseNCodec.EOF",
+        "FilterInputStream": "java.io.FilterInputStream",
+        "IOException": "java.io.IOException",
+        "InputStream": "java.io.InputStream",
+        "Objects": "java.util.Objects",
+        "Context": "org.apache.commons.codec.binary.BaseNCodec.Context"
+    }
+}

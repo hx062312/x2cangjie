@@ -1,0 +1,2220 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/test/java/org/apache/commons/cli/OptionTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertEquals;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "21-21:import static org.junit.Assert.assertFalse;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertFalse;"
+        },
+        "22-22:import static org.junit.Assert.assertNotEquals;": {
+            "start": 22,
+            "end": 22,
+            "body": "import static org.junit.Assert.assertNotEquals;"
+        },
+        "23-23:import static org.junit.Assert.assertNotSame;": {
+            "start": 23,
+            "end": 23,
+            "body": "import static org.junit.Assert.assertNotSame;"
+        },
+        "24-24:import static org.junit.Assert.assertNull;": {
+            "start": 24,
+            "end": 24,
+            "body": "import static org.junit.Assert.assertNull;"
+        },
+        "25-25:import static org.junit.Assert.assertTrue;": {
+            "start": 25,
+            "end": 25,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "27-27:import org.junit.Test;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "29-227:OptionTest": {
+            "start": 29,
+            "end": 227,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [
+                "30-44:DefaultOption",
+                "46-58:TestOption"
+            ],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "60-72:checkOption": {
+                    "start": 60,
+                    "end": 72,
+                    "body": [
+                        "private static void checkOption(final Option option, final String opt, final String description, final String longOpt, final int numArgs,",
+                        "        final String argName, final boolean required, final boolean optionalArg, final char valueSeparator, final Class<?> cls) {",
+                        "        assertEquals(opt, option.getOpt());",
+                        "        assertEquals(description, option.getDescription());",
+                        "        assertEquals(longOpt, option.getLongOpt());",
+                        "        assertEquals(numArgs, option.getArgs());",
+                        "        assertEquals(argName, option.getArgName());",
+                        "        assertEquals(required, option.isRequired());",
+                        "",
+                        "        assertEquals(optionalArg, option.hasOptionalArg());",
+                        "        assertEquals(valueSeparator, option.getValueSeparator());",
+                        "        assertEquals(cls, option.getType());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "checkOption(final Option option, final String opt, final String description, final String longOpt, final int numArgs, final String argName, final boolean required, final boolean optionalArg, final char valueSeparator, final Class<?> cls)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Option",
+                            "name": "option"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "opt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "description"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "longOpt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "numArgs"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "argName"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "required"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "optionalArg"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "valueSeparator"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "Class<?>",
+                            "name": "cls"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "566-568:getOpt"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "525-527:getDescription"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "554-556:getLongOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "516-518:getArgs"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "499-501:getArgName"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Boolean",
+                            "valueOf(boolean)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "713-715:isRequired"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "694-696:hasOptionalArg"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "628-630:getValueSeparator"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "575-577:getType"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|Option|option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|opt": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|description": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|longOpt": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|numArgs": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|argName": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|required": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|optionalArg": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char|valueSeparator": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|Class<?>|cls": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "74-77:testBuilderInsufficientParams1": {
+                    "start": 74,
+                    "end": 77,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testBuilderInsufficientParams1() {",
+                        "        Option.builder().desc(\"desc\").build();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testBuilderInsufficientParams1()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "124-127:desc"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "111-116:build"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "79-82:testBuilderInsufficientParams2": {
+                    "start": 79,
+                    "end": 82,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testBuilderInsufficientParams2() {",
+                        "        Option.builder(null).desc(\"desc\").build();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testBuilderInsufficientParams2()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "124-127:desc"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "111-116:build"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "84-87:testBuilderInvalidOptionName1": {
+                    "start": 84,
+                    "end": 87,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testBuilderInvalidOptionName1() {",
+                        "        Option.builder().option(\"invalid?\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testBuilderInvalidOptionName1()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "190-193:option"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "89-92:testBuilderInvalidOptionName2": {
+                    "start": 89,
+                    "end": 92,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testBuilderInvalidOptionName2() {",
+                        "        Option.builder().option(\"invalid@\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testBuilderInvalidOptionName2()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "190-193:option"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "94-97:testBuilderInvalidOptionName3": {
+                    "start": 94,
+                    "end": 97,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testBuilderInvalidOptionName3() {",
+                        "        Option.builder(\"invalid?\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testBuilderInvalidOptionName3()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "99-102:testBuilderInvalidOptionName4": {
+                    "start": 99,
+                    "end": 102,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testBuilderInvalidOptionName4() {",
+                        "        Option.builder(\"invalid@\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testBuilderInvalidOptionName4()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "104-134:testBuilderMethods": {
+                    "start": 104,
+                    "end": 134,
+                    "body": [
+                        "@Test",
+                        "    public void testBuilderMethods() {",
+                        "        final char defaultSeparator = (char) 0;",
+                        "",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, false, defaultSeparator, String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").longOpt(\"aaa\").build(), \"a\", \"desc\", \"aaa\", Option.UNINITIALIZED, null, false, false, defaultSeparator,",
+                        "            String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").hasArg(true).build(), \"a\", \"desc\", null, 1, null, false, false, defaultSeparator, String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").hasArg(false).build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,",
+                        "            String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").hasArg(true).build(), \"a\", \"desc\", null, 1, null, false, false, defaultSeparator, String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").numberOfArgs(3).build(), \"a\", \"desc\", null, 3, null, false, false, defaultSeparator, String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").required(true).build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, true, false, defaultSeparator,",
+                        "            String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").required(false).build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,",
+                        "            String.class);",
+                        "",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").argName(\"arg1\").build(), \"a\", \"desc\", null, Option.UNINITIALIZED, \"arg1\", false, false, defaultSeparator,",
+                        "            String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").optionalArg(false).build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,",
+                        "            String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").optionalArg(true).build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, true, defaultSeparator,",
+                        "            String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").valueSeparator(':').build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, false, ':',",
+                        "            String.class);",
+                        "        checkOption(Option.builder(\"a\").desc(\"desc\").type(Integer.class).build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, false, defaultSeparator,",
+                        "            Integer.class);",
+                        "        checkOption(Option.builder().option(\"a\").desc(\"desc\").type(Integer.class).build(), \"a\", \"desc\", null, Option.UNINITIALIZED, null, false, false,",
+                        "                defaultSeparator, Integer.class);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "char",
+                        "String",
+                        "Integer"
+                    ],
+                    "signature": "testBuilderMethods()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "124-127:desc"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "111-116:build"
+                        ],
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.OptionTest",
+                            "29-227:OptionTest",
+                            "60-72:checkOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "166-169:longOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "134-136:hasArg"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "177-180:numberOfArgs"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "211-213:required"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "100-103:argName"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "201-204:optionalArg"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "242-244:valueSeparator"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "232-235:type"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "190-193:option"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Integer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "136-144:testClear": {
+                    "start": 136,
+                    "end": 144,
+                    "body": [
+                        "@Test",
+                        "    public void testClear() {",
+                        "        final TestOption option = new TestOption(\"x\", true, \"\");",
+                        "        assertEquals(0, option.getValuesList().size());",
+                        "        option.addValue(\"a\");",
+                        "        assertEquals(1, option.getValuesList().size());",
+                        "        option.clearValues();",
+                        "        assertEquals(0, option.getValuesList().size());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "TestOption"
+                    ],
+                    "signature": "testClear()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.OptionTest",
+                            "46-58:TestOption",
+                            "49-51:TestOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "637-639:getValuesList"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "size()"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ],
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.OptionTest",
+                            "46-58:TestOption",
+                            "53-57:addValue"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "458-460:clearValues"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "TestOption": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "147-161:testClone": {
+                    "start": 147,
+                    "end": 161,
+                    "body": [
+                        "@Test",
+                        "    public void testClone() {",
+                        "        final TestOption a = new TestOption(\"a\", true, \"\");",
+                        "        final TestOption b = (TestOption) a.clone();",
+                        "        assertEquals(a, b);",
+                        "        assertNotSame(a, b);",
+                        "        a.setDescription(\"a\");",
+                        "        assertEquals(\"\", b.getDescription());",
+                        "        b.setArgs(2);",
+                        "        b.addValue(\"b1\");",
+                        "        b.addValue(\"b2\");",
+                        "        assertEquals(1, a.getArgs());",
+                        "        assertEquals(0, a.getValuesList().size());",
+                        "        assertEquals(2, b.getValues().length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "TestOption"
+                    ],
+                    "signature": "testClone()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.OptionTest",
+                            "46-58:TestOption",
+                            "49-51:TestOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "471-480:clone"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNotSame(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "797-799:setDescription"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "525-527:getDescription"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "787-789:setArgs"
+                        ],
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.OptionTest",
+                            "46-58:TestOption",
+                            "53-57:addValue"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "516-518:getArgs"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "637-639:getValuesList"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "size()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "619-621:getValues"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "TestOption": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "163-176:testGetValue": {
+                    "start": 163,
+                    "end": 176,
+                    "body": [
+                        "@Test",
+                        "    public void testGetValue() {",
+                        "        final Option option = new Option(\"f\", null);",
+                        "        option.setArgs(Option.UNLIMITED_VALUES);",
+                        "",
+                        "        assertEquals(\"default\", option.getValue(\"default\"));",
+                        "        assertNull(option.getValue(0));",
+                        "",
+                        "        option.addValueForProcessing(\"foo\");",
+                        "",
+                        "        assertEquals(\"foo\", option.getValue());",
+                        "        assertEquals(\"foo\", option.getValue(0));",
+                        "        assertEquals(\"foo\", option.getValue(\"default\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Option"
+                    ],
+                    "signature": "testGetValue()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "338-348:Option"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "787-789:setArgs"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "584-586:getValue"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNull(java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "445-450:addValueForProcessing"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "178-190:testHasArgName": {
+                    "start": 178,
+                    "end": 190,
+                    "body": [
+                        "@Test",
+                        "    public void testHasArgName() {",
+                        "        final Option option = new Option(\"f\", null);",
+                        "",
+                        "        option.setArgName(null);",
+                        "        assertFalse(option.hasArgName());",
+                        "",
+                        "        option.setArgName(\"\");",
+                        "        assertFalse(option.hasArgName());",
+                        "",
+                        "        option.setArgName(\"file\");",
+                        "        assertTrue(option.hasArgName());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Option"
+                    ],
+                    "signature": "testHasArgName()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "338-348:Option"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "778-780:setArgName"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "655-657:hasArgName"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertFalse(boolean)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "192-210:testHasArgs": {
+                    "start": 192,
+                    "end": 210,
+                    "body": [
+                        "@Test",
+                        "    public void testHasArgs() {",
+                        "        final Option option = new Option(\"f\", null);",
+                        "",
+                        "        option.setArgs(0);",
+                        "        assertFalse(option.hasArgs());",
+                        "",
+                        "        option.setArgs(1);",
+                        "        assertFalse(option.hasArgs());",
+                        "",
+                        "        option.setArgs(10);",
+                        "        assertTrue(option.hasArgs());",
+                        "",
+                        "        option.setArgs(Option.UNLIMITED_VALUES);",
+                        "        assertTrue(option.hasArgs());",
+                        "",
+                        "        option.setArgs(Option.UNINITIALIZED);",
+                        "        assertFalse(option.hasArgs());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Option"
+                    ],
+                    "signature": "testHasArgs()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "338-348:Option"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "787-789:setArgs"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "664-666:hasArgs"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertFalse(boolean)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "212-217:testHashCode": {
+                    "start": 212,
+                    "end": 217,
+                    "body": [
+                        "@Test",
+                        "    public void testHashCode() {",
+                        "        assertNotEquals(Option.builder(\"test\").build().hashCode(), Option.builder(\"test2\").build().hashCode());",
+                        "        assertNotEquals(Option.builder(\"test\").build().hashCode(), Option.builder().longOpt(\"test\").build().hashCode());",
+                        "        assertNotEquals(Option.builder(\"test\").build().hashCode(), Option.builder(\"test\").longOpt(\"long test\").build().hashCode());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testHashCode()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "111-116:build"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "668-671:hashCode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNotEquals(long,long)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "166-169:longOpt"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "219-225:testSubclass": {
+                    "start": 219,
+                    "end": 225,
+                    "body": [
+                        "@Test",
+                        "    public void testSubclass() {",
+                        "        final Option option = new DefaultOption(\"f\", \"file\", \"myfile.txt\");",
+                        "        final Option clone = (Option) option.clone();",
+                        "        assertEquals(\"myfile.txt\", clone.getValue());",
+                        "        assertEquals(DefaultOption.class, clone.getClass());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Option",
+                        "DefaultOption"
+                    ],
+                    "signature": "testSubclass()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.OptionTest",
+                            "30-44:DefaultOption",
+                            "35-38:DefaultOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "471-480:clone"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "584-586:getValue"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "getClass()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DefaultOption": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        },
+        "30-44:DefaultOption": {
+            "start": 30,
+            "end": 44,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "private",
+                "static"
+            ],
+            "nested_inside": "29-227:OptionTest",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "Option"
+            ],
+            "methods": {
+                "35-38:DefaultOption": {
+                    "start": 35,
+                    "end": 38,
+                    "body": [
+                        "DefaultOption(final String opt, final String description, final String defaultValue) throws IllegalArgumentException {",
+                        "            super(opt, true, description);",
+                        "            this.defaultValue = defaultValue;",
+                        "        }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "DefaultOption(final String opt, final String description, final String defaultValue)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "opt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "description"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "defaultValue"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "338-348:Option"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|opt": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|description": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|defaultValue": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "40-43:getValue": {
+                    "start": 40,
+                    "end": 43,
+                    "body": [
+                        "@Override",
+                        "        public String getValue() {",
+                        "            return super.getValue() != null ? super.getValue() : defaultValue;",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getValue()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "584-586:getValue"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "31-31:serialVersionUID": {
+                    "start": 31,
+                    "end": 31,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final long serialVersionUID = 1L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "long"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "33-33:defaultValue": {
+                    "start": 33,
+                    "end": 33,
+                    "enum_constant": false,
+                    "body": [
+                        "private final String defaultValue;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        },
+        "46-58:TestOption": {
+            "start": 46,
+            "end": 58,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "private",
+                "static"
+            ],
+            "nested_inside": "29-227:OptionTest",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "Option"
+            ],
+            "methods": {
+                "49-51:TestOption": {
+                    "start": 49,
+                    "end": 51,
+                    "body": [
+                        "TestOption(final String opt, final boolean hasArg, final String description) throws IllegalArgumentException {",
+                        "            super(opt, hasArg, description);",
+                        "        }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "TestOption(final String opt, final boolean hasArg, final String description)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "opt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "hasArg"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "description"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "338-348:Option"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|opt": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|hasArg": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|description": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "53-57:addValue": {
+                    "start": 53,
+                    "end": 57,
+                    "body": [
+                        "@Override",
+                        "        public boolean addValue(final String value) {",
+                        "            addValueForProcessing(value);",
+                        "            return true;",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "addValue(final String value)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "value"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "445-450:addValueForProcessing"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|value": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "47-47:serialVersionUID": {
+                    "start": 47,
+                    "end": 47,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final long serialVersionUID = 1L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "long"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/OptionTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/OptionTest_test.cj",
+    "import_map": {
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertFalse": "static org.junit.Assert.assertFalse",
+        "assertNotEquals": "static org.junit.Assert.assertNotEquals",
+        "assertNotSame": "static org.junit.Assert.assertNotSame",
+        "assertNull": "static org.junit.Assert.assertNull",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "Test": "org.junit.Test"
+    }
+}

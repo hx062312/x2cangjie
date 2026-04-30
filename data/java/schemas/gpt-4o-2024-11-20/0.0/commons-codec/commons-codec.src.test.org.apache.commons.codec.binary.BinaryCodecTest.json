@@ -1,0 +1,3337 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/binary/BinaryCodecTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertEquals;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "21-21:import static org.junit.Assert.fail;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.fail;"
+        },
+        "23-23:import java.nio.charset.Charset;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.nio.charset.Charset;"
+        },
+        "24-24:import java.nio.charset.StandardCharsets;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.nio.charset.StandardCharsets;"
+        },
+        "26-26:import org.apache.commons.codec.DecoderException;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.apache.commons.codec.DecoderException;"
+        },
+        "27-27:import org.apache.commons.codec.EncoderException;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.apache.commons.codec.EncoderException;"
+        },
+        "28-28:import org.junit.After;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.junit.After;"
+        },
+        "29-29:import org.junit.Before;": {
+            "start": 29,
+            "end": 29,
+            "body": "import org.junit.Before;"
+        },
+        "30-30:import org.junit.Test;": {
+            "start": 30,
+            "end": 30,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "36-1217:BinaryCodecTest": {
+            "start": 36,
+            "end": 1217,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "67-70:setUp": {
+                    "start": 67,
+                    "end": 70,
+                    "body": [
+                        "@Before",
+                        "    public void setUp() throws Exception {",
+                        "        this.instance = new BinaryCodec();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Before"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "BinaryCodec"
+                    ],
+                    "signature": "setUp()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "BinaryCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "72-75:tearDown": {
+                    "start": 72,
+                    "end": 75,
+                    "body": [
+                        "@After",
+                        "    public void tearDown() throws Exception {",
+                        "        this.instance = null;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@After"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "tearDown()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "85-94:testDecodeObjectException": {
+                    "start": 85,
+                    "end": 94,
+                    "body": [
+                        "@Test",
+                        "    public void testDecodeObjectException() {",
+                        "        try {",
+                        "            this.instance.decode(new Object());",
+                        "        } catch (final DecoderException e) {",
+                        "            // all is well.",
+                        "            return;",
+                        "        }",
+                        "        fail(\"Expected DecoderException\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Object",
+                        "DecoderException"
+                    ],
+                    "signature": "testDecodeObjectException()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "227-230:decode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "99-166:testDecodeObject": {
+                    "start": 99,
+                    "end": 166,
+                    "body": [
+                        "@Test",
+                        "    public void testDecodeObject() throws Exception {",
+                        "        byte[] bits;",
+                        "        // With a single raw binary",
+                        "        bits = new byte[1];",
+                        "        assertDecodeObject(bits, \"00000000\");",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        assertDecodeObject(bits, \"00000001\");",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        assertDecodeObject(bits, \"00000011\");",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        assertDecodeObject(bits, \"00000111\");",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        assertDecodeObject(bits, \"00001111\");",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        assertDecodeObject(bits, \"00011111\");",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        assertDecodeObject(bits, \"00111111\");",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        assertDecodeObject(bits, \"01111111\");",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"11111111\");",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"0000000011111111\");",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"0000000111111111\");",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"0000001111111111\");",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"0000011111111111\");",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"0000111111111111\");",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"0001111111111111\");",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"0011111111111111\");",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"0111111111111111\");",
+                        "        bits = new byte[2];",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        assertDecodeObject(bits, \"1111111111111111\");",
+                        "        assertDecodeObject(new byte[0], null);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "testDecodeObject()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.BinaryCodecTest",
+                            "36-1217:BinaryCodecTest",
+                            "181-197:assertDecodeObject"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "181-197:assertDecodeObject": {
+                    "start": 181,
+                    "end": 197,
+                    "body": [
+                        "void assertDecodeObject(final byte[] bits, final String encodeMe) throws DecoderException {",
+                        "        byte[] decoded;",
+                        "        decoded = (byte[]) instance.decode(encodeMe);",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        if (encodeMe == null) {",
+                        "            decoded = instance.decode((byte[]) null);",
+                        "        } else {",
+                        "            decoded = (byte[]) instance.decode((Object) encodeMe.getBytes(CHARSET_UTF8));",
+                        "        }",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        if (encodeMe == null) {",
+                        "            decoded = (byte[]) instance.decode((char[]) null);",
+                        "        } else {",
+                        "            decoded = (byte[]) instance.decode(encodeMe.toCharArray());",
+                        "        }",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String",
+                        "Object",
+                        "char[]",
+                        "char"
+                    ],
+                    "signature": "assertDecodeObject(final byte[] bits, final String encodeMe)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "bits"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "encodeMe"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "227-230:decode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|bits": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|encodeMe": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "202-285:testDecodeByteArray": {
+                    "start": 202,
+                    "end": 285,
+                    "body": [
+                        "@Test",
+                        "    public void testDecodeByteArray() {",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        byte[] decoded = instance.decode(\"00000000\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        decoded = instance.decode(\"00000001\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        decoded = instance.decode(\"00000011\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        decoded = instance.decode(\"00000111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        decoded = instance.decode(\"00001111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        decoded = instance.decode(\"00011111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        decoded = instance.decode(\"00111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        decoded = instance.decode(\"01111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"11111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"0000000011111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"0000000111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"0000001111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"0000011111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"0000111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"0001111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"0011111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"0111111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.decode(\"1111111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String"
+                    ],
+                    "signature": "testDecodeByteArray()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "227-230:decode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "295-379:testToByteArrayFromString": {
+                    "start": 295,
+                    "end": 379,
+                    "body": [
+                        "@Test",
+                        "    public void testToByteArrayFromString() {",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        byte[] decoded = instance.toByteArray(\"00000000\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        decoded = instance.toByteArray(\"00000001\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        decoded = instance.toByteArray(\"00000011\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        decoded = instance.toByteArray(\"00000111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        decoded = instance.toByteArray(\"00001111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        decoded = instance.toByteArray(\"00011111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        decoded = instance.toByteArray(\"00111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        decoded = instance.toByteArray(\"01111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"11111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"0000000011111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"0000000111111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"0000001111111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"0000011111111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"0000111111111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"0001111111111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"0011111111111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"0111111111111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = instance.toByteArray(\"1111111111111111\");",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        assertEquals(0, instance.toByteArray((String) null).length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String"
+                    ],
+                    "signature": "testToByteArrayFromString()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "298-303:toByteArray"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "389-475:testFromAsciiCharArray": {
+                    "start": 389,
+                    "end": 475,
+                    "body": [
+                        "@Test",
+                        "    public void testFromAsciiCharArray() {",
+                        "        assertEquals(0, BinaryCodec.fromAscii((char[]) null).length);",
+                        "        assertEquals(0, BinaryCodec.fromAscii(new char[0]).length);",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        byte[] decoded = BinaryCodec.fromAscii(\"00000000\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        decoded = BinaryCodec.fromAscii(\"00000001\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        decoded = BinaryCodec.fromAscii(\"00000011\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        decoded = BinaryCodec.fromAscii(\"00000111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        decoded = BinaryCodec.fromAscii(\"00001111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        decoded = BinaryCodec.fromAscii(\"00011111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        decoded = BinaryCodec.fromAscii(\"00111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        decoded = BinaryCodec.fromAscii(\"01111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"11111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000000011111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000000111111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000001111111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000011111111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000111111111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0001111111111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0011111111111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0111111111111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"1111111111111111\".toCharArray());",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        assertEquals(0, BinaryCodec.fromAscii((char[]) null).length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "char[]",
+                        "char",
+                        "byte[]",
+                        "byte",
+                        "String"
+                    ],
+                    "signature": "testFromAsciiCharArray()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "79-98:fromAscii"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "485-571:testFromAsciiByteArray": {
+                    "start": 485,
+                    "end": 571,
+                    "body": [
+                        "@Test",
+                        "    public void testFromAsciiByteArray() {",
+                        "        assertEquals(0, BinaryCodec.fromAscii((byte[]) null).length);",
+                        "        assertEquals(0, BinaryCodec.fromAscii(new byte[0]).length);",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        byte[] decoded = BinaryCodec.fromAscii(\"00000000\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        decoded = BinaryCodec.fromAscii(\"00000001\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        decoded = BinaryCodec.fromAscii(\"00000011\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        decoded = BinaryCodec.fromAscii(\"00000111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        decoded = BinaryCodec.fromAscii(\"00001111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        decoded = BinaryCodec.fromAscii(\"00011111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        decoded = BinaryCodec.fromAscii(\"00111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        decoded = BinaryCodec.fromAscii(\"01111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"11111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000000011111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000000111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000001111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000011111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0000111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0001111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0011111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"0111111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        bits = new byte[2];",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        decoded = BinaryCodec.fromAscii(\"1111111111111111\".getBytes(CHARSET_UTF8));",
+                        "        assertEquals(new String(bits), new String(decoded));",
+                        "        assertEquals(0, BinaryCodec.fromAscii((byte[]) null).length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String"
+                    ],
+                    "signature": "testFromAsciiByteArray()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "79-98:fromAscii"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "581-697:testEncodeByteArray": {
+                    "start": 581,
+                    "end": 697,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeByteArray() {",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        String l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"00000000\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"00000001\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"00000011\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"00000111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"00001111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"00011111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"00111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"01111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"11111111\", l_encoded);",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000000000000\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000000000001\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000000000011\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000000000111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000000001111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000000011111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000000111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000001111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000011111111\", l_encoded);",
+                        "        // work on the other byte now",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000000111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000001111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000011111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0000111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0001111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0011111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"0111111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(instance.encode(bits));",
+                        "        assertEquals(\"1111111111111111\", l_encoded);",
+                        "        assertEquals(0, instance.encode((byte[]) null).length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String"
+                    ],
+                    "signature": "testEncodeByteArray()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "267-270:encode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "704-820:testToAsciiBytes": {
+                    "start": 704,
+                    "end": 820,
+                    "body": [
+                        "@Test",
+                        "    public void testToAsciiBytes() {",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        String l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"00000000\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"00000001\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"00000011\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"00000111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"00001111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"00011111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"00111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"01111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"11111111\", l_encoded);",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000000000000\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000000000001\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000000000011\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000000000111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000000001111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000000011111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000000111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000001111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000011111111\", l_encoded);",
+                        "        // work on the other byte now",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000000111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000001111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000011111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0000111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0001111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0011111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"0111111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiBytes(bits));",
+                        "        assertEquals(\"1111111111111111\", l_encoded);",
+                        "        assertEquals(0, BinaryCodec.toAsciiBytes((byte[]) null).length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String"
+                    ],
+                    "signature": "testToAsciiBytes()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "153-174:toAsciiBytes"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "827-943:testToAsciiChars": {
+                    "start": 827,
+                    "end": 943,
+                    "body": [
+                        "@Test",
+                        "    public void testToAsciiChars() {",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        String l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"00000000\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"00000001\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"00000011\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"00000111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"00001111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"00011111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"00111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"01111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"11111111\", l_encoded);",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000000000000\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000000000001\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000000000011\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000000000111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000000001111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000000011111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000000111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000001111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000011111111\", l_encoded);",
+                        "        // work on the other byte now",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000000111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000001111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000011111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0000111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0001111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0011111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"0111111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String(BinaryCodec.toAsciiChars(bits));",
+                        "        assertEquals(\"1111111111111111\", l_encoded);",
+                        "        assertEquals(0, BinaryCodec.toAsciiChars((byte[]) null).length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String"
+                    ],
+                    "signature": "testToAsciiChars()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "184-205:toAsciiChars"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(char[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "953-1068:testToAsciiString": {
+                    "start": 953,
+                    "end": 1068,
+                    "body": [
+                        "@Test",
+                        "    public void testToAsciiString() {",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        String l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"00000000\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"00000001\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"00000011\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"00000111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"00001111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"00011111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"00111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"01111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"11111111\", l_encoded);",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000000000000\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000000000001\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000000000011\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000000000111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000000001111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000000011111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000000111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000001111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000011111111\", l_encoded);",
+                        "        // work on the other byte now",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000000111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000001111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000011111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0000111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0001111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0011111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"0111111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = BinaryCodec.toAsciiString(bits);",
+                        "        assertEquals(\"1111111111111111\", l_encoded);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String"
+                    ],
+                    "signature": "testToAsciiString()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "215-217:toAsciiString"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "1078-1082:testEncodeObjectNull": {
+                    "start": 1078,
+                    "end": 1082,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeObjectNull() throws Exception {",
+                        "        final Object obj = new byte[0];",
+                        "        assertEquals(0, ((char[]) instance.encode(obj)).length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Object",
+                        "byte",
+                        "char[]",
+                        "char"
+                    ],
+                    "signature": "testEncodeObjectNull()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "267-270:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "1087-1096:testEncodeObjectException": {
+                    "start": 1087,
+                    "end": 1096,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeObjectException() {",
+                        "        try {",
+                        "            instance.encode(\"\");",
+                        "        } catch (final EncoderException e) {",
+                        "            // all is well.",
+                        "            return;",
+                        "        }",
+                        "        fail(\"Expected EncoderException\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "EncoderException"
+                    ],
+                    "signature": "testEncodeObjectException()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "267-270:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "EncoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "1101-1216:testEncodeObject": {
+                    "start": 1101,
+                    "end": 1216,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeObject() throws Exception {",
+                        "        // With a single raw binary",
+                        "        byte[] bits = new byte[1];",
+                        "        String l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"00000000\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"00000001\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"00000011\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"00000111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"00001111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"00011111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"00111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"01111111\", l_encoded);",
+                        "        bits = new byte[1];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"11111111\", l_encoded);",
+                        "        // With a two raw binaries",
+                        "        bits = new byte[2];",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000000000000\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000000000001\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000000000011\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000000000111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000000001111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000000011111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000000111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000001111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000011111111\", l_encoded);",
+                        "        // work on the other byte now",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000000111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000001111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000011111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0000111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0001111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0011111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[1] = BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6;",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"0111111111111111\", l_encoded);",
+                        "        bits = new byte[2];",
+                        "        bits[0] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        bits[1] = (byte) (BIT_0 | BIT_1 | BIT_2 | BIT_3 | BIT_4 | BIT_5 | BIT_6 | BIT_7);",
+                        "        l_encoded = new String((char[]) instance.encode((Object) bits));",
+                        "        assertEquals(\"1111111111111111\", l_encoded);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String",
+                        "char[]",
+                        "char",
+                        "Object"
+                    ],
+                    "signature": "testEncodeObject()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BinaryCodec",
+                            "35-304:BinaryCodec",
+                            "267-270:encode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(char[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "38-38:CHARSET_UTF8": {
+                    "start": 38,
+                    "end": 38,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Charset CHARSET_UTF8 = StandardCharsets.UTF_8;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Charset"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "41-41:BIT_0": {
+                    "start": 41,
+                    "end": 41,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BIT_0 = 0x01;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "44-44:BIT_1": {
+                    "start": 44,
+                    "end": 44,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BIT_1 = 0x02;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "47-47:BIT_2": {
+                    "start": 47,
+                    "end": 47,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BIT_2 = 0x04;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "50-50:BIT_3": {
+                    "start": 50,
+                    "end": 50,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BIT_3 = 0x08;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "53-53:BIT_4": {
+                    "start": 53,
+                    "end": 53,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BIT_4 = 0x10;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "56-56:BIT_5": {
+                    "start": 56,
+                    "end": 56,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BIT_5 = 0x20;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "59-59:BIT_6": {
+                    "start": 59,
+                    "end": 59,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BIT_6 = 0x40;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "62-62:BIT_7": {
+                    "start": 62,
+                    "end": 62,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BIT_7 = 0x80;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "65-65:instance": {
+                    "start": 65,
+                    "end": 65,
+                    "enum_constant": false,
+                    "body": [
+                        "BinaryCodec instance = null;"
+                    ],
+                    "modifiers": [],
+                    "types": [
+                        "BinaryCodec"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "BinaryCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/binary/BinaryCodecTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/binary/BinaryCodecTest_test.cj",
+    "import_map": {
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "fail": "static org.junit.Assert.fail",
+        "Charset": "java.nio.charset.Charset",
+        "StandardCharsets": "java.nio.charset.StandardCharsets",
+        "DecoderException": "org.apache.commons.codec.DecoderException",
+        "EncoderException": "org.apache.commons.codec.EncoderException",
+        "After": "org.junit.After",
+        "Before": "org.junit.Before",
+        "Test": "org.junit.Test"
+    }
+}

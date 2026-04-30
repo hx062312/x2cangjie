@@ -1,0 +1,2568 @@
+{
+    "path": "projects/java/cleaned_final_projects/jansi/src/main/java/org/fusesource/jansi/internal/JansiLoader.java",
+    "imports": {
+        "34-34:import java.io.File;": {
+            "start": 34,
+            "end": 34,
+            "body": "import java.io.File;"
+        },
+        "35-35:import java.io.FileInputStream;": {
+            "start": 35,
+            "end": 35,
+            "body": "import java.io.FileInputStream;"
+        },
+        "36-36:import java.io.FileOutputStream;": {
+            "start": 36,
+            "end": 36,
+            "body": "import java.io.FileOutputStream;"
+        },
+        "37-37:import java.io.FilenameFilter;": {
+            "start": 37,
+            "end": 37,
+            "body": "import java.io.FilenameFilter;"
+        },
+        "38-38:import java.io.IOException;": {
+            "start": 38,
+            "end": 38,
+            "body": "import java.io.IOException;"
+        },
+        "39-39:import java.io.InputStream;": {
+            "start": 39,
+            "end": 39,
+            "body": "import java.io.InputStream;"
+        },
+        "40-40:import java.net.URL;": {
+            "start": 40,
+            "end": 40,
+            "body": "import java.net.URL;"
+        },
+        "41-41:import java.nio.file.Files;": {
+            "start": 41,
+            "end": 41,
+            "body": "import java.nio.file.Files;"
+        },
+        "42-42:import java.nio.file.StandardCopyOption;": {
+            "start": 42,
+            "end": 42,
+            "body": "import java.nio.file.StandardCopyOption;"
+        },
+        "43-43:import java.util.Arrays;": {
+            "start": 43,
+            "end": 43,
+            "body": "import java.util.Arrays;"
+        },
+        "44-44:import java.util.LinkedList;": {
+            "start": 44,
+            "end": 44,
+            "body": "import java.util.LinkedList;"
+        },
+        "45-45:import java.util.List;": {
+            "start": 45,
+            "end": 45,
+            "body": "import java.util.List;"
+        },
+        "46-46:import java.util.Properties;": {
+            "start": 46,
+            "end": 46,
+            "body": "import java.util.Properties;"
+        },
+        "47-47:import java.util.Random;": {
+            "start": 47,
+            "end": 47,
+            "body": "import java.util.Random;"
+        },
+        "49-49:import org.fusesource.jansi.AnsiConsole;": {
+            "start": 49,
+            "end": 49,
+            "body": "import org.fusesource.jansi.AnsiConsole;"
+        }
+    },
+    "classes": {
+        "61-395:JansiLoader": {
+            "start": 61,
+            "end": 395,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "73-91:initialize": {
+                    "start": 73,
+                    "end": 91,
+                    "body": [
+                        "public static synchronized boolean initialize() {",
+                        "        // only cleanup before the first extract",
+                        "        if (!loaded) {",
+                        "            Thread cleanup = new Thread(JansiLoader::cleanup, \"cleanup\");",
+                        "            cleanup.setPriority(Thread.MIN_PRIORITY);",
+                        "            cleanup.setDaemon(true);",
+                        "            cleanup.start();",
+                        "        }",
+                        "        try {",
+                        "            loadJansiNativeLibrary();",
+                        "        } catch (Exception e) {",
+                        "            if (!Boolean.parseBoolean(System.getProperty(AnsiConsole.JANSI_GRACEFUL, \"true\"))) {",
+                        "                throw new RuntimeException(",
+                        "                        \"Unable to load jansi native library. You may want set the `jansi.graceful` system property to true to be able to use Jansi on your platform\",",
+                        "                        e);",
+                        "            }",
+                        "        }",
+                        "        return loaded;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "synchronized"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "Thread",
+                        "Exception",
+                        "RuntimeException"
+                    ],
+                    "signature": "initialize()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Runnable",
+                            "run()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Thread",
+                            "<init>(java.lang.Runnable,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Thread",
+                            "setPriority(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Thread",
+                            "setDaemon(boolean)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Thread",
+                            "start()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "283-353:loadJansiNativeLibrary"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Boolean",
+                            "parseBoolean(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.RuntimeException",
+                            "<init>(java.lang.String,java.lang.Throwable)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Thread": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Exception": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "RuntimeException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "93-95:getNativeLibraryPath": {
+                    "start": 93,
+                    "end": 95,
+                    "body": [
+                        "public static String getNativeLibraryPath() {",
+                        "        return nativeLibraryPath;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getNativeLibraryPath()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "97-99:getNativeLibrarySourceUrl": {
+                    "start": 97,
+                    "end": 99,
+                    "body": [
+                        "public static String getNativeLibrarySourceUrl() {",
+                        "        return nativeLibrarySourceUrl;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getNativeLibrarySourceUrl()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "101-103:getTempDir": {
+                    "start": 101,
+                    "end": 103,
+                    "body": [
+                        "private static File getTempDir() {",
+                        "        return new File(System.getProperty(\"jansi.tmpdir\", System.getProperty(\"java.io.tmpdir\")));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "File"
+                    ],
+                    "body_types": [
+                        "File"
+                    ],
+                    "signature": "getTempDir()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "<init>(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "109-132:cleanup": {
+                    "start": 109,
+                    "end": 132,
+                    "body": [
+                        "static void cleanup() {",
+                        "        String tempFolder = getTempDir().getAbsolutePath();",
+                        "        File dir = new File(tempFolder);",
+                        "",
+                        "        File[] nativeLibFiles = dir.listFiles(new FilenameFilter() {",
+                        "            private final String searchPattern = \"jansi-\" + getVersion();",
+                        "",
+                        "            public boolean accept(File dir, String name) {",
+                        "                return name.startsWith(searchPattern) && !name.endsWith(\".lck\");",
+                        "            }",
+                        "        });",
+                        "        if (nativeLibFiles != null) {",
+                        "            for (File nativeLibFile : nativeLibFiles) {",
+                        "                File lckFile = new File(nativeLibFile.getAbsolutePath() + \".lck\");",
+                        "                if (!lckFile.exists()) {",
+                        "                    try {",
+                        "                        nativeLibFile.delete();",
+                        "                    } catch (SecurityException e) {",
+                        "                        System.err.println(\"Failed to delete old native lib\" + e.getMessage());",
+                        "                    }",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "File",
+                        "File[]",
+                        "FilenameFilter",
+                        "boolean",
+                        "SecurityException"
+                    ],
+                    "signature": "cleanup()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "101-103:getTempDir"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "getAbsolutePath()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "listFiles(java.io.FilenameFilter)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "exists()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "delete()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.SecurityException",
+                            "getMessage()"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "println(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FilenameFilter": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "SecurityException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "134-143:readNBytes": {
+                    "start": 134,
+                    "end": 143,
+                    "body": [
+                        "private static int readNBytes(InputStream in, byte[] b) throws IOException {",
+                        "        int n = 0;",
+                        "        int len = b.length;",
+                        "        while (n < len) {",
+                        "            int count = in.read(b, n, len - n);",
+                        "            if (count <= 0) break;",
+                        "            n += count;",
+                        "        }",
+                        "        return n;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "readNBytes( InputStream in,  byte[] b)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "InputStream",
+                            "name": "in"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "byte[]",
+                            "name": "b"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.InputStream",
+                            "read(byte[],int,int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|InputStream|in": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|byte[]|b": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "145-174:contentsEquals": {
+                    "start": 145,
+                    "end": 174,
+                    "body": [
+                        "private static String contentsEquals(InputStream in1, InputStream in2) throws IOException {",
+                        "        byte[] buffer1 = new byte[8192];",
+                        "        byte[] buffer2 = new byte[8192];",
+                        "        int numRead1;",
+                        "        int numRead2;",
+                        "        while (true) {",
+                        "            numRead1 = readNBytes(in1, buffer1);",
+                        "            numRead2 = readNBytes(in2, buffer2);",
+                        "            if (numRead1 > 0) {",
+                        "                if (numRead2 <= 0) {",
+                        "                    return \"EOF on second stream but not first\";",
+                        "                }",
+                        "                if (numRead2 != numRead1) {",
+                        "                    return \"Read size different (\" + numRead1 + \" vs \" + numRead2 + \")\";",
+                        "                }",
+                        "                // Otherwise same number of bytes read",
+                        "                if (!Arrays.equals(buffer1, buffer2)) {",
+                        "                    return \"Content differs\";",
+                        "                }",
+                        "                // Otherwise same bytes read, so continue ...",
+                        "            } else {",
+                        "                // Nothing more in stream 1 ...",
+                        "                if (numRead2 > 0) {",
+                        "                    return \"EOF on first stream but not second\";",
+                        "                } else {",
+                        "                    return null;",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "int"
+                    ],
+                    "signature": "contentsEquals( InputStream in1,  InputStream in2)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "InputStream",
+                            "name": "in1"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "InputStream",
+                            "name": "in2"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "134-143:readNBytes"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Arrays",
+                            "equals(byte[],byte[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|InputStream|in1": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|InputStream|in2": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "184-235:extractAndLoadLibraryFile": {
+                    "start": 184,
+                    "end": 235,
+                    "body": [
+                        "private static boolean extractAndLoadLibraryFile(",
+                        "            String libFolderForCurrentOS, String libraryFileName, String targetFolder) {",
+                        "        String nativeLibraryFilePath = libFolderForCurrentOS + \"/\" + libraryFileName;",
+                        "        // Include architecture name in temporary filename in order to avoid conflicts",
+                        "        // when multiple JVMs with different architectures running at the same time",
+                        "        String uuid = randomUUID();",
+                        "        String extractedLibFileName = String.format(\"jansi-%s-%s-%s\", getVersion(), uuid, libraryFileName);",
+                        "        String extractedLckFileName = extractedLibFileName + \".lck\";",
+                        "",
+                        "        File extractedLibFile = new File(targetFolder, extractedLibFileName);",
+                        "        File extractedLckFile = new File(targetFolder, extractedLckFileName);",
+                        "",
+                        "        try {",
+                        "            // Extract a native library file into the target directory",
+                        "            try (InputStream in = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {",
+                        "                if (!extractedLckFile.exists()) {",
+                        "                    new FileOutputStream(extractedLckFile).close();",
+                        "                }",
+                        "                Files.copy(in, extractedLibFile.toPath(), StandardCopyOption.REPLACE_EXISTING);",
+                        "            } finally {",
+                        "                // Delete the extracted lib file on JVM exit.",
+                        "                extractedLibFile.deleteOnExit();",
+                        "                extractedLckFile.deleteOnExit();",
+                        "            }",
+                        "",
+                        "            // Set executable (x) flag to enable Java to load the native library",
+                        "            extractedLibFile.setReadable(true);",
+                        "            extractedLibFile.setWritable(true);",
+                        "            extractedLibFile.setExecutable(true);",
+                        "",
+                        "            // Check whether the contents are properly copied from the resource folder",
+                        "            try (InputStream nativeIn = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {",
+                        "                try (InputStream extractedLibIn = new FileInputStream(extractedLibFile)) {",
+                        "                    String eq = contentsEquals(nativeIn, extractedLibIn);",
+                        "                    if (eq != null) {",
+                        "                        throw new RuntimeException(String.format(",
+                        "                                \"Failed to write a native library file at %s because %s\", extractedLibFile, eq));",
+                        "                    }",
+                        "                }",
+                        "            }",
+                        "",
+                        "            // Load library",
+                        "            if (loadNativeLibrary(extractedLibFile)) {",
+                        "                nativeLibrarySourceUrl =",
+                        "                        JansiLoader.class.getResource(nativeLibraryFilePath).toExternalForm();",
+                        "                return true;",
+                        "            }",
+                        "        } catch (IOException e) {",
+                        "            System.err.println(e.getMessage());",
+                        "        }",
+                        "        return false;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "String",
+                        "File",
+                        "InputStream",
+                        "JansiLoader",
+                        "FileOutputStream",
+                        "FileInputStream",
+                        "RuntimeException",
+                        "IOException"
+                    ],
+                    "signature": "extractAndLoadLibraryFile( String libFolderForCurrentOS,  String libraryFileName,  String targetFolder)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "libFolderForCurrentOS"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "libraryFileName"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "targetFolder"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "237-239:randomUUID"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "378-394:getVersion"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "format(java.lang.String,java.lang.Object[])"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "<init>(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getResourceAsStream(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "exists()"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileOutputStream",
+                            "<init>(java.io.File)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileOutputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "toPath()"
+                        ],
+                        [
+                            "library",
+                            "java.nio.file.Files",
+                            "copy(java.io.InputStream,java.nio.file.Path,java.nio.file.CopyOption[])"
+                        ],
+                        [
+                            "library",
+                            "java.io.InputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "deleteOnExit()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "setReadable(boolean)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "setWritable(boolean)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "setExecutable(boolean)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "<init>(java.io.File)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "145-174:contentsEquals"
+                        ],
+                        [
+                            "library",
+                            "java.lang.RuntimeException",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "247-276:loadNativeLibrary"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getResource(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.net.URL",
+                            "toExternalForm()"
+                        ],
+                        [
+                            "library",
+                            "java.io.IOException",
+                            "getMessage()"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "println(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "InputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "JansiLoader": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileInputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "RuntimeException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IOException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|libFolderForCurrentOS": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|String|libraryFileName": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|String|targetFolder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "237-239:randomUUID": {
+                    "start": 237,
+                    "end": 239,
+                    "body": [
+                        "private static String randomUUID() {",
+                        "        return Long.toHexString(new Random().nextLong());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "Random"
+                    ],
+                    "signature": "randomUUID()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Random",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Random",
+                            "nextLong()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Long",
+                            "toHexString(long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Random": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "247-276:loadNativeLibrary": {
+                    "start": 247,
+                    "end": 276,
+                    "body": [
+                        "private static boolean loadNativeLibrary(File libPath) {",
+                        "        if (libPath.exists()) {",
+                        "            try {",
+                        "                String path = libPath.getAbsolutePath();",
+                        "                System.load(path);",
+                        "                nativeLibraryPath = path;",
+                        "                return true;",
+                        "            } catch (UnsatisfiedLinkError e) {",
+                        "                if (!libPath.canExecute()) {",
+                        "                    // NOTE: this can be tested using something like:",
+                        "                    // docker run --rm --tmpfs /tmp -v $PWD:/jansi openjdk:11 java -jar",
+                        "                    // /jansi/target/jansi-xxx-SNAPSHOT.jar",
+                        "                    System.err.printf(",
+                        "                            \"Failed to load native library:%s. The native library file at %s is not executable, \"",
+                        "                                    + \"make sure that the directory is mounted on a partition without the noexec flag, or set the \"",
+                        "                                    + \"jansi.tmpdir system property to point to a proper location.  osinfo: %s%n\",",
+                        "                            libPath.getName(), libPath, OSInfo.getNativeLibFolderPathForCurrentOS());",
+                        "                } else {",
+                        "                    System.err.printf(",
+                        "                            \"Failed to load native library:%s. osinfo: %s%n\",",
+                        "                            libPath.getName(), OSInfo.getNativeLibFolderPathForCurrentOS());",
+                        "                }",
+                        "                System.err.println(e);",
+                        "                return false;",
+                        "            }",
+                        "",
+                        "        } else {",
+                        "            return false;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "String",
+                        "UnsatisfiedLinkError"
+                    ],
+                    "signature": "loadNativeLibrary( File libPath)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "File",
+                            "name": "libPath"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.File",
+                            "exists()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "getAbsolutePath()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "load(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "canExecute()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "getName()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "113-115:getNativeLibFolderPathForCurrentOS"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "printf(java.lang.String,java.lang.Object[])"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "println(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "UnsatisfiedLinkError": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|File|libPath": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "283-353:loadJansiNativeLibrary": {
+                    "start": 283,
+                    "end": 353,
+                    "body": [
+                        "private static void loadJansiNativeLibrary() throws Exception {",
+                        "        if (loaded) {",
+                        "            return;",
+                        "        }",
+                        "",
+                        "        List<String> triedPaths = new LinkedList<String>();",
+                        "",
+                        "        // Try loading library from library.jansi.path library path */",
+                        "        String jansiNativeLibraryPath = System.getProperty(\"library.jansi.path\");",
+                        "        String jansiNativeLibraryName = System.getProperty(\"library.jansi.name\");",
+                        "        if (jansiNativeLibraryName == null) {",
+                        "            jansiNativeLibraryName = System.mapLibraryName(\"jansi\");",
+                        "            assert jansiNativeLibraryName != null;",
+                        "            if (jansiNativeLibraryName.endsWith(\".dylib\")) {",
+                        "                jansiNativeLibraryName = jansiNativeLibraryName.replace(\".dylib\", \".jnilib\");",
+                        "            }",
+                        "        }",
+                        "",
+                        "        if (jansiNativeLibraryPath != null) {",
+                        "            String withOs = jansiNativeLibraryPath + \"/\" + OSInfo.getNativeLibFolderPathForCurrentOS();",
+                        "            if (loadNativeLibrary(new File(withOs, jansiNativeLibraryName))) {",
+                        "                loaded = true;",
+                        "                return;",
+                        "            } else {",
+                        "                triedPaths.add(withOs);",
+                        "            }",
+                        "",
+                        "            if (loadNativeLibrary(new File(jansiNativeLibraryPath, jansiNativeLibraryName))) {",
+                        "                loaded = true;",
+                        "                return;",
+                        "            } else {",
+                        "                triedPaths.add(jansiNativeLibraryPath);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        // Load the os-dependent library from the jar file",
+                        "        String packagePath = JansiLoader.class.getPackage().getName().replace('.', '/');",
+                        "        jansiNativeLibraryPath =",
+                        "                String.format(\"/%s/native/%s\", packagePath, OSInfo.getNativeLibFolderPathForCurrentOS());",
+                        "        boolean hasNativeLib = hasResource(jansiNativeLibraryPath + \"/\" + jansiNativeLibraryName);",
+                        "",
+                        "        if (hasNativeLib) {",
+                        "            // temporary library folder",
+                        "            String tempFolder = getTempDir().getAbsolutePath();",
+                        "            // Try extracting the library from jar",
+                        "            if (extractAndLoadLibraryFile(jansiNativeLibraryPath, jansiNativeLibraryName, tempFolder)) {",
+                        "                loaded = true;",
+                        "                return;",
+                        "            } else {",
+                        "                triedPaths.add(jansiNativeLibraryPath);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        // As a last resort try from java.library.path",
+                        "        String javaLibraryPath = System.getProperty(\"java.library.path\", \"\");",
+                        "        for (String ldPath : javaLibraryPath.split(File.pathSeparator)) {",
+                        "            if (ldPath.isEmpty()) {",
+                        "                continue;",
+                        "            }",
+                        "            if (loadNativeLibrary(new File(ldPath, jansiNativeLibraryName))) {",
+                        "                loaded = true;",
+                        "                return;",
+                        "            } else {",
+                        "                triedPaths.add(ldPath);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        throw new Exception(String.format(",
+                        "                \"No native library found for os.name=%s, os.arch=%s, paths=[%s]\",",
+                        "                OSInfo.getOSName(), OSInfo.getArchName(), String.join(File.pathSeparator, triedPaths)));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "List<String>",
+                        "LinkedList<String>",
+                        "String",
+                        "File",
+                        "JansiLoader",
+                        "boolean",
+                        "Exception"
+                    ],
+                    "signature": "loadJansiNativeLibrary()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.LinkedList",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "mapLibraryName(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.AssertionError",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "endsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "replace(java.lang.CharSequence,java.lang.CharSequence)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "113-115:getNativeLibFolderPathForCurrentOS"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "<init>(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "247-276:loadNativeLibrary"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getPackage()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Package",
+                            "getName()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "replace(char,char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "format(java.lang.String,java.lang.Object[])"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "355-357:hasResource"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "101-103:getTempDir"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "getAbsolutePath()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "184-235:extractAndLoadLibraryFile"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "split(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "isEmpty()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "117-119:getOSName"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "194-208:getArchName"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "join(java.lang.CharSequence,java.lang.Iterable)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Exception",
+                            "<init>(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "List<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "LinkedList<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "JansiLoader": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Exception": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "355-357:hasResource": {
+                    "start": 355,
+                    "end": 357,
+                    "body": [
+                        "private static boolean hasResource(String path) {",
+                        "        return JansiLoader.class.getResource(path) != null;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "JansiLoader"
+                    ],
+                    "signature": "hasResource( String path)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "path"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getResource(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "JansiLoader": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|path": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "362-365:getMajorVersion": {
+                    "start": 362,
+                    "end": 365,
+                    "body": [
+                        "public static int getMajorVersion() {",
+                        "        String[] c = getVersion().split(\"\\\\.\");",
+                        "        return (c.length > 0) ? Integer.parseInt(c[0]) : 1;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "String[]"
+                    ],
+                    "signature": "getMajorVersion()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "378-394:getVersion"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "split(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Integer",
+                            "parseInt(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "370-373:getMinorVersion": {
+                    "start": 370,
+                    "end": 373,
+                    "body": [
+                        "public static int getMinorVersion() {",
+                        "        String[] c = getVersion().split(\"\\\\.\");",
+                        "        return (c.length > 1) ? Integer.parseInt(c[1]) : 0;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "String[]"
+                    ],
+                    "signature": "getMinorVersion()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.JansiLoader",
+                            "61-395:JansiLoader",
+                            "378-394:getVersion"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "split(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Integer",
+                            "parseInt(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "378-394:getVersion": {
+                    "start": 378,
+                    "end": 394,
+                    "body": [
+                        "public static String getVersion() {",
+                        "",
+                        "        URL versionFile = JansiLoader.class.getResource(\"/org/fusesource/jansi/jansi.properties\");",
+                        "",
+                        "        String version = \"unknown\";",
+                        "        try {",
+                        "            if (versionFile != null) {",
+                        "                Properties versionData = new Properties();",
+                        "                versionData.load(versionFile.openStream());",
+                        "                version = versionData.getProperty(\"version\", version);",
+                        "                version = version.trim().replaceAll(\"[^0-9.]\", \"\");",
+                        "            }",
+                        "        } catch (IOException e) {",
+                        "            System.err.println(e);",
+                        "        }",
+                        "        return version;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "URL",
+                        "JansiLoader",
+                        "String",
+                        "Properties",
+                        "IOException"
+                    ],
+                    "signature": "getVersion()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getResource(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Properties",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.net.URL",
+                            "openStream()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Properties",
+                            "load(java.io.InputStream)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Properties",
+                            "getProperty(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "trim()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "replaceAll(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "println(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "URL": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "JansiLoader": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Properties": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IOException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "63-63:loaded": {
+                    "start": 63,
+                    "end": 63,
+                    "enum_constant": false,
+                    "body": [
+                        "private static boolean loaded = false;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "64-64:nativeLibraryPath": {
+                    "start": 64,
+                    "end": 64,
+                    "enum_constant": false,
+                    "body": [
+                        "private static String nativeLibraryPath;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "65-65:nativeLibrarySourceUrl": {
+                    "start": 65,
+                    "end": 65,
+                    "enum_constant": false,
+                    "body": [
+                        "private static String nativeLibrarySourceUrl;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "import_map": {
+        "File": "java.io.File",
+        "FileInputStream": "java.io.FileInputStream",
+        "FileOutputStream": "java.io.FileOutputStream",
+        "FilenameFilter": "java.io.FilenameFilter",
+        "IOException": "java.io.IOException",
+        "InputStream": "java.io.InputStream",
+        "URL": "java.net.URL",
+        "Files": "java.nio.file.Files",
+        "StandardCopyOption": "java.nio.file.StandardCopyOption",
+        "Arrays": "java.util.Arrays",
+        "LinkedList": "java.util.LinkedList",
+        "List": "java.util.List",
+        "Properties": "java.util.Properties",
+        "Random": "java.util.Random",
+        "AnsiConsole": "org.fusesource.jansi.AnsiConsole"
+    }
+}

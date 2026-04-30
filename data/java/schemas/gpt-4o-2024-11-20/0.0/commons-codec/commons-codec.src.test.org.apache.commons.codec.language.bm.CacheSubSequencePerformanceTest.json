@@ -1,0 +1,598 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/language/bm/CacheSubSequencePerformanceTest.java",
+    "imports": {
+        "20-20:import org.junit.Test;": {
+            "start": 20,
+            "end": 20,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "22-80:CacheSubSequencePerformanceTest": {
+            "start": 22,
+            "end": 80,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "24-35:test": {
+                    "start": 24,
+                    "end": 35,
+                    "body": [
+                        "@Test",
+                        "    public void test() {",
+                        "        final int times = 10000000;",
+                        "        System.out.print(\"Test with String : \");",
+                        "        test(\"Angelo\", times);",
+                        "        System.out.print(\"Test with StringBuilder : \");",
+                        "        test(new StringBuilder(\"Angelo\"), times);",
+                        "        System.out.print(\"Test with cached String : \");",
+                        "        test(cacheSubSequence(\"Angelo\"), times);",
+                        "        System.out.print(\"Test with cached StringBuilder : \");",
+                        "        test(cacheSubSequence(new StringBuilder(\"Angelo\")), times);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "int",
+                        "StringBuilder"
+                    ],
+                    "signature": "test()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "print(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.CacheSubSequencePerformanceTest",
+                            "22-80:CacheSubSequencePerformanceTest",
+                            "24-35:test"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.CacheSubSequencePerformanceTest",
+                            "22-80:CacheSubSequencePerformanceTest",
+                            "53-79:cacheSubSequence"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "currentTimeMillis()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(long)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "println(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.CharSequence",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.CharSequence",
+                            "subSequence(int,int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "StringBuilder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "37-43:test": {
+                    "start": 37,
+                    "end": 43,
+                    "body": [
+                        "private void test(final CharSequence input, final int times) {",
+                        "        final long beginTimeMillis = System.currentTimeMillis();",
+                        "        for (int i = 0; i < times; i++) {",
+                        "            test(input);",
+                        "        }",
+                        "        System.out.println(System.currentTimeMillis() - beginTimeMillis + \" millis\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "long",
+                        "int"
+                    ],
+                    "signature": "test(final CharSequence input, final int times)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "CharSequence",
+                            "name": "input"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "times"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "print(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.CacheSubSequencePerformanceTest",
+                            "22-80:CacheSubSequencePerformanceTest",
+                            "24-35:test"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.CacheSubSequencePerformanceTest",
+                            "22-80:CacheSubSequencePerformanceTest",
+                            "53-79:cacheSubSequence"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "currentTimeMillis()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.CharSequence",
+                            "length()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|CharSequence|input": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|times": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "45-51:test": {
+                    "start": 45,
+                    "end": 51,
+                    "body": [
+                        "private void test(final CharSequence input) {",
+                        "        for (int i = 0; i < input.length(); i++) {",
+                        "            for (int j = i; j <= input.length(); j++) {",
+                        "                input.subSequence(i, j);",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "test(final CharSequence input)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "CharSequence",
+                            "name": "input"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "print(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.CacheSubSequencePerformanceTest",
+                            "22-80:CacheSubSequencePerformanceTest",
+                            "24-35:test"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|CharSequence|input": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "53-79:cacheSubSequence": {
+                    "start": 53,
+                    "end": 79,
+                    "body": [
+                        "private CharSequence cacheSubSequence(final CharSequence cached) {",
+                        "        final CharSequence[][] cache = new CharSequence[cached.length()][cached.length()];",
+                        "        return new CharSequence() {",
+                        "            @Override",
+                        "            public char charAt(final int index) {",
+                        "                return cached.charAt(index);",
+                        "            }",
+                        "",
+                        "            @Override",
+                        "            public int length() {",
+                        "                return cached.length();",
+                        "            }",
+                        "",
+                        "            @Override",
+                        "            public CharSequence subSequence(final int start, final int end) {",
+                        "                if (start == end) {",
+                        "                    return \"\";",
+                        "                }",
+                        "                CharSequence res = cache[start][end - 1];",
+                        "                if (res == null) {",
+                        "                    res = cached.subSequence(start, end);",
+                        "                    cache[start][end - 1] = res;",
+                        "                }",
+                        "                return res;",
+                        "            }",
+                        "        };",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "CharSequence"
+                    ],
+                    "body_types": [
+                        "CharSequence[][]",
+                        "CharSequence",
+                        "char",
+                        "int"
+                    ],
+                    "signature": "cacheSubSequence(final CharSequence cached)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "CharSequence",
+                            "name": "cached"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.CharSequence",
+                            "length()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "CharSequence": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "CharSequence[][]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CharSequence": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|CharSequence|cached": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/bm/CacheSubSequencePerformanceTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/bm/CacheSubSequencePerformanceTest_test.cj",
+    "import_map": {
+        "Test": "org.junit.Test"
+    }
+}

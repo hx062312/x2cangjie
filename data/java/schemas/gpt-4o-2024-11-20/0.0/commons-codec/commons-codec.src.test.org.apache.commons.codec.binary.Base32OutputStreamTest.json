@@ -1,0 +1,1857 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/binary/Base32OutputStreamTest.java",
+    "imports": {
+        "20-20:import java.io.ByteArrayOutputStream;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.ByteArrayOutputStream;"
+        },
+        "21-21:import java.io.OutputStream;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.io.OutputStream;"
+        },
+        "23-23:import org.apache.commons.codec.CodecPolicy;": {
+            "start": 23,
+            "end": 23,
+            "body": "import org.apache.commons.codec.CodecPolicy;"
+        },
+        "24-24:import org.junit.Test;": {
+            "start": 24,
+            "end": 24,
+            "body": "import org.junit.Test;"
+        },
+        "26-26:import static org.junit.Assert.assertArrayEquals;": {
+            "start": 26,
+            "end": 26,
+            "body": "import static org.junit.Assert.assertArrayEquals;"
+        },
+        "27-27:import static org.junit.Assert.assertFalse;": {
+            "start": 27,
+            "end": 27,
+            "body": "import static org.junit.Assert.assertFalse;"
+        },
+        "28-28:import static org.junit.Assert.assertTrue;": {
+            "start": 28,
+            "end": 28,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "29-29:import static org.junit.Assert.fail;": {
+            "start": 29,
+            "end": 29,
+            "body": "import static org.junit.Assert.fail;"
+        }
+    },
+    "classes": {
+        "31-369:Base32OutputStreamTest": {
+            "start": 31,
+            "end": 369,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "69-72:testBase32EmptyOutputStreamMimeChunkSize": {
+                    "start": 69,
+                    "end": 72,
+                    "body": [
+                        "@Test",
+                        "    public void testBase32EmptyOutputStreamMimeChunkSize() throws Exception {",
+                        "        testBase32EmptyOutputStream(BaseNCodec.MIME_CHUNK_SIZE);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testBase32EmptyOutputStreamMimeChunkSize()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.Base32OutputStreamTest",
+                            "31-369:Base32OutputStreamTest",
+                            "85-90:testBase32EmptyOutputStream"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "80-83:testBase32EmptyOutputStreamPemChunkSize": {
+                    "start": 80,
+                    "end": 83,
+                    "body": [
+                        "@Test",
+                        "    public void testBase32EmptyOutputStreamPemChunkSize() throws Exception {",
+                        "        testBase32EmptyOutputStream(BaseNCodec.PEM_CHUNK_SIZE);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testBase32EmptyOutputStreamPemChunkSize()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.Base32OutputStreamTest",
+                            "31-369:Base32OutputStreamTest",
+                            "85-90:testBase32EmptyOutputStream"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "85-90:testBase32EmptyOutputStream": {
+                    "start": 85,
+                    "end": 90,
+                    "body": [
+                        "private void testBase32EmptyOutputStream(final int chunkSize) throws Exception {",
+                        "        final byte[] emptyEncoded = {};",
+                        "        final byte[] emptyDecoded = {};",
+                        "        testByteByByte(emptyEncoded, emptyDecoded, chunkSize, CR_LF);",
+                        "        testByChunk(emptyEncoded, emptyDecoded, chunkSize, CR_LF);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "testBase32EmptyOutputStream(final int chunkSize)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "chunkSize"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.Base32OutputStreamTest",
+                            "31-369:Base32OutputStreamTest",
+                            "230-277:testByteByByte"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.Base32OutputStreamTest",
+                            "31-369:Base32OutputStreamTest",
+                            "180-210:testByChunk"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|int|chunkSize": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "98-125:testBase32OutputStreamByChunk": {
+                    "start": 98,
+                    "end": 125,
+                    "body": [
+                        "@Test",
+                        "    public void testBase32OutputStreamByChunk() throws Exception {",
+                        "        // Hello World test.",
+                        "        byte[] encoded = StringUtils.getBytesUtf8(Base32TestData.BASE32_FIXTURE);",
+                        "        byte[] decoded = StringUtils.getBytesUtf8(Base32TestData.STRING_FIXTURE);",
+                        "        testByChunk(encoded, decoded, BaseNCodec.MIME_CHUNK_SIZE, CR_LF);",
+                        "",
+                        "//        // Single Byte test.",
+                        "//        encoded = StringUtils.getBytesUtf8(\"AA==\\r\\n\");",
+                        "//        decoded = new byte[]{(byte) 0};",
+                        "//        testByChunk(encoded, decoded, Base32.MIME_CHUNK_SIZE, CRLF);",
+                        "",
+                        "",
+                        "//        // Single Line test.",
+                        "//        String singleLine = Base32TestData.ENCODED_64_CHARS_PER_LINE.replaceAll(\"\\n\", \"\");",
+                        "//        encoded = StringUtils.getBytesUtf8(singleLine);",
+                        "//        decoded = Base32TestData.DECODED;",
+                        "//        testByChunk(encoded, decoded, 0, LF);",
+                        "",
+                        "        // test random data of sizes 0 thru 150",
+                        "        final BaseNCodec codec = new Base32();",
+                        "        for (int i = 0; i <= 150; i++) {",
+                        "            final byte[][] randomData = BaseNTestData.randomData(codec, i);",
+                        "            encoded = randomData[1];",
+                        "            decoded = randomData[0];",
+                        "            testByChunk(encoded, decoded, 0, LF);",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "BaseNCodec",
+                        "Base32",
+                        "int",
+                        "byte[][]"
+                    ],
+                    "signature": "testBase32OutputStreamByChunk()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "268-270:getBytesUtf8"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.Base32OutputStreamTest",
+                            "31-369:Base32OutputStreamTest",
+                            "180-210:testByChunk"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Base32",
+                            "45-626:Base32",
+                            "166-168:Base32"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.BaseNTestData",
+                            "30-185:BaseNTestData",
+                            "164-170:randomData"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "BaseNCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Base32": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[][]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "133-160:testBase32OutputStreamByteByByte": {
+                    "start": 133,
+                    "end": 160,
+                    "body": [
+                        "@Test",
+                        "    public void testBase32OutputStreamByteByByte() throws Exception {",
+                        "        // Hello World test.",
+                        "        byte[] encoded = StringUtils.getBytesUtf8(Base32TestData.BASE32_FIXTURE);",
+                        "        byte[] decoded = StringUtils.getBytesUtf8(Base32TestData.STRING_FIXTURE);",
+                        "        testByteByByte(encoded, decoded, 76, CR_LF);",
+                        "",
+                        "//        // Single Byte test.",
+                        "//        encoded = StringUtils.getBytesUtf8(\"AA==\\r\\n\");",
+                        "//        decoded = new byte[]{(byte) 0};",
+                        "//        testByteByByte(encoded, decoded, 76, CRLF);",
+                        "",
+                        "",
+                        "//        // Single Line test.",
+                        "//        String singleLine = Base32TestData.ENCODED_64_CHARS_PER_LINE.replaceAll(\"\\n\", \"\");",
+                        "//        encoded = StringUtils.getBytesUtf8(singleLine);",
+                        "//        decoded = Base32TestData.DECODED;",
+                        "//        testByteByByte(encoded, decoded, 0, LF);",
+                        "",
+                        "        // test random data of sizes 0 thru 150",
+                        "        final BaseNCodec codec = new Base32();",
+                        "        for (int i = 0; i <= 150; i++) {",
+                        "            final byte[][] randomData = BaseNTestData.randomData(codec, i);",
+                        "            encoded = randomData[1];",
+                        "            decoded = randomData[0];",
+                        "            testByteByByte(encoded, decoded, 0, LF);",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "BaseNCodec",
+                        "Base32",
+                        "int",
+                        "byte[][]"
+                    ],
+                    "signature": "testBase32OutputStreamByteByByte()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "268-270:getBytesUtf8"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.Base32OutputStreamTest",
+                            "31-369:Base32OutputStreamTest",
+                            "230-277:testByteByByte"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Base32",
+                            "45-626:Base32",
+                            "166-168:Base32"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.binary.BaseNTestData",
+                            "30-185:BaseNTestData",
+                            "164-170:randomData"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "BaseNCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Base32": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[][]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "180-210:testByChunk": {
+                    "start": 180,
+                    "end": 210,
+                    "body": [
+                        "private void testByChunk(final byte[] encoded, final byte[] decoded, final int chunkSize, final byte[] separator) throws Exception {",
+                        "",
+                        "        // Start with encode.",
+                        "        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();",
+                        "        OutputStream out = new Base32OutputStream(byteOut, true, chunkSize, separator);",
+                        "        out.write(decoded);",
+                        "        out.close();",
+                        "        byte[] output = byteOut.toByteArray();",
+                        "        assertArrayEquals(\"Streaming chunked Base32 encode\", encoded, output);",
+                        "",
+                        "        // Now let's try decode.",
+                        "        byteOut = new ByteArrayOutputStream();",
+                        "        out = new Base32OutputStream(byteOut, false);",
+                        "        out.write(encoded);",
+                        "        out.close();",
+                        "        output = byteOut.toByteArray();",
+                        "        assertArrayEquals(\"Streaming chunked Base32 decode\", decoded, output);",
+                        "",
+                        "        // I always wanted to do this! (wrap encoder with decoder etc etc).",
+                        "        byteOut = new ByteArrayOutputStream();",
+                        "        out = byteOut;",
+                        "        for (int i = 0; i < 10; i++) {",
+                        "            out = new Base32OutputStream(out, false);",
+                        "            out = new Base32OutputStream(out, true, chunkSize, separator);",
+                        "        }",
+                        "        out.write(decoded);",
+                        "        out.close();",
+                        "        output = byteOut.toByteArray();",
+                        "",
+                        "        assertArrayEquals(\"Streaming chunked Base32 wrap-wrap-wrap!\", decoded, output);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "ByteArrayOutputStream",
+                        "OutputStream",
+                        "Base32OutputStream",
+                        "byte[]",
+                        "byte",
+                        "int"
+                    ],
+                    "signature": "testByChunk(final byte[] encoded, final byte[] decoded, final int chunkSize, final byte[] separator)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "encoded"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "decoded"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "chunkSize"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "separator"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Base32OutputStream",
+                            "59-128:Base32OutputStream",
+                            "67-69:Base32OutputStream"
+                        ],
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "write(byte[])"
+                        ],
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "toByteArray()"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertArrayEquals(java.lang.String,byte[],byte[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "ByteArrayOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "OutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Base32OutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|encoded": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|byte[]|decoded": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|chunkSize": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|byte[]|separator": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "230-277:testByteByByte": {
+                    "start": 230,
+                    "end": 277,
+                    "body": [
+                        "private void testByteByByte(final byte[] encoded, final byte[] decoded, final int chunkSize, final byte[] separator) throws Exception {",
+                        "",
+                        "        // Start with encode.",
+                        "        ByteArrayOutputStream byteOut = new ByteArrayOutputStream();",
+                        "        OutputStream out = new Base32OutputStream(byteOut, true, chunkSize, separator);",
+                        "        for (final byte element : decoded) {",
+                        "            out.write(element);",
+                        "        }",
+                        "        out.close();",
+                        "        byte[] output = byteOut.toByteArray();",
+                        "        assertArrayEquals(\"Streaming byte-by-byte Base32 encode\", encoded, output);",
+                        "",
+                        "        // Now let's try decode.",
+                        "        byteOut = new ByteArrayOutputStream();",
+                        "        out = new Base32OutputStream(byteOut, false);",
+                        "        for (final byte element : encoded) {",
+                        "            out.write(element);",
+                        "        }",
+                        "        out.close();",
+                        "        output = byteOut.toByteArray();",
+                        "        assertArrayEquals(\"Streaming byte-by-byte Base32 decode\", decoded, output);",
+                        "",
+                        "        // Now let's try decode with tonnes of flushes.",
+                        "        byteOut = new ByteArrayOutputStream();",
+                        "        out = new Base32OutputStream(byteOut, false);",
+                        "        for (final byte element : encoded) {",
+                        "            out.write(element);",
+                        "            out.flush();",
+                        "        }",
+                        "        out.close();",
+                        "        output = byteOut.toByteArray();",
+                        "        assertArrayEquals(\"Streaming byte-by-byte flush() Base32 decode\", decoded, output);",
+                        "",
+                        "        // I always wanted to do this! (wrap encoder with decoder etc etc).",
+                        "        byteOut = new ByteArrayOutputStream();",
+                        "        out = byteOut;",
+                        "        for (int i = 0; i < 10; i++) {",
+                        "            out = new Base32OutputStream(out, false);",
+                        "            out = new Base32OutputStream(out, true, chunkSize, separator);",
+                        "        }",
+                        "        for (final byte element : decoded) {",
+                        "            out.write(element);",
+                        "        }",
+                        "        out.close();",
+                        "        output = byteOut.toByteArray();",
+                        "",
+                        "        assertArrayEquals(\"Streaming byte-by-byte Base32 wrap-wrap-wrap!\", decoded, output);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "ByteArrayOutputStream",
+                        "OutputStream",
+                        "Base32OutputStream",
+                        "byte",
+                        "byte[]",
+                        "int"
+                    ],
+                    "signature": "testByteByByte(final byte[] encoded, final byte[] decoded, final int chunkSize, final byte[] separator)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "encoded"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "decoded"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "chunkSize"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "separator"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Base32OutputStream",
+                            "59-128:Base32OutputStream",
+                            "67-69:Base32OutputStream"
+                        ],
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "write(int)"
+                        ],
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "toByteArray()"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertArrayEquals(java.lang.String,byte[],byte[])"
+                        ],
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "flush()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "ByteArrayOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "OutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Base32OutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|encoded": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|byte[]|decoded": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|chunkSize": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|byte[]|separator": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "285-319:testWriteOutOfBounds": {
+                    "start": 285,
+                    "end": 319,
+                    "body": [
+                        "@Test",
+                        "    public void testWriteOutOfBounds() throws Exception {",
+                        "        final byte[] buf = new byte[1024];",
+                        "        final ByteArrayOutputStream bout = new ByteArrayOutputStream();",
+                        "        try (final Base32OutputStream out = new Base32OutputStream(bout)) {",
+                        "",
+                        "            try {",
+                        "                out.write(buf, -1, 1);",
+                        "                fail(\"Expected Base32OutputStream.write(buf, -1, 1) to throw a IndexOutOfBoundsException\");",
+                        "            } catch (final IndexOutOfBoundsException ioobe) {",
+                        "                // Expected",
+                        "            }",
+                        "",
+                        "            try {",
+                        "                out.write(buf, 1, -1);",
+                        "                fail(\"Expected Base32OutputStream.write(buf, 1, -1) to throw a IndexOutOfBoundsException\");",
+                        "            } catch (final IndexOutOfBoundsException ioobe) {",
+                        "                // Expected",
+                        "            }",
+                        "",
+                        "            try {",
+                        "                out.write(buf, buf.length + 1, 0);",
+                        "                fail(\"Expected Base32OutputStream.write(buf, buf.length + 1, 0) to throw a IndexOutOfBoundsException\");",
+                        "            } catch (final IndexOutOfBoundsException ioobe) {",
+                        "                // Expected",
+                        "            }",
+                        "",
+                        "            try {",
+                        "                out.write(buf, buf.length - 1, 2);",
+                        "                fail(\"Expected Base32OutputStream.write(buf, buf.length - 1, 2) to throw a IndexOutOfBoundsException\");",
+                        "            } catch (final IndexOutOfBoundsException ioobe) {",
+                        "                // Expected",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "ByteArrayOutputStream",
+                        "Base32OutputStream",
+                        "IndexOutOfBoundsException"
+                    ],
+                    "signature": "testWriteOutOfBounds()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Base32OutputStream",
+                            "59-128:Base32OutputStream",
+                            "67-69:Base32OutputStream"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecOutputStream",
+                            "40-197:BaseNCodecOutputStream",
+                            "164-181:write"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecOutputStream",
+                            "40-197:BaseNCodecOutputStream",
+                            "75-80:close"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ByteArrayOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Base32OutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IndexOutOfBoundsException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "327-336:testWriteToNullCoverage": {
+                    "start": 327,
+                    "end": 336,
+                    "body": [
+                        "@Test",
+                        "    public void testWriteToNullCoverage() throws Exception {",
+                        "        final ByteArrayOutputStream bout = new ByteArrayOutputStream();",
+                        "        try (final Base32OutputStream out = new Base32OutputStream(bout)) {",
+                        "            out.write(null, 0, 0);",
+                        "            fail(\"Expcted Base32OutputStream.write(null) to throw a NullPointerException\");",
+                        "        } catch (final NullPointerException e) {",
+                        "            // Expected",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "ByteArrayOutputStream",
+                        "Base32OutputStream",
+                        "NullPointerException"
+                    ],
+                    "signature": "testWriteToNullCoverage()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Base32OutputStream",
+                            "59-128:Base32OutputStream",
+                            "67-69:Base32OutputStream"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecOutputStream",
+                            "40-197:BaseNCodecOutputStream",
+                            "164-181:write"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecOutputStream",
+                            "40-197:BaseNCodecOutputStream",
+                            "75-80:close"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "ByteArrayOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Base32OutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "NullPointerException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "344-368:testStrictDecoding": {
+                    "start": 344,
+                    "end": 368,
+                    "body": [
+                        "@Test",
+                        "    public void testStrictDecoding() throws Exception {",
+                        "        for (final String s : Base32Test.BASE32_IMPOSSIBLE_CASES) {",
+                        "            final byte[] encoded = StringUtils.getBytesUtf8(s);",
+                        "            ByteArrayOutputStream bout = new ByteArrayOutputStream();",
+                        "            Base32OutputStream out = new Base32OutputStream(bout, false);",
+                        "            // Default is lenient decoding; it should not throw",
+                        "            assertFalse(out.isStrictDecoding());",
+                        "            out.write(encoded);",
+                        "            out.close();",
+                        "            assertTrue(bout.size() > 0);",
+                        "",
+                        "            // Strict decoding should throw",
+                        "            bout = new ByteArrayOutputStream();",
+                        "            out = new Base32OutputStream(bout, false, 0, null, CodecPolicy.STRICT);",
+                        "            assertTrue(out.isStrictDecoding());",
+                        "            try {",
+                        "                out.write(encoded);",
+                        "                out.close();",
+                        "                fail();",
+                        "            } catch (final IllegalArgumentException ex) {",
+                        "                // expected",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "byte[]",
+                        "byte",
+                        "ByteArrayOutputStream",
+                        "Base32OutputStream",
+                        "IllegalArgumentException"
+                    ],
+                    "signature": "testStrictDecoding()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "268-270:getBytesUtf8"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Base32OutputStream",
+                            "59-128:Base32OutputStream",
+                            "67-69:Base32OutputStream"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecOutputStream",
+                            "40-197:BaseNCodecOutputStream",
+                            "142-144:isStrictDecoding"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertFalse(boolean)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecOutputStream",
+                            "40-197:BaseNCodecOutputStream",
+                            "164-181:write"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.BaseNCodecOutputStream",
+                            "40-197:BaseNCodecOutputStream",
+                            "75-80:close"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "size()"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ByteArrayOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Base32OutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IllegalArgumentException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "33-33:CR_LF": {
+                    "start": 33,
+                    "end": 33,
+                    "enum_constant": false,
+                    "body": [
+                        "private final static byte[] CR_LF = {(byte) '\\r', (byte) '\\n'};"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final",
+                        "static"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "35-35:LF": {
+                    "start": 35,
+                    "end": 35,
+                    "enum_constant": false,
+                    "body": [
+                        "private final static byte[] LF = {(byte) '\\n'};"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final",
+                        "static"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/binary/Base32OutputStreamTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/binary/Base32OutputStreamTest_test.cj",
+    "import_map": {
+        "ByteArrayOutputStream": "java.io.ByteArrayOutputStream",
+        "OutputStream": "java.io.OutputStream",
+        "CodecPolicy": "org.apache.commons.codec.CodecPolicy",
+        "Test": "org.junit.Test",
+        "assertArrayEquals": "static org.junit.Assert.assertArrayEquals",
+        "assertFalse": "static org.junit.Assert.assertFalse",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "fail": "static org.junit.Assert.fail"
+    }
+}

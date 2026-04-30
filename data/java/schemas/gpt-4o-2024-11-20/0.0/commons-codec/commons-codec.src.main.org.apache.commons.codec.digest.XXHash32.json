@@ -1,0 +1,1478 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/digest/XXHash32.java",
+    "imports": {
+        "20-20:import static java.lang.Integer.rotateLeft;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static java.lang.Integer.rotateLeft;"
+        },
+        "22-22:import java.util.zip.Checksum;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.zip.Checksum;"
+        }
+    },
+    "classes": {
+        "38-205:XXHash32": {
+            "start": 38,
+            "end": 205,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [
+                "Checksum"
+            ],
+            "extends": [],
+            "methods": {
+                "64-66:XXHash32": {
+                    "start": 64,
+                    "end": 66,
+                    "body": [
+                        "public XXHash32() {",
+                        "        this(0);",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "XXHash32()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "64-66:XXHash32"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "179-184:initializeState"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "72-75:XXHash32": {
+                    "start": 72,
+                    "end": 75,
+                    "body": [
+                        "public XXHash32(final int seed) {",
+                        "        this.seed = seed;",
+                        "        initializeState();",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "XXHash32(final int seed)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "seed"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|int|seed": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "77-83:reset": {
+                    "start": 77,
+                    "end": 83,
+                    "body": [
+                        "@Override",
+                        "    public void reset() {",
+                        "        initializeState();",
+                        "        totalLen = 0;",
+                        "        pos = 0;",
+                        "        stateUpdated = false;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "reset()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "179-184:initializeState"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "85-89:update": {
+                    "start": 85,
+                    "end": 89,
+                    "body": [
+                        "@Override",
+                        "    public void update(final int b) {",
+                        "        oneByte[0] = (byte) (b & 0xff);",
+                        "        update(oneByte, 0, 1);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte"
+                    ],
+                    "signature": "update(final int b)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "b"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "85-89:update"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "arraycopy(java.lang.Object,int,java.lang.Object,int,int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "186-204:process"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|int|b": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "91-130:update": {
+                    "start": 91,
+                    "end": 130,
+                    "body": [
+                        "@Override",
+                        "    public void update(final byte[] b, int off, final int len) {",
+                        "        if (len <= 0) {",
+                        "            return;",
+                        "        }",
+                        "        totalLen += len;",
+                        "",
+                        "        final int end = off + len;",
+                        "",
+                        "        // Check if the unprocessed bytes and new bytes can fill a block of 16.",
+                        "        // Make this overflow safe in the event that len is Integer.MAX_VALUE.",
+                        "        // Equivalent to: (pos + len < BUF_SIZE)",
+                        "        if (pos + len - BUF_SIZE < 0) {",
+                        "            System.arraycopy(b, off, buffer, pos, len);",
+                        "            pos += len;",
+                        "            return;",
+                        "        }",
+                        "",
+                        "        // Process left-over bytes with new bytes",
+                        "        if (pos > 0) {",
+                        "            final int size = BUF_SIZE - pos;",
+                        "            System.arraycopy(b, off, buffer, pos, size);",
+                        "            process(buffer, 0);",
+                        "            off += size;",
+                        "        }",
+                        "",
+                        "        final int limit = end - BUF_SIZE;",
+                        "        while (off <= limit) {",
+                        "            process(b, off);",
+                        "            off += BUF_SIZE;",
+                        "        }",
+                        "",
+                        "        // Handle left-over bytes",
+                        "        if (off < end) {",
+                        "            pos = end - off;",
+                        "            System.arraycopy(b, off, buffer, 0, pos);",
+                        "        } else {",
+                        "            pos = 0;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "update(final byte[] b,  int off, final int len)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "b"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "int",
+                            "name": "off"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "len"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.System",
+                            "arraycopy(java.lang.Object,int,java.lang.Object,int,int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "186-204:process"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|b": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|int|off": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|len": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "132-163:getValue": {
+                    "start": 132,
+                    "end": 163,
+                    "body": [
+                        "@Override",
+                        "    public long getValue() {",
+                        "        int hash;",
+                        "        if (stateUpdated) {",
+                        "            // Hash with the state",
+                        "            hash =",
+                        "                rotateLeft(state[0],  1) +",
+                        "                rotateLeft(state[1],  7) +",
+                        "                rotateLeft(state[2], 12) +",
+                        "                rotateLeft(state[3], 18);",
+                        "        } else {",
+                        "            // Hash using the original seed from position 2",
+                        "            hash = state[2] + PRIME5;",
+                        "        }",
+                        "        hash += totalLen;",
+                        "",
+                        "        int idx = 0;",
+                        "        final int limit = pos - 4;",
+                        "        for (; idx <= limit; idx += 4) {",
+                        "            hash = rotateLeft(hash + getInt(buffer, idx) * PRIME3, 17) * PRIME4;",
+                        "        }",
+                        "        while (idx < pos) {",
+                        "            hash = rotateLeft(hash + (buffer[idx++] & 0xff) * PRIME5, 11) * PRIME1;",
+                        "        }",
+                        "",
+                        "        hash ^= hash >>> 15;",
+                        "        hash *= PRIME2;",
+                        "        hash ^= hash >>> 13;",
+                        "        hash *= PRIME3;",
+                        "        hash ^= hash >>> 16;",
+                        "        return hash & 0xffffffffL;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "long"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "getValue()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Integer",
+                            "rotateLeft(int,int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "172-177:getInt"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "172-177:getInt": {
+                    "start": 172,
+                    "end": 177,
+                    "body": [
+                        "private static int getInt(final byte[] buffer, final int idx) {",
+                        "        return ((buffer[idx    ] & 0xff)      ) |",
+                        "               ((buffer[idx + 1] & 0xff) <<  8) |",
+                        "               ((buffer[idx + 2] & 0xff) << 16) |",
+                        "               ((buffer[idx + 3] & 0xff) << 24);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "getInt(final byte[] buffer, final int idx)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "buffer"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "idx"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|byte[]|buffer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|idx": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "179-184:initializeState": {
+                    "start": 179,
+                    "end": 184,
+                    "body": [
+                        "private void initializeState() {",
+                        "        state[0] = seed + PRIME1 + PRIME2;",
+                        "        state[1] = seed + PRIME2;",
+                        "        state[2] = seed;",
+                        "        state[3] = seed - PRIME1;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "initializeState()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "186-204:process": {
+                    "start": 186,
+                    "end": 204,
+                    "body": [
+                        "private void process(final byte[] b, final int offset) {",
+                        "        // local shadows for performance",
+                        "        int s0 = state[0];",
+                        "        int s1 = state[1];",
+                        "        int s2 = state[2];",
+                        "        int s3 = state[3];",
+                        "",
+                        "        s0 = rotateLeft(s0 + getInt(b, offset) * PRIME2, ROTATE_BITS) * PRIME1;",
+                        "        s1 = rotateLeft(s1 + getInt(b, offset + 4) * PRIME2, ROTATE_BITS) * PRIME1;",
+                        "        s2 = rotateLeft(s2 + getInt(b, offset + 8) * PRIME2, ROTATE_BITS) * PRIME1;",
+                        "        s3 = rotateLeft(s3 + getInt(b, offset + 12) * PRIME2, ROTATE_BITS) * PRIME1;",
+                        "",
+                        "        state[0] = s0;",
+                        "        state[1] = s1;",
+                        "        state[2] = s2;",
+                        "        state[3] = s3;",
+                        "",
+                        "        stateUpdated = true;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "process(final byte[] b, final int offset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "b"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "offset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "172-177:getInt"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Integer",
+                            "rotateLeft(int,int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|b": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|offset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "40-40:BUF_SIZE": {
+                    "start": 40,
+                    "end": 40,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BUF_SIZE = 16;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "41-41:ROTATE_BITS": {
+                    "start": 41,
+                    "end": 41,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int ROTATE_BITS = 13;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "43-43:PRIME1": {
+                    "start": 43,
+                    "end": 43,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int PRIME1 = (int) 2654435761L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "44-44:PRIME2": {
+                    "start": 44,
+                    "end": 44,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int PRIME2 = (int) 2246822519L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "45-45:PRIME3": {
+                    "start": 45,
+                    "end": 45,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int PRIME3 = (int) 3266489917L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "46-46:PRIME4": {
+                    "start": 46,
+                    "end": 46,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int PRIME4 =  668265263;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "47-47:PRIME5": {
+                    "start": 47,
+                    "end": 47,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int PRIME5 =  374761393;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "49-49:oneByte": {
+                    "start": 49,
+                    "end": 49,
+                    "enum_constant": false,
+                    "body": [
+                        "private final byte[] oneByte = new byte[1];"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "50-50:state": {
+                    "start": 50,
+                    "end": 50,
+                    "enum_constant": false,
+                    "body": [
+                        "private final int[] state = new int[4];"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "int[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "53-53:buffer": {
+                    "start": 53,
+                    "end": 53,
+                    "enum_constant": false,
+                    "body": [
+                        "private final byte[] buffer = new byte[BUF_SIZE];"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "54-54:seed": {
+                    "start": 54,
+                    "end": 54,
+                    "enum_constant": false,
+                    "body": [
+                        "private final int seed;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "56-56:totalLen": {
+                    "start": 56,
+                    "end": 56,
+                    "enum_constant": false,
+                    "body": [
+                        "private int totalLen;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "57-57:pos": {
+                    "start": 57,
+                    "end": 57,
+                    "enum_constant": false,
+                    "body": [
+                        "private int pos;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "59-59:stateUpdated": {
+                    "start": 59,
+                    "end": 59,
+                    "enum_constant": false,
+                    "body": [
+                        "private boolean stateUpdated;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/digest/XXHash32.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/digest/XXHash32.cj",
+    "import_map": {
+        "rotateLeft": "static java.lang.Integer.rotateLeft",
+        "Checksum": "java.util.zip.Checksum"
+    }
+}

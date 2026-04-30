@@ -1,0 +1,862 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/main/java/org/apache/commons/cli/PatternOptionBuilder.java",
+    "imports": {
+        "20-20:import java.io.File;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.File;"
+        },
+        "21-21:import java.io.FileInputStream;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.io.FileInputStream;"
+        },
+        "22-22:import java.net.URL;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.net.URL;"
+        },
+        "23-23:import java.util.Date;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.Date;"
+        }
+    },
+    "classes": {
+        "74-193:PatternOptionBuilder": {
+            "start": 74,
+            "end": 193,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "112-135:getValueClass": {
+                    "start": 112,
+                    "end": 135,
+                    "body": [
+                        "public static Object getValueClass(final char ch) {",
+                        "        switch (ch) {",
+                        "        case '@':",
+                        "            return PatternOptionBuilder.OBJECT_VALUE;",
+                        "        case ':':",
+                        "            return PatternOptionBuilder.STRING_VALUE;",
+                        "        case '%':",
+                        "            return PatternOptionBuilder.NUMBER_VALUE;",
+                        "        case '+':",
+                        "            return PatternOptionBuilder.CLASS_VALUE;",
+                        "        case '#':",
+                        "            return PatternOptionBuilder.DATE_VALUE;",
+                        "        case '<':",
+                        "            return PatternOptionBuilder.EXISTING_FILE_VALUE;",
+                        "        case '>':",
+                        "            return PatternOptionBuilder.FILE_VALUE;",
+                        "        case '*':",
+                        "            return PatternOptionBuilder.FILES_VALUE;",
+                        "        case '/':",
+                        "            return PatternOptionBuilder.URL_VALUE;",
+                        "        }",
+                        "",
+                        "        return null;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "Object"
+                    ],
+                    "body_types": [],
+                    "signature": "getValueClass(final char ch)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "ch"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|char|ch": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "143-145:isValueCode": {
+                    "start": 143,
+                    "end": 145,
+                    "body": [
+                        "public static boolean isValueCode(final char ch) {",
+                        "        return ch == '@' || ch == ':' || ch == '%' || ch == '+' || ch == '#' || ch == '<' || ch == '>' || ch == '*' || ch == '/' || ch == '!';",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isValueCode(final char ch)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "ch"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|char|ch": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "153-192:parsePattern": {
+                    "start": 153,
+                    "end": 192,
+                    "body": [
+                        "public static Options parsePattern(final String pattern) {",
+                        "        char opt = ' ';",
+                        "        boolean required = false;",
+                        "        Class<?> type = null;",
+                        "",
+                        "        final Options options = new Options();",
+                        "",
+                        "        for (int i = 0; i < pattern.length(); i++) {",
+                        "            final char ch = pattern.charAt(i);",
+                        "",
+                        "            // a value code comes after an option and specifies",
+                        "            // details about it",
+                        "            if (!isValueCode(ch)) {",
+                        "                if (opt != ' ') {",
+                        "                    final Option option = Option.builder(String.valueOf(opt)).hasArg(type != null).required(required).type(type).build();",
+                        "",
+                        "                    // we have a previous one to deal with",
+                        "                    options.addOption(option);",
+                        "                    required = false;",
+                        "                    type = null;",
+                        "                    opt = ' ';",
+                        "                }",
+                        "",
+                        "                opt = ch;",
+                        "            } else if (ch == '!') {",
+                        "                required = true;",
+                        "            } else {",
+                        "                type = (Class<?>) getValueClass(ch);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        if (opt != ' ') {",
+                        "            final Option option = Option.builder(String.valueOf(opt)).hasArg(type != null).required(required).type(type).build();",
+                        "",
+                        "            // we have a final one to deal with",
+                        "            options.addOption(option);",
+                        "        }",
+                        "",
+                        "        return options;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [
+                        "char",
+                        "boolean",
+                        "Class<?>",
+                        "Options",
+                        "int",
+                        "Option"
+                    ],
+                    "signature": "parsePattern(final String pattern)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "pattern"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "charAt(int)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.PatternOptionBuilder",
+                            "74-193:PatternOptionBuilder",
+                            "143-145:isValueCode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "valueOf(char)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "134-136:hasArg"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "211-213:required"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "232-235:type"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "111-116:build"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.PatternOptionBuilder",
+                            "74-193:PatternOptionBuilder",
+                            "112-135:getValueClass"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Class<?>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "76-76:STRING_VALUE": {
+                    "start": 76,
+                    "end": 76,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<String> STRING_VALUE = String.class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<String>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "79-79:OBJECT_VALUE": {
+                    "start": 79,
+                    "end": 79,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<Object> OBJECT_VALUE = Object.class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<Object>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<Object>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "82-82:NUMBER_VALUE": {
+                    "start": 82,
+                    "end": 82,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<Number> NUMBER_VALUE = Number.class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<Number>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<Number>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "85-85:DATE_VALUE": {
+                    "start": 85,
+                    "end": 85,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<Date> DATE_VALUE = Date.class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<Date>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<Date>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "88-88:CLASS_VALUE": {
+                    "start": 88,
+                    "end": 88,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<?> CLASS_VALUE = Class.class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<?>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<?>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "95-95:EXISTING_FILE_VALUE": {
+                    "start": 95,
+                    "end": 95,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<FileInputStream> EXISTING_FILE_VALUE = FileInputStream.class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<FileInputStream>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<FileInputStream>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "98-98:FILE_VALUE": {
+                    "start": 98,
+                    "end": 98,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<File> FILE_VALUE = File.class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<File>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<File>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "101-101:FILES_VALUE": {
+                    "start": 101,
+                    "end": 101,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<File[]> FILES_VALUE = File[].class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<File[]>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<File[]>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "104-104:URL_VALUE": {
+                    "start": 104,
+                    "end": 104,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Class<URL> URL_VALUE = URL.class;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Class<URL>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Class<URL>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/PatternOptionBuilder.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/PatternOptionBuilder.cj",
+    "import_map": {
+        "File": "java.io.File",
+        "FileInputStream": "java.io.FileInputStream",
+        "URL": "java.net.URL",
+        "Date": "java.util.Date"
+    }
+}

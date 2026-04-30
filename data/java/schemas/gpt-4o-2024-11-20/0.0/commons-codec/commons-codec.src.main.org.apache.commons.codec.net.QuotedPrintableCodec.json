@@ -1,0 +1,3157 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/net/QuotedPrintableCodec.java",
+    "imports": {
+        "20-20:import java.io.ByteArrayOutputStream;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.ByteArrayOutputStream;"
+        },
+        "21-21:import java.io.UnsupportedEncodingException;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.io.UnsupportedEncodingException;"
+        },
+        "22-22:import java.nio.charset.Charset;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.nio.charset.Charset;"
+        },
+        "23-23:import java.nio.charset.IllegalCharsetNameException;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.nio.charset.IllegalCharsetNameException;"
+        },
+        "24-24:import java.nio.charset.StandardCharsets;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.nio.charset.StandardCharsets;"
+        },
+        "25-25:import java.nio.charset.UnsupportedCharsetException;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.nio.charset.UnsupportedCharsetException;"
+        },
+        "26-26:import java.util.BitSet;": {
+            "start": 26,
+            "end": 26,
+            "body": "import java.util.BitSet;"
+        },
+        "28-28:import org.apache.commons.codec.BinaryDecoder;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.apache.commons.codec.BinaryDecoder;"
+        },
+        "29-29:import org.apache.commons.codec.BinaryEncoder;": {
+            "start": 29,
+            "end": 29,
+            "body": "import org.apache.commons.codec.BinaryEncoder;"
+        },
+        "30-30:import org.apache.commons.codec.DecoderException;": {
+            "start": 30,
+            "end": 30,
+            "body": "import org.apache.commons.codec.DecoderException;"
+        },
+        "31-31:import org.apache.commons.codec.EncoderException;": {
+            "start": 31,
+            "end": 31,
+            "body": "import org.apache.commons.codec.EncoderException;"
+        },
+        "32-32:import org.apache.commons.codec.StringDecoder;": {
+            "start": 32,
+            "end": 32,
+            "body": "import org.apache.commons.codec.StringDecoder;"
+        },
+        "33-33:import org.apache.commons.codec.StringEncoder;": {
+            "start": 33,
+            "end": 33,
+            "body": "import org.apache.commons.codec.StringEncoder;"
+        },
+        "34-34:import org.apache.commons.codec.binary.StringUtils;": {
+            "start": 34,
+            "end": 34,
+            "body": "import org.apache.commons.codec.binary.StringUtils;"
+        }
+    },
+    "classes": {
+        "71-610:QuotedPrintableCodec": {
+            "start": 71,
+            "end": 610,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [
+                "BinaryEncoder",
+                "BinaryDecoder",
+                "StringEncoder",
+                "StringDecoder"
+            ],
+            "extends": [],
+            "methods": {
+                "118-120:QuotedPrintableCodec": {
+                    "start": 118,
+                    "end": 120,
+                    "body": [
+                        "public QuotedPrintableCodec() {",
+                        "        this(StandardCharsets.UTF_8, false);",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "QuotedPrintableCodec()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.nio.charset.Charset",
+                            "forName(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "129-131:QuotedPrintableCodec": {
+                    "start": 129,
+                    "end": 131,
+                    "body": [
+                        "public QuotedPrintableCodec(final boolean strict) {",
+                        "        this(StandardCharsets.UTF_8, strict);",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "QuotedPrintableCodec(final boolean strict)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "strict"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|boolean|strict": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "140-142:QuotedPrintableCodec": {
+                    "start": 140,
+                    "end": 142,
+                    "body": [
+                        "public QuotedPrintableCodec(final Charset charset) {",
+                        "        this(charset, false);",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "QuotedPrintableCodec(final Charset charset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Charset",
+                            "name": "charset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|Charset|charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "153-156:QuotedPrintableCodec": {
+                    "start": 153,
+                    "end": 156,
+                    "body": [
+                        "public QuotedPrintableCodec(final Charset charset, final boolean strict) {",
+                        "        this.charset = charset;",
+                        "        this.strict = strict;",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "QuotedPrintableCodec(final Charset charset, final boolean strict)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Charset",
+                            "name": "charset"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "strict"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|Charset|charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|strict": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "173-176:QuotedPrintableCodec": {
+                    "start": 173,
+                    "end": 176,
+                    "body": [
+                        "public QuotedPrintableCodec(final String charsetName)",
+                        "            throws IllegalCharsetNameException, IllegalArgumentException, UnsupportedCharsetException {",
+                        "        this(Charset.forName(charsetName), false);",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "QuotedPrintableCodec(final String charsetName)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "charsetName"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|charsetName": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "187-194:encodeQuotedPrintable": {
+                    "start": 187,
+                    "end": 194,
+                    "body": [
+                        "private static final int encodeQuotedPrintable(final int b, final ByteArrayOutputStream buffer) {",
+                        "        buffer.write(ESCAPE_CHAR);",
+                        "        final char hex1 = Utils.hexDigit(b >> 4);",
+                        "        final char hex2 = Utils.hexDigit(b);",
+                        "        buffer.write(hex1);",
+                        "        buffer.write(hex2);",
+                        "        return 3;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "char"
+                    ],
+                    "signature": "encodeQuotedPrintable(final int b, final ByteArrayOutputStream buffer)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "b"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "ByteArrayOutputStream",
+                            "name": "buffer"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "write(int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.Utils",
+                            "29-64:Utils",
+                            "60-62:hexDigit"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "187-194:encodeQuotedPrintable"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "206-212:getUnsignedOctet"
+                        ],
+                        [
+                            "library",
+                            "java.util.BitSet",
+                            "get(int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "225-232:encodeByte"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "241-243:isWhitespace"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "toByteArray()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|int|b": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|ByteArrayOutputStream|buffer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "206-212:getUnsignedOctet": {
+                    "start": 206,
+                    "end": 212,
+                    "body": [
+                        "private static int getUnsignedOctet(final int index, final byte[] bytes) {",
+                        "        int b = bytes[index];",
+                        "        if (b < 0) {",
+                        "            b = 256 + b;",
+                        "        }",
+                        "        return b;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "getUnsignedOctet(final int index, final byte[] bytes)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "index"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "bytes"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|int|index": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|byte[]|bytes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "225-232:encodeByte": {
+                    "start": 225,
+                    "end": 232,
+                    "body": [
+                        "private static int encodeByte(final int b, final boolean encode,",
+                        "                                  final ByteArrayOutputStream buffer) {",
+                        "        if (encode) {",
+                        "            return encodeQuotedPrintable(b, buffer);",
+                        "        }",
+                        "        buffer.write(b);",
+                        "        return 1;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeByte(final int b, final boolean encode, final ByteArrayOutputStream buffer)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "b"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "encode"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "ByteArrayOutputStream",
+                            "name": "buffer"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "187-194:encodeQuotedPrintable"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "write(int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|int|b": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|encode": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|ByteArrayOutputStream|buffer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "241-243:isWhitespace": {
+                    "start": 241,
+                    "end": 243,
+                    "body": [
+                        "private static boolean isWhitespace(final int b) {",
+                        "        return b == SPACE || b == TAB;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isWhitespace(final int b)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "b"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|int|b": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "257-259:encodeQuotedPrintable": {
+                    "start": 257,
+                    "end": 259,
+                    "body": [
+                        "public static final byte[] encodeQuotedPrintable(final BitSet printable, final byte[] bytes) {",
+                        "        return encodeQuotedPrintable(printable, bytes, false);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeQuotedPrintable(final BitSet printable, final byte[] bytes)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "BitSet",
+                            "name": "printable"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "bytes"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.Utils",
+                            "29-64:Utils",
+                            "60-62:hexDigit"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "write(int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.BitSet",
+                            "get(int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "225-232:encodeByte"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "206-212:getUnsignedOctet"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "241-243:isWhitespace"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "187-194:encodeQuotedPrintable"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|BitSet|printable": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|byte[]|bytes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "277-342:encodeQuotedPrintable": {
+                    "start": 277,
+                    "end": 342,
+                    "body": [
+                        "public static final byte[] encodeQuotedPrintable(BitSet printable, final byte[] bytes, final boolean strict) {",
+                        "        if (bytes == null) {",
+                        "            return null;",
+                        "        }",
+                        "        if (printable == null) {",
+                        "            printable = PRINTABLE_CHARS;",
+                        "        }",
+                        "        final ByteArrayOutputStream buffer = new ByteArrayOutputStream();",
+                        "        final int bytesLength = bytes.length;",
+                        "",
+                        "        if (strict) {",
+                        "            int pos = 1;",
+                        "            // encode up to buffer.length - 3, the last three octets will be treated",
+                        "            // separately for simplification of note #3",
+                        "            for (int i = 0; i < bytesLength - 3; i++) {",
+                        "                final int b = getUnsignedOctet(i, bytes);",
+                        "                if (pos < SAFE_LENGTH) {",
+                        "                    // up to this length it is safe to add any byte, encoded or not",
+                        "                    pos += encodeByte(b, !printable.get(b), buffer);",
+                        "                } else {",
+                        "                    // rule #3: whitespace at the end of a line *must* be encoded",
+                        "                    encodeByte(b, !printable.get(b) || isWhitespace(b), buffer);",
+                        "",
+                        "                    // rule #5: soft line break",
+                        "                    buffer.write(ESCAPE_CHAR);",
+                        "                    buffer.write(CR);",
+                        "                    buffer.write(LF);",
+                        "                    pos = 1;",
+                        "                }",
+                        "            }",
+                        "",
+                        "            // rule #3: whitespace at the end of a line *must* be encoded",
+                        "            // if we would do a soft break line after this octet, encode whitespace",
+                        "            int b = getUnsignedOctet(bytesLength - 3, bytes);",
+                        "            boolean encode = !printable.get(b) || (isWhitespace(b) && pos > SAFE_LENGTH - 5);",
+                        "            pos += encodeByte(b, encode, buffer);",
+                        "",
+                        "            // note #3: '=' *must not* be the ultimate or penultimate character",
+                        "            // simplification: if < 6 bytes left, do a soft line break as we may need",
+                        "            //                 exactly 6 bytes space for the last 2 bytes",
+                        "            if (pos > SAFE_LENGTH - 2) {",
+                        "                buffer.write(ESCAPE_CHAR);",
+                        "                buffer.write(CR);",
+                        "                buffer.write(LF);",
+                        "            }",
+                        "            for (int i = bytesLength - 2; i < bytesLength; i++) {",
+                        "                b = getUnsignedOctet(i, bytes);",
+                        "                // rule #3: trailing whitespace shall be encoded",
+                        "                encode = !printable.get(b) || (i > bytesLength - 2 && isWhitespace(b));",
+                        "                encodeByte(b, encode, buffer);",
+                        "            }",
+                        "        } else {",
+                        "            for (final byte c : bytes) {",
+                        "                int b = c;",
+                        "                if (b < 0) {",
+                        "                    b = 256 + b;",
+                        "                }",
+                        "                if (printable.get(b)) {",
+                        "                    buffer.write(b);",
+                        "                } else {",
+                        "                    encodeQuotedPrintable(b, buffer);",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "        return buffer.toByteArray();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [
+                        "ByteArrayOutputStream",
+                        "int",
+                        "boolean",
+                        "byte"
+                    ],
+                    "signature": "encodeQuotedPrintable( BitSet printable, final byte[] bytes, final boolean strict)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "BitSet",
+                            "name": "printable"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "bytes"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "strict"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "write(int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.BitSet",
+                            "get(int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "225-232:encodeByte"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "206-212:getUnsignedOctet"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "241-243:isWhitespace"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "ByteArrayOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|BitSet|printable": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|byte[]|bytes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|strict": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "357-382:decodeQuotedPrintable": {
+                    "start": 357,
+                    "end": 382,
+                    "body": [
+                        "public static final byte[] decodeQuotedPrintable(final byte[] bytes) throws DecoderException {",
+                        "        if (bytes == null) {",
+                        "            return null;",
+                        "        }",
+                        "        final ByteArrayOutputStream buffer = new ByteArrayOutputStream();",
+                        "        for (int i = 0; i < bytes.length; i++) {",
+                        "            final int b = bytes[i];",
+                        "            if (b == ESCAPE_CHAR) {",
+                        "                try {",
+                        "                    // if the next octet is a CR we have found a soft line break",
+                        "                    if (bytes[++i] == CR) {",
+                        "                        continue;",
+                        "                    }",
+                        "                    final int u = Utils.digit16(bytes[i]);",
+                        "                    final int l = Utils.digit16(bytes[++i]);",
+                        "                    buffer.write((char) ((u << 4) + l));",
+                        "                } catch (final ArrayIndexOutOfBoundsException e) {",
+                        "                    throw new DecoderException(\"Invalid quoted-printable encoding\", e);",
+                        "                }",
+                        "            } else if (b != CR && b != LF) {",
+                        "                // every other octet is appended except for CR & LF",
+                        "                buffer.write(b);",
+                        "            }",
+                        "        }",
+                        "        return buffer.toByteArray();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [
+                        "ByteArrayOutputStream",
+                        "int",
+                        "char",
+                        "ArrayIndexOutOfBoundsException",
+                        "DecoderException"
+                    ],
+                    "signature": "decodeQuotedPrintable(final byte[] bytes)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "bytes"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.Utils",
+                            "29-64:Utils",
+                            "46-52:digit16"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "write(int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.DecoderException",
+                            "25-84:DecoderException",
+                            "40-41:DecoderException"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "toByteArray()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "ByteArrayOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ArrayIndexOutOfBoundsException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|bytes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "395-398:encode": {
+                    "start": 395,
+                    "end": 398,
+                    "body": [
+                        "@Override",
+                        "    public byte[] encode(final byte[] bytes) {",
+                        "        return encodeQuotedPrintable(PRINTABLE_CHARS, bytes, strict);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encode(final byte[] bytes)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "bytes"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "187-194:encodeQuotedPrintable"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "555-557:getCharset"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "getClass()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getName()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.EncoderException",
+                            "26-87:EncoderException",
+                            "41-42:EncoderException"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "351-353:newStringUsAscii"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|byte[]|bytes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "413-416:decode": {
+                    "start": 413,
+                    "end": 416,
+                    "body": [
+                        "@Override",
+                        "    public byte[] decode(final byte[] bytes) throws DecoderException {",
+                        "        return decodeQuotedPrintable(bytes);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "decode(final byte[] bytes)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "bytes"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "357-382:decodeQuotedPrintable"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "196-198:getBytesUsAscii"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[],java.nio.charset.Charset)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[],java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "555-557:getCharset"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "getClass()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getName()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.DecoderException",
+                            "25-84:DecoderException",
+                            "40-41:DecoderException"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|byte[]|bytes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "433-436:encode": {
+                    "start": 433,
+                    "end": 436,
+                    "body": [
+                        "@Override",
+                        "    public String encode(final String sourceStr) throws EncoderException {",
+                        "        return this.encode(sourceStr, getCharset());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "encode(final String sourceStr)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "sourceStr"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "351-353:newStringUsAscii"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|sourceStr": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "451-456:decode": {
+                    "start": 451,
+                    "end": 456,
+                    "body": [
+                        "public String decode(final String sourceStr, final Charset sourceCharset) throws DecoderException {",
+                        "        if (sourceStr == null) {",
+                        "            return null;",
+                        "        }",
+                        "        return new String(this.decode(StringUtils.getBytesUsAscii(sourceStr)), sourceCharset);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "decode(final String sourceStr, final Charset sourceCharset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "sourceStr"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "Charset",
+                            "name": "sourceCharset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "196-198:getBytesUsAscii"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|sourceStr": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|Charset|sourceCharset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "472-478:decode": {
+                    "start": 472,
+                    "end": 478,
+                    "body": [
+                        "public String decode(final String sourceStr, final String sourceCharset)",
+                        "            throws DecoderException, UnsupportedEncodingException {",
+                        "        if (sourceStr == null) {",
+                        "            return null;",
+                        "        }",
+                        "        return new String(decode(StringUtils.getBytesUsAscii(sourceStr)), sourceCharset);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "decode(final String sourceStr, final String sourceCharset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "sourceStr"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "sourceCharset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|sourceStr": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|sourceCharset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "491-494:decode": {
+                    "start": 491,
+                    "end": 494,
+                    "body": [
+                        "@Override",
+                        "    public String decode(final String sourceStr) throws DecoderException {",
+                        "        return this.decode(sourceStr, this.getCharset());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "decode(final String sourceStr)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "sourceStr"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|sourceStr": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "506-520:encode": {
+                    "start": 506,
+                    "end": 520,
+                    "body": [
+                        "@Override",
+                        "    public Object encode(final Object obj) throws EncoderException {",
+                        "        if (obj == null) {",
+                        "            return null;",
+                        "        }",
+                        "        if (obj instanceof byte[]) {",
+                        "            return encode((byte[]) obj);",
+                        "        }",
+                        "        if (obj instanceof String) {",
+                        "            return encode((String) obj);",
+                        "        }",
+                        "        throw new EncoderException(\"Objects of type \" +",
+                        "              obj.getClass().getName() +",
+                        "              \" cannot be quoted-printable encoded\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Object"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String",
+                        "EncoderException"
+                    ],
+                    "signature": "encode(final Object obj)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Object",
+                            "name": "obj"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "EncoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Object|obj": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "533-547:decode": {
+                    "start": 533,
+                    "end": 547,
+                    "body": [
+                        "@Override",
+                        "    public Object decode(final Object obj) throws DecoderException {",
+                        "        if (obj == null) {",
+                        "            return null;",
+                        "        }",
+                        "        if (obj instanceof byte[]) {",
+                        "            return decode((byte[]) obj);",
+                        "        }",
+                        "        if (obj instanceof String) {",
+                        "            return decode((String) obj);",
+                        "        }",
+                        "        throw new DecoderException(\"Objects of type \" +",
+                        "              obj.getClass().getName() +",
+                        "              \" cannot be quoted-printable decoded\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Object"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String",
+                        "DecoderException"
+                    ],
+                    "signature": "decode(final Object obj)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Object",
+                            "name": "obj"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Object|obj": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "555-557:getCharset": {
+                    "start": 555,
+                    "end": 557,
+                    "body": [
+                        "public Charset getCharset() {",
+                        "        return this.charset;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Charset"
+                    ],
+                    "body_types": [],
+                    "signature": "getCharset()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "Charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "564-566:getDefaultCharset": {
+                    "start": 564,
+                    "end": 566,
+                    "body": [
+                        "public String getDefaultCharset() {",
+                        "        return this.charset.name();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getDefaultCharset()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.nio.charset.Charset",
+                            "name()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "582-587:encode": {
+                    "start": 582,
+                    "end": 587,
+                    "body": [
+                        "public String encode(final String sourceStr, final Charset sourceCharset) {",
+                        "        if (sourceStr == null) {",
+                        "            return null;",
+                        "        }",
+                        "        return StringUtils.newStringUsAscii(this.encode(sourceStr.getBytes(sourceCharset)));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "encode(final String sourceStr, final Charset sourceCharset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "sourceStr"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "Charset",
+                            "name": "sourceCharset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|sourceStr": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|Charset|sourceCharset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "604-609:encode": {
+                    "start": 604,
+                    "end": 609,
+                    "body": [
+                        "public String encode(final String sourceStr, final String sourceCharset) throws UnsupportedEncodingException {",
+                        "        if (sourceStr == null) {",
+                        "            return null;",
+                        "        }",
+                        "        return StringUtils.newStringUsAscii(encode(sourceStr.getBytes(sourceCharset)));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "encode(final String sourceStr, final String sourceCharset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "sourceStr"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "sourceCharset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|sourceStr": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|sourceCharset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                }
+            },
+            "fields": {
+                "75-75:charset": {
+                    "start": 75,
+                    "end": 75,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Charset charset;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Charset"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "80-80:strict": {
+                    "start": 80,
+                    "end": 80,
+                    "enum_constant": false,
+                    "body": [
+                        "private final boolean strict;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "85-85:PRINTABLE_CHARS": {
+                    "start": 85,
+                    "end": 85,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final BitSet PRINTABLE_CHARS = new BitSet(256);"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "BitSet"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "BitSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "87-87:ESCAPE_CHAR": {
+                    "start": 87,
+                    "end": 87,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final byte ESCAPE_CHAR = '=';"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "byte"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "89-89:TAB": {
+                    "start": 89,
+                    "end": 89,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final byte TAB = 9;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "byte"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "91-91:SPACE": {
+                    "start": 91,
+                    "end": 91,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final byte SPACE = 32;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "byte"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "93-93:CR": {
+                    "start": 93,
+                    "end": 93,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final byte CR = 13;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "byte"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "95-95:LF": {
+                    "start": 95,
+                    "end": 95,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final byte LF = 10;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "byte"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "100-100:SAFE_LENGTH": {
+                    "start": 100,
+                    "end": 100,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int SAFE_LENGTH = 73;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            },
+            "static_initializers": {
+                "103-113:run_static_init": {
+                    "start": 103,
+                    "end": 113,
+                    "body": [
+                        "static {",
+                        "        // alpha characters",
+                        "        for (int i = 33; i <= 60; i++) {",
+                        "            PRINTABLE_CHARS.set(i);",
+                        "        }",
+                        "        for (int i = 62; i <= 126; i++) {",
+                        "            PRINTABLE_CHARS.set(i);",
+                        "        }",
+                        "        PRINTABLE_CHARS.set(TAB);",
+                        "        PRINTABLE_CHARS.set(SPACE);",
+                        "    }"
+                    ],
+                    "type_translations": {},
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/net/QuotedPrintableCodec.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/net/QuotedPrintableCodec.cj",
+    "import_map": {
+        "ByteArrayOutputStream": "java.io.ByteArrayOutputStream",
+        "UnsupportedEncodingException": "java.io.UnsupportedEncodingException",
+        "Charset": "java.nio.charset.Charset",
+        "IllegalCharsetNameException": "java.nio.charset.IllegalCharsetNameException",
+        "StandardCharsets": "java.nio.charset.StandardCharsets",
+        "UnsupportedCharsetException": "java.nio.charset.UnsupportedCharsetException",
+        "BitSet": "java.util.BitSet",
+        "BinaryDecoder": "org.apache.commons.codec.BinaryDecoder",
+        "BinaryEncoder": "org.apache.commons.codec.BinaryEncoder",
+        "DecoderException": "org.apache.commons.codec.DecoderException",
+        "EncoderException": "org.apache.commons.codec.EncoderException",
+        "StringDecoder": "org.apache.commons.codec.StringDecoder",
+        "StringEncoder": "org.apache.commons.codec.StringEncoder",
+        "StringUtils": "org.apache.commons.codec.binary.StringUtils"
+    }
+}

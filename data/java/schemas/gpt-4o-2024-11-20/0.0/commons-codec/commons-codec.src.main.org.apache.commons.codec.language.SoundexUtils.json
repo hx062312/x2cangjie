@@ -1,0 +1,461 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/language/SoundexUtils.java",
+    "imports": {
+        "20-20:import org.apache.commons.codec.EncoderException;": {
+            "start": 20,
+            "end": 20,
+            "body": "import org.apache.commons.codec.EncoderException;"
+        },
+        "21-21:import org.apache.commons.codec.StringEncoder;": {
+            "start": 21,
+            "end": 21,
+            "body": "import org.apache.commons.codec.StringEncoder;"
+        }
+    },
+    "classes": {
+        "30-123:SoundexUtils": {
+            "start": 30,
+            "end": 123,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "final"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "40-56:clean": {
+                    "start": 40,
+                    "end": 56,
+                    "body": [
+                        "static String clean(final String str) {",
+                        "        if (str == null || str.isEmpty()) {",
+                        "            return str;",
+                        "        }",
+                        "        final int len = str.length();",
+                        "        final char[] chars = new char[len];",
+                        "        int count = 0;",
+                        "        for (int i = 0; i < len; i++) {",
+                        "            if (Character.isLetter(str.charAt(i))) {",
+                        "                chars[count++] = str.charAt(i);",
+                        "            }",
+                        "        }",
+                        "        if (count == len) {",
+                        "            return str.toUpperCase(java.util.Locale.ENGLISH);",
+                        "        }",
+                        "        return new String(chars, 0, count).toUpperCase(java.util.Locale.ENGLISH);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "int",
+                        "char[]",
+                        "char",
+                        "String"
+                    ],
+                    "signature": "clean(final String str)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "str"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "isEmpty()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "charAt(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Character",
+                            "isLetter(char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toUpperCase(java.util.Locale)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(char[],int,int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|str": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "84-86:difference": {
+                    "start": 84,
+                    "end": 86,
+                    "body": [
+                        "static int difference(final StringEncoder encoder, final String s1, final String s2) throws EncoderException {",
+                        "        return differenceEncoded(encoder.encode(s1), encoder.encode(s2));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "difference(final StringEncoder encoder, final String s1, final String s2)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "StringEncoder",
+                            "name": "encoder"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "s1"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "s2"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.StringEncoder",
+                            "24-36:StringEncoder",
+                            "35-35:encode"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.SoundexUtils",
+                            "30-123:SoundexUtils",
+                            "108-121:differenceEncoded"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|StringEncoder|encoder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|s1": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|s2": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "108-121:differenceEncoded": {
+                    "start": 108,
+                    "end": 121,
+                    "body": [
+                        "static int differenceEncoded(final String es1, final String es2) {",
+                        "",
+                        "        if (es1 == null || es2 == null) {",
+                        "            return 0;",
+                        "        }",
+                        "        final int lengthToMatch = Math.min(es1.length(), es2.length());",
+                        "        int diff = 0;",
+                        "        for (int i = 0; i < lengthToMatch; i++) {",
+                        "            if (es1.charAt(i) == es2.charAt(i)) {",
+                        "                diff++;",
+                        "            }",
+                        "        }",
+                        "        return diff;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "differenceEncoded(final String es1, final String es2)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "es1"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "es2"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "min(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "charAt(int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|es1": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|es2": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/language/SoundexUtils.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/language/SoundexUtils.cj",
+    "import_map": {
+        "EncoderException": "org.apache.commons.codec.EncoderException",
+        "StringEncoder": "org.apache.commons.codec.StringEncoder"
+    }
+}

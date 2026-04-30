@@ -1,0 +1,1798 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/language/Nysiis.java",
+    "imports": {
+        "20-20:import java.util.regex.Pattern;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.regex.Pattern;"
+        },
+        "22-22:import org.apache.commons.codec.EncoderException;": {
+            "start": 22,
+            "end": 22,
+            "body": "import org.apache.commons.codec.EncoderException;"
+        },
+        "23-23:import org.apache.commons.codec.StringEncoder;": {
+            "start": 23,
+            "end": 23,
+            "body": "import org.apache.commons.codec.StringEncoder;"
+        }
+    },
+    "classes": {
+        "69-320:Nysiis": {
+            "start": 69,
+            "end": 320,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [
+                "StringEncoder"
+            ],
+            "extends": [],
+            "methods": {
+                "99-101:isVowel": {
+                    "start": 99,
+                    "end": 101,
+                    "body": [
+                        "private static boolean isVowel(final char c) {",
+                        "        return c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U';",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isVowel(final char c)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|char|c": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "117-169:transcodeRemaining": {
+                    "start": 117,
+                    "end": 169,
+                    "body": [
+                        "private static char[] transcodeRemaining(final char prev, final char curr, final char next, final char aNext) {",
+                        "        // 1. EV -> AF",
+                        "        if (curr == 'E' && next == 'V') {",
+                        "            return CHARS_AF;",
+                        "        }",
+                        "",
+                        "        // A, E, I, O, U -> A",
+                        "        if (isVowel(curr)) {",
+                        "            return CHARS_A;",
+                        "        }",
+                        "",
+                        "        // 2. Q -> G, Z -> S, M -> N",
+                        "",
+                        "",
+                        "        // 3. KN -> NN else K -> C",
+                        "        switch (curr) {",
+                        "        case 'Q':",
+                        "            return CHARS_G;",
+                        "        case 'Z':",
+                        "            return CHARS_S;",
+                        "        case 'M':",
+                        "            return CHARS_N;",
+                        "        case 'K':",
+                        "            if (next == 'N') {",
+                        "                return CHARS_NN;",
+                        "            }",
+                        "            return CHARS_C;",
+                        "        default:",
+                        "            break;",
+                        "        }",
+                        "",
+                        "        // 4. SCH -> SSS",
+                        "        if (curr == 'S' && next == 'C' && aNext == 'H') {",
+                        "            return CHARS_SSS;",
+                        "        }",
+                        "",
+                        "        // PH -> FF",
+                        "        if (curr == 'P' && next == 'H') {",
+                        "            return CHARS_FF;",
+                        "        }",
+                        "",
+                        "        // 5. H -> If previous or next is a non vowel, previous.",
+                        "        if (curr == 'H' && (!isVowel(prev) || !isVowel(next))) {",
+                        "            return new char[] { prev };",
+                        "        }",
+                        "",
+                        "        // 6. W -> If previous is vowel, previous.",
+                        "        if (curr == 'W' && isVowel(prev)) {",
+                        "            return new char[] { prev };",
+                        "        }",
+                        "",
+                        "        return new char[] { curr };",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "char[]"
+                    ],
+                    "body_types": [
+                        "char"
+                    ],
+                    "signature": "transcodeRemaining(final char prev, final char curr, final char next, final char aNext)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "prev"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "curr"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "next"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "aNext"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Nysiis",
+                            "69-320:Nysiis",
+                            "99-101:isVowel"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|char|prev": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char|curr": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char|next": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char|aNext": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "178-180:Nysiis": {
+                    "start": 178,
+                    "end": 180,
+                    "body": [
+                        "public Nysiis() {",
+                        "        this(true);",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "Nysiis()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Nysiis",
+                            "69-320:Nysiis",
+                            "178-180:Nysiis"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "193-195:Nysiis": {
+                    "start": 193,
+                    "end": 195,
+                    "body": [
+                        "public Nysiis(final boolean strict) {",
+                        "        this.strict = strict;",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "Nysiis(final boolean strict)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "strict"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|boolean|strict": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "210-216:encode": {
+                    "start": 210,
+                    "end": 216,
+                    "body": [
+                        "@Override",
+                        "    public Object encode(final Object obj) throws EncoderException {",
+                        "        if (!(obj instanceof String)) {",
+                        "            throw new EncoderException(\"Parameter supplied to Nysiis encode is not of type java.lang.String\");",
+                        "        }",
+                        "        return this.nysiis((String) obj);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Object"
+                    ],
+                    "body_types": [
+                        "String",
+                        "EncoderException"
+                    ],
+                    "signature": "encode(final Object obj)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Object",
+                            "name": "obj"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.EncoderException",
+                            "26-87:EncoderException",
+                            "41-42:EncoderException"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Nysiis",
+                            "69-320:Nysiis",
+                            "248-318:nysiis"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "EncoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Object|obj": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "227-230:encode": {
+                    "start": 227,
+                    "end": 230,
+                    "body": [
+                        "@Override",
+                        "    public String encode(final String str) {",
+                        "        return this.nysiis(str);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "encode(final String str)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "str"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Nysiis",
+                            "69-320:Nysiis",
+                            "248-318:nysiis"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|str": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "237-239:isStrict": {
+                    "start": 237,
+                    "end": 239,
+                    "body": [
+                        "public boolean isStrict() {",
+                        "        return this.strict;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isStrict()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "248-318:nysiis": {
+                    "start": 248,
+                    "end": 318,
+                    "body": [
+                        "public String nysiis(String str) {",
+                        "        if (str == null) {",
+                        "            return null;",
+                        "        }",
+                        "",
+                        "        // Use the same clean rules as Soundex",
+                        "        str = SoundexUtils.clean(str);",
+                        "",
+                        "        if (str.isEmpty()) {",
+                        "            return str;",
+                        "        }",
+                        "",
+                        "        // Translate first characters of name:",
+                        "        // MAC -> MCC, KN -> NN, K -> C, PH | PF -> FF, SCH -> SSS",
+                        "        str = PAT_MAC.matcher(str).replaceFirst(\"MCC\");",
+                        "        str = PAT_KN.matcher(str).replaceFirst(\"NN\");",
+                        "        str = PAT_K.matcher(str).replaceFirst(\"C\");",
+                        "        str = PAT_PH_PF.matcher(str).replaceFirst(\"FF\");",
+                        "        str = PAT_SCH.matcher(str).replaceFirst(\"SSS\");",
+                        "",
+                        "        // Translate last characters of name:",
+                        "        // EE -> Y, IE -> Y, DT | RT | RD | NT | ND -> D",
+                        "        str = PAT_EE_IE.matcher(str).replaceFirst(\"Y\");",
+                        "        str = PAT_DT_ETC.matcher(str).replaceFirst(\"D\");",
+                        "",
+                        "        // First character of key = first character of name.",
+                        "        final StringBuilder key = new StringBuilder(str.length());",
+                        "        key.append(str.charAt(0));",
+                        "",
+                        "        // Transcode remaining characters, incrementing by one character each time",
+                        "        final char[] chars = str.toCharArray();",
+                        "        final int len = chars.length;",
+                        "",
+                        "        for (int i = 1; i < len; i++) {",
+                        "            final char next = i < len - 1 ? chars[i + 1] : SPACE;",
+                        "            final char aNext = i < len - 2 ? chars[i + 2] : SPACE;",
+                        "            final char[] transcoded = transcodeRemaining(chars[i - 1], chars[i], next, aNext);",
+                        "            System.arraycopy(transcoded, 0, chars, i, transcoded.length);",
+                        "",
+                        "            // only append the current char to the key if it is different from the last one",
+                        "            if (chars[i] != chars[i - 1]) {",
+                        "                key.append(chars[i]);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        if (key.length() > 1) {",
+                        "            char lastChar = key.charAt(key.length() - 1);",
+                        "",
+                        "            // If last character is S, remove it.",
+                        "            if (lastChar == 'S') {",
+                        "                key.deleteCharAt(key.length() - 1);",
+                        "                lastChar = key.charAt(key.length() - 1);",
+                        "            }",
+                        "",
+                        "            if (key.length() > 2) {",
+                        "                final char last2Char = key.charAt(key.length() - 2);",
+                        "                // If last characters are AY, replace with Y.",
+                        "                if (last2Char == 'A' && lastChar == 'Y') {",
+                        "                    key.deleteCharAt(key.length() - 2);",
+                        "                }",
+                        "            }",
+                        "",
+                        "            // If last character is A, remove it.",
+                        "            if (lastChar == 'A') {",
+                        "                key.deleteCharAt(key.length() - 1);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        final String string = key.toString();",
+                        "        return this.isStrict() ? string.substring(0, Math.min(TRUE_LENGTH, string.length())) : string;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "StringBuilder",
+                        "char[]",
+                        "char",
+                        "int",
+                        "String"
+                    ],
+                    "signature": "nysiis( String str)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "str"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.SoundexUtils",
+                            "30-123:SoundexUtils",
+                            "40-56:clean"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "isEmpty()"
+                        ],
+                        [
+                            "library",
+                            "java.util.regex.Pattern",
+                            "matcher(java.lang.CharSequence)"
+                        ],
+                        [
+                            "library",
+                            "java.util.regex.Matcher",
+                            "replaceFirst(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "charAt(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Nysiis",
+                            "69-320:Nysiis",
+                            "117-169:transcodeRemaining"
+                        ],
+                        [
+                            "library",
+                            "java.lang.System",
+                            "arraycopy(java.lang.Object,int,java.lang.Object,int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "charAt(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "deleteCharAt(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Nysiis",
+                            "69-320:Nysiis",
+                            "237-239:isStrict"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "min(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int,int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "StringBuilder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|str": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "71-71:CHARS_A": {
+                    "start": 71,
+                    "end": 71,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_A   = { 'A' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "72-72:CHARS_AF": {
+                    "start": 72,
+                    "end": 72,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_AF  = { 'A', 'F' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "73-73:CHARS_C": {
+                    "start": 73,
+                    "end": 73,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_C   = { 'C' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "74-74:CHARS_FF": {
+                    "start": 74,
+                    "end": 74,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_FF  = { 'F', 'F' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "75-75:CHARS_G": {
+                    "start": 75,
+                    "end": 75,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_G   = { 'G' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "76-76:CHARS_N": {
+                    "start": 76,
+                    "end": 76,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_N   = { 'N' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "77-77:CHARS_NN": {
+                    "start": 77,
+                    "end": 77,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_NN  = { 'N', 'N' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "78-78:CHARS_S": {
+                    "start": 78,
+                    "end": 78,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_S   = { 'S' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "79-79:CHARS_SSS": {
+                    "start": 79,
+                    "end": 79,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] CHARS_SSS = { 'S', 'S', 'S' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "81-81:PAT_MAC": {
+                    "start": 81,
+                    "end": 81,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Pattern PAT_MAC    = Pattern.compile(\"^MAC\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Pattern"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "82-82:PAT_KN": {
+                    "start": 82,
+                    "end": 82,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Pattern PAT_KN     = Pattern.compile(\"^KN\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Pattern"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "83-83:PAT_K": {
+                    "start": 83,
+                    "end": 83,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Pattern PAT_K      = Pattern.compile(\"^K\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Pattern"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "84-84:PAT_PH_PF": {
+                    "start": 84,
+                    "end": 84,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Pattern PAT_PH_PF  = Pattern.compile(\"^(PH|PF)\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Pattern"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "85-85:PAT_SCH": {
+                    "start": 85,
+                    "end": 85,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Pattern PAT_SCH    = Pattern.compile(\"^SCH\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Pattern"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "86-86:PAT_EE_IE": {
+                    "start": 86,
+                    "end": 86,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Pattern PAT_EE_IE  = Pattern.compile(\"(EE|IE)$\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Pattern"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "87-87:PAT_DT_ETC": {
+                    "start": 87,
+                    "end": 87,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Pattern PAT_DT_ETC = Pattern.compile(\"(DT|RT|RD|NT|ND)$\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Pattern"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "89-89:SPACE": {
+                    "start": 89,
+                    "end": 89,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char SPACE = ' ';"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "90-90:TRUE_LENGTH": {
+                    "start": 90,
+                    "end": 90,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int TRUE_LENGTH = 6;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "172-172:strict": {
+                    "start": 172,
+                    "end": 172,
+                    "enum_constant": false,
+                    "body": [
+                        "private final boolean strict;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/language/Nysiis.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/language/Nysiis.cj",
+    "import_map": {
+        "Pattern": "java.util.regex.Pattern",
+        "EncoderException": "org.apache.commons.codec.EncoderException",
+        "StringEncoder": "org.apache.commons.codec.StringEncoder"
+    }
+}

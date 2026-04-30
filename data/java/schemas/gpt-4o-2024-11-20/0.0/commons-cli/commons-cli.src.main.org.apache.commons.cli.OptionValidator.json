@@ -1,0 +1,350 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/main/java/org/apache/commons/cli/OptionValidator.java",
+    "imports": {},
+    "classes": {
+        "25-83:OptionValidator": {
+            "start": 25,
+            "end": 83,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "final"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "32-34:isValidChar": {
+                    "start": 32,
+                    "end": 34,
+                    "body": [
+                        "private static boolean isValidChar(final char c) {",
+                        "        return Character.isJavaIdentifierPart(c);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isValidChar(final char c)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Character",
+                            "isJavaIdentifierPart(char)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|char|c": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "42-44:isValidOpt": {
+                    "start": 42,
+                    "end": 44,
+                    "body": [
+                        "private static boolean isValidOpt(final char c) {",
+                        "        return isValidChar(c) || c == '?' || c == '@';",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isValidOpt(final char c)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionValidator",
+                            "25-83:OptionValidator",
+                            "32-34:isValidChar"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|char|c": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "60-82:validate": {
+                    "start": 60,
+                    "end": 82,
+                    "body": [
+                        "static String validate(final String option) throws IllegalArgumentException {",
+                        "        // if opt is NULL do not check further",
+                        "        if (option == null) {",
+                        "            return null;",
+                        "        }",
+                        "",
+                        "        // handle the single character opt",
+                        "        if (option.length() == 1) {",
+                        "            final char ch = option.charAt(0);",
+                        "",
+                        "            if (!isValidOpt(ch)) {",
+                        "                throw new IllegalArgumentException(\"Illegal option name '\" + ch + \"'\");",
+                        "            }",
+                        "        } else {",
+                        "            // handle the multi character opt",
+                        "            for (final char ch : option.toCharArray()) {",
+                        "                if (!isValidChar(ch)) {",
+                        "                    throw new IllegalArgumentException(\"The option '\" + option + \"' contains an illegal \" + \"character : '\" + ch + \"'\");",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "        return option;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "char",
+                        "IllegalArgumentException"
+                    ],
+                    "signature": "validate(final String option)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "option"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "charAt(int)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionValidator",
+                            "25-83:OptionValidator",
+                            "42-44:isValidOpt"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.IllegalArgumentException",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionValidator",
+                            "25-83:OptionValidator",
+                            "32-34:isValidChar"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IllegalArgumentException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/OptionValidator.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/OptionValidator.cj"
+}

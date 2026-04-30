@@ -1,0 +1,282 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/test/java/org/apache/commons/cli/bug/BugCLI13Test.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertEquals;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "21-21:import static org.junit.Assert.assertTrue;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "23-23:import org.apache.commons.cli.CommandLine;": {
+            "start": 23,
+            "end": 23,
+            "body": "import org.apache.commons.cli.CommandLine;"
+        },
+        "24-24:import org.apache.commons.cli.Option;": {
+            "start": 24,
+            "end": 24,
+            "body": "import org.apache.commons.cli.Option;"
+        },
+        "25-25:import org.apache.commons.cli.OptionBuilder;": {
+            "start": 25,
+            "end": 25,
+            "body": "import org.apache.commons.cli.OptionBuilder;"
+        },
+        "26-26:import org.apache.commons.cli.Options;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.apache.commons.cli.Options;"
+        },
+        "27-27:import org.apache.commons.cli.ParseException;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.apache.commons.cli.ParseException;"
+        },
+        "28-28:import org.apache.commons.cli.PosixParser;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.apache.commons.cli.PosixParser;"
+        },
+        "29-29:import org.junit.Test;": {
+            "start": 29,
+            "end": 29,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "31-55:BugCLI13Test": {
+            "start": 31,
+            "end": 55,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@SuppressWarnings(\"deprecation\")",
+                "// tests some deprecated classes",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "34-54:testCLI13": {
+                    "start": 34,
+                    "end": 54,
+                    "body": [
+                        "@Test",
+                        "    public void testCLI13() throws ParseException {",
+                        "        final String debugOpt = \"debug\";",
+                        "        @SuppressWarnings(\"static-access\")",
+                        "        //@formatter:off",
+                        "        final Option debug = OptionBuilder",
+                        "            .withArgName(debugOpt)",
+                        "            .withDescription(\"turn on debugging\")",
+                        "            .withLongOpt(debugOpt)",
+                        "            .hasArg()",
+                        "            .create('d');",
+                        "        //@formatter:on",
+                        "        final Options options = new Options();",
+                        "        options.addOption(debug);",
+                        "        final CommandLine commandLine = new PosixParser().parse(options, new String[] {\"-d\", \"true\"});",
+                        "",
+                        "        assertEquals(\"true\", commandLine.getOptionValue(debugOpt));",
+                        "        assertEquals(\"true\", commandLine.getOptionValue('d'));",
+                        "        assertTrue(commandLine.hasOption('d'));",
+                        "        assertTrue(commandLine.hasOption(debugOpt));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "Option",
+                        "Options",
+                        "CommandLine",
+                        "PosixParser"
+                    ],
+                    "signature": "testCLI13()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "248-252:withArgName"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "260-264:withDescription"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "272-276:withLongOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "127-131:hasArg"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "72-79:create"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Parser",
+                            "32-358:Parser",
+                            "82-85:parse"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "241-243:getOptionValue"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "414-416:hasOption"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "PosixParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/bug/BugCLI13Test_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/bug/BugCLI13Test_test.cj",
+    "import_map": {
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "CommandLine": "org.apache.commons.cli.CommandLine",
+        "Option": "org.apache.commons.cli.Option",
+        "OptionBuilder": "org.apache.commons.cli.OptionBuilder",
+        "Options": "org.apache.commons.cli.Options",
+        "ParseException": "org.apache.commons.cli.ParseException",
+        "PosixParser": "org.apache.commons.cli.PosixParser",
+        "Test": "org.junit.Test"
+    }
+}

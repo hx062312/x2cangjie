@@ -1,0 +1,284 @@
+{
+    "path": "projects/java/cleaned_final_projects/jansi/src/test/java/org/fusesource/jansi/AnsiConsoleExample2.java",
+    "imports": {
+        "18-18:import java.io.FileInputStream;": {
+            "start": 18,
+            "end": 18,
+            "body": "import java.io.FileInputStream;"
+        },
+        "19-19:import java.io.IOException;": {
+            "start": 19,
+            "end": 19,
+            "body": "import java.io.IOException;"
+        },
+        "21-21:import static org.fusesource.jansi.Ansi.*;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.fusesource.jansi.Ansi.*;"
+        }
+    },
+    "classes": {
+        "26-49:AnsiConsoleExample2": {
+            "start": 26,
+            "end": 49,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "28-28:AnsiConsoleExample2": {
+                    "start": 28,
+                    "end": 28,
+                    "body": [
+                        "private AnsiConsoleExample2() {}"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "AnsiConsoleExample2()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "30-48:main": {
+                    "start": 30,
+                    "end": 48,
+                    "body": [
+                        "public static void main(String[] args) throws IOException {",
+                        "        String file = \"src/test/resources/jansi.ans\";",
+                        "        if (args.length > 0) file = args[0];",
+                        "",
+                        "        // Allows us to disable ANSI processing.",
+                        "        if (\"true\".equals(System.getProperty(\"jansi\", \"true\"))) {",
+                        "            AnsiConsole.systemInstall();",
+                        "        }",
+                        "",
+                        "        System.out.print(ansi().reset().eraseScreen().cursor(1, 1));",
+                        "        System.out.print(\"=======================================================================\");",
+                        "        FileInputStream f = new FileInputStream(file);",
+                        "        int c;",
+                        "        while ((c = f.read()) >= 0) {",
+                        "            System.out.write(c);",
+                        "        }",
+                        "        f.close();",
+                        "        System.out.println(\"=======================================================================\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "FileInputStream",
+                        "int"
+                    ],
+                    "signature": "main( String[] args)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String[]",
+                            "name": "args"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiConsole",
+                            "61-567:AnsiConsole",
+                            "515-528:systemInstall"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.Ansi",
+                            "27-973:Ansi",
+                            "189-195:ansi"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.Ansi",
+                            "27-973:Ansi",
+                            "755-757:reset"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.Ansi",
+                            "27-973:Ansi",
+                            "686-688:eraseScreen"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.Ansi",
+                            "27-973:Ansi",
+                            "578-580:cursor"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "print(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "print(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "read()"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "write(int)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "println(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileInputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String[]|args": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "import_map": {
+        "FileInputStream": "java.io.FileInputStream",
+        "IOException": "java.io.IOException",
+        "*": "static org.fusesource.jansi.Ansi.*"
+    }
+}

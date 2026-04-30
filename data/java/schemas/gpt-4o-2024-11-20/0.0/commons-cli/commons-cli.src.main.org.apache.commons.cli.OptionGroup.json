@@ -1,0 +1,892 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/main/java/org/apache/commons/cli/OptionGroup.java",
+    "imports": {
+        "20-20:import java.io.Serializable;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.Serializable;"
+        },
+        "21-21:import java.util.Collection;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.Collection;"
+        },
+        "22-22:import java.util.Iterator;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.Iterator;"
+        },
+        "23-23:import java.util.LinkedHashMap;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.LinkedHashMap;"
+        },
+        "24-24:import java.util.Map;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.util.Map;"
+        }
+    },
+    "classes": {
+        "29-155:OptionGroup": {
+            "start": 29,
+            "end": 155,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [
+                "Serializable"
+            ],
+            "extends": [],
+            "methods": {
+                "48-54:addOption": {
+                    "start": 48,
+                    "end": 54,
+                    "body": [
+                        "public OptionGroup addOption(final Option option) {",
+                        "        // key - option name",
+                        "        // value - the option",
+                        "        optionMap.put(option.getKey(), option);",
+                        "",
+                        "        return this;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "OptionGroup"
+                    ],
+                    "body_types": [],
+                    "signature": "addOption(final Option option)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Option",
+                            "name": "option"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "544-547:getKey"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "put(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "OptionGroup": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|Option|option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "59-62:getNames": {
+                    "start": 59,
+                    "end": 62,
+                    "body": [
+                        "public Collection<String> getNames() {",
+                        "        // the key set is the collection of names",
+                        "        return optionMap.keySet();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Collection<String>"
+                    ],
+                    "body_types": [],
+                    "signature": "getNames()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Map",
+                            "keySet()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Collection<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "67-70:getOptions": {
+                    "start": 67,
+                    "end": 70,
+                    "body": [
+                        "public Collection<Option> getOptions() {",
+                        "        // the values are the collection of options",
+                        "        return optionMap.values();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Collection<Option>"
+                    ],
+                    "body_types": [],
+                    "signature": "getOptions()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Map",
+                            "values()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Collection<Option>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "75-77:getSelected": {
+                    "start": 75,
+                    "end": 77,
+                    "body": [
+                        "public String getSelected() {",
+                        "        return selected;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getSelected()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "84-86:isRequired": {
+                    "start": 84,
+                    "end": 86,
+                    "body": [
+                        "public boolean isRequired() {",
+                        "        return required;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isRequired()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "91-93:setRequired": {
+                    "start": 91,
+                    "end": 93,
+                    "body": [
+                        "public void setRequired(final boolean required) {",
+                        "        this.required = required;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "setRequired(final boolean required)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "required"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|boolean|required": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "101-115:setSelected": {
+                    "start": 101,
+                    "end": 115,
+                    "body": [
+                        "public void setSelected(final Option option) throws AlreadySelectedException {",
+                        "        if (option == null) {",
+                        "            // reset the option previously selected",
+                        "            selected = null;",
+                        "            return;",
+                        "        }",
+                        "",
+                        "        // if no option has already been selected or the",
+                        "        // same option is being reselected then set the",
+                        "        // selected member variable",
+                        "        if (selected != null && !selected.equals(option.getKey())) {",
+                        "            throw new AlreadySelectedException(this, option);",
+                        "        }",
+                        "        selected = option.getKey();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "AlreadySelectedException"
+                    ],
+                    "signature": "setSelected(final Option option)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Option",
+                            "name": "option"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "544-547:getKey"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.AlreadySelectedException",
+                            "23-82:AlreadySelectedException",
+                            "43-46:AlreadySelectedException"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "AlreadySelectedException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Option|option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "122-154:toString": {
+                    "start": 122,
+                    "end": 154,
+                    "body": [
+                        "@Override",
+                        "    public String toString() {",
+                        "        final StringBuilder buff = new StringBuilder();",
+                        "",
+                        "        final Iterator<Option> iter = getOptions().iterator();",
+                        "",
+                        "        buff.append(\"[\");",
+                        "",
+                        "        while (iter.hasNext()) {",
+                        "            final Option option = iter.next();",
+                        "",
+                        "            if (option.getOpt() != null) {",
+                        "                buff.append(\"-\");",
+                        "                buff.append(option.getOpt());",
+                        "            } else {",
+                        "                buff.append(\"--\");",
+                        "                buff.append(option.getLongOpt());",
+                        "            }",
+                        "",
+                        "            if (option.getDescription() != null) {",
+                        "                buff.append(\" \");",
+                        "                buff.append(option.getDescription());",
+                        "            }",
+                        "",
+                        "            if (iter.hasNext()) {",
+                        "                buff.append(\", \");",
+                        "            }",
+                        "        }",
+                        "",
+                        "        buff.append(\"]\");",
+                        "",
+                        "        return buff.toString();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "StringBuilder",
+                        "Iterator<Option>",
+                        "Option"
+                    ],
+                    "signature": "toString()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionGroup",
+                            "29-155:OptionGroup",
+                            "67-70:getOptions"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collection",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "566-568:getOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "554-556:getLongOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "525-527:getDescription"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "StringBuilder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Iterator<Option>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "31-31:serialVersionUID": {
+                    "start": 31,
+                    "end": 31,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final long serialVersionUID = 1L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "long"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "34-34:optionMap": {
+                    "start": 34,
+                    "end": 34,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Map<String, Option> optionMap = new LinkedHashMap<>();"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Map<String, Option>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Map<String, Option>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "37-37:selected": {
+                    "start": 37,
+                    "end": 37,
+                    "enum_constant": false,
+                    "body": [
+                        "private String selected;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "40-40:required": {
+                    "start": 40,
+                    "end": 40,
+                    "enum_constant": false,
+                    "body": [
+                        "private boolean required;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/OptionGroup.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/OptionGroup.cj",
+    "import_map": {
+        "Serializable": "java.io.Serializable",
+        "Collection": "java.util.Collection",
+        "Iterator": "java.util.Iterator",
+        "LinkedHashMap": "java.util.LinkedHashMap",
+        "Map": "java.util.Map"
+    }
+}

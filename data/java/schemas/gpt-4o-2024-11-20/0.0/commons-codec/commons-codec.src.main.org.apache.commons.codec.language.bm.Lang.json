@@ -1,0 +1,1593 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/language/bm/Lang.java",
+    "imports": {
+        "20-20:import java.util.ArrayList;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.ArrayList;"
+        },
+        "21-21:import java.util.Arrays;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.Arrays;"
+        },
+        "22-22:import java.util.Collections;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.Collections;"
+        },
+        "23-23:import java.util.EnumMap;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.EnumMap;"
+        },
+        "24-24:import java.util.HashSet;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.util.HashSet;"
+        },
+        "25-25:import java.util.List;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.util.List;"
+        },
+        "26-26:import java.util.Locale;": {
+            "start": 26,
+            "end": 26,
+            "body": "import java.util.Locale;"
+        },
+        "27-27:import java.util.Map;": {
+            "start": 27,
+            "end": 27,
+            "body": "import java.util.Map;"
+        },
+        "28-28:import java.util.Scanner;": {
+            "start": 28,
+            "end": 28,
+            "body": "import java.util.Scanner;"
+        },
+        "29-29:import java.util.Set;": {
+            "start": 29,
+            "end": 29,
+            "body": "import java.util.Set;"
+        },
+        "30-30:import java.util.regex.Pattern;": {
+            "start": 30,
+            "end": 30,
+            "body": "import java.util.regex.Pattern;"
+        },
+        "32-32:import org.apache.commons.codec.Resources;": {
+            "start": 32,
+            "end": 32,
+            "body": "import org.apache.commons.codec.Resources;"
+        }
+    },
+    "classes": {
+        "71-221:Lang": {
+            "start": 71,
+            "end": 221,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [
+                "80-94:LangRule"
+            ],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "113-115:instance": {
+                    "start": 113,
+                    "end": 115,
+                    "body": [
+                        "public static Lang instance(final NameType nameType) {",
+                        "        return Langs.get(nameType);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "Lang"
+                    ],
+                    "body_types": [],
+                    "signature": "instance(final NameType nameType)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "NameType",
+                            "name": "nameType"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Map",
+                            "get(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Lang": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|NameType|nameType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "129-175:loadFromResource": {
+                    "start": 129,
+                    "end": 175,
+                    "body": [
+                        "public static Lang loadFromResource(final String languageRulesResourceName, final Languages languages) {",
+                        "        final List<LangRule> rules = new ArrayList<>();",
+                        "        try (final Scanner scanner = new Scanner(Resources.getInputStream(languageRulesResourceName),",
+                        "                ResourceConstants.ENCODING)) {",
+                        "            boolean inExtendedComment = false;",
+                        "            while (scanner.hasNextLine()) {",
+                        "                final String rawLine = scanner.nextLine();",
+                        "                String line = rawLine;",
+                        "                if (inExtendedComment) {",
+                        "                    // check for closing comment marker, otherwise discard doc comment line",
+                        "                    if (line.endsWith(ResourceConstants.EXT_CMT_END)) {",
+                        "                        inExtendedComment = false;",
+                        "                    }",
+                        "                } else if (line.startsWith(ResourceConstants.EXT_CMT_START)) {",
+                        "                    inExtendedComment = true;",
+                        "                } else {",
+                        "                    // discard comments",
+                        "                    final int cmtI = line.indexOf(ResourceConstants.CMT);",
+                        "                    if (cmtI >= 0) {",
+                        "                        line = line.substring(0, cmtI);",
+                        "                    }",
+                        "",
+                        "                    // trim leading-trailing whitespace",
+                        "                    line = line.trim();",
+                        "",
+                        "                    if (line.isEmpty()) {",
+                        "                        continue; // empty lines can be safely skipped",
+                        "                    }",
+                        "",
+                        "                    // split it up",
+                        "                    final String[] parts = line.split(\"\\\\s+\");",
+                        "",
+                        "                    if (parts.length != 3) {",
+                        "                        throw new IllegalArgumentException(\"Malformed line '\" + rawLine +",
+                        "                                \"' in language resource '\" + languageRulesResourceName + \"'\");",
+                        "                    }",
+                        "",
+                        "                    final Pattern pattern = Pattern.compile(parts[0]);",
+                        "                    final String[] langs = parts[1].split(\"\\\\+\");",
+                        "                    final boolean accept = parts[2].equals(\"true\");",
+                        "",
+                        "                    rules.add(new LangRule(pattern, new HashSet<>(Arrays.asList(langs)), accept));",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "        return new Lang(rules, languages);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "Lang"
+                    ],
+                    "body_types": [
+                        "List<LangRule>",
+                        "ArrayList<>",
+                        "Scanner",
+                        "boolean",
+                        "String",
+                        "int",
+                        "String[]",
+                        "IllegalArgumentException",
+                        "Pattern",
+                        "LangRule",
+                        "HashSet<>",
+                        "Lang"
+                    ],
+                    "signature": "loadFromResource(final String languageRulesResourceName, final Languages languages)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "languageRulesResourceName"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "Languages",
+                            "name": "languages"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.Resources",
+                            "27-42:Resources",
+                            "35-41:getInputStream"
+                        ],
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "<init>(java.io.InputStream,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "hasNextLine()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "nextLine()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "endsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "indexOf(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "trim()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "isEmpty()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "split(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.IllegalArgumentException",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.regex.Pattern",
+                            "compile(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Arrays",
+                            "asList(java.lang.Object[])"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashSet",
+                            "<init>(java.util.Collection)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Lang",
+                            "80-94:LangRule",
+                            "85-89:LangRule"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Lang",
+                            "71-221:Lang",
+                            "180-183:Lang"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Lang": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "List<LangRule>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ArrayList<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Scanner": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IllegalArgumentException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "LangRule": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "HashSet<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Lang": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|languageRulesResourceName": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|Languages|languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "180-183:Lang": {
+                    "start": 180,
+                    "end": 183,
+                    "body": [
+                        "private Lang(final List<LangRule> rules, final Languages languages) {",
+                        "        this.rules = Collections.unmodifiableList(rules);",
+                        "        this.languages = languages;",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "Lang(final List<LangRule> rules, final Languages languages)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "List<LangRule>",
+                            "name": "rules"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "Languages",
+                            "name": "languages"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collections",
+                            "unmodifiableList(java.util.List)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|List<LangRule>|rules": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|Languages|languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "192-195:guessLanguage": {
+                    "start": 192,
+                    "end": 195,
+                    "body": [
+                        "public String guessLanguage(final String text) {",
+                        "        final Languages.LanguageSet ls = guessLanguages(text);",
+                        "        return ls.isSingleton() ? ls.getAny() : Languages.ANY;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "Languages.LanguageSet",
+                        "Languages",
+                        "LanguageSet"
+                    ],
+                    "signature": "guessLanguage(final String text)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "text"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Lang",
+                            "71-221:Lang",
+                            "204-220:guessLanguages"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "66-83:LanguageSet",
+                            "78-78:isSingleton"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "66-83:LanguageSet",
+                            "74-74:getAny"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Languages.LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|text": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "204-220:guessLanguages": {
+                    "start": 204,
+                    "end": 220,
+                    "body": [
+                        "public Languages.LanguageSet guessLanguages(final String input) {",
+                        "        final String text = input.toLowerCase(Locale.ENGLISH);",
+                        "",
+                        "        final Set<String> langs = new HashSet<>(this.languages.getLanguages());",
+                        "        for (final LangRule rule : this.rules) {",
+                        "            if (rule.matches(text)) {",
+                        "                if (rule.acceptOnMatch) {",
+                        "                    langs.retainAll(rule.languages);",
+                        "                } else {",
+                        "                    langs.removeAll(rule.languages);",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "",
+                        "        final Languages.LanguageSet ls = Languages.LanguageSet.from(langs);",
+                        "        return ls.equals(Languages.NO_LANGUAGES) ? Languages.ANY_LANGUAGE : ls;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Languages.LanguageSet"
+                    ],
+                    "body_types": [
+                        "String",
+                        "Set<String>",
+                        "HashSet<>",
+                        "LangRule",
+                        "Languages.LanguageSet",
+                        "Languages",
+                        "LanguageSet"
+                    ],
+                    "signature": "guessLanguages(final String input)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "input"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toLowerCase(java.util.Locale)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "55-287:Languages",
+                            "284-286:getLanguages"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashSet",
+                            "<init>(java.util.Collection)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Lang",
+                            "80-94:LangRule",
+                            "91-93:matches"
+                        ],
+                        [
+                            "library",
+                            "java.util.Set",
+                            "retainAll(java.util.Collection)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Set",
+                            "removeAll(java.util.Collection)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "66-83:LanguageSet",
+                            "68-70:from"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "equals(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Languages.LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "HashSet<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "LangRule": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Languages.LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|input": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "96-96:Langs": {
+                    "start": 96,
+                    "end": 96,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Map<NameType, Lang> Langs = new EnumMap<>(NameType.class);"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Map<NameType, Lang>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Map<NameType, Lang>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "98-98:LANGUAGE_RULES_RN": {
+                    "start": 98,
+                    "end": 98,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final String LANGUAGE_RULES_RN = \"org/apache/commons/codec/language/bm/%s_lang.txt\";"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "177-177:languages": {
+                    "start": 177,
+                    "end": 177,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Languages languages;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Languages"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "178-178:rules": {
+                    "start": 178,
+                    "end": 178,
+                    "enum_constant": false,
+                    "body": [
+                        "private final List<LangRule> rules;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "List<LangRule>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "List<LangRule>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            },
+            "static_initializers": {
+                "100-104:run_static_init": {
+                    "start": 100,
+                    "end": 104,
+                    "body": [
+                        "static {",
+                        "        for (final NameType s : NameType.values()) {",
+                        "            Langs.put(s, loadFromResource(String.format(LANGUAGE_RULES_RN, s.getName()), Languages.getInstance(s)));",
+                        "        }",
+                        "    }"
+                    ],
+                    "type_translations": {},
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        },
+        "80-94:LangRule": {
+            "start": 80,
+            "end": 94,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "private",
+                "static",
+                "final"
+            ],
+            "nested_inside": "71-221:Lang",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "85-89:LangRule": {
+                    "start": 85,
+                    "end": 89,
+                    "body": [
+                        "private LangRule(final Pattern pattern, final Set<String> languages, final boolean acceptOnMatch) {",
+                        "            this.pattern = pattern;",
+                        "            this.languages = languages;",
+                        "            this.acceptOnMatch = acceptOnMatch;",
+                        "        }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "LangRule(final Pattern pattern, final Set<String> languages, final boolean acceptOnMatch)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Pattern",
+                            "name": "pattern"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "Set<String>",
+                            "name": "languages"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "acceptOnMatch"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Lang",
+                            "80-94:LangRule",
+                            "85-89:LangRule"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|Pattern|pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|Set<String>|languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|acceptOnMatch": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "91-93:matches": {
+                    "start": 91,
+                    "end": 93,
+                    "body": [
+                        "public boolean matches(final String txt) {",
+                        "            return this.pattern.matcher(txt).find();",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "matches(final String txt)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "txt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.regex.Pattern",
+                            "matcher(java.lang.CharSequence)"
+                        ],
+                        [
+                            "library",
+                            "java.util.regex.Matcher",
+                            "find()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|txt": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "81-81:acceptOnMatch": {
+                    "start": 81,
+                    "end": 81,
+                    "enum_constant": false,
+                    "body": [
+                        "private final boolean acceptOnMatch;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "82-82:languages": {
+                    "start": 82,
+                    "end": 82,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Set<String> languages;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Set<String>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "83-83:pattern": {
+                    "start": 83,
+                    "end": 83,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Pattern pattern;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Pattern"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Pattern": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/bm/Lang.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/bm/Lang.cj",
+    "import_map": {
+        "ArrayList": "java.util.ArrayList",
+        "Arrays": "java.util.Arrays",
+        "Collections": "java.util.Collections",
+        "EnumMap": "java.util.EnumMap",
+        "HashSet": "java.util.HashSet",
+        "List": "java.util.List",
+        "Locale": "java.util.Locale",
+        "Map": "java.util.Map",
+        "Scanner": "java.util.Scanner",
+        "Set": "java.util.Set",
+        "Pattern": "java.util.regex.Pattern",
+        "Resources": "org.apache.commons.codec.Resources"
+    }
+}

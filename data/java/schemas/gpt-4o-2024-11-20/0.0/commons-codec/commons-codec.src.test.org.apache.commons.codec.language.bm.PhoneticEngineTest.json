@@ -1,0 +1,769 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/language/bm/PhoneticEngineTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertEquals;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "21-21:import static org.junit.Assert.assertTrue;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "23-23:import java.util.Arrays;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.Arrays;"
+        },
+        "24-24:import java.util.List;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.util.List;"
+        },
+        "26-26:import org.junit.Test;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.junit.Test;"
+        },
+        "27-27:import org.junit.runner.RunWith;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.junit.runner.RunWith;"
+        },
+        "28-28:import org.junit.runners.Parameterized;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.junit.runners.Parameterized;"
+        }
+    },
+    "classes": {
+        "35-101:PhoneticEngineTest": {
+            "start": 35,
+            "end": 101,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@RunWith(Parameterized.class)",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "40-61:data": {
+                    "start": 40,
+                    "end": 61,
+                    "body": [
+                        "@Parameterized.Parameters(name = \"{0}-{1}-{2}-{3}\")",
+                        "    public static List<Object[]> data() {",
+                        "        return Arrays",
+                        "                .asList(new Object[] { \"Renault\", \"rinD|rinDlt|rina|rinalt|rino|rinolt|rinu|rinult\", NameType.GENERIC, RuleType.APPROX, Boolean.TRUE, TEN },",
+                        "                        new Object[] { \"Renault\", \"rYnDlt|rYnalt|rYnult|rinDlt|rinalt|rinolt|rinult\", NameType.ASHKENAZI, RuleType.APPROX, Boolean.TRUE, TEN },",
+                        "                        new Object[] { \"Renault\", \"rinDlt\", NameType.ASHKENAZI, RuleType.APPROX, Boolean.TRUE, Integer.valueOf(1) },",
+                        "                        new Object[] { \"Renault\", \"rinDlt\", NameType.SEPHARDIC, RuleType.APPROX, Boolean.TRUE, TEN },",
+                        "                        new Object[] { \"SntJohn-Smith\", \"sntjonsmit\", NameType.GENERIC, RuleType.EXACT, Boolean.TRUE, TEN },",
+                        "                        new Object[] { \"d'ortley\", \"(ortlaj|ortlej)-(dortlaj|dortlej)\", NameType.GENERIC, RuleType.EXACT, Boolean.TRUE, TEN },",
+                        "                        new Object[] {",
+                        "                                \"van helsing\",",
+                        "                                \"(elSink|elsink|helSink|helsink|helzink|xelsink)-(banhelsink|fanhelsink|fanhelzink|vanhelsink|vanhelzink|vanjelsink)\",",
+                        "                                NameType.GENERIC,",
+                        "                                RuleType.EXACT,",
+                        "                                Boolean.FALSE, TEN },",
+                        "                        new Object[] {",
+                        "                                \"Judenburg\",",
+                        "                                \"iudnbYrk|iudnbirk|iudnburk|xudnbirk|xudnburk|zudnbirk|zudnburk\",",
+                        "                                NameType.GENERIC,",
+                        "                                RuleType.APPROX,",
+                        "                                Boolean.TRUE, TEN });",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Parameterized.Parameters(name = \"{0}-{1}-{2}-{3}\")"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "List<Object[]>"
+                    ],
+                    "body_types": [
+                        "Object"
+                    ],
+                    "signature": "data()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Integer",
+                            "valueOf(int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Arrays",
+                            "asList(java.lang.Object[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "List<Object[]>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "70-78:PhoneticEngineTest": {
+                    "start": 70,
+                    "end": 78,
+                    "body": [
+                        "public PhoneticEngineTest(final String name, final String phoneticExpected, final NameType nameType,",
+                        "                              final RuleType ruleType, final boolean concat, final int maxPhonemes) {",
+                        "        this.name = name;",
+                        "        this.phoneticExpected = phoneticExpected;",
+                        "        this.nameType = nameType;",
+                        "        this.ruleType = ruleType;",
+                        "        this.concat = concat;",
+                        "        this.maxPhonemes = maxPhonemes;",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "PhoneticEngineTest(final String name, final String phoneticExpected, final NameType nameType, final RuleType ruleType, final boolean concat, final int maxPhonemes)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "name"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "phoneticExpected"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "NameType",
+                            "name": "nameType"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "RuleType",
+                            "name": "ruleType"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "concat"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "maxPhonemes"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|name": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|phoneticExpected": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|NameType|nameType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|RuleType|ruleType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|concat": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|maxPhonemes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "80-100:testEncode": {
+                    "start": 80,
+                    "end": 100,
+                    "body": [
+                        "@Test(timeout = 10000L)",
+                        "    public void testEncode() {",
+                        "        final PhoneticEngine engine = new PhoneticEngine(this.nameType, this.ruleType, this.concat, this.maxPhonemes);",
+                        "",
+                        "        final String phoneticActual = engine.encode(this.name);",
+                        "",
+                        "        //System.err.println(\"expecting: \" + this.phoneticExpected);",
+                        "        //System.err.println(\"actual:    \" + phoneticActual);",
+                        "        assertEquals(\"phoneme incorrect\", this.phoneticExpected, phoneticActual);",
+                        "",
+                        "        if (this.concat) {",
+                        "            final String[] split = phoneticActual.split(\"\\\\|\");",
+                        "            assertTrue(split.length <= this.maxPhonemes);",
+                        "        } else {",
+                        "            final String[] words = phoneticActual.split(\"-\");",
+                        "            for (final String word : words) {",
+                        "                final String[] split = word.split(\"\\\\|\");",
+                        "                assertTrue(split.length <= this.maxPhonemes);",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(timeout = 10000L)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "PhoneticEngine",
+                        "String",
+                        "String[]"
+                    ],
+                    "signature": "testEncode()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.PhoneticEngine",
+                            "53-525:PhoneticEngine",
+                            "290-292:PhoneticEngine"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.PhoneticEngine",
+                            "53-525:PhoneticEngine",
+                            "379-382:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "split(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "PhoneticEngine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "38-38:TEN": {
+                    "start": 38,
+                    "end": 38,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Integer TEN = Integer.valueOf(10);"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Integer"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Integer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "63-63:concat": {
+                    "start": 63,
+                    "end": 63,
+                    "enum_constant": false,
+                    "body": [
+                        "private final boolean concat;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "64-64:name": {
+                    "start": 64,
+                    "end": 64,
+                    "enum_constant": false,
+                    "body": [
+                        "private final String name;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "65-65:nameType": {
+                    "start": 65,
+                    "end": 65,
+                    "enum_constant": false,
+                    "body": [
+                        "private final NameType nameType;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "NameType"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "NameType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "66-66:phoneticExpected": {
+                    "start": 66,
+                    "end": 66,
+                    "enum_constant": false,
+                    "body": [
+                        "private final String phoneticExpected;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "67-67:ruleType": {
+                    "start": 67,
+                    "end": 67,
+                    "enum_constant": false,
+                    "body": [
+                        "private final RuleType ruleType;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "RuleType"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "RuleType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "68-68:maxPhonemes": {
+                    "start": 68,
+                    "end": 68,
+                    "enum_constant": false,
+                    "body": [
+                        "private final int maxPhonemes;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/bm/PhoneticEngineTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/bm/PhoneticEngineTest_test.cj",
+    "import_map": {
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "Arrays": "java.util.Arrays",
+        "List": "java.util.List",
+        "Test": "org.junit.Test",
+        "RunWith": "org.junit.runner.RunWith",
+        "Parameterized": "org.junit.runners.Parameterized"
+    }
+}

@@ -1,0 +1,609 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/test/java/org/apache/commons/cli/ArgumentIsOptionTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertEquals;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "21-21:import static org.junit.Assert.assertFalse;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertFalse;"
+        },
+        "22-22:import static org.junit.Assert.assertTrue;": {
+            "start": 22,
+            "end": 22,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "24-24:import org.junit.Before;": {
+            "start": 24,
+            "end": 24,
+            "body": "import org.junit.Before;"
+        },
+        "25-25:import org.junit.Test;": {
+            "start": 25,
+            "end": 25,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "27-70:ArgumentIsOptionTest": {
+            "start": 27,
+            "end": 70,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@SuppressWarnings(\"deprecation\")",
+                "// tests some deprecated classes",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "33-37:setUp": {
+                    "start": 33,
+                    "end": 37,
+                    "body": [
+                        "@Before",
+                        "    public void setUp() {",
+                        "        options = new Options().addOption(\"p\", false, \"Option p\").addOption(\"attr\", true, \"Option accepts argument\");",
+                        "        parser = new PosixParser();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Before"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options",
+                        "PosixParser"
+                    ],
+                    "signature": "setUp()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "PosixParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "39-47:testOption": {
+                    "start": 39,
+                    "end": 47,
+                    "body": [
+                        "@Test",
+                        "    public void testOption() throws Exception {",
+                        "        final String[] args = {\"-p\"};",
+                        "",
+                        "        final CommandLine cl = parser.parse(options, args);",
+                        "        assertTrue(\"Confirm -p is set\", cl.hasOption(\"p\"));",
+                        "        assertFalse(\"Confirm -attr is not set\", cl.hasOption(\"attr\"));",
+                        "        assertEquals(\"Confirm all arguments recognized\", 0, cl.getArgs().length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String[]",
+                        "CommandLine"
+                    ],
+                    "signature": "testOption()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLineParser",
+                            "24-85:CommandLineParser",
+                            "35-35:parse"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "414-416:hasOption"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(java.lang.String,boolean)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertFalse(java.lang.String,boolean)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "125-131:getArgs"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "49-58:testOptionAndOptionWithArgument": {
+                    "start": 49,
+                    "end": 58,
+                    "body": [
+                        "@Test",
+                        "    public void testOptionAndOptionWithArgument() throws Exception {",
+                        "        final String[] args = {\"-p\", \"-attr\", \"p\"};",
+                        "",
+                        "        final CommandLine cl = parser.parse(options, args);",
+                        "        assertTrue(\"Confirm -p is set\", cl.hasOption(\"p\"));",
+                        "        assertTrue(\"Confirm -attr is set\", cl.hasOption(\"attr\"));",
+                        "        assertEquals(\"Confirm arg of -attr\", \"p\", cl.getOptionValue(\"attr\"));",
+                        "        assertEquals(\"Confirm all arguments recognized\", 0, cl.getArgs().length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String[]",
+                        "CommandLine"
+                    ],
+                    "signature": "testOptionAndOptionWithArgument()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLineParser",
+                            "24-85:CommandLineParser",
+                            "35-35:parse"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "414-416:hasOption"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(java.lang.String,boolean)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "241-243:getOptionValue"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "125-131:getArgs"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "60-69:testOptionWithArgument": {
+                    "start": 60,
+                    "end": 69,
+                    "body": [
+                        "@Test",
+                        "    public void testOptionWithArgument() throws Exception {",
+                        "        final String[] args = {\"-attr\", \"p\"};",
+                        "",
+                        "        final CommandLine cl = parser.parse(options, args);",
+                        "        assertFalse(\"Confirm -p is set\", cl.hasOption(\"p\"));",
+                        "        assertTrue(\"Confirm -attr is set\", cl.hasOption(\"attr\"));",
+                        "        assertEquals(\"Confirm arg of -attr\", \"p\", cl.getOptionValue(\"attr\"));",
+                        "        assertEquals(\"Confirm all arguments recognized\", 0, cl.getArgs().length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String[]",
+                        "CommandLine"
+                    ],
+                    "signature": "testOptionWithArgument()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLineParser",
+                            "24-85:CommandLineParser",
+                            "35-35:parse"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "414-416:hasOption"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertFalse(java.lang.String,boolean)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(java.lang.String,boolean)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "241-243:getOptionValue"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "125-131:getArgs"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "30-30:options": {
+                    "start": 30,
+                    "end": 30,
+                    "enum_constant": false,
+                    "body": [
+                        "private Options options;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "Options"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "31-31:parser": {
+                    "start": 31,
+                    "end": 31,
+                    "enum_constant": false,
+                    "body": [
+                        "private CommandLineParser parser;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "CommandLineParser"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "CommandLineParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/ArgumentIsOptionTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/ArgumentIsOptionTest_test.cj",
+    "import_map": {
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertFalse": "static org.junit.Assert.assertFalse",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "Before": "org.junit.Before",
+        "Test": "org.junit.Test"
+    }
+}

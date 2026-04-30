@@ -1,0 +1,2758 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/net/QuotedPrintableCodecTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.*;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.*;"
+        },
+        "22-22:import java.nio.charset.StandardCharsets;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.nio.charset.StandardCharsets;"
+        },
+        "23-23:import java.nio.charset.UnsupportedCharsetException;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.nio.charset.UnsupportedCharsetException;"
+        },
+        "25-25:import org.apache.commons.codec.CharEncoding;": {
+            "start": 25,
+            "end": 25,
+            "body": "import org.apache.commons.codec.CharEncoding;"
+        },
+        "26-26:import org.apache.commons.codec.DecoderException;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.apache.commons.codec.DecoderException;"
+        },
+        "27-27:import org.apache.commons.codec.EncoderException;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.apache.commons.codec.EncoderException;"
+        },
+        "28-28:import org.junit.Test;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "34-335:QuotedPrintableCodecTest": {
+            "start": 34,
+            "end": 335,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "45-53:constructString": {
+                    "start": 45,
+                    "end": 53,
+                    "body": [
+                        "private String constructString(final int [] unicodeChars) {",
+                        "        final StringBuilder buffer = new StringBuilder();",
+                        "        if (unicodeChars != null) {",
+                        "            for (final int unicodeChar : unicodeChars) {",
+                        "                buffer.append((char)unicodeChar);",
+                        "            }",
+                        "        }",
+                        "        return buffer.toString();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "StringBuilder",
+                        "int",
+                        "char"
+                    ],
+                    "signature": "constructString(final int [] unicodeChars)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int []",
+                            "name": "unicodeChars"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "StringBuilder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|int []|unicodeChars": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "55-71:testUTF8RoundTrip": {
+                    "start": 55,
+                    "end": 71,
+                    "body": [
+                        "@Test",
+                        "    public void testUTF8RoundTrip() throws Exception {",
+                        "",
+                        "        final String ru_msg = constructString(RUSSIAN_STUFF_UNICODE);",
+                        "        final String ch_msg = constructString(SWISS_GERMAN_STUFF_UNICODE);",
+                        "",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "",
+                        "        assertEquals(",
+                        "            \"=D0=92=D1=81=D0=B5=D0=BC_=D0=BF=D1=80=D0=B8=D0=B2=D0=B5=D1=82\",",
+                        "        qpcodec.encode(ru_msg, CharEncoding.UTF_8)",
+                        "        );",
+                        "        assertEquals(\"Gr=C3=BCezi_z=C3=A4m=C3=A4\", qpcodec.encode(ch_msg, CharEncoding.UTF_8));",
+                        "",
+                        "        assertEquals(ru_msg, qpcodec.decode(qpcodec.encode(ru_msg, CharEncoding.UTF_8), CharEncoding.UTF_8));",
+                        "        assertEquals(ch_msg, qpcodec.decode(qpcodec.encode(ch_msg, CharEncoding.UTF_8), CharEncoding.UTF_8));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "QuotedPrintableCodec"
+                    ],
+                    "signature": "testUTF8RoundTrip()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.net.QuotedPrintableCodecTest",
+                            "34-335:QuotedPrintableCodecTest",
+                            "45-53:constructString"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "73-82:testBasicEncodeDecode": {
+                    "start": 73,
+                    "end": 82,
+                    "body": [
+                        "@Test",
+                        "    public void testBasicEncodeDecode() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final String plain = \"= Hello there =\\r\\n\";",
+                        "        final String encoded = qpcodec.encode(plain);",
+                        "        assertEquals(\"Basic quoted-printable encoding test\",",
+                        "            \"=3D Hello there =3D=0D=0A\", encoded);",
+                        "        assertEquals(\"Basic quoted-printable decoding test\",",
+                        "            plain, qpcodec.decode(encoded));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testBasicEncodeDecode()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "84-93:testSafeCharEncodeDecode": {
+                    "start": 84,
+                    "end": 93,
+                    "body": [
+                        "@Test",
+                        "    public void testSafeCharEncodeDecode() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final String plain = \"abc123_-.*~!@#$%^&()+{}\\\"\\\\;:`,/[]\";",
+                        "        final String encoded = qpcodec.encode(plain);",
+                        "        assertEquals(\"Safe chars quoted-printable encoding test\",",
+                        "            plain, encoded);",
+                        "        assertEquals(\"Safe chars quoted-printable decoding test\",",
+                        "            plain, qpcodec.decode(encoded));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testSafeCharEncodeDecode()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "96-105:testUnsafeEncodeDecode": {
+                    "start": 96,
+                    "end": 105,
+                    "body": [
+                        "@Test",
+                        "    public void testUnsafeEncodeDecode() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final String plain = \"=\\r\\n\";",
+                        "        final String encoded = qpcodec.encode(plain);",
+                        "        assertEquals(\"Unsafe chars quoted-printable encoding test\",",
+                        "            \"=3D=0D=0A\", encoded);",
+                        "        assertEquals(\"Unsafe chars quoted-printable decoding test\",",
+                        "            plain, qpcodec.decode(encoded));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testUnsafeEncodeDecode()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "107-114:testEncodeDecodeNull": {
+                    "start": 107,
+                    "end": 114,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeDecodeNull() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        assertNull(\"Null string quoted-printable encoding test\",",
+                        "            qpcodec.encode((String)null));",
+                        "        assertNull(\"Null string quoted-printable decoding test\",",
+                        "            qpcodec.decode((String)null));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testEncodeDecodeNull()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNull(java.lang.String,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "117-138:testDecodeInvalid": {
+                    "start": 117,
+                    "end": 138,
+                    "body": [
+                        "@Test",
+                        "    public void testDecodeInvalid() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        try {",
+                        "            qpcodec.decode(\"=\");",
+                        "            fail(\"DecoderException should have been thrown\");",
+                        "        } catch (final DecoderException e) {",
+                        "            // Expected. Move on",
+                        "        }",
+                        "        try {",
+                        "            qpcodec.decode(\"=A\");",
+                        "            fail(\"DecoderException should have been thrown\");",
+                        "        } catch (final DecoderException e) {",
+                        "            // Expected. Move on",
+                        "        }",
+                        "        try {",
+                        "            qpcodec.decode(\"=WW\");",
+                        "            fail(\"DecoderException should have been thrown\");",
+                        "        } catch (final DecoderException e) {",
+                        "            // Expected. Move on",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "DecoderException"
+                    ],
+                    "signature": "testDecodeInvalid()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "140-146:testEncodeNull": {
+                    "start": 140,
+                    "end": 146,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeNull() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final byte[] plain = null;",
+                        "        final byte[] encoded = qpcodec.encode(plain);",
+                        "        assertNull(\"Encoding a null string should return null\", encoded);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "testEncodeNull()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNull(java.lang.String,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "148-159:testEncodeUrlWithNullBitSet": {
+                    "start": 148,
+                    "end": 159,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeUrlWithNullBitSet() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final String plain = \"1+1 = 2\";",
+                        "        final String encoded = new String(QuotedPrintableCodec.",
+                        "            encodeQuotedPrintable(null, plain.getBytes(StandardCharsets.UTF_8)));",
+                        "        assertEquals(\"Basic quoted-printable encoding test\",",
+                        "            \"1+1 =3D 2\", encoded);",
+                        "        assertEquals(\"Basic quoted-printable decoding test\",",
+                        "            plain, qpcodec.decode(encoded));",
+                        "",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testEncodeUrlWithNullBitSet()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "187-194:encodeQuotedPrintable"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "161-166:testDecodeWithNullArray": {
+                    "start": 161,
+                    "end": 166,
+                    "body": [
+                        "@Test",
+                        "    public void testDecodeWithNullArray() throws Exception {",
+                        "        final byte[] plain = null;",
+                        "        final byte[] result = QuotedPrintableCodec.decodeQuotedPrintable( plain );",
+                        "        assertNull(\"Result should be null\", result);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "testDecodeWithNullArray()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "357-382:decodeQuotedPrintable"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNull(java.lang.String,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "168-174:testEncodeStringWithNull": {
+                    "start": 168,
+                    "end": 174,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeStringWithNull() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final String test = null;",
+                        "        final String result = qpcodec.encode( test, \"charset\" );",
+                        "        assertNull(\"Result should be null\", result);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testEncodeStringWithNull()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNull(java.lang.String,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "176-182:testDecodeStringWithNull": {
+                    "start": 176,
+                    "end": 182,
+                    "body": [
+                        "@Test",
+                        "    public void testDecodeStringWithNull() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final String test = null;",
+                        "        final String result = qpcodec.decode( test, \"charset\" );",
+                        "        assertNull(\"Result should be null\", result);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testDecodeStringWithNull()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNull(java.lang.String,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "184-208:testEncodeObjects": {
+                    "start": 184,
+                    "end": 208,
+                    "body": [
+                        "@Test",
+                        "    public void testEncodeObjects() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final String plain = \"1+1 = 2\";",
+                        "        String encoded = (String) qpcodec.encode((Object) plain);",
+                        "        assertEquals(\"Basic quoted-printable encoding test\",",
+                        "            \"1+1 =3D 2\", encoded);",
+                        "",
+                        "        final byte[] plainBA = plain.getBytes(StandardCharsets.UTF_8);",
+                        "        final byte[] encodedBA = (byte[]) qpcodec.encode((Object) plainBA);",
+                        "        encoded = new String(encodedBA);",
+                        "        assertEquals(\"Basic quoted-printable encoding test\",",
+                        "            \"1+1 =3D 2\", encoded);",
+                        "",
+                        "        final Object result = qpcodec.encode((Object) null);",
+                        "        assertNull(\"Encoding a null Object should return null\", result);",
+                        "",
+                        "        try {",
+                        "            final Object dObj = Double.valueOf(3.0d);",
+                        "            qpcodec.encode( dObj );",
+                        "            fail( \"Trying to url encode a Double object should cause an exception.\");",
+                        "        } catch (final EncoderException ee) {",
+                        "            // Exception expected, test segment passes.",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String",
+                        "Object",
+                        "byte[]",
+                        "byte",
+                        "EncoderException"
+                    ],
+                    "signature": "testEncodeObjects()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNull(java.lang.String,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Double",
+                            "valueOf(double)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "EncoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "210-213:testInvalidEncoding": {
+                    "start": 210,
+                    "end": 213,
+                    "body": [
+                        "@Test(expected=UnsupportedCharsetException.class)",
+                        "    public void testInvalidEncoding() {",
+                        "        new QuotedPrintableCodec(\"NONSENSE\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected=UnsupportedCharsetException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec"
+                    ],
+                    "signature": "testInvalidEncoding()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "215-239:testDecodeObjects": {
+                    "start": 215,
+                    "end": 239,
+                    "body": [
+                        "@Test",
+                        "    public void testDecodeObjects() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        final String plain = \"1+1 =3D 2\";",
+                        "        String decoded = (String) qpcodec.decode((Object) plain);",
+                        "        assertEquals(\"Basic quoted-printable decoding test\",",
+                        "            \"1+1 = 2\", decoded);",
+                        "",
+                        "        final byte[] plainBA = plain.getBytes(StandardCharsets.UTF_8);",
+                        "        final byte[] decodedBA = (byte[]) qpcodec.decode((Object) plainBA);",
+                        "        decoded = new String(decodedBA);",
+                        "        assertEquals(\"Basic quoted-printable decoding test\",",
+                        "            \"1+1 = 2\", decoded);",
+                        "",
+                        "        final Object result = qpcodec.decode((Object) null);",
+                        "        assertNull(\"Decoding a null Object should return null\", result);",
+                        "",
+                        "        try {",
+                        "            final Object dObj = Double.valueOf(3.0d);",
+                        "            qpcodec.decode( dObj );",
+                        "            fail( \"Trying to url encode a Double object should cause an exception.\");",
+                        "        } catch (final DecoderException ee) {",
+                        "            // Exception expected, test segment passes.",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String",
+                        "Object",
+                        "byte[]",
+                        "byte",
+                        "DecoderException"
+                    ],
+                    "signature": "testDecodeObjects()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[])"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNull(java.lang.String,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Double",
+                            "valueOf(double)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "241-249:testDefaultEncoding": {
+                    "start": 241,
+                    "end": 249,
+                    "body": [
+                        "@Test",
+                        "    public void testDefaultEncoding() throws Exception {",
+                        "        final String plain = \"Hello there!\";",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec(\"UnicodeBig\");",
+                        "        qpcodec.encode(plain); // To work around a weird quirk in Java 1.2.2",
+                        "        final String encoded1 = qpcodec.encode(plain, \"UnicodeBig\");",
+                        "        final String encoded2 = qpcodec.encode(plain);",
+                        "        assertEquals(encoded1, encoded2);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "QuotedPrintableCodec"
+                    ],
+                    "signature": "testDefaultEncoding()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "251-261:testSoftLineBreakDecode": {
+                    "start": 251,
+                    "end": 261,
+                    "body": [
+                        "@Test",
+                        "    public void testSoftLineBreakDecode() throws Exception {",
+                        "        final String qpdata = \"If you believe that truth=3Dbeauty, then surely=20=\\r\\nmathematics is the most beautiful branch of philosophy.\";",
+                        "        final String expected = \"If you believe that truth=beauty, then surely mathematics is the most beautiful branch of philosophy.\";",
+                        "",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec();",
+                        "        assertEquals(expected, qpcodec.decode(qpdata));",
+                        "",
+                        "        final String encoded = qpcodec.encode(expected);",
+                        "        assertEquals(expected, qpcodec.decode(encoded));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "QuotedPrintableCodec"
+                    ],
+                    "signature": "testSoftLineBreakDecode()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "263-273:testSoftLineBreakEncode": {
+                    "start": 263,
+                    "end": 273,
+                    "body": [
+                        "@Test",
+                        "    public void testSoftLineBreakEncode() throws Exception {",
+                        "        final String qpdata = \"If you believe that truth=3Dbeauty, then surely mathematics is the most b=\\r\\neautiful branch of philosophy.\";",
+                        "        final String expected = \"If you believe that truth=beauty, then surely mathematics is the most beautiful branch of philosophy.\";",
+                        "",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec(true);",
+                        "        assertEquals(qpdata, qpcodec.encode(expected));",
+                        "",
+                        "        final String decoded = qpcodec.decode(qpdata);",
+                        "        assertEquals(qpdata, qpcodec.encode(decoded));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "QuotedPrintableCodec"
+                    ],
+                    "signature": "testSoftLineBreakEncode()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "275-285:testSkipNotEncodedCRLF": {
+                    "start": 275,
+                    "end": 285,
+                    "body": [
+                        "@Test",
+                        "    public void testSkipNotEncodedCRLF() throws Exception {",
+                        "        final String qpdata = \"CRLF in an\\n encoded text should be=20=\\r\\n\\rskipped in the\\r decoding.\";",
+                        "        final String expected = \"CRLF in an encoded text should be skipped in the decoding.\";",
+                        "",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec(true);",
+                        "        assertEquals(expected, qpcodec.decode(qpdata));",
+                        "",
+                        "        final String encoded = qpcodec.encode(expected);",
+                        "        assertEquals(expected, qpcodec.decode(encoded));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "QuotedPrintableCodec"
+                    ],
+                    "signature": "testSkipNotEncodedCRLF()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "413-416:decode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "287-298:testTrailingSpecial": {
+                    "start": 287,
+                    "end": 298,
+                    "body": [
+                        "@Test",
+                        "    public void testTrailingSpecial() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec(true);",
+                        "",
+                        "        String plain =\"This is a example of a quoted-printable text file. This might contain sp=cial chars.\";",
+                        "        String expected = \"This is a example of a quoted-printable text file. This might contain sp=3D=\\r\\ncial chars.\";",
+                        "        assertEquals(expected, qpcodec.encode(plain));",
+                        "",
+                        "        plain =\"This is a example of a quoted-printable text file. This might contain ta\\tbs as well.\";",
+                        "        expected = \"This is a example of a quoted-printable text file. This might contain ta=09=\\r\\nbs as well.\";",
+                        "        assertEquals(expected, qpcodec.encode(plain));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testTrailingSpecial()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "300-325:testUltimateSoftBreak": {
+                    "start": 300,
+                    "end": 325,
+                    "body": [
+                        "@Test",
+                        "    public void testUltimateSoftBreak() throws Exception {",
+                        "        final QuotedPrintableCodec qpcodec = new QuotedPrintableCodec(true);",
+                        "",
+                        "        String plain =\"This is a example of a quoted-printable text file. There is no end to it\\t\";",
+                        "        String expected = \"This is a example of a quoted-printable text file. There is no end to i=\\r\\nt=09\";",
+                        "",
+                        "        assertEquals(expected, qpcodec.encode(plain));",
+                        "",
+                        "        plain =\"This is a example of a quoted-printable text file. There is no end to it \";",
+                        "        expected = \"This is a example of a quoted-printable text file. There is no end to i=\\r\\nt=20\";",
+                        "",
+                        "        assertEquals(expected, qpcodec.encode(plain));",
+                        "",
+                        "        // whitespace before soft break",
+                        "        plain =\"This is a example of a quoted-printable text file. There is no end to   \";",
+                        "        expected = \"This is a example of a quoted-printable text file. There is no end to=20=\\r\\n =20\";",
+                        "",
+                        "        assertEquals(expected, qpcodec.encode(plain));",
+                        "",
+                        "        // non-printable character before soft break",
+                        "        plain =\"This is a example of a quoted-printable text file. There is no end to=  \";",
+                        "        expected = \"This is a example of a quoted-printable text file. There is no end to=3D=\\r\\n =20\";",
+                        "",
+                        "        assertEquals(expected, qpcodec.encode(plain));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "QuotedPrintableCodec",
+                        "String"
+                    ],
+                    "signature": "testUltimateSoftBreak()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "327-334:testFinalBytes": {
+                    "start": 327,
+                    "end": 334,
+                    "body": [
+                        "@Test",
+                        "    public void testFinalBytes() throws Exception {",
+                        "        // whitespace, but does not need to be encoded",
+                        "        final String plain =\"This is a example of a quoted=printable text file. There is no tt\";",
+                        "        final String expected = \"This is a example of a quoted=3Dprintable text file. There is no tt\";",
+                        "",
+                        "        assertEquals(expected, new QuotedPrintableCodec(true).encode(plain));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "QuotedPrintableCodec"
+                    ],
+                    "signature": "testFinalBytes()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "118-120:QuotedPrintableCodec"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.QuotedPrintableCodec",
+                            "71-610:QuotedPrintableCodec",
+                            "395-398:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "QuotedPrintableCodec": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "36-38:SWISS_GERMAN_STUFF_UNICODE": {
+                    "start": 36,
+                    "end": 38,
+                    "enum_constant": false,
+                    "body": [
+                        "static final int SWISS_GERMAN_STUFF_UNICODE [] = {",
+                        "        0x47, 0x72, 0xFC, 0x65, 0x7A, 0x69, 0x5F, 0x7A, 0xE4, 0x6D, 0xE4",
+                        "    };"
+                    ],
+                    "modifiers": [
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "40-43:RUSSIAN_STUFF_UNICODE": {
+                    "start": 40,
+                    "end": 43,
+                    "enum_constant": false,
+                    "body": [
+                        "static final int RUSSIAN_STUFF_UNICODE [] = {",
+                        "        0x412, 0x441, 0x435, 0x43C, 0x5F, 0x43F, 0x440, 0x438,",
+                        "        0x432, 0x435, 0x442",
+                        "    };"
+                    ],
+                    "modifiers": [
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/net/QuotedPrintableCodecTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/net/QuotedPrintableCodecTest_test.cj",
+    "import_map": {
+        "*": "static org.junit.Assert.*",
+        "StandardCharsets": "java.nio.charset.StandardCharsets",
+        "UnsupportedCharsetException": "java.nio.charset.UnsupportedCharsetException",
+        "CharEncoding": "org.apache.commons.codec.CharEncoding",
+        "DecoderException": "org.apache.commons.codec.DecoderException",
+        "EncoderException": "org.apache.commons.codec.EncoderException",
+        "Test": "org.junit.Test"
+    }
+}

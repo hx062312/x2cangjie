@@ -1,0 +1,1249 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/digest/XXHash32Test.java",
+    "imports": {
+        "19-19:import java.io.ByteArrayOutputStream;": {
+            "start": 19,
+            "end": 19,
+            "body": "import java.io.ByteArrayOutputStream;"
+        },
+        "20-20:import java.io.File;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.File;"
+        },
+        "21-21:import java.io.FileInputStream;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.io.FileInputStream;"
+        },
+        "22-22:import java.io.FileNotFoundException;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.io.FileNotFoundException;"
+        },
+        "23-23:import java.io.IOException;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.io.IOException;"
+        },
+        "24-24:import java.io.InputStream;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.io.InputStream;"
+        },
+        "25-25:import java.io.OutputStream;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.io.OutputStream;"
+        },
+        "26-26:import java.net.URI;": {
+            "start": 26,
+            "end": 26,
+            "body": "import java.net.URI;"
+        },
+        "27-27:import java.net.URL;": {
+            "start": 27,
+            "end": 27,
+            "body": "import java.net.URL;"
+        },
+        "28-28:import java.util.Arrays;": {
+            "start": 28,
+            "end": 28,
+            "body": "import java.util.Arrays;"
+        },
+        "29-29:import java.util.Collection;": {
+            "start": 29,
+            "end": 29,
+            "body": "import java.util.Collection;"
+        },
+        "31-31:import org.junit.Assert;": {
+            "start": 31,
+            "end": 31,
+            "body": "import org.junit.Assert;"
+        },
+        "32-32:import org.junit.Test;": {
+            "start": 32,
+            "end": 32,
+            "body": "import org.junit.Test;"
+        },
+        "33-33:import org.junit.runners.Parameterized;": {
+            "start": 33,
+            "end": 33,
+            "body": "import org.junit.runners.Parameterized;"
+        },
+        "34-34:import org.junit.runners.Parameterized.Parameters;": {
+            "start": 34,
+            "end": 34,
+            "body": "import org.junit.runners.Parameterized.Parameters;"
+        },
+        "35-35:import org.junit.runner.RunWith;": {
+            "start": 35,
+            "end": 35,
+            "body": "import org.junit.runner.RunWith;"
+        }
+    },
+    "classes": {
+        "37-113:XXHash32Test": {
+            "start": 37,
+            "end": 113,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@RunWith(Parameterized.class)",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "43-56:XXHash32Test": {
+                    "start": 43,
+                    "end": 56,
+                    "body": [
+                        "public XXHash32Test(final String path, final String c) throws IOException {",
+                        "        final URL url = XXHash32Test.class.getClassLoader().getResource(path);",
+                        "        if (url == null) {",
+                        "            throw new FileNotFoundException(\"couldn't find \" + path);",
+                        "        }",
+                        "        URI uri = null;",
+                        "        try {",
+                        "            uri = url.toURI();",
+                        "        } catch (final java.net.URISyntaxException ex) {",
+                        "            throw new IOException(ex);",
+                        "        }",
+                        "        file = new File(uri);",
+                        "        expectedChecksum = c;",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [
+                        "URL",
+                        "XXHash32Test",
+                        "FileNotFoundException",
+                        "URI",
+                        "java.net.URISyntaxException",
+                        "java.net",
+                        "java",
+                        "net",
+                        "URISyntaxException",
+                        "IOException",
+                        "File"
+                    ],
+                    "signature": "XXHash32Test(final String path, final String c)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "path"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Class",
+                            "getClassLoader()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.ClassLoader",
+                            "getResource(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileNotFoundException",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.net.URL",
+                            "toURI()"
+                        ],
+                        [
+                            "library",
+                            "java.io.IOException",
+                            "<init>(java.lang.Throwable)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "<init>(java.net.URI)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {
+                            "URL": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "XXHash32Test": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileNotFoundException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "URI": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "java.net.URISyntaxException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "java.net": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "java": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "net": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "URISyntaxException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IOException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|path": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|c": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "58-67:factory": {
+                    "start": 58,
+                    "end": 67,
+                    "body": [
+                        "@Parameters",
+                        "    public static Collection<Object[]> factory() {",
+                        "        return Arrays.asList(new Object[][] {",
+                        "            // reference checksums created with xxh32sum",
+                        "            // http://cyan4973.github.io/xxHash/",
+                        "            { \"org/apache/commons/codec/bla.tar\", \"fbb5c8d1\" },",
+                        "            { \"org/apache/commons/codec/bla.tar.xz\", \"4106a208\" },",
+                        "            { \"org/apache/commons/codec/small.bin\", \"f66c26f8\" },",
+                        "        });",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Parameters"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "Collection<Object[]>"
+                    ],
+                    "body_types": [
+                        "Object"
+                    ],
+                    "signature": "factory()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Arrays",
+                            "asList(java.lang.Object[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Collection<Object[]>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "69-77:verifyChecksum": {
+                    "start": 69,
+                    "end": 77,
+                    "body": [
+                        "@Test",
+                        "    public void verifyChecksum() throws IOException {",
+                        "        final XXHash32 h = new XXHash32();",
+                        "        try (final FileInputStream s = new FileInputStream(file)) {",
+                        "            final byte[] b = toByteArray(s);",
+                        "            h.update(b, 0, b.length);",
+                        "        }",
+                        "        Assert.assertEquals(\"checksum for \" + file.getName(), expectedChecksum, Long.toHexString(h.getValue()));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "XXHash32",
+                        "FileInputStream",
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "verifyChecksum()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "64-66:XXHash32"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "<init>(java.io.File)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.digest.XXHash32Test",
+                            "37-113:XXHash32Test",
+                            "97-101:toByteArray"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "85-89:update"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "getName()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "132-163:getValue"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Long",
+                            "toHexString(long)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "XXHash32": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileInputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "79-95:verifyIncrementalChecksum": {
+                    "start": 79,
+                    "end": 95,
+                    "body": [
+                        "@Test",
+                        "    public void verifyIncrementalChecksum() throws IOException {",
+                        "        final XXHash32 h = new XXHash32();",
+                        "        try (final FileInputStream s = new FileInputStream(file)) {",
+                        "            final byte[] b = toByteArray(s);",
+                        "            // Hit the case where the hash should be reset",
+                        "            h.update(b[0]);",
+                        "            h.reset();",
+                        "            // Pass in chunks",
+                        "            h.update(b[0]);",
+                        "            h.update(b, 1, b.length - 2);",
+                        "            h.update(b, b.length - 1, 1);",
+                        "            // Check the hash ignores negative length",
+                        "            h.update(b, 0, -1);",
+                        "        }",
+                        "        Assert.assertEquals(\"checksum for \" + file.getName(), expectedChecksum, Long.toHexString(h.getValue()));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "XXHash32",
+                        "FileInputStream",
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "verifyIncrementalChecksum()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "64-66:XXHash32"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "<init>(java.io.File)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.digest.XXHash32Test",
+                            "37-113:XXHash32Test",
+                            "97-101:toByteArray"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "85-89:update"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "77-83:reset"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.File",
+                            "getName()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.XXHash32",
+                            "38-205:XXHash32",
+                            "132-163:getValue"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Long",
+                            "toHexString(long)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "XXHash32": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileInputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "97-101:toByteArray": {
+                    "start": 97,
+                    "end": 101,
+                    "body": [
+                        "private static byte[] toByteArray(final InputStream input) throws IOException {",
+                        "        final ByteArrayOutputStream output = new ByteArrayOutputStream();",
+                        "        copy(input, output, 10240);",
+                        "        return output.toByteArray();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [
+                        "ByteArrayOutputStream"
+                    ],
+                    "signature": "toByteArray(final InputStream input)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "InputStream",
+                            "name": "input"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.digest.XXHash32Test",
+                            "37-113:XXHash32Test",
+                            "103-112:copy"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "toByteArray()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "ByteArrayOutputStream": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|InputStream|input": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "103-112:copy": {
+                    "start": 103,
+                    "end": 112,
+                    "body": [
+                        "private static long copy(final InputStream input, final OutputStream output, final int buffersize) throws IOException {",
+                        "        final byte[] buffer = new byte[buffersize];",
+                        "        int n = 0;",
+                        "        long count=0;",
+                        "        while (-1 != (n = input.read(buffer))) {",
+                        "            output.write(buffer, 0, n);",
+                        "            count += n;",
+                        "        }",
+                        "        return count;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "long"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "int",
+                        "long"
+                    ],
+                    "signature": "copy(final InputStream input, final OutputStream output, final int buffersize)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "InputStream",
+                            "name": "input"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "OutputStream",
+                            "name": "output"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "buffersize"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.InputStream",
+                            "read(byte[])"
+                        ],
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "write(byte[],int,int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|InputStream|input": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|OutputStream|output": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|buffersize": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "40-40:file": {
+                    "start": 40,
+                    "end": 40,
+                    "enum_constant": false,
+                    "body": [
+                        "private final File file;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "File"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "File": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "41-41:expectedChecksum": {
+                    "start": 41,
+                    "end": 41,
+                    "enum_constant": false,
+                    "body": [
+                        "private final String expectedChecksum;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/digest/XXHash32Test_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/digest/XXHash32Test_test.cj",
+    "import_map": {
+        "ByteArrayOutputStream": "java.io.ByteArrayOutputStream",
+        "File": "java.io.File",
+        "FileInputStream": "java.io.FileInputStream",
+        "FileNotFoundException": "java.io.FileNotFoundException",
+        "IOException": "java.io.IOException",
+        "InputStream": "java.io.InputStream",
+        "OutputStream": "java.io.OutputStream",
+        "URI": "java.net.URI",
+        "URL": "java.net.URL",
+        "Arrays": "java.util.Arrays",
+        "Collection": "java.util.Collection",
+        "Assert": "org.junit.Assert",
+        "Test": "org.junit.Test",
+        "Parameterized": "org.junit.runners.Parameterized",
+        "Parameters": "org.junit.runners.Parameterized.Parameters",
+        "RunWith": "org.junit.runner.RunWith"
+    }
+}

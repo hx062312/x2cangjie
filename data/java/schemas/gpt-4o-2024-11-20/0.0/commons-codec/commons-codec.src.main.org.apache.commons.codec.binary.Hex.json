@@ -1,0 +1,3708 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/binary/Hex.java",
+    "imports": {
+        "20-20:import java.nio.ByteBuffer;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.nio.ByteBuffer;"
+        },
+        "21-21:import java.nio.charset.Charset;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.nio.charset.Charset;"
+        },
+        "22-22:import java.nio.charset.StandardCharsets;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.nio.charset.StandardCharsets;"
+        },
+        "24-24:import org.apache.commons.codec.BinaryDecoder;": {
+            "start": 24,
+            "end": 24,
+            "body": "import org.apache.commons.codec.BinaryDecoder;"
+        },
+        "25-25:import org.apache.commons.codec.BinaryEncoder;": {
+            "start": 25,
+            "end": 25,
+            "body": "import org.apache.commons.codec.BinaryEncoder;"
+        },
+        "26-26:import org.apache.commons.codec.CharEncoding;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.apache.commons.codec.CharEncoding;"
+        },
+        "27-27:import org.apache.commons.codec.DecoderException;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.apache.commons.codec.DecoderException;"
+        },
+        "28-28:import org.apache.commons.codec.EncoderException;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.apache.commons.codec.EncoderException;"
+        }
+    },
+    "classes": {
+        "38-567:Hex": {
+            "start": 38,
+            "end": 567,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [
+                "BinaryEncoder",
+                "BinaryDecoder"
+            ],
+            "extends": [],
+            "methods": {
+                "75-79:decodeHex": {
+                    "start": 75,
+                    "end": 79,
+                    "body": [
+                        "public static byte[] decodeHex(final char[] data) throws DecoderException {",
+                        "        final byte[] out = new byte[data.length >> 1];",
+                        "        decodeHex(data, out, 0);",
+                        "        return out;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "decodeHex(final char[] data)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char[]",
+                            "name": "data"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "75-79:decodeHex"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.DecoderException",
+                            "25-84:DecoderException",
+                            "40-41:DecoderException"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "366-372:toDigit"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|char[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "93-115:decodeHex": {
+                    "start": 93,
+                    "end": 115,
+                    "body": [
+                        "public static int decodeHex(final char[] data, final byte[] out, final int outOffset) throws DecoderException {",
+                        "        final int len = data.length;",
+                        "",
+                        "        if ((len & 0x01) != 0) {",
+                        "            throw new DecoderException(\"Odd number of characters.\");",
+                        "        }",
+                        "",
+                        "        final int outLen = len >> 1;",
+                        "        if (out.length - outOffset < outLen) {",
+                        "            throw new DecoderException(\"Output array is not large enough to accommodate decoded data.\");",
+                        "        }",
+                        "",
+                        "        // two characters form the hex value.",
+                        "        for (int i = outOffset, j = 0; j < len; i++) {",
+                        "            int f = toDigit(data[j], j) << 4;",
+                        "            j++;",
+                        "            f = f | toDigit(data[j], j);",
+                        "            j++;",
+                        "            out[i] = (byte) (f & 0xFF);",
+                        "        }",
+                        "",
+                        "        return outLen;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "int",
+                        "DecoderException",
+                        "byte"
+                    ],
+                    "signature": "decodeHex(final char[] data, final byte[] out, final int outOffset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char[]",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "out"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "outOffset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.DecoderException",
+                            "25-84:DecoderException",
+                            "40-41:DecoderException"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "366-372:toDigit"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "75-79:decodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|char[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|byte[]|out": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|outOffset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "127-129:decodeHex": {
+                    "start": 127,
+                    "end": 129,
+                    "body": [
+                        "public static byte[] decodeHex(final String data) throws DecoderException {",
+                        "        return decodeHex(data.toCharArray());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "decodeHex(final String data)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "data"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "139-141:encodeHex": {
+                    "start": 139,
+                    "end": 141,
+                    "body": [
+                        "public static char[] encodeHex(final byte[] data) {",
+                        "        return encodeHex(data, true);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "char[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeHex(final byte[] data)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "data"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "342-356:toByteArray"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|byte[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "153-155:encodeHex": {
+                    "start": 153,
+                    "end": 155,
+                    "body": [
+                        "public static char[] encodeHex(final byte[] data, final boolean toLowerCase) {",
+                        "        return encodeHex(data, toLowerCase ? DIGITS_LOWER : DIGITS_UPPER);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "char[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeHex(final byte[] data, final boolean toLowerCase)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "toLowerCase"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|byte[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|toLowerCase": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "168-173:encodeHex": {
+                    "start": 168,
+                    "end": 173,
+                    "body": [
+                        "protected static char[] encodeHex(final byte[] data, final char[] toDigits) {",
+                        "        final int dataLength = data.length;",
+                        "        final char[] out = new char[dataLength << 1];",
+                        "        encodeHex(data, 0, dataLength, toDigits, out, 0);",
+                        "        return out;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected",
+                        "static"
+                    ],
+                    "return_types": [
+                        "char[]"
+                    ],
+                    "body_types": [
+                        "int",
+                        "char[]",
+                        "char"
+                    ],
+                    "signature": "encodeHex(final byte[] data, final char[] toDigits)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char[]",
+                            "name": "toDigits"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char[]|toDigits": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "186-191:encodeHex": {
+                    "start": 186,
+                    "end": 191,
+                    "body": [
+                        "public static char[] encodeHex(final byte[] data, final int dataOffset, final int dataLen,",
+                        "            final boolean toLowerCase) {",
+                        "        final char[] out = new char[dataLen << 1];",
+                        "        encodeHex(data, dataOffset, dataLen, toLowerCase ? DIGITS_LOWER : DIGITS_UPPER, out, 0);",
+                        "        return out;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "char[]"
+                    ],
+                    "body_types": [
+                        "char[]",
+                        "char"
+                    ],
+                    "signature": "encodeHex(final byte[] data, final int dataOffset, final int dataLen, final boolean toLowerCase)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "dataOffset"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "dataLen"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "toLowerCase"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|dataOffset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|dataLen": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|toLowerCase": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "204-207:encodeHex": {
+                    "start": 204,
+                    "end": 207,
+                    "body": [
+                        "public static void encodeHex(final byte[] data, final int dataOffset, final int dataLen,",
+                        "            final boolean toLowerCase, final char[] out, final int outOffset) {",
+                        "        encodeHex(data, dataOffset, dataLen, toLowerCase ? DIGITS_LOWER : DIGITS_UPPER, out, outOffset);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeHex(final byte[] data, final int dataOffset, final int dataLen, final boolean toLowerCase, final char[] out, final int outOffset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "dataOffset"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "dataLen"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "toLowerCase"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char[]",
+                            "name": "out"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "outOffset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|byte[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|dataOffset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|dataLen": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|toLowerCase": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char[]|out": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|outOffset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "219-226:encodeHex": {
+                    "start": 219,
+                    "end": 226,
+                    "body": [
+                        "private static void encodeHex(final byte[] data, final int dataOffset, final int dataLen, final char[] toDigits,",
+                        "            final char[] out, final int outOffset) {",
+                        "        // two characters form the hex value.",
+                        "        for (int i = dataOffset, j = outOffset; i < dataOffset + dataLen; i++) {",
+                        "            out[j++] = toDigits[(0xF0 & data[i]) >>> 4];",
+                        "            out[j++] = toDigits[0x0F & data[i]];",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "encodeHex(final byte[] data, final int dataOffset, final int dataLen, final char[] toDigits, final char[] out, final int outOffset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "dataOffset"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "dataLen"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char[]",
+                            "name": "toDigits"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char[]",
+                            "name": "out"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "outOffset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|dataOffset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|dataLen": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char[]|toDigits": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char[]|out": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|outOffset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "240-242:encodeHex": {
+                    "start": 240,
+                    "end": 242,
+                    "body": [
+                        "public static char[] encodeHex(final ByteBuffer data) {",
+                        "        return encodeHex(data, true);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "char[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeHex(final ByteBuffer data)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "ByteBuffer",
+                            "name": "data"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|ByteBuffer|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "257-259:encodeHex": {
+                    "start": 257,
+                    "end": 259,
+                    "body": [
+                        "public static char[] encodeHex(final ByteBuffer data, final boolean toLowerCase) {",
+                        "        return encodeHex(data, toLowerCase ? DIGITS_LOWER : DIGITS_UPPER);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "char[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeHex(final ByteBuffer data, final boolean toLowerCase)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "ByteBuffer",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "toLowerCase"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|ByteBuffer|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|toLowerCase": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "275-277:encodeHex": {
+                    "start": 275,
+                    "end": 277,
+                    "body": [
+                        "protected static char[] encodeHex(final ByteBuffer byteBuffer, final char[] toDigits) {",
+                        "        return encodeHex(toByteArray(byteBuffer), toDigits);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected",
+                        "static"
+                    ],
+                    "return_types": [
+                        "char[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeHex(final ByteBuffer byteBuffer, final char[] toDigits)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "ByteBuffer",
+                            "name": "byteBuffer"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char[]",
+                            "name": "toDigits"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|ByteBuffer|byteBuffer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char[]|toDigits": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "287-289:encodeHexString": {
+                    "start": 287,
+                    "end": 289,
+                    "body": [
+                        "public static String encodeHexString(final byte[] data) {",
+                        "        return new String(encodeHex(data));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "encodeHexString(final byte[] data)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "data"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(char[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "300-302:encodeHexString": {
+                    "start": 300,
+                    "end": 302,
+                    "body": [
+                        "public static String encodeHexString(final byte[] data, final boolean toLowerCase) {",
+                        "        return new String(encodeHex(data, toLowerCase));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "encodeHexString(final byte[] data, final boolean toLowerCase)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "toLowerCase"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(char[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|toLowerCase": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "315-317:encodeHexString": {
+                    "start": 315,
+                    "end": 317,
+                    "body": [
+                        "public static String encodeHexString(final ByteBuffer data) {",
+                        "        return new String(encodeHex(data));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "encodeHexString(final ByteBuffer data)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "ByteBuffer",
+                            "name": "data"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(char[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|ByteBuffer|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "331-333:encodeHexString": {
+                    "start": 331,
+                    "end": 333,
+                    "body": [
+                        "public static String encodeHexString(final ByteBuffer data, final boolean toLowerCase) {",
+                        "        return new String(encodeHex(data, toLowerCase));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "encodeHexString(final ByteBuffer data, final boolean toLowerCase)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "ByteBuffer",
+                            "name": "data"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "toLowerCase"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(char[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|ByteBuffer|data": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|toLowerCase": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "342-356:toByteArray": {
+                    "start": 342,
+                    "end": 356,
+                    "body": [
+                        "private static byte[] toByteArray(final ByteBuffer byteBuffer) {",
+                        "        final int remaining = byteBuffer.remaining();",
+                        "        // Use the underlying buffer if possible",
+                        "        if (byteBuffer.hasArray()) {",
+                        "            final byte[] byteArray = byteBuffer.array();",
+                        "            if (remaining == byteArray.length) {",
+                        "                byteBuffer.position(remaining);",
+                        "                return byteArray;",
+                        "            }",
+                        "        }",
+                        "        // Copy the bytes",
+                        "        final byte[] byteArray = new byte[remaining];",
+                        "        byteBuffer.get(byteArray);",
+                        "        return byteArray;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [
+                        "int",
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "toByteArray(final ByteBuffer byteBuffer)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "ByteBuffer",
+                            "name": "byteBuffer"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.nio.ByteBuffer",
+                            "remaining()"
+                        ],
+                        [
+                            "library",
+                            "java.nio.ByteBuffer",
+                            "hasArray()"
+                        ],
+                        [
+                            "library",
+                            "java.nio.ByteBuffer",
+                            "array()"
+                        ],
+                        [
+                            "library",
+                            "java.nio.ByteBuffer",
+                            "position(int)"
+                        ],
+                        [
+                            "library",
+                            "java.nio.ByteBuffer",
+                            "get(byte[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|ByteBuffer|byteBuffer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "366-372:toDigit": {
+                    "start": 366,
+                    "end": 372,
+                    "body": [
+                        "protected static int toDigit(final char ch, final int index) throws DecoderException {",
+                        "        final int digit = Character.digit(ch, 16);",
+                        "        if (digit == -1) {",
+                        "            throw new DecoderException(\"Illegal hexadecimal character \" + ch + \" at index \" + index);",
+                        "        }",
+                        "        return digit;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "int",
+                        "DecoderException"
+                    ],
+                    "signature": "toDigit(final char ch, final int index)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "ch"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "index"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Character",
+                            "digit(char,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.DecoderException",
+                            "25-84:DecoderException",
+                            "40-41:DecoderException"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|char|ch": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|index": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "379-382:Hex": {
+                    "start": 379,
+                    "end": 382,
+                    "body": [
+                        "public Hex() {",
+                        "        // use default encoding",
+                        "        this.charset = DEFAULT_CHARSET;",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "Hex()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.nio.charset.Charset",
+                            "forName(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "379-382:Hex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "390-392:Hex": {
+                    "start": 390,
+                    "end": 392,
+                    "body": [
+                        "public Hex(final Charset charset) {",
+                        "        this.charset = charset;",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "Hex(final Charset charset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Charset",
+                            "name": "charset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|Charset|charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "402-404:Hex": {
+                    "start": 402,
+                    "end": 404,
+                    "body": [
+                        "public Hex(final String charsetName) {",
+                        "        this(Charset.forName(charsetName));",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "Hex(final String charsetName)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "charsetName"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|charsetName": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "416-419:decode": {
+                    "start": 416,
+                    "end": 419,
+                    "body": [
+                        "@Override",
+                        "    public byte[] decode(final byte[] array) throws DecoderException {",
+                        "        return decodeHex(new String(array, getCharset()).toCharArray());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "decode(final byte[] array)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "array"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "544-546:getCharset"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[],java.nio.charset.Charset)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "75-79:decodeHex"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "342-356:toByteArray"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "416-419:decode"
+                        ],
+                        [
+                            "library",
+                            "java.lang.ClassCastException",
+                            "getMessage()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.DecoderException",
+                            "25-84:DecoderException",
+                            "40-41:DecoderException"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|byte[]|array": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "435-437:decode": {
+                    "start": 435,
+                    "end": 437,
+                    "body": [
+                        "public byte[] decode(final ByteBuffer buffer) throws DecoderException {",
+                        "        return decodeHex(new String(toByteArray(buffer), getCharset()).toCharArray());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "decode(final ByteBuffer buffer)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "ByteBuffer",
+                            "name": "buffer"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "544-546:getCharset"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[],java.nio.charset.Charset)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "75-79:decodeHex"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "416-419:decode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|ByteBuffer|buffer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "450-466:decode": {
+                    "start": 450,
+                    "end": 466,
+                    "body": [
+                        "@Override",
+                        "    public Object decode(final Object object) throws DecoderException {",
+                        "        if (object instanceof String) {",
+                        "            return decode(((String) object).toCharArray());",
+                        "        }",
+                        "        if (object instanceof byte[]) {",
+                        "            return decode((byte[]) object);",
+                        "        }",
+                        "        if (object instanceof ByteBuffer) {",
+                        "            return decode((ByteBuffer) object);",
+                        "        }",
+                        "        try {",
+                        "            return decodeHex((char[]) object);",
+                        "        } catch (final ClassCastException e) {",
+                        "            throw new DecoderException(e.getMessage(), e);",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Object"
+                    ],
+                    "body_types": [
+                        "String",
+                        "byte[]",
+                        "byte",
+                        "ByteBuffer",
+                        "char[]",
+                        "char",
+                        "ClassCastException",
+                        "DecoderException"
+                    ],
+                    "signature": "decode(final Object object)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Object",
+                            "name": "object"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "416-419:decode"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "75-79:decodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ByteBuffer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ClassCastException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Object|object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "482-485:encode": {
+                    "start": 482,
+                    "end": 485,
+                    "body": [
+                        "@Override",
+                        "    public byte[] encode(final byte[] array) {",
+                        "        return encodeHexString(array).getBytes(this.getCharset());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encode(final byte[] array)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "byte[]",
+                            "name": "array"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "287-289:encodeHexString"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "544-546:getCharset"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "342-356:toByteArray"
+                        ],
+                        [
+                            "library",
+                            "java.lang.ClassCastException",
+                            "getMessage()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.EncoderException",
+                            "26-87:EncoderException",
+                            "41-42:EncoderException"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "139-141:encodeHex"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|byte[]|array": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "503-505:encode": {
+                    "start": 503,
+                    "end": 505,
+                    "body": [
+                        "public byte[] encode(final ByteBuffer array) {",
+                        "        return encodeHexString(array).getBytes(this.getCharset());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "encode(final ByteBuffer array)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "ByteBuffer",
+                            "name": "array"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "287-289:encodeHexString"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "544-546:getCharset"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|ByteBuffer|array": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "521-536:encode": {
+                    "start": 521,
+                    "end": 536,
+                    "body": [
+                        "@Override",
+                        "    public Object encode(final Object object) throws EncoderException {",
+                        "        final byte[] byteArray;",
+                        "        if (object instanceof String) {",
+                        "            byteArray = ((String) object).getBytes(this.getCharset());",
+                        "        } else if (object instanceof ByteBuffer) {",
+                        "            byteArray = toByteArray((ByteBuffer) object);",
+                        "        } else {",
+                        "            try {",
+                        "                byteArray = (byte[]) object;",
+                        "            } catch (final ClassCastException e) {",
+                        "                throw new EncoderException(e.getMessage(), e);",
+                        "            }",
+                        "        }",
+                        "        return encodeHex(byteArray);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Object"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "String",
+                        "ByteBuffer",
+                        "ClassCastException",
+                        "EncoderException"
+                    ],
+                    "signature": "encode(final Object object)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Object",
+                            "name": "object"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.Hex",
+                            "38-567:Hex",
+                            "544-546:getCharset"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ByteBuffer": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ClassCastException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "EncoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Object|object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "544-546:getCharset": {
+                    "start": 544,
+                    "end": 546,
+                    "body": [
+                        "public Charset getCharset() {",
+                        "        return this.charset;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Charset"
+                    ],
+                    "body_types": [],
+                    "signature": "getCharset()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "Charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "554-556:getCharsetName": {
+                    "start": 554,
+                    "end": 556,
+                    "body": [
+                        "public String getCharsetName() {",
+                        "        return this.charset.name();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getCharsetName()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.nio.charset.Charset",
+                            "name()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "563-566:toString": {
+                    "start": 563,
+                    "end": 566,
+                    "body": [
+                        "@Override",
+                        "    public String toString() {",
+                        "        return super.toString() + \"[charsetName=\" + this.charset + \"]\";",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "toString()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "45-45:DEFAULT_CHARSET": {
+                    "start": 45,
+                    "end": 45,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Charset"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "52-52:DEFAULT_CHARSET_NAME": {
+                    "start": 52,
+                    "end": 52,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final String DEFAULT_CHARSET_NAME = CharEncoding.UTF_8;"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "57-58:DIGITS_LOWER": {
+                    "start": 57,
+                    "end": 58,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] DIGITS_LOWER = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',",
+                        "            'e', 'f' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "63-64:DIGITS_UPPER": {
+                    "start": 63,
+                    "end": 64,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final char[] DIGITS_UPPER = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',",
+                        "            'E', 'F' };"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "374-374:charset": {
+                    "start": 374,
+                    "end": 374,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Charset charset;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Charset"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/binary/Hex.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/binary/Hex.cj",
+    "import_map": {
+        "ByteBuffer": "java.nio.ByteBuffer",
+        "Charset": "java.nio.charset.Charset",
+        "StandardCharsets": "java.nio.charset.StandardCharsets",
+        "BinaryDecoder": "org.apache.commons.codec.BinaryDecoder",
+        "BinaryEncoder": "org.apache.commons.codec.BinaryEncoder",
+        "CharEncoding": "org.apache.commons.codec.CharEncoding",
+        "DecoderException": "org.apache.commons.codec.DecoderException",
+        "EncoderException": "org.apache.commons.codec.EncoderException"
+    }
+}

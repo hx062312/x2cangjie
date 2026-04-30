@@ -1,0 +1,318 @@
+templates:
+  # 类型解析 - 使用描述信息
+  type_resolution_description_instance: |-
+    Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in {{ target_language }} by looking into "{{ source_language.upper() }} TYPE", "{{ source_language.upper() }} TYPE DESCRIPTION" and "{{ source_language.upper() }} CODE" as context.
+
+    {{ source_language.upper() }} TYPE:
+    ```
+    {{ source_type }}
+    ```
+
+    {{ source_language.upper() }} TYPE DESCRIPTION:
+    {{ source_type_description }}
+
+    {{ source_language.upper() }} CODE:
+    ```
+    {{ context_code_snippet }}
+    ```
+
+  type_resolution_description_response_format: |-
+    RESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other {{ target_language.upper() }} code syntax (e.g., assignments, definitions, expressions).
+
+    {{ target_language.upper() }} IMPORTS:
+    ```
+    <{{ target_language.lower() }}_imports_if_any>
+    ```
+
+    {{ target_language.upper() }} TRANSLATION:
+    ```
+    <{{ target_language.lower() }}_type_translation>
+    ```
+
+    REASONING:
+    <natural_language_reasoning>
+
+  type_resolution_description_feedback: |-
+    FEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.
+    {{ feedback }}
+
+  # 代码片段翻译 - 字段（静态）
+  fragment_translation_field_static_icl: |-
+    JAVA CODE:
+    ```
+    public class Calculator {
+        public int x;
+    }
+    ```
+
+    PARTIAL CANGJIE TRANSLATION:
+    ```
+    class Calculator {
+        public x: Int64
+    }
+    ```
+
+    CANGJIE FIELD TRANSLATION:
+    ```
+        public x: Int64 = 0
+    ```
+
+  # 代码片段翻译 - 方法（静态）
+  fragment_translation_method_static_icl: |-
+    JAVA CODE:
+    ```
+    public class Calculator {
+        public int add(int a, int b) {
+            return a + b;
+        }
+    }
+    ```
+
+    PARTIAL CANGJIE TRANSLATION:
+    ```
+    class Calculator {
+        public func add(a: Int64, b: Int64): Int64 {
+            // TODO: implement
+        }
+    }
+    ```
+
+    CANGJIE METHOD TRANSLATION:
+    ```
+        public func add(a: Int64, b: Int64): Int64 {
+            return a + b
+        }
+    ```
+
+  # 代码片段翻译 - 反馈
+  fragment_translation_feedback_static_icl: |-
+    JAVA CODE:
+    ```
+    public class Calculator {
+        public int add(int a, int b) {
+            return a + b;
+        }
+    }
+    ```
+
+    INCORRECT CANGJIE TRANSLATION:
+    ```
+    class Calculator {
+        public func add(a: Int64, b: Int64): Int64 {
+            return a + c
+        }
+    }
+    ```
+
+    EXECUTION FEEDBACK:
+    ```
+    error: cannot find 'c' in scope
+    ```
+
+    PARTIAL CANGJIE TRANSLATION:
+    ```
+    class Calculator {
+        public func add(a: Int64, b: Int64): Int64 {
+            // TODO: implement
+        }
+    }
+    ```
+
+    CANGJIE METHOD TRANSLATION:
+    ```
+        public func add(a: Int64, b: Int64): Int64 {
+            return a + b
+        }
+    ```
+
+  # 代码片段翻译 - 测试方法
+  fragment_translation_test_static_icl: |-
+    JAVA CODE:
+    ```
+    public class TestClass {
+        @Test
+        public void testMethod() {
+            {{ source_statements }}
+        }
+    }
+    ```
+
+    PARTIAL CANGJIE TRANSLATION:
+    ```
+    import testing
+
+    class TestClass {
+        public func testMethod(): Void {
+            // TODO: implement
+        }
+    }
+    ```
+
+    CANGJIE METHOD TRANSLATION:
+    ```
+        public func testMethod(): Void {
+            {{ target_statements }}
+        }
+    ```
+
+  # 代码片段翻译 - 测试反馈
+  fragment_translation_feedback_test_static_icl: |-
+    JAVA CODE:
+    ```
+    public class TestClass {
+        @Test
+        public void testMethod() {
+            List<String> inputList = Arrays.asList("apple", "banana", "cherry");
+            assertEquals("inputList size does not match expected size = 3", 3, inputList.size());
+        }
+    }
+    ```
+
+    INCORRECT CANGJIE TRANSLATION:
+    ```
+    class TestClass {
+        public func testMethod(): Void {
+            let inputList: Array<String> = ["apple", "banana", "cherry"]
+            @Test.assertEquals("inputList size does not match expected size = 3", 3, inputList.size())
+        }
+    }
+    ```
+
+    EXECUTION FEEDBACK:
+    ```
+    error: argument count mismatch
+    expected 3 arguments but got 4
+    ```
+
+    PARTIAL CANGJIE TRANSLATION:
+    ```
+    import testing
+
+    class TestClass {
+        public func testMethod(): Void {
+            // TODO: implement
+        }
+    }
+    ```
+
+    CANGJIE METHOD TRANSLATION:
+    ```
+        public func testMethod(): Void {
+            let inputList: Array<String> = ["apple", "banana", "cherry"]
+            @Test.assertEquals(3, inputList.size(), "inputList size does not match expected size = 3")
+        }
+    ```
+
+  # 指令提示
+  fragment_translation_instruction: |-
+    INSTRUCTION:
+    Translate the following JAVA {{ fragment_type }} to CANGJIE. You only need to translate the "{{ fragment_actual_name }}" {{ fragment_type }}. All necessary dependencies are available in PARTIAL CANGJIE TRANSLATION.
+
+  fragment_translation_feedback_instruction: |-
+    INSTRUCTION:
+    Based on the feedback provided, identify the error in the following CANGJIE translation of the {{ fragment_type }} and correct it. You only need to correct the "{{ fragment_actual_name }}" {{ fragment_type }}. All necessary dependencies are available in PARTIAL CANGJIE TRANSLATION. Only generate the given "{{ fragment_actual_name }}" method like the example above and do not add anything else in your response.
+
+  fragment_translation_partial_translation: |-
+    PARTIAL CANGJIE TRANSLATION:
+    ```
+    {{ partial_translation }}
+    ```
+
+  target_translation: |-
+    {{ target_translation_heading }}:
+    ```
+    {{ partial_target_translation }}
+    ```
+
+  fragment_translation_response_format: |-
+    RESPONSE FORMAT: You must provide your response in the following format by enclosing {{ target_translation_heading }} inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated {{ fragment_type }} without any other {{ target_language.upper() }} code syntax (e.g., assignments, definitions, expressions).
+
+    {{ target_translation_heading }}:
+    ```
+    <{{ target_language.lower() }}_translation>
+    ```
+
+  fragment_translation_notes: |-
+    GENERAL NOTES:
+      1) If you are translating a test method, make sure the order of arguments in the assert functions is correct as given in the sample example. Specifically, the "message" argument is the first argument in Java, but the last argument in Cangjie. For example, in Java, assertEquals("message", expected, actual) and in Cangjie, @Test.assertEquals(expected, actual, "message").
+      2) You have to make sure your translation correctly calls dependent methods given in PARTIAL CANGJIE TRANSLATION. For example, if a method's name is "__methodName" in class "ClassName" in PARTIAL CANGJIE TRANSLATION, you have to call the method as "ClassName().__methodName()" in your translation.
+      3) If you are referencing private and protected fields of a class in your translation, you have to use the correct syntax. For example, if a field's name is "__fieldName" in class "ClassName" in PARTIAL CANGJIE TRANSLATION, you have to reference the field as "_ClassName__fieldName" in your translation.
+      4) The model response should not change the method signature. Please generate the signature exactly given in PARTIAL CANGJIE TRANSLATION.
+
+  type_translation_details: |-
+    TYPE TRANSLATION DETAILS:
+    ```
+    {{ type_translation_details }}
+    ```
+
+  api_call_description: |-
+    API CALL DESCRIPTION:
+    ```
+    {{ api_call_description }}
+    ```
+
+  # 高级 LLM 提示 - 基础
+  advanced_llm_prompt_base: |-
+    INSTRUCTION:
+    1. Below is the EXECUTION TRACE and STACK TRACE of a failed test case, along with all executed methods ordered in reverse-execution order.
+    2. Your task is to analyze the STACK TRACE and each pair of JAVA SOURCE CODE and CANGJIE TRANSLATION of the methods in the EXECUTION TRACE.
+    3. You need to identify the root cause of the failure and provide fixed CANGJIE TRANSLATION for the methods that are causing the failure. Please make sure your generated Cangjie translation is syntactically correct and can be executed without any errors.
+    4. There could be multiple buggy methods in the EXECUTION TRACE. You need to provide fixed CANGJIE TRANSLATION for all of them.
+    5. The bugs can also exist in test methods. You need to provide fixed CANGJIE TRANSLATION for test methods as well.
+    6. The fixed CANGJIE TRANSLATION (with proper indentation and parseable by Cangjie grammar) of each method should be provided as a LIST of JSON objects like below.
+    7. Make sure the "id" field exactly matches the "id" field in the EXECUTION TRACE with proper line numbers.
+    8. Make sure your generated code has EXACTLY the same INDENTATION as the original code. Do NOT add or remove any indentation from your generated code.
+    9. Make sure you DO NOT change the signature of the methods. It's important to keep the method signature intact for parsing purposes.
+    ```
+    [
+        {
+            "id": "<schema_name>|<class_name>|<fragment_name>",
+            "fixed_cangjie_translation": "<fixed_cangjie_translation>",
+        },
+        {
+            "id": "<schema_name>|<class_name>|<fragment_name>",
+            "fixed_cangjie_translation": "<fixed_cangjie_translation>",
+        },
+        ...
+        {
+            "id": "<schema_name>|<class_name>|<fragment_name>",
+            "fixed_cangjie_translation": "<fixed_cangjie_translation>",
+        }
+    ]
+    ```
+
+    EXECUTION TRACE:
+    ```
+    {{ execution_trace }}
+    ```
+
+    STACK TRACE:
+    ```
+    {{ stack_trace }}
+    ```
+
+  advanced_llm_prompt_instance: |-
+    IDENTIFIER:
+    ```
+    {{ identifier }}
+    ```
+
+    API DESCRIPTION (if any):
+    ```
+    {{ api_description }}
+    ```
+
+    JAVA SOURCE CODE:
+    ```
+    {{ java_source_code }}
+    ```
+
+    CANGJIE TRANSLATION:
+    ```
+    {{ cangjie_translation }}
+    ```
+
+  advanced_llm_prompt_dependencies: |-
+    DEPENDENCIES:
+    Below are the dependencies used in the JAVA SOURCE CODE which are not available in the EXECUTION TRACE. You need to consider them while generating the fixed CANGJIE TRANSLATION.
+    {{ test_dependencies }}

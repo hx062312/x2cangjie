@@ -1,0 +1,352 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/test/java/org/apache/commons/cli/bug/BugCLI252Test.java",
+    "imports": {
+        "20-20:import org.apache.commons.cli.AmbiguousOptionException;": {
+            "start": 20,
+            "end": 20,
+            "body": "import org.apache.commons.cli.AmbiguousOptionException;"
+        },
+        "21-21:import org.apache.commons.cli.DefaultParser;": {
+            "start": 21,
+            "end": 21,
+            "body": "import org.apache.commons.cli.DefaultParser;"
+        },
+        "22-22:import org.apache.commons.cli.Option;": {
+            "start": 22,
+            "end": 22,
+            "body": "import org.apache.commons.cli.Option;"
+        },
+        "23-23:import org.apache.commons.cli.Options;": {
+            "start": 23,
+            "end": 23,
+            "body": "import org.apache.commons.cli.Options;"
+        },
+        "24-24:import org.apache.commons.cli.ParseException;": {
+            "start": 24,
+            "end": 24,
+            "body": "import org.apache.commons.cli.ParseException;"
+        },
+        "25-25:import org.junit.Test;": {
+            "start": 25,
+            "end": 25,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "27-46:BugCLI252Test": {
+            "start": 27,
+            "end": 46,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "29-34:getOptions": {
+                    "start": 29,
+                    "end": 34,
+                    "body": [
+                        "private Options getOptions() {",
+                        "        final Options options = new Options();",
+                        "        options.addOption(Option.builder().longOpt(\"prefix\").build());",
+                        "        options.addOption(Option.builder().longOpt(\"prefixplusplus\").build());",
+                        "        return options;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [
+                        "Options"
+                    ],
+                    "signature": "getOptions()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "166-169:longOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "111-116:build"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "36-39:testAmbiquousOptionName": {
+                    "start": 36,
+                    "end": 39,
+                    "body": [
+                        "@Test(expected = AmbiguousOptionException.class)",
+                        "    public void testAmbiquousOptionName() throws ParseException {",
+                        "        new DefaultParser().parse(getOptions(), new String[] {\"--pref\"});",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = AmbiguousOptionException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "DefaultParser",
+                        "String"
+                    ],
+                    "signature": "testAmbiquousOptionName()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.DefaultParser",
+                            "30-776:DefaultParser",
+                            "182-185:DefaultParser"
+                        ],
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.bug.BugCLI252Test",
+                            "27-46:BugCLI252Test",
+                            "29-34:getOptions"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.DefaultParser",
+                            "30-776:DefaultParser",
+                            "658-661:parse"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "DefaultParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "41-44:testExactOptionNameMatch": {
+                    "start": 41,
+                    "end": 44,
+                    "body": [
+                        "@Test",
+                        "    public void testExactOptionNameMatch() throws ParseException {",
+                        "        new DefaultParser().parse(getOptions(), new String[] {\"--prefix\"});",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "DefaultParser",
+                        "String"
+                    ],
+                    "signature": "testExactOptionNameMatch()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.DefaultParser",
+                            "30-776:DefaultParser",
+                            "182-185:DefaultParser"
+                        ],
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.bug.BugCLI252Test",
+                            "27-46:BugCLI252Test",
+                            "29-34:getOptions"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.DefaultParser",
+                            "30-776:DefaultParser",
+                            "658-661:parse"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "DefaultParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/bug/BugCLI252Test_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/bug/BugCLI252Test_test.cj",
+    "import_map": {
+        "AmbiguousOptionException": "org.apache.commons.cli.AmbiguousOptionException",
+        "DefaultParser": "org.apache.commons.cli.DefaultParser",
+        "Option": "org.apache.commons.cli.Option",
+        "Options": "org.apache.commons.cli.Options",
+        "ParseException": "org.apache.commons.cli.ParseException",
+        "Test": "org.junit.Test"
+    }
+}

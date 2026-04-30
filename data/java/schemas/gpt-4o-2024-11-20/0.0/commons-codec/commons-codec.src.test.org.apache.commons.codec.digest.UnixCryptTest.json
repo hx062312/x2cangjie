@@ -1,0 +1,575 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/digest/UnixCryptTest.java",
+    "imports": {
+        "19-19:import static org.junit.Assert.assertEquals;": {
+            "start": 19,
+            "end": 19,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "20-20:import static org.junit.Assert.assertNotNull;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertNotNull;"
+        },
+        "21-21:import static org.junit.Assert.assertNotSame;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertNotSame;"
+        },
+        "22-22:import static org.junit.Assert.assertTrue;": {
+            "start": 22,
+            "end": 22,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "24-24:import java.nio.charset.StandardCharsets;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.nio.charset.StandardCharsets;"
+        },
+        "26-26:import org.junit.Test;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "28-83:UnixCryptTest": {
+            "start": 28,
+            "end": 83,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "30-33:testCtor": {
+                    "start": 30,
+                    "end": 33,
+                    "body": [
+                        "@Test",
+                        "    public void testCtor() {",
+                        "        assertNotNull(new UnixCrypt());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "UnixCrypt"
+                    ],
+                    "signature": "testCtor()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNotNull(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "UnixCrypt": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "40-46:testUnixCryptExplicitCall": {
+                    "start": 40,
+                    "end": 46,
+                    "body": [
+                        "@Test",
+                        "    public void testUnixCryptExplicitCall() {",
+                        "        // A call to crypt() with an empty salt would result in a \"$6$\" hash.",
+                        "        // Using unixCrypt() explicitly results in a random salt.",
+                        "        assertTrue(UnixCrypt.crypt(\"secret\".getBytes()).matches(\"^[a-zA-Z0-9./]{13}$\"));",
+                        "        assertTrue(UnixCrypt.crypt(\"secret\".getBytes(), null).matches(\"^[a-zA-Z0-9./]{13}$\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testUnixCryptExplicitCall()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.UnixCrypt",
+                            "40-421:UnixCrypt",
+                            "183-185:crypt"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "matches(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "53-56:testUnixCryptWithHalfSalt": {
+                    "start": 53,
+                    "end": 56,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testUnixCryptWithHalfSalt() {",
+                        "        UnixCrypt.crypt(\"secret\", \"x\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testUnixCryptWithHalfSalt()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.UnixCrypt",
+                            "40-421:UnixCrypt",
+                            "183-185:crypt"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "61-64:testUnicCryptInvalidSalt": {
+                    "start": 61,
+                    "end": 64,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testUnicCryptInvalidSalt() {",
+                        "        UnixCrypt.crypt(\"secret\", \"$a\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testUnicCryptInvalidSalt()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.UnixCrypt",
+                            "40-421:UnixCrypt",
+                            "183-185:crypt"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "66-69:testUnixCryptNullData": {
+                    "start": 66,
+                    "end": 69,
+                    "body": [
+                        "@Test(expected = NullPointerException.class)",
+                        "    public void testUnixCryptNullData() {",
+                        "        UnixCrypt.crypt((byte[]) null);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = NullPointerException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "testUnixCryptNullData()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.UnixCrypt",
+                            "40-421:UnixCrypt",
+                            "183-185:crypt"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "71-74:testUnixCryptWithEmptySalt": {
+                    "start": 71,
+                    "end": 74,
+                    "body": [
+                        "@Test(expected = IllegalArgumentException.class)",
+                        "    public void testUnixCryptWithEmptySalt() {",
+                        "        UnixCrypt.crypt(\"secret\", \"\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test(expected = IllegalArgumentException.class)"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testUnixCryptWithEmptySalt()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.UnixCrypt",
+                            "40-421:UnixCrypt",
+                            "183-185:crypt"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "76-82:testUnixCryptWithoutSalt": {
+                    "start": 76,
+                    "end": 82,
+                    "body": [
+                        "@Test",
+                        "    public void testUnixCryptWithoutSalt() {",
+                        "        final String hash = UnixCrypt.crypt(\"foo\");",
+                        "        assertTrue(hash.matches(\"^[a-zA-Z0-9./]{13}$\"));",
+                        "        final String hash2 = UnixCrypt.crypt(\"foo\");",
+                        "        assertNotSame(hash, hash2);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "testUnixCryptWithoutSalt()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.UnixCrypt",
+                            "40-421:UnixCrypt",
+                            "183-185:crypt"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "matches(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNotSame(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/digest/UnixCryptTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/digest/UnixCryptTest_test.cj",
+    "import_map": {
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertNotNull": "static org.junit.Assert.assertNotNull",
+        "assertNotSame": "static org.junit.Assert.assertNotSame",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "StandardCharsets": "java.nio.charset.StandardCharsets",
+        "Test": "org.junit.Test"
+    }
+}

@@ -1,0 +1,900 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/net/RFC1522Codec.java",
+    "imports": {
+        "20-20:import java.io.UnsupportedEncodingException;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.UnsupportedEncodingException;"
+        },
+        "21-21:import java.nio.charset.Charset;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.nio.charset.Charset;"
+        },
+        "23-23:import org.apache.commons.codec.DecoderException;": {
+            "start": 23,
+            "end": 23,
+            "body": "import org.apache.commons.codec.DecoderException;"
+        },
+        "24-24:import org.apache.commons.codec.EncoderException;": {
+            "start": 24,
+            "end": 24,
+            "body": "import org.apache.commons.codec.EncoderException;"
+        },
+        "25-25:import org.apache.commons.codec.binary.StringUtils;": {
+            "start": 25,
+            "end": 25,
+            "body": "import org.apache.commons.codec.binary.StringUtils;"
+        }
+    },
+    "classes": {
+        "43-186:RFC1522Codec": {
+            "start": 43,
+            "end": 186,
+            "is_abstract": true,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "abstract"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "69-82:encodeText": {
+                    "start": 69,
+                    "end": 82,
+                    "body": [
+                        "protected String encodeText(final String text, final Charset charset) throws EncoderException {",
+                        "        if (text == null) {",
+                        "            return null;",
+                        "        }",
+                        "        final StringBuilder buffer = new StringBuilder();",
+                        "        buffer.append(PREFIX);",
+                        "        buffer.append(charset);",
+                        "        buffer.append(SEP);",
+                        "        buffer.append(this.getEncoding());",
+                        "        buffer.append(SEP);",
+                        "        buffer.append(StringUtils.newStringUsAscii(this.doEncoding(text.getBytes(charset))));",
+                        "        buffer.append(POSTFIX);",
+                        "        return buffer.toString();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "StringBuilder"
+                    ],
+                    "signature": "encodeText(final String text, final Charset charset)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "text"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "Charset",
+                            "name": "charset"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.RFC1522Codec",
+                            "43-186:RFC1522Codec",
+                            "163-163:getEncoding"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "getBytes(java.nio.charset.Charset)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.RFC1522Codec",
+                            "43-186:RFC1522Codec",
+                            "174-174:doEncoding"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "351-353:newStringUsAscii"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.nio.charset.Charset",
+                            "forName(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.RFC1522Codec",
+                            "43-186:RFC1522Codec",
+                            "69-82:encodeText"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "StringBuilder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|text": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|Charset|charset": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "102-108:encodeText": {
+                    "start": 102,
+                    "end": 108,
+                    "body": [
+                        "protected String encodeText(final String text, final String charsetName)",
+                        "            throws EncoderException, UnsupportedEncodingException {",
+                        "        if (text == null) {",
+                        "            return null;",
+                        "        }",
+                        "        return this.encodeText(text, Charset.forName(charsetName));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "encodeText(final String text, final String charsetName)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "text"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "charsetName"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|text": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|charsetName": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "124-156:decodeText": {
+                    "start": 124,
+                    "end": 156,
+                    "body": [
+                        "protected String decodeText(final String text)",
+                        "            throws DecoderException, UnsupportedEncodingException {",
+                        "        if (text == null) {",
+                        "            return null;",
+                        "        }",
+                        "        if (!text.startsWith(PREFIX) || !text.endsWith(POSTFIX)) {",
+                        "            throw new DecoderException(\"RFC 1522 violation: malformed encoded content\");",
+                        "        }",
+                        "        final int terminator = text.length() - 2;",
+                        "        int from = 2;",
+                        "        int to = text.indexOf(SEP, from);",
+                        "        if (to == terminator) {",
+                        "            throw new DecoderException(\"RFC 1522 violation: charset token not found\");",
+                        "        }",
+                        "        final String charset = text.substring(from, to);",
+                        "        if (charset.equals(\"\")) {",
+                        "            throw new DecoderException(\"RFC 1522 violation: charset not specified\");",
+                        "        }",
+                        "        from = to + 1;",
+                        "        to = text.indexOf(SEP, from);",
+                        "        if (to == terminator) {",
+                        "            throw new DecoderException(\"RFC 1522 violation: encoding token not found\");",
+                        "        }",
+                        "        final String encoding = text.substring(from, to);",
+                        "        if (!getEncoding().equalsIgnoreCase(encoding)) {",
+                        "            throw new DecoderException(\"This codec cannot decode \" + encoding + \" encoded content\");",
+                        "        }",
+                        "        from = to + 1;",
+                        "        to = text.indexOf(SEP, from);",
+                        "        byte[] data = StringUtils.getBytesUsAscii(text.substring(from, to));",
+                        "        data = doDecoding(data);",
+                        "        return new String(data, charset);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "DecoderException",
+                        "int",
+                        "String",
+                        "byte[]",
+                        "byte"
+                    ],
+                    "signature": "decodeText(final String text)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "text"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "endsWith(java.lang.String)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.DecoderException",
+                            "25-84:DecoderException",
+                            "40-41:DecoderException"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "indexOf(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.RFC1522Codec",
+                            "43-186:RFC1522Codec",
+                            "163-163:getEncoding"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equalsIgnoreCase(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.binary.StringUtils",
+                            "38-419:StringUtils",
+                            "196-198:getBytesUsAscii"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.net.RFC1522Codec",
+                            "43-186:RFC1522Codec",
+                            "185-185:doDecoding"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "<init>(byte[],java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "DecoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|text": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "163-163:getEncoding": {
+                    "start": 163,
+                    "end": 163,
+                    "body": [
+                        "protected abstract String getEncoding();"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected",
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getEncoding()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "174-174:doEncoding": {
+                    "start": 174,
+                    "end": 174,
+                    "body": [
+                        "protected abstract byte[] doEncoding(byte[] bytes) throws EncoderException;"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected",
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "doEncoding( byte[] bytes)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "byte[]",
+                            "name": "bytes"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|byte[]|bytes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "185-185:doDecoding": {
+                    "start": 185,
+                    "end": 185,
+                    "body": [
+                        "protected abstract byte[] doDecoding(byte[] bytes) throws DecoderException;"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected",
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "byte[]"
+                    ],
+                    "body_types": [],
+                    "signature": "doDecoding( byte[] bytes)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "byte[]",
+                            "name": "bytes"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "byte[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|byte[]|bytes": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "46-46:SEP": {
+                    "start": 46,
+                    "end": 46,
+                    "enum_constant": false,
+                    "body": [
+                        "protected static final char SEP = '?';"
+                    ],
+                    "modifiers": [
+                        "protected",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "char"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "49-49:POSTFIX": {
+                    "start": 49,
+                    "end": 49,
+                    "enum_constant": false,
+                    "body": [
+                        "protected static final String POSTFIX = \"?=\";"
+                    ],
+                    "modifiers": [
+                        "protected",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "52-52:PREFIX": {
+                    "start": 52,
+                    "end": 52,
+                    "enum_constant": false,
+                    "body": [
+                        "protected static final String PREFIX = \"=?\";"
+                    ],
+                    "modifiers": [
+                        "protected",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/net/RFC1522Codec.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/net/RFC1522Codec.cj",
+    "import_map": {
+        "UnsupportedEncodingException": "java.io.UnsupportedEncodingException",
+        "Charset": "java.nio.charset.Charset",
+        "DecoderException": "org.apache.commons.codec.DecoderException",
+        "EncoderException": "org.apache.commons.codec.EncoderException",
+        "StringUtils": "org.apache.commons.codec.binary.StringUtils"
+    }
+}

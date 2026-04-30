@@ -1,0 +1,1181 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/main/java/org/apache/commons/cli/PosixParser.java",
+    "imports": {
+        "20-20:import java.util.ArrayList;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.ArrayList;"
+        },
+        "21-21:import java.util.Arrays;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.Arrays;"
+        },
+        "22-22:import java.util.Iterator;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.Iterator;"
+        },
+        "23-23:import java.util.List;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.List;"
+        }
+    },
+    "classes": {
+        "31-243:PosixParser": {
+            "start": 31,
+            "end": 243,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@Deprecated",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "Parser"
+            ],
+            "methods": {
+                "65-86:burstToken": {
+                    "start": 65,
+                    "end": 86,
+                    "body": [
+                        "protected void burstToken(final String token, final boolean stopAtNonOption) {",
+                        "        for (int i = 1; i < token.length(); i++) {",
+                        "            final String ch = String.valueOf(token.charAt(i));",
+                        "",
+                        "            if (!options.hasOption(ch)) {",
+                        "                if (stopAtNonOption) {",
+                        "                    processNonOptionToken(token.substring(i), true);",
+                        "                } else {",
+                        "                    tokens.add(token);",
+                        "                }",
+                        "                break;",
+                        "            }",
+                        "            tokens.add(\"-\" + ch);",
+                        "            currentOption = options.getOption(ch);",
+                        "",
+                        "            if (currentOption.hasArg() && token.length() != i + 1) {",
+                        "                tokens.add(token.substring(i + 1));",
+                        "",
+                        "                break;",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "int",
+                        "String"
+                    ],
+                    "signature": "burstToken(final String token, final boolean stopAtNonOption)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "token"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "stopAtNonOption"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "charAt(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "valueOf(char)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "291-295:hasOption"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.PosixParser",
+                            "31-243:PosixParser",
+                            "210-217:processNonOptionToken"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "225-233:getOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "646-648:hasArg"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|token": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|stopAtNonOption": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "118-180:flatten": {
+                    "start": 118,
+                    "end": 180,
+                    "body": [
+                        "@Override",
+                        "    protected String[] flatten(final Options options, final String[] arguments, final boolean stopAtNonOption) throws ParseException {",
+                        "        init();",
+                        "        this.options = options;",
+                        "",
+                        "        // an iterator for the command line tokens",
+                        "        final Iterator<String> iter = Arrays.asList(arguments).iterator();",
+                        "",
+                        "        // process each command line token",
+                        "        while (iter.hasNext()) {",
+                        "            // get the next command line token",
+                        "            final String token = iter.next();",
+                        "",
+                        "            // single or double hyphen",
+                        "            if (\"-\".equals(token) || \"--\".equals(token)) {",
+                        "                tokens.add(token);",
+                        "            }",
+                        "",
+                        "            // handle long option --foo or --foo=bar",
+                        "            else if (token.startsWith(\"--\")) {",
+                        "                final int pos = token.indexOf('=');",
+                        "                final String opt = pos == -1 ? token : token.substring(0, pos); // --foo",
+                        "",
+                        "                final List<String> matchingOpts = options.getMatchingOptions(opt);",
+                        "",
+                        "                if (matchingOpts.isEmpty()) {",
+                        "                    processNonOptionToken(token, stopAtNonOption);",
+                        "                } else if (matchingOpts.size() > 1) {",
+                        "                    throw new AmbiguousOptionException(opt, matchingOpts);",
+                        "                } else {",
+                        "                    currentOption = options.getOption(matchingOpts.get(0));",
+                        "",
+                        "                    tokens.add(\"--\" + currentOption.getLongOpt());",
+                        "                    if (pos != -1) {",
+                        "                        tokens.add(token.substring(pos + 1));",
+                        "                    }",
+                        "                }",
+                        "            }",
+                        "",
+                        "            else if (token.startsWith(\"-\")) {",
+                        "                if (token.length() == 2 || options.hasOption(token)) {",
+                        "                    processOptionToken(token, stopAtNonOption);",
+                        "                } else if (!options.getMatchingOptions(token).isEmpty()) {",
+                        "                    final List<String> matchingOpts = options.getMatchingOptions(token);",
+                        "                    if (matchingOpts.size() > 1) {",
+                        "                        throw new AmbiguousOptionException(token, matchingOpts);",
+                        "                    }",
+                        "                    final Option opt = options.getOption(matchingOpts.get(0));",
+                        "                    processOptionToken(\"-\" + opt.getLongOpt(), stopAtNonOption);",
+                        "                }",
+                        "                // requires bursting",
+                        "                else {",
+                        "                    burstToken(token, stopAtNonOption);",
+                        "                }",
+                        "            } else {",
+                        "                processNonOptionToken(token, stopAtNonOption);",
+                        "            }",
+                        "",
+                        "            gobble(iter);",
+                        "        }",
+                        "",
+                        "        return tokens.toArray(Util.EMPTY_STRING_ARRAY);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [
+                        "String[]"
+                    ],
+                    "body_types": [
+                        "Iterator<String>",
+                        "String",
+                        "int",
+                        "List<String>",
+                        "AmbiguousOptionException",
+                        "Option"
+                    ],
+                    "signature": "flatten(final Options options, final String[] arguments, final boolean stopAtNonOption)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Options",
+                            "name": "options"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String[]",
+                            "name": "arguments"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "stopAtNonOption"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.PosixParser",
+                            "31-243:PosixParser",
+                            "199-202:init"
+                        ],
+                        [
+                            "library",
+                            "java.util.Arrays",
+                            "asList(java.lang.Object[])"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "indexOf(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int,int)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "196-213:getMatchingOptions"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "isEmpty()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.PosixParser",
+                            "31-243:PosixParser",
+                            "210-217:processNonOptionToken"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "size()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.AmbiguousOptionException",
+                            "28-82:AmbiguousOptionException",
+                            "69-72:AmbiguousOptionException"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "get(int)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "225-233:getOption"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "554-556:getLongOpt"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "291-295:hasOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.PosixParser",
+                            "31-243:PosixParser",
+                            "232-242:processOptionToken"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.PosixParser",
+                            "31-243:PosixParser",
+                            "65-86:burstToken"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.PosixParser",
+                            "31-243:PosixParser",
+                            "187-193:gobble"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "toArray(java.lang.Object[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Iterator<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "List<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "AmbiguousOptionException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Options|options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String[]|arguments": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|stopAtNonOption": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "187-193:gobble": {
+                    "start": 187,
+                    "end": 193,
+                    "body": [
+                        "private void gobble(final Iterator<String> iter) {",
+                        "        if (eatTheRest) {",
+                        "            while (iter.hasNext()) {",
+                        "                tokens.add(iter.next());",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "gobble(final Iterator<String> iter)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Iterator<String>",
+                            "name": "iter"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|Iterator<String>|iter": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "199-202:init": {
+                    "start": 199,
+                    "end": 202,
+                    "body": [
+                        "private void init() {",
+                        "        eatTheRest = false;",
+                        "        tokens.clear();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "init()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.List",
+                            "clear()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "210-217:processNonOptionToken": {
+                    "start": 210,
+                    "end": 217,
+                    "body": [
+                        "private void processNonOptionToken(final String value, final boolean stopAtNonOption) {",
+                        "        if (stopAtNonOption && (currentOption == null || !currentOption.hasArg())) {",
+                        "            eatTheRest = true;",
+                        "            tokens.add(\"--\");",
+                        "        }",
+                        "",
+                        "        tokens.add(value);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "processNonOptionToken(final String value, final boolean stopAtNonOption)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "value"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "stopAtNonOption"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "646-648:hasArg"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|value": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|stopAtNonOption": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "232-242:processOptionToken": {
+                    "start": 232,
+                    "end": 242,
+                    "body": [
+                        "private void processOptionToken(final String token, final boolean stopAtNonOption) {",
+                        "        if (stopAtNonOption && !options.hasOption(token)) {",
+                        "            eatTheRest = true;",
+                        "        }",
+                        "",
+                        "        if (options.hasOption(token)) {",
+                        "            currentOption = options.getOption(token);",
+                        "        }",
+                        "",
+                        "        tokens.add(token);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "processOptionToken(final String token, final boolean stopAtNonOption)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "token"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "stopAtNonOption"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "291-295:hasOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "225-233:getOption"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|token": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|stopAtNonOption": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "34-34:tokens": {
+                    "start": 34,
+                    "end": 34,
+                    "enum_constant": false,
+                    "body": [
+                        "private final List<String> tokens = new ArrayList<>();"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "List<String>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "List<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "37-37:eatTheRest": {
+                    "start": 37,
+                    "end": 37,
+                    "enum_constant": false,
+                    "body": [
+                        "private boolean eatTheRest;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "40-40:currentOption": {
+                    "start": 40,
+                    "end": 40,
+                    "enum_constant": false,
+                    "body": [
+                        "private Option currentOption;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "Option"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "43-43:options": {
+                    "start": 43,
+                    "end": 43,
+                    "enum_constant": false,
+                    "body": [
+                        "private Options options;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "Options"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/PosixParser.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/PosixParser.cj",
+    "import_map": {
+        "ArrayList": "java.util.ArrayList",
+        "Arrays": "java.util.Arrays",
+        "Iterator": "java.util.Iterator",
+        "List": "java.util.List"
+    }
+}

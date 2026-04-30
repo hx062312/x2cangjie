@@ -1,0 +1,415 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/test/java/org/apache/commons/cli/DisablePartialMatchingTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertFalse;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertFalse;"
+        },
+        "21-21:import static org.junit.Assert.assertTrue;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "23-23:import org.junit.Test;": {
+            "start": 23,
+            "end": 23,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "25-59:DisablePartialMatchingTest": {
+            "start": 25,
+            "end": 59,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "26-41:testDisablePartialMatching": {
+                    "start": 26,
+                    "end": 41,
+                    "body": [
+                        "@Test",
+                        "    public void testDisablePartialMatching() throws Exception {",
+                        "        final CommandLineParser parser = new DefaultParser(false);",
+                        "",
+                        "        final Options options = new Options();",
+                        "",
+                        "        options.addOption(new Option(\"d\", \"debug\", false, \"Turn on debug.\"));",
+                        "        options.addOption(new Option(\"e\", \"extract\", false, \"Turn on extract.\"));",
+                        "        options.addOption(new Option(\"o\", \"option\", true, \"Turn on option with argument.\"));",
+                        "",
+                        "        final CommandLine line = parser.parse(options, new String[] {\"-de\", \"--option=foobar\"});",
+                        "",
+                        "        assertTrue(\"There should be an option debug in any case...\", line.hasOption(\"debug\"));",
+                        "        assertTrue(\"There should be an extract option because partial matching is off\", line.hasOption(\"extract\"));",
+                        "        assertTrue(\"There should be an option option with a argument value\", line.hasOption(\"option\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "CommandLineParser",
+                        "DefaultParser",
+                        "Options",
+                        "Option",
+                        "CommandLine",
+                        "String"
+                    ],
+                    "signature": "testDisablePartialMatching()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.DefaultParser",
+                            "30-776:DefaultParser",
+                            "182-185:DefaultParser"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "338-348:Option"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLineParser",
+                            "24-85:CommandLineParser",
+                            "35-35:parse"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "414-416:hasOption"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(java.lang.String,boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "CommandLineParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DefaultParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "43-58:testRegularPartialMatching": {
+                    "start": 43,
+                    "end": 58,
+                    "body": [
+                        "@Test",
+                        "    public void testRegularPartialMatching() throws Exception {",
+                        "        final CommandLineParser parser = new DefaultParser();",
+                        "",
+                        "        final Options options = new Options();",
+                        "",
+                        "        options.addOption(new Option(\"d\", \"debug\", false, \"Turn on debug.\"));",
+                        "        options.addOption(new Option(\"e\", \"extract\", false, \"Turn on extract.\"));",
+                        "        options.addOption(new Option(\"o\", \"option\", true, \"Turn on option with argument.\"));",
+                        "",
+                        "        final CommandLine line = parser.parse(options, new String[] {\"-de\", \"--option=foobar\"});",
+                        "",
+                        "        assertTrue(\"There should be an option debug in any case...\", line.hasOption(\"debug\"));",
+                        "        assertFalse(\"There should not be an extract option because partial matching only selects debug\", line.hasOption(\"extract\"));",
+                        "        assertTrue(\"There should be an option option with a argument value\", line.hasOption(\"option\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "CommandLineParser",
+                        "DefaultParser",
+                        "Options",
+                        "Option",
+                        "CommandLine",
+                        "String"
+                    ],
+                    "signature": "testRegularPartialMatching()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.DefaultParser",
+                            "30-776:DefaultParser",
+                            "182-185:DefaultParser"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "338-348:Option"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLineParser",
+                            "24-85:CommandLineParser",
+                            "35-35:parse"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.CommandLine",
+                            "36-464:CommandLine",
+                            "414-416:hasOption"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(java.lang.String,boolean)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertFalse(java.lang.String,boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "CommandLineParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "DefaultParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/DisablePartialMatchingTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/DisablePartialMatchingTest_test.cj",
+    "import_map": {
+        "assertFalse": "static org.junit.Assert.assertFalse",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "Test": "org.junit.Test"
+    }
+}

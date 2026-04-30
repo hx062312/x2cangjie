@@ -1,0 +1,1288 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/test/java/org/apache/commons/cli/OptionsTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertEquals;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "21-21:import static org.junit.Assert.assertNotNull;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertNotNull;"
+        },
+        "22-22:import static org.junit.Assert.assertTrue;": {
+            "start": 22,
+            "end": 22,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "23-23:import static org.junit.Assert.fail;": {
+            "start": 23,
+            "end": 23,
+            "body": "import static org.junit.Assert.fail;"
+        },
+        "25-25:import java.util.ArrayList;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.util.ArrayList;"
+        },
+        "26-26:import java.util.Collection;": {
+            "start": 26,
+            "end": 26,
+            "body": "import java.util.Collection;"
+        },
+        "28-28:import org.junit.Test;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "30-168:OptionsTest": {
+            "start": 30,
+            "end": 168,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@SuppressWarnings(\"deprecation\")",
+                "// tests some deprecated classes",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "32-38:testDuplicateLong": {
+                    "start": 32,
+                    "end": 38,
+                    "body": [
+                        "@Test",
+                        "    public void testDuplicateLong() {",
+                        "        final Options opts = new Options();",
+                        "        opts.addOption(\"a\", \"--a\", false, \"toggle -a\");",
+                        "        opts.addOption(\"a\", \"--a\", false, \"toggle -a*\");",
+                        "        assertEquals(\"last one in wins\", \"toggle -a*\", opts.getOption(\"a\").getDescription());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options"
+                    ],
+                    "signature": "testDuplicateLong()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "225-233:getOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "525-527:getDescription"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "40-47:testDuplicateSimple": {
+                    "start": 40,
+                    "end": 47,
+                    "body": [
+                        "@Test",
+                        "    public void testDuplicateSimple() {",
+                        "        final Options opts = new Options();",
+                        "        opts.addOption(\"a\", false, \"toggle -a\");",
+                        "        opts.addOption(\"a\", true, \"toggle -a*\");",
+                        "",
+                        "        assertEquals(\"last one in wins\", \"toggle -a*\", opts.getOption(\"a\").getDescription());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options"
+                    ],
+                    "signature": "testDuplicateSimple()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "225-233:getOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "525-527:getDescription"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.String,java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "49-58:testGetMatchingOpts": {
+                    "start": 49,
+                    "end": 58,
+                    "body": [
+                        "@Test",
+                        "    public void testGetMatchingOpts() {",
+                        "        final Options options = new Options();",
+                        "        options.addOption(OptionBuilder.withLongOpt(\"version\").create());",
+                        "        options.addOption(OptionBuilder.withLongOpt(\"verbose\").create());",
+                        "",
+                        "        assertTrue(options.getMatchingOptions(\"foo\").isEmpty());",
+                        "        assertEquals(1, options.getMatchingOptions(\"version\").size());",
+                        "        assertEquals(2, options.getMatchingOptions(\"ver\").size());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options"
+                    ],
+                    "signature": "testGetMatchingOpts()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "272-276:withLongOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "72-79:create"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "196-213:getMatchingOptions"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "isEmpty()"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "size()"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "60-77:testGetOptionsGroups": {
+                    "start": 60,
+                    "end": 77,
+                    "body": [
+                        "@Test",
+                        "    public void testGetOptionsGroups() {",
+                        "        final Options options = new Options();",
+                        "",
+                        "        final OptionGroup group1 = new OptionGroup();",
+                        "        group1.addOption(OptionBuilder.create('a'));",
+                        "        group1.addOption(OptionBuilder.create('b'));",
+                        "",
+                        "        final OptionGroup group2 = new OptionGroup();",
+                        "        group2.addOption(OptionBuilder.create('x'));",
+                        "        group2.addOption(OptionBuilder.create('y'));",
+                        "",
+                        "        options.addOptionGroup(group1);",
+                        "        options.addOptionGroup(group2);",
+                        "",
+                        "        assertNotNull(options.getOptionGroups());",
+                        "        assertEquals(2, options.getOptionGroups().size());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options",
+                        "OptionGroup"
+                    ],
+                    "signature": "testGetOptionsGroups()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "72-79:create"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionGroup",
+                            "29-155:OptionGroup",
+                            "48-54:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "142-158:addOptionGroup"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "250-252:getOptionGroups"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNotNull(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collection",
+                            "size()"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(long,long)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "OptionGroup": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "79-108:testHelpOptions": {
+                    "start": 79,
+                    "end": 108,
+                    "body": [
+                        "@Test",
+                        "    public void testHelpOptions() {",
+                        "        final Option longOnly1 = OptionBuilder.withLongOpt(\"long-only1\").create();",
+                        "        final Option longOnly2 = OptionBuilder.withLongOpt(\"long-only2\").create();",
+                        "        final Option shortOnly1 = OptionBuilder.create(\"1\");",
+                        "        final Option shortOnly2 = OptionBuilder.create(\"2\");",
+                        "        final Option bothA = OptionBuilder.withLongOpt(\"bothA\").create(\"a\");",
+                        "        final Option bothB = OptionBuilder.withLongOpt(\"bothB\").create(\"b\");",
+                        "",
+                        "        final Options options = new Options();",
+                        "        options.addOption(longOnly1);",
+                        "        options.addOption(longOnly2);",
+                        "        options.addOption(shortOnly1);",
+                        "        options.addOption(shortOnly2);",
+                        "        options.addOption(bothA);",
+                        "        options.addOption(bothB);",
+                        "",
+                        "        final Collection<Option> allOptions = new ArrayList<>();",
+                        "        allOptions.add(longOnly1);",
+                        "        allOptions.add(longOnly2);",
+                        "        allOptions.add(shortOnly1);",
+                        "        allOptions.add(shortOnly2);",
+                        "        allOptions.add(bothA);",
+                        "        allOptions.add(bothB);",
+                        "",
+                        "        final Collection<Option> helpOptions = options.helpOptions();",
+                        "",
+                        "        assertTrue(\"Everything in all should be in help\", helpOptions.containsAll(allOptions));",
+                        "        assertTrue(\"Everything in help should be in all\", allOptions.containsAll(helpOptions));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Option",
+                        "Options",
+                        "Collection<Option>",
+                        "ArrayList<>"
+                    ],
+                    "signature": "testHelpOptions()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "272-276:withLongOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "72-79:create"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collection",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "315-317:helpOptions"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collection",
+                            "containsAll(java.util.Collection)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(java.lang.String,boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Collection<Option>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ArrayList<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "110-119:testLong": {
+                    "start": 110,
+                    "end": 119,
+                    "body": [
+                        "@Test",
+                        "    public void testLong() {",
+                        "        final Options opts = new Options();",
+                        "",
+                        "        opts.addOption(\"a\", \"--a\", false, \"toggle -a\");",
+                        "        opts.addOption(\"b\", \"--b\", true, \"set -b\");",
+                        "",
+                        "        assertTrue(opts.hasOption(\"a\"));",
+                        "        assertTrue(opts.hasOption(\"b\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options"
+                    ],
+                    "signature": "testLong()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "291-295:hasOption"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "121-131:testMissingOptionException": {
+                    "start": 121,
+                    "end": 131,
+                    "body": [
+                        "@Test",
+                        "    public void testMissingOptionException() throws ParseException {",
+                        "        final Options options = new Options();",
+                        "        options.addOption(OptionBuilder.isRequired().create(\"f\"));",
+                        "        try {",
+                        "            new PosixParser().parse(options, new String[0]);",
+                        "            fail(\"Expected MissingOptionException to be thrown\");",
+                        "        } catch (final MissingOptionException e) {",
+                        "            assertEquals(\"Missing required option: f\", e.getMessage());",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options",
+                        "PosixParser",
+                        "String",
+                        "MissingOptionException"
+                    ],
+                    "signature": "testMissingOptionException()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "210-214:isRequired"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "72-79:create"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Parser",
+                            "32-358:Parser",
+                            "82-85:parse"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "PosixParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "MissingOptionException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "133-144:testMissingOptionsException": {
+                    "start": 133,
+                    "end": 144,
+                    "body": [
+                        "@Test",
+                        "    public void testMissingOptionsException() throws ParseException {",
+                        "        final Options options = new Options();",
+                        "        options.addOption(OptionBuilder.isRequired().create(\"f\"));",
+                        "        options.addOption(OptionBuilder.isRequired().create(\"x\"));",
+                        "        try {",
+                        "            new PosixParser().parse(options, new String[0]);",
+                        "            fail(\"Expected MissingOptionException to be thrown\");",
+                        "        } catch (final MissingOptionException e) {",
+                        "            assertEquals(\"Missing required options: f, x\", e.getMessage());",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options",
+                        "PosixParser",
+                        "String",
+                        "MissingOptionException"
+                    ],
+                    "signature": "testMissingOptionsException()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "210-214:isRequired"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionBuilder",
+                            "31-357:OptionBuilder",
+                            "72-79:create"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Parser",
+                            "32-358:Parser",
+                            "82-85:parse"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "PosixParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "MissingOptionException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "146-155:testSimple": {
+                    "start": 146,
+                    "end": 155,
+                    "body": [
+                        "@Test",
+                        "    public void testSimple() {",
+                        "        final Options opts = new Options();",
+                        "",
+                        "        opts.addOption(\"a\", false, \"toggle -a\");",
+                        "        opts.addOption(\"b\", true, \"toggle -b\");",
+                        "",
+                        "        assertTrue(opts.hasOption(\"a\"));",
+                        "        assertTrue(opts.hasOption(\"b\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options"
+                    ],
+                    "signature": "testSimple()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "291-295:hasOption"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "157-167:testToString": {
+                    "start": 157,
+                    "end": 167,
+                    "body": [
+                        "@Test",
+                        "    public void testToString() {",
+                        "        final Options options = new Options();",
+                        "        options.addOption(\"f\", \"foo\", true, \"Foo\");",
+                        "        options.addOption(\"b\", \"bar\", false, \"Bar\");",
+                        "",
+                        "        final String s = options.toString();",
+                        "        assertNotNull(\"null string returned\", s);",
+                        "        assertTrue(\"foo option missing\", s.toLowerCase().contains(\"foo\"));",
+                        "        assertTrue(\"bar option missing\", s.toLowerCase().contains(\"bar\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options",
+                        "String"
+                    ],
+                    "signature": "testToString()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "324-335:toString"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertNotNull(java.lang.String,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toLowerCase()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "contains(java.lang.CharSequence)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertTrue(java.lang.String,boolean)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/OptionsTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/OptionsTest_test.cj",
+    "import_map": {
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertNotNull": "static org.junit.Assert.assertNotNull",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "fail": "static org.junit.Assert.fail",
+        "ArrayList": "java.util.ArrayList",
+        "Collection": "java.util.Collection",
+        "Test": "org.junit.Test"
+    }
+}

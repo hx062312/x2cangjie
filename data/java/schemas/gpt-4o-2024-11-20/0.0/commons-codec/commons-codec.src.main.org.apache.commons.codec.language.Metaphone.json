@@ -1,0 +1,1769 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/language/Metaphone.java",
+    "imports": {
+        "20-20:import org.apache.commons.codec.EncoderException;": {
+            "start": 20,
+            "end": 20,
+            "body": "import org.apache.commons.codec.EncoderException;"
+        },
+        "21-21:import org.apache.commons.codec.StringEncoder;": {
+            "start": 21,
+            "end": 21,
+            "body": "import org.apache.commons.codec.StringEncoder;"
+        }
+    },
+    "classes": {
+        "52-424:Metaphone": {
+            "start": 52,
+            "end": 424,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [
+                "StringEncoder"
+            ],
+            "extends": [],
+            "methods": {
+                "77-78:Metaphone": {
+                    "start": 77,
+                    "end": 78,
+                    "body": [
+                        "public Metaphone() {",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "Metaphone()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "90-330:metaphone": {
+                    "start": 90,
+                    "end": 330,
+                    "body": [
+                        "public String metaphone(final String txt) {",
+                        "        boolean hard = false;",
+                        "        final int txtLength;",
+                        "        if (txt == null || (txtLength = txt.length()) == 0) {",
+                        "            return \"\";",
+                        "        }",
+                        "        // single character is itself",
+                        "        if (txtLength == 1) {",
+                        "            return txt.toUpperCase(java.util.Locale.ENGLISH);",
+                        "        }",
+                        "",
+                        "        final char[] inwd = txt.toUpperCase(java.util.Locale.ENGLISH).toCharArray();",
+                        "",
+                        "        final StringBuilder local = new StringBuilder(40); // manipulate",
+                        "        final StringBuilder code = new StringBuilder(10); //   output",
+                        "        // handle initial 2 characters exceptions",
+                        "        switch(inwd[0]) {",
+                        "        case 'K':",
+                        "        case 'G':",
+                        "        case 'P': /* looking for KN, etc*/",
+                        "            if (inwd[1] == 'N') {",
+                        "                local.append(inwd, 1, inwd.length - 1);",
+                        "            } else {",
+                        "                local.append(inwd);",
+                        "            }",
+                        "            break;",
+                        "        case 'A': /* looking for AE */",
+                        "            if (inwd[1] == 'E') {",
+                        "                local.append(inwd, 1, inwd.length - 1);",
+                        "            } else {",
+                        "                local.append(inwd);",
+                        "            }",
+                        "            break;",
+                        "        case 'W': /* looking for WR or WH */",
+                        "            if (inwd[1] == 'R') {   // WR -> R",
+                        "                local.append(inwd, 1, inwd.length - 1);",
+                        "                break;",
+                        "            }",
+                        "            if (inwd[1] == 'H') {",
+                        "                local.append(inwd, 1, inwd.length - 1);",
+                        "                local.setCharAt(0, 'W'); // WH -> W",
+                        "            } else {",
+                        "                local.append(inwd);",
+                        "            }",
+                        "            break;",
+                        "        case 'X': /* initial X becomes S */",
+                        "            inwd[0] = 'S';",
+                        "            local.append(inwd);",
+                        "            break;",
+                        "        default:",
+                        "            local.append(inwd);",
+                        "        } // now local has working string with initials fixed",
+                        "",
+                        "        final int wdsz = local.length();",
+                        "        int n = 0;",
+                        "",
+                        "        while (code.length() < this.getMaxCodeLen() &&",
+                        "               n < wdsz ) { // max code size of 4 works well",
+                        "            final char symb = local.charAt(n);",
+                        "            // remove duplicate letters except C",
+                        "            if (symb != 'C' && isPreviousChar( local, n, symb ) ) {",
+                        "                n++;",
+                        "            } else { // not dup",
+                        "                switch(symb) {",
+                        "                case 'A':",
+                        "                case 'E':",
+                        "                case 'I':",
+                        "                case 'O':",
+                        "                case 'U':",
+                        "                    if (n == 0) {",
+                        "                        code.append(symb);",
+                        "                    }",
+                        "                    break; // only use vowel if leading char",
+                        "                case 'B':",
+                        "                    if ( isPreviousChar(local, n, 'M') &&",
+                        "                         isLastChar(wdsz, n) ) { // B is silent if word ends in MB",
+                        "                        break;",
+                        "                    }",
+                        "                    code.append(symb);",
+                        "                    break;",
+                        "                case 'C': // lots of C special cases",
+                        "                    /* discard if SCI, SCE or SCY */",
+                        "                    if ( isPreviousChar(local, n, 'S') &&",
+                        "                         !isLastChar(wdsz, n) &&",
+                        "                         FRONTV.indexOf(local.charAt(n + 1)) >= 0 ) {",
+                        "                        break;",
+                        "                    }",
+                        "                    if (regionMatch(local, n, \"CIA\")) { // \"CIA\" -> X",
+                        "                        code.append('X');",
+                        "                        break;",
+                        "                    }",
+                        "                    if (!isLastChar(wdsz, n) &&",
+                        "                        FRONTV.indexOf(local.charAt(n + 1)) >= 0) {",
+                        "                        code.append('S');",
+                        "                        break; // CI,CE,CY -> S",
+                        "                    }",
+                        "                    if (isPreviousChar(local, n, 'S') &&",
+                        "                        isNextChar(local, n, 'H') ) { // SCH->sk",
+                        "                        code.append('K');",
+                        "                        break;",
+                        "                    }",
+                        "                    if (isNextChar(local, n, 'H')) { // detect CH",
+                        "                        if (n == 0 &&",
+                        "                            wdsz >= 3 &&",
+                        "                            isVowel(local,2) ) { // CH consonant -> K consonant",
+                        "                            code.append('K');",
+                        "                        } else {",
+                        "                            code.append('X'); // CHvowel -> X",
+                        "                        }",
+                        "                    } else {",
+                        "                        code.append('K');",
+                        "                    }",
+                        "                    break;",
+                        "                case 'D':",
+                        "                    if (!isLastChar(wdsz, n + 1) &&",
+                        "                        isNextChar(local, n, 'G') &&",
+                        "                        FRONTV.indexOf(local.charAt(n + 2)) >= 0) { // DGE DGI DGY -> J",
+                        "                        code.append('J'); n += 2;",
+                        "                    } else {",
+                        "                        code.append('T');",
+                        "                    }",
+                        "                    break;",
+                        "                case 'G': // GH silent at end or before consonant",
+                        "                    if (isLastChar(wdsz, n + 1) &&",
+                        "                        isNextChar(local, n, 'H')) {",
+                        "                        break;",
+                        "                    }",
+                        "                    if (!isLastChar(wdsz, n + 1) &&",
+                        "                        isNextChar(local,n,'H') &&",
+                        "                        !isVowel(local,n+2)) {",
+                        "                        break;",
+                        "                    }",
+                        "                    if (n > 0 &&",
+                        "                        ( regionMatch(local, n, \"GN\") ||",
+                        "                          regionMatch(local, n, \"GNED\") ) ) {",
+                        "                        break; // silent G",
+                        "                    }",
+                        "                    // NOTE: Given that duplicated chars are removed, I don't see how this can ever be true",
+                        "                    hard = isPreviousChar(local, n, 'G');",
+                        "                    if (!isLastChar(wdsz, n) &&",
+                        "                        FRONTV.indexOf(local.charAt(n + 1)) >= 0 &&",
+                        "                        !hard) {",
+                        "                        code.append('J');",
+                        "                    } else {",
+                        "                        code.append('K');",
+                        "                    }",
+                        "                    break;",
+                        "                case 'H':",
+                        "                    if (isLastChar(wdsz, n)) {",
+                        "                        break; // terminal H",
+                        "                    }",
+                        "                    if (n > 0 &&",
+                        "                        VARSON.indexOf(local.charAt(n - 1)) >= 0) {",
+                        "                        break;",
+                        "                    }",
+                        "                    if (isVowel(local,n+1)) {",
+                        "                        code.append('H'); // Hvowel",
+                        "                    }",
+                        "                    break;",
+                        "                case 'F':",
+                        "                case 'J':",
+                        "                case 'L':",
+                        "                case 'M':",
+                        "                case 'N':",
+                        "                case 'R':",
+                        "                    code.append(symb);",
+                        "                    break;",
+                        "                case 'K':",
+                        "                    if (n > 0) { // not initial",
+                        "                        if (!isPreviousChar(local, n, 'C')) {",
+                        "                            code.append(symb);",
+                        "                        }",
+                        "                    } else {",
+                        "                        code.append(symb); // initial K",
+                        "                    }",
+                        "                    break;",
+                        "                case 'P':",
+                        "                    if (isNextChar(local,n,'H')) {",
+                        "                        // PH -> F",
+                        "                        code.append('F');",
+                        "                    } else {",
+                        "                        code.append(symb);",
+                        "                    }",
+                        "                    break;",
+                        "                case 'Q':",
+                        "                    code.append('K');",
+                        "                    break;",
+                        "                case 'S':",
+                        "                    if (regionMatch(local,n,\"SH\") ||",
+                        "                        regionMatch(local,n,\"SIO\") ||",
+                        "                        regionMatch(local,n,\"SIA\")) {",
+                        "                        code.append('X');",
+                        "                    } else {",
+                        "                        code.append('S');",
+                        "                    }",
+                        "                    break;",
+                        "                case 'T':",
+                        "                    if (regionMatch(local,n,\"TIA\") ||",
+                        "                        regionMatch(local,n,\"TIO\")) {",
+                        "                        code.append('X');",
+                        "                        break;",
+                        "                    }",
+                        "                    if (regionMatch(local,n,\"TCH\")) {",
+                        "                        // Silent if in \"TCH\"",
+                        "                        break;",
+                        "                    }",
+                        "                    // substitute numeral 0 for TH (resembles theta after all)",
+                        "                    if (regionMatch(local,n,\"TH\")) {",
+                        "                        code.append('0');",
+                        "                    } else {",
+                        "                        code.append('T');",
+                        "                    }",
+                        "                    break;",
+                        "                case 'V':",
+                        "                    code.append('F'); break;",
+                        "                case 'W':",
+                        "                case 'Y': // silent if not followed by vowel",
+                        "                    if (!isLastChar(wdsz,n) &&",
+                        "                        isVowel(local,n+1)) {",
+                        "                        code.append(symb);",
+                        "                    }",
+                        "                    break;",
+                        "                case 'X':",
+                        "                    code.append('K');",
+                        "                    code.append('S');",
+                        "                    break;",
+                        "                case 'Z':",
+                        "                    code.append('S');",
+                        "                    break;",
+                        "                default:",
+                        "                    // do nothing",
+                        "                    break;",
+                        "                } // end switch",
+                        "                n++;",
+                        "            } // end else from symb != 'C'",
+                        "            if (code.length() > this.getMaxCodeLen()) {",
+                        "                code.setLength(this.getMaxCodeLen());",
+                        "            }",
+                        "        }",
+                        "        return code.toString();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "boolean",
+                        "int",
+                        "char[]",
+                        "char",
+                        "StringBuilder"
+                    ],
+                    "signature": "metaphone(final String txt)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "txt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toUpperCase(java.util.Locale)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char[],int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char[])"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "setCharAt(int,char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "length()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "416-416:getMaxCodeLen"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "charAt(int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "336-343:isPreviousChar"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "364-366:isLastChar"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "indexOf(int)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "354-362:regionMatch"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "345-352:isNextChar"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "332-334:isVowel"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "setLength(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "StringBuilder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|txt": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "332-334:isVowel": {
+                    "start": 332,
+                    "end": 334,
+                    "body": [
+                        "private boolean isVowel(final StringBuilder string, final int index) {",
+                        "        return VOWELS.indexOf(string.charAt(index)) >= 0;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isVowel(final StringBuilder string, final int index)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "StringBuilder",
+                            "name": "string"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "index"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "charAt(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "indexOf(int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|StringBuilder|string": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|index": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "336-343:isPreviousChar": {
+                    "start": 336,
+                    "end": 343,
+                    "body": [
+                        "private boolean isPreviousChar(final StringBuilder string, final int index, final char c) {",
+                        "        boolean matches = false;",
+                        "        if( index > 0 &&",
+                        "            index < string.length() ) {",
+                        "            matches = string.charAt(index - 1) == c;",
+                        "        }",
+                        "        return matches;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "boolean"
+                    ],
+                    "signature": "isPreviousChar(final StringBuilder string, final int index, final char c)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "StringBuilder",
+                            "name": "string"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "index"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "charAt(int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|StringBuilder|string": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|index": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char|c": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "345-352:isNextChar": {
+                    "start": 345,
+                    "end": 352,
+                    "body": [
+                        "private boolean isNextChar(final StringBuilder string, final int index, final char c) {",
+                        "        boolean matches = false;",
+                        "        if( index >= 0 &&",
+                        "            index < string.length() - 1 ) {",
+                        "            matches = string.charAt(index + 1) == c;",
+                        "        }",
+                        "        return matches;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "boolean"
+                    ],
+                    "signature": "isNextChar(final StringBuilder string, final int index, final char c)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "StringBuilder",
+                            "name": "string"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "index"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "charAt(int)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|StringBuilder|string": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|index": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|char|c": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "354-362:regionMatch": {
+                    "start": 354,
+                    "end": 362,
+                    "body": [
+                        "private boolean regionMatch(final StringBuilder string, final int index, final String test) {",
+                        "        boolean matches = false;",
+                        "        if( index >= 0 &&",
+                        "            index + test.length() - 1 < string.length() ) {",
+                        "            final String substring = string.substring( index, index + test.length());",
+                        "            matches = substring.equals( test );",
+                        "        }",
+                        "        return matches;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "boolean",
+                        "String"
+                    ],
+                    "signature": "regionMatch(final StringBuilder string, final int index, final String test)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "StringBuilder",
+                            "name": "string"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "index"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "test"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "substring(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|StringBuilder|string": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|index": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|test": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "364-366:isLastChar": {
+                    "start": 364,
+                    "end": 366,
+                    "body": [
+                        "private boolean isLastChar(final int wdsz, final int n) {",
+                        "        return n + 1 == wdsz;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isLastChar(final int wdsz, final int n)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "wdsz"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "n"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|int|wdsz": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|n": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "381-387:encode": {
+                    "start": 381,
+                    "end": 387,
+                    "body": [
+                        "@Override",
+                        "    public Object encode(final Object obj) throws EncoderException {",
+                        "        if (!(obj instanceof String)) {",
+                        "            throw new EncoderException(\"Parameter supplied to Metaphone encode is not of type java.lang.String\");",
+                        "        }",
+                        "        return metaphone((String) obj);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Object"
+                    ],
+                    "body_types": [
+                        "String",
+                        "EncoderException"
+                    ],
+                    "signature": "encode(final Object obj)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Object",
+                            "name": "obj"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.EncoderException",
+                            "26-87:EncoderException",
+                            "41-42:EncoderException"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "90-330:metaphone"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Object": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "EncoderException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Object|obj": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "395-398:encode": {
+                    "start": 395,
+                    "end": 398,
+                    "body": [
+                        "@Override",
+                        "    public String encode(final String str) {",
+                        "        return metaphone(str);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "encode(final String str)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "str"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "90-330:metaphone"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|str": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "408-410:isMetaphoneEqual": {
+                    "start": 408,
+                    "end": 410,
+                    "body": [
+                        "public boolean isMetaphoneEqual(final String str1, final String str2) {",
+                        "        return metaphone(str1).equals(metaphone(str2));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isMetaphoneEqual(final String str1, final String str2)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "str1"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "str2"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.Metaphone",
+                            "52-424:Metaphone",
+                            "90-330:metaphone"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|str1": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|str2": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "416-416:getMaxCodeLen": {
+                    "start": 416,
+                    "end": 416,
+                    "body": [
+                        "public int getMaxCodeLen() { return this.maxCodeLen; }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "getMaxCodeLen()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "422-422:setMaxCodeLen": {
+                    "start": 422,
+                    "end": 422,
+                    "body": [
+                        "public void setMaxCodeLen(final int maxCodeLen) { this.maxCodeLen = maxCodeLen; }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "setMaxCodeLen(final int maxCodeLen)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "maxCodeLen"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|int|maxCodeLen": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "57-57:VOWELS": {
+                    "start": 57,
+                    "end": 57,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final String VOWELS = \"AEIOU\";"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "62-62:FRONTV": {
+                    "start": 62,
+                    "end": 62,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final String FRONTV = \"EIY\";"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "67-67:VARSON": {
+                    "start": 67,
+                    "end": 67,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final String VARSON = \"CSPTG\";"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "72-72:maxCodeLen": {
+                    "start": 72,
+                    "end": 72,
+                    "enum_constant": false,
+                    "body": [
+                        "private int maxCodeLen = 4;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/language/Metaphone.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/language/Metaphone.cj",
+    "import_map": {
+        "EncoderException": "org.apache.commons.codec.EncoderException",
+        "StringEncoder": "org.apache.commons.codec.StringEncoder"
+    }
+}

@@ -1,0 +1,315 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/main/java/org/apache/commons/cli/GnuParser.java",
+    "imports": {
+        "20-20:import java.util.ArrayList;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.ArrayList;"
+        },
+        "21-21:import java.util.List;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.List;"
+        }
+    },
+    "classes": {
+        "29-89:GnuParser": {
+            "start": 29,
+            "end": 89,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@Deprecated",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "Parser"
+            ],
+            "methods": {
+                "45-88:flatten": {
+                    "start": 45,
+                    "end": 88,
+                    "body": [
+                        "@Override",
+                        "    protected String[] flatten(final Options options, final String[] arguments, final boolean stopAtNonOption) {",
+                        "        final List<String> tokens = new ArrayList<>();",
+                        "",
+                        "        boolean eatTheRest = false;",
+                        "",
+                        "        for (int i = 0; i < arguments.length; i++) {",
+                        "            final String arg = arguments[i];",
+                        "",
+                        "            if (\"--\".equals(arg)) {",
+                        "                eatTheRest = true;",
+                        "                tokens.add(\"--\");",
+                        "            } else if (\"-\".equals(arg)) {",
+                        "                tokens.add(\"-\");",
+                        "            } else if (arg.startsWith(\"-\")) {",
+                        "                final String opt = Util.stripLeadingHyphens(arg);",
+                        "",
+                        "                if (options.hasOption(opt)) {",
+                        "                    tokens.add(arg);",
+                        "                } else if (opt.indexOf('=') != -1 && options.hasOption(opt.substring(0, opt.indexOf('=')))) {",
+                        "                    // the format is --foo=value or -foo=value",
+                        "                    tokens.add(arg.substring(0, arg.indexOf('='))); // --foo",
+                        "                    tokens.add(arg.substring(arg.indexOf('=') + 1)); // value",
+                        "                } else if (options.hasOption(arg.substring(0, 2))) {",
+                        "                    // the format is a special properties option (-Dproperty=value)",
+                        "                    tokens.add(arg.substring(0, 2)); // -D",
+                        "                    tokens.add(arg.substring(2)); // property=value",
+                        "                } else {",
+                        "                    eatTheRest = stopAtNonOption;",
+                        "                    tokens.add(arg);",
+                        "                }",
+                        "            } else {",
+                        "                tokens.add(arg);",
+                        "            }",
+                        "",
+                        "            if (eatTheRest) {",
+                        "                for (i++; i < arguments.length; i++) { // NOPMD",
+                        "                    tokens.add(arguments[i]);",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "",
+                        "        return tokens.toArray(Util.EMPTY_STRING_ARRAY);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [
+                        "String[]"
+                    ],
+                    "body_types": [
+                        "List<String>",
+                        "ArrayList<>",
+                        "boolean",
+                        "int",
+                        "String"
+                    ],
+                    "signature": "flatten(final Options options, final String[] arguments, final boolean stopAtNonOption)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Options",
+                            "name": "options"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String[]",
+                            "name": "arguments"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "stopAtNonOption"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Util",
+                            "23-66:Util",
+                            "53-65:stripLeadingHyphens"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "291-295:hasOption"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "indexOf(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "toArray(java.lang.Object[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "List<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ArrayList<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Options|options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String[]|arguments": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|stopAtNonOption": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/GnuParser.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/GnuParser.cj",
+    "import_map": {
+        "ArrayList": "java.util.ArrayList",
+        "List": "java.util.List"
+    }
+}

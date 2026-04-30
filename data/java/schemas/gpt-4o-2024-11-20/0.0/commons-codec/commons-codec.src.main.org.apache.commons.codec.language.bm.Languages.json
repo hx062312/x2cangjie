@@ -1,0 +1,2233 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/language/bm/Languages.java",
+    "imports": {
+        "20-20:import java.util.Collections;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.Collections;"
+        },
+        "21-21:import java.util.EnumMap;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.EnumMap;"
+        },
+        "22-22:import java.util.HashSet;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.HashSet;"
+        },
+        "23-23:import java.util.Map;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.Map;"
+        },
+        "24-24:import java.util.NoSuchElementException;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.util.NoSuchElementException;"
+        },
+        "25-25:import java.util.Scanner;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.util.Scanner;"
+        },
+        "26-26:import java.util.Set;": {
+            "start": 26,
+            "end": 26,
+            "body": "import java.util.Set;"
+        },
+        "28-28:import org.apache.commons.codec.Resources;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.apache.commons.codec.Resources;"
+        }
+    },
+    "classes": {
+        "55-287:Languages": {
+            "start": 55,
+            "end": 287,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [
+                "66-83:LanguageSet",
+                "88-156:SomeLanguages"
+            ],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "168-170:getInstance": {
+                    "start": 168,
+                    "end": 170,
+                    "body": [
+                        "public static Languages getInstance(final NameType nameType) {",
+                        "        return LANGUAGES.get(nameType);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "Languages"
+                    ],
+                    "body_types": [],
+                    "signature": "getInstance(final NameType nameType)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "NameType",
+                            "name": "nameType"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Map",
+                            "get(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashSet",
+                            "<init>()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.Resources",
+                            "27-42:Resources",
+                            "35-41:getInputStream"
+                        ],
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "<init>(java.io.InputStream,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "hasNextLine()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "nextLine()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "trim()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "endsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "isEmpty()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Set",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collections",
+                            "unmodifiableSet(java.util.Set)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "55-287:Languages",
+                            "280-282:Languages"
+                        ],
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|NameType|nameType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "172-192:getInstance": {
+                    "start": 172,
+                    "end": 192,
+                    "body": [
+                        "public static Languages getInstance(final String languagesResourceName) {",
+                        "        // read languages list",
+                        "        final Set<String> ls = new HashSet<>();",
+                        "        try (final Scanner lsScanner = new Scanner(Resources.getInputStream(languagesResourceName),",
+                        "                ResourceConstants.ENCODING)) {",
+                        "            boolean inExtendedComment = false;",
+                        "            while (lsScanner.hasNextLine()) {",
+                        "                final String line = lsScanner.nextLine().trim();",
+                        "                if (inExtendedComment) {",
+                        "                    if (line.endsWith(ResourceConstants.EXT_CMT_END)) {",
+                        "                        inExtendedComment = false;",
+                        "                    }",
+                        "                } else if (line.startsWith(ResourceConstants.EXT_CMT_START)) {",
+                        "                    inExtendedComment = true;",
+                        "                } else if (!line.isEmpty()) {",
+                        "                    ls.add(line);",
+                        "                }",
+                        "            }",
+                        "            return new Languages(Collections.unmodifiableSet(ls));",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "Languages"
+                    ],
+                    "body_types": [
+                        "Set<String>",
+                        "HashSet<>",
+                        "Scanner",
+                        "boolean",
+                        "String",
+                        "Languages"
+                    ],
+                    "signature": "getInstance(final String languagesResourceName)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "languagesResourceName"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Scanner",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "addSuppressed(java.lang.Throwable)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "HashSet<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Scanner": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|languagesResourceName": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": true
+                },
+                "194-196:langResourceName": {
+                    "start": 194,
+                    "end": 196,
+                    "body": [
+                        "private static String langResourceName(final NameType nameType) {",
+                        "        return String.format(\"org/apache/commons/codec/language/bm/%s_languages.txt\", nameType.getName());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "langResourceName(final NameType nameType)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "NameType",
+                            "name": "nameType"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.NameType",
+                            "27-52:NameType",
+                            "49-51:getName"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "format(java.lang.String,java.lang.Object[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|NameType|nameType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "280-282:Languages": {
+                    "start": 280,
+                    "end": 282,
+                    "body": [
+                        "private Languages(final Set<String> languages) {",
+                        "        this.languages = languages;",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "Languages(final Set<String> languages)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Set<String>",
+                            "name": "languages"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|Set<String>|languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "284-286:getLanguages": {
+                    "start": 284,
+                    "end": 286,
+                    "body": [
+                        "public Set<String> getLanguages() {",
+                        "        return this.languages;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Set<String>"
+                    ],
+                    "body_types": [],
+                    "signature": "getLanguages()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "158-158:ANY": {
+                    "start": 158,
+                    "end": 158,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final String ANY = \"any\";"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "160-160:LANGUAGES": {
+                    "start": 160,
+                    "end": 160,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final Map<NameType, Languages> LANGUAGES = new EnumMap<>(NameType.class);"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "Map<NameType, Languages>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Map<NameType, Languages>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "198-198:languages": {
+                    "start": 198,
+                    "end": 198,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Set<String> languages;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Set<String>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "203-238:NO_LANGUAGES": {
+                    "start": 203,
+                    "end": 238,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final LanguageSet NO_LANGUAGES = new LanguageSet() {",
+                        "        @Override",
+                        "        public boolean contains(final String language) {",
+                        "            return false;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public String getAny() {",
+                        "            throw new NoSuchElementException(\"Can't fetch any language from the empty language set.\");",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public boolean isEmpty() {",
+                        "            return true;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public boolean isSingleton() {",
+                        "            return false;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public LanguageSet restrictTo(final LanguageSet other) {",
+                        "            return this;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public LanguageSet merge(final LanguageSet other) {",
+                        "            return other;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public String toString() {",
+                        "            return \"NO_LANGUAGES\";",
+                        "        }",
+                        "    };"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "LanguageSet"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "243-278:ANY_LANGUAGE": {
+                    "start": 243,
+                    "end": 278,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final LanguageSet ANY_LANGUAGE = new LanguageSet() {",
+                        "        @Override",
+                        "        public boolean contains(final String language) {",
+                        "            return true;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public String getAny() {",
+                        "            throw new NoSuchElementException(\"Can't fetch any language from the any language set.\");",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public boolean isEmpty() {",
+                        "            return false;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public boolean isSingleton() {",
+                        "            return false;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public LanguageSet restrictTo(final LanguageSet other) {",
+                        "            return other;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public LanguageSet merge(final LanguageSet other) {",
+                        "            return other;",
+                        "        }",
+                        "",
+                        "        @Override",
+                        "        public String toString() {",
+                        "            return \"ANY_LANGUAGE\";",
+                        "        }",
+                        "    };"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "LanguageSet"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            },
+            "static_initializers": {
+                "162-166:run_static_init": {
+                    "start": 162,
+                    "end": 166,
+                    "body": [
+                        "static {",
+                        "        for (final NameType s : NameType.values()) {",
+                        "            LANGUAGES.put(s, getInstance(langResourceName(s)));",
+                        "        }",
+                        "    }"
+                    ],
+                    "type_translations": {},
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        },
+        "66-83:LanguageSet": {
+            "start": 66,
+            "end": 83,
+            "is_abstract": true,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public",
+                "static",
+                "abstract"
+            ],
+            "nested_inside": "55-287:Languages",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "68-70:from": {
+                    "start": 68,
+                    "end": 70,
+                    "body": [
+                        "public static LanguageSet from(final Set<String> langs) {",
+                        "            return langs.isEmpty() ? NO_LANGUAGES : new SomeLanguages(langs);",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "LanguageSet"
+                    ],
+                    "body_types": [
+                        "SomeLanguages"
+                    ],
+                    "signature": "from(final Set<String> langs)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Set<String>",
+                            "name": "langs"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Set",
+                            "isEmpty()"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "88-156:SomeLanguages",
+                            "91-93:SomeLanguages"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "SomeLanguages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Set<String>|langs": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "72-72:contains": {
+                    "start": 72,
+                    "end": 72,
+                    "body": [
+                        "public abstract boolean contains(String language);"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "contains( String language)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "language"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|String|language": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "74-74:getAny": {
+                    "start": 74,
+                    "end": 74,
+                    "body": [
+                        "public abstract String getAny();"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getAny()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "76-76:isEmpty": {
+                    "start": 76,
+                    "end": 76,
+                    "body": [
+                        "public abstract boolean isEmpty();"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isEmpty()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "78-78:isSingleton": {
+                    "start": 78,
+                    "end": 78,
+                    "body": [
+                        "public abstract boolean isSingleton();"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isSingleton()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "80-80:restrictTo": {
+                    "start": 80,
+                    "end": 80,
+                    "body": [
+                        "public abstract LanguageSet restrictTo(LanguageSet other);"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "LanguageSet"
+                    ],
+                    "body_types": [],
+                    "signature": "restrictTo( LanguageSet other)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "LanguageSet",
+                            "name": "other"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|LanguageSet|other": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "82-82:merge": {
+                    "start": 82,
+                    "end": 82,
+                    "body": [
+                        "abstract LanguageSet merge(LanguageSet other);"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "abstract"
+                    ],
+                    "return_types": [
+                        "LanguageSet"
+                    ],
+                    "body_types": [],
+                    "signature": "merge( LanguageSet other)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "LanguageSet",
+                            "name": "other"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|LanguageSet|other": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        },
+        "88-156:SomeLanguages": {
+            "start": 88,
+            "end": 156,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public",
+                "static",
+                "final"
+            ],
+            "nested_inside": "55-287:Languages",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "LanguageSet"
+            ],
+            "methods": {
+                "91-93:SomeLanguages": {
+                    "start": 91,
+                    "end": 93,
+                    "body": [
+                        "private SomeLanguages(final Set<String> languages) {",
+                        "            this.languages = Collections.unmodifiableSet(languages);",
+                        "        }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "SomeLanguages(final Set<String> languages)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Set<String>",
+                            "name": "languages"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Collections",
+                            "unmodifiableSet(java.util.Set)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "88-156:SomeLanguages",
+                            "91-93:SomeLanguages"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "final|Set<String>|languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "95-98:contains": {
+                    "start": 95,
+                    "end": 98,
+                    "body": [
+                        "@Override",
+                        "        public boolean contains(final String language) {",
+                        "            return this.languages.contains(language);",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "contains(final String language)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "language"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Set",
+                            "contains(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|language": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "100-103:getAny": {
+                    "start": 100,
+                    "end": 103,
+                    "body": [
+                        "@Override",
+                        "        public String getAny() {",
+                        "            return this.languages.iterator().next();",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getAny()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Set",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "105-107:getLanguages": {
+                    "start": 105,
+                    "end": 107,
+                    "body": [
+                        "public Set<String> getLanguages() {",
+                        "            return this.languages;",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Set<String>"
+                    ],
+                    "body_types": [],
+                    "signature": "getLanguages()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "109-112:isEmpty": {
+                    "start": 109,
+                    "end": 112,
+                    "body": [
+                        "@Override",
+                        "        public boolean isEmpty() {",
+                        "            return this.languages.isEmpty();",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isEmpty()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Set",
+                            "isEmpty()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "114-117:isSingleton": {
+                    "start": 114,
+                    "end": 117,
+                    "body": [
+                        "@Override",
+                        "        public boolean isSingleton() {",
+                        "            return this.languages.size() == 1;",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isSingleton()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Set",
+                            "size()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "119-135:restrictTo": {
+                    "start": 119,
+                    "end": 135,
+                    "body": [
+                        "@Override",
+                        "        public LanguageSet restrictTo(final LanguageSet other) {",
+                        "            if (other == NO_LANGUAGES) {",
+                        "                return other;",
+                        "            }",
+                        "            if (other == ANY_LANGUAGE) {",
+                        "                return this;",
+                        "            }",
+                        "            final SomeLanguages someLanguages = (SomeLanguages) other;",
+                        "            final Set<String> set = new HashSet<>(Math.min(languages.size(), someLanguages.languages.size()));",
+                        "            for (final String lang : languages) {",
+                        "                if (someLanguages.languages.contains(lang)) {",
+                        "                    set.add(lang);",
+                        "                }",
+                        "            }",
+                        "            return from(set);",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "LanguageSet"
+                    ],
+                    "body_types": [
+                        "SomeLanguages",
+                        "Set<String>",
+                        "HashSet<>",
+                        "String"
+                    ],
+                    "signature": "restrictTo(final LanguageSet other)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "LanguageSet",
+                            "name": "other"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Set",
+                            "size()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "min(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashSet",
+                            "<init>(int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Set",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Set",
+                            "contains(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Set",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "66-83:LanguageSet",
+                            "68-70:from"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "SomeLanguages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "HashSet<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|LanguageSet|other": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "137-149:merge": {
+                    "start": 137,
+                    "end": 149,
+                    "body": [
+                        "@Override",
+                        "        public LanguageSet merge(final LanguageSet other) {",
+                        "            if (other == NO_LANGUAGES) {",
+                        "                return this;",
+                        "            }",
+                        "            if (other == ANY_LANGUAGE) {",
+                        "                return other;",
+                        "            }",
+                        "            final SomeLanguages someLanguages = (SomeLanguages) other;",
+                        "            final Set<String> set = new HashSet<>(languages);",
+                        "            set.addAll(someLanguages.languages);",
+                        "            return from(set);",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "LanguageSet"
+                    ],
+                    "body_types": [
+                        "SomeLanguages",
+                        "Set<String>",
+                        "HashSet<>"
+                    ],
+                    "signature": "merge(final LanguageSet other)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "LanguageSet",
+                            "name": "other"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.HashSet",
+                            "<init>(java.util.Collection)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Set",
+                            "addAll(java.util.Collection)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "66-83:LanguageSet",
+                            "68-70:from"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "SomeLanguages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "HashSet<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|LanguageSet|other": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "151-154:toString": {
+                    "start": 151,
+                    "end": 154,
+                    "body": [
+                        "@Override",
+                        "        public String toString() {",
+                        "            return \"Languages(\" + languages.toString() + \")\";",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "toString()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "89-89:languages": {
+                    "start": 89,
+                    "end": 89,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Set<String> languages;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Set<String>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Set<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/bm/Languages.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/bm/Languages.cj",
+    "import_map": {
+        "Collections": "java.util.Collections",
+        "EnumMap": "java.util.EnumMap",
+        "HashSet": "java.util.HashSet",
+        "Map": "java.util.Map",
+        "NoSuchElementException": "java.util.NoSuchElementException",
+        "Scanner": "java.util.Scanner",
+        "Set": "java.util.Set",
+        "Resources": "org.apache.commons.codec.Resources"
+    }
+}

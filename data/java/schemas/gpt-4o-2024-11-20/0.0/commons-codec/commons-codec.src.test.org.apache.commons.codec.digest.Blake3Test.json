@@ -1,0 +1,251 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/digest/Blake3Test.java",
+    "imports": {
+        "19-19:import org.junit.Test;": {
+            "start": 19,
+            "end": 19,
+            "body": "import org.junit.Test;"
+        },
+        "21-21:import static org.junit.Assert.assertEquals;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "22-22:import static org.junit.Assert.fail;": {
+            "start": 22,
+            "end": 22,
+            "body": "import static org.junit.Assert.fail;"
+        }
+    },
+    "classes": {
+        "24-41:Blake3Test": {
+            "start": 24,
+            "end": 41,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "25-31:shouldThrowIllegalArgumentExceptionWhenIncorrectKeySize": {
+                    "start": 25,
+                    "end": 31,
+                    "body": [
+                        "@Test",
+                        "    public void shouldThrowIllegalArgumentExceptionWhenIncorrectKeySize() {",
+                        "        for (int i = 0; i < 32; i++) {",
+                        "            assertThrowsProperExceptionWithKeySize(i);",
+                        "        }",
+                        "        assertThrowsProperExceptionWithKeySize(33);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "shouldThrowIllegalArgumentExceptionWhenIncorrectKeySize()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.digest.Blake3Test",
+                            "24-41:Blake3Test",
+                            "33-40:assertThrowsProperExceptionWithKeySize"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "33-40:assertThrowsProperExceptionWithKeySize": {
+                    "start": 33,
+                    "end": 40,
+                    "body": [
+                        "private static void assertThrowsProperExceptionWithKeySize(final int keySize) {",
+                        "        try {",
+                        "            Blake3.initKeyedHash(new byte[keySize]);",
+                        "            fail(\"Should have thrown exception\");",
+                        "        } catch (final IllegalArgumentException expected) {",
+                        "            assertEquals(\"Blake3 keys must be 32 bytes\", expected.getMessage());",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte",
+                        "IllegalArgumentException"
+                    ],
+                    "signature": "assertThrowsProperExceptionWithKeySize(final int keySize)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "keySize"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.digest.Blake3",
+                            "76-538:Blake3",
+                            "202-208:initKeyedHash"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "fail(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.IllegalArgumentException",
+                            "getMessage()"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IllegalArgumentException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|int|keySize": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/digest/Blake3Test_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/digest/Blake3Test_test.cj",
+    "import_map": {
+        "Test": "org.junit.Test",
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "fail": "static org.junit.Assert.fail"
+    }
+}

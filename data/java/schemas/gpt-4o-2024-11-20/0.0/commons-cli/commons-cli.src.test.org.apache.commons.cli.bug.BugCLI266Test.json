@@ -1,0 +1,825 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-cli/src/test/java/org/apache/commons/cli/bug/BugCLI266Test.java",
+    "imports": {
+        "20-20:import java.util.ArrayList;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.ArrayList;"
+        },
+        "21-21:import java.util.Arrays;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.Arrays;"
+        },
+        "22-22:import java.util.Collection;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.Collection;"
+        },
+        "23-23:import java.util.Collections;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.Collections;"
+        },
+        "24-24:import java.util.List;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.util.List;"
+        },
+        "26-26:import org.apache.commons.cli.HelpFormatter;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.apache.commons.cli.HelpFormatter;"
+        },
+        "27-27:import org.apache.commons.cli.Option;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.apache.commons.cli.Option;"
+        },
+        "28-28:import org.apache.commons.cli.OptionGroup;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.apache.commons.cli.OptionGroup;"
+        },
+        "29-29:import org.apache.commons.cli.Options;": {
+            "start": 29,
+            "end": 29,
+            "body": "import org.apache.commons.cli.Options;"
+        },
+        "30-30:import org.junit.Assert;": {
+            "start": 30,
+            "end": 30,
+            "body": "import org.junit.Assert;"
+        },
+        "31-31:import org.junit.Test;": {
+            "start": 31,
+            "end": 31,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "33-127:BugCLI266Test": {
+            "start": 33,
+            "end": 127,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "38-70:buildOptionsGroup": {
+                    "start": 38,
+                    "end": 70,
+                    "body": [
+                        "private void buildOptionsGroup(final Options options) {",
+                        "        final OptionGroup firstGroup = new OptionGroup();",
+                        "        final OptionGroup secondGroup = new OptionGroup();",
+                        "        firstGroup.setRequired(true);",
+                        "        secondGroup.setRequired(true);",
+                        "",
+                        "        //@formatter:off",
+                        "        firstGroup.addOption(Option.builder(\"d\")",
+                        "                .longOpt(\"db\")",
+                        "                .hasArg()",
+                        "                .argName(\"table-name\")",
+                        "                .build());",
+                        "        firstGroup.addOption(Option.builder(\"f\")",
+                        "                .longOpt(\"flat-file\")",
+                        "                .hasArg()",
+                        "                .argName(\"input.csv\")",
+                        "                .build());",
+                        "        //@formatter:on",
+                        "        options.addOptionGroup(firstGroup);",
+                        "        //@formatter:off",
+                        "        secondGroup.addOption(Option.builder(\"x\")",
+                        "                .hasArg()",
+                        "                .argName(\"arg1\")",
+                        "                .build());",
+                        "        secondGroup.addOption(Option.builder(\"s\")",
+                        "                .build());",
+                        "        secondGroup.addOption(Option.builder(\"p\")",
+                        "                .hasArg()",
+                        "                .argName(\"arg1\")",
+                        "                .build());",
+                        "        //@formatter:on",
+                        "        options.addOptionGroup(secondGroup);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "OptionGroup"
+                    ],
+                    "signature": "buildOptionsGroup(final Options options)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Options",
+                            "name": "options"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionGroup",
+                            "29-155:OptionGroup",
+                            "91-93:setRequired"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "166-169:longOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "134-136:hasArg"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "100-103:argName"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "111-116:build"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionGroup",
+                            "29-155:OptionGroup",
+                            "48-54:addOption"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "142-158:addOptionGroup"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "OptionGroup": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Options|options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "72-104:getOptions": {
+                    "start": 72,
+                    "end": 104,
+                    "body": [
+                        "private Options getOptions() {",
+                        "        final Options options = new Options();",
+                        "        //@formatter:off",
+                        "        final Option help = Option.builder(\"h\")",
+                        "                .longOpt(\"help\")",
+                        "                .desc(\"Prints this help message\")",
+                        "                .build();",
+                        "        //@formatter:on",
+                        "        options.addOption(help);",
+                        "",
+                        "        buildOptionsGroup(options);",
+                        "",
+                        "        //@formatter:off",
+                        "        final Option t = Option.builder(\"t\")",
+                        "                .required()",
+                        "                .hasArg()",
+                        "                .argName(\"file\")",
+                        "                .build();",
+                        "        final Option w = Option.builder(\"w\")",
+                        "                .required()",
+                        "                .hasArg()",
+                        "                .argName(\"word\")",
+                        "                .build();",
+                        "        final Option o = Option.builder(\"o\")",
+                        "                .hasArg()",
+                        "                .argName(\"directory\")",
+                        "                .build();",
+                        "        //@formatter:on",
+                        "        options.addOption(t);",
+                        "        options.addOption(w);",
+                        "        options.addOption(o);",
+                        "        return options;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [
+                        "Options",
+                        "Option"
+                    ],
+                    "signature": "getOptions()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "287-289:builder"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "166-169:longOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "124-127:desc"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "111-116:build"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "63-82:addOption"
+                        ],
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.bug.BugCLI266Test",
+                            "33-127:BugCLI266Test",
+                            "38-70:buildOptionsGroup"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "211-213:required"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "134-136:hasArg"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "55-270:Builder",
+                            "100-103:argName"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "106-116:testOptionComparatorDefaultOrder": {
+                    "start": 106,
+                    "end": 116,
+                    "body": [
+                        "@Test",
+                        "    public void testOptionComparatorDefaultOrder() {",
+                        "        final HelpFormatter formatter = new HelpFormatter();",
+                        "        final List<Option> options = new ArrayList<>(getOptions().getOptions());",
+                        "        Collections.sort(options, formatter.getOptionComparator());",
+                        "        int i = 0;",
+                        "        for (final Option o : options) {",
+                        "            Assert.assertEquals(o.getOpt(), sortOrder.get(i));",
+                        "            i++;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "HelpFormatter",
+                        "List<Option>",
+                        "ArrayList<>",
+                        "int",
+                        "Option"
+                    ],
+                    "signature": "testOptionComparatorDefaultOrder()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.bug.BugCLI266Test",
+                            "33-127:BugCLI266Test",
+                            "72-104:getOptions"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "259-261:getOptions"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>(java.util.Collection)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.HelpFormatter",
+                            "66-932:HelpFormatter",
+                            "375-377:getOptionComparator"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collections",
+                            "sort(java.util.List,java.util.Comparator)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "566-568:getOpt"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "get(int)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "HelpFormatter": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "List<Option>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ArrayList<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "118-126:testOptionComparatorInsertedOrder": {
+                    "start": 118,
+                    "end": 126,
+                    "body": [
+                        "@Test",
+                        "    public void testOptionComparatorInsertedOrder() {",
+                        "        final Collection<Option> options = getOptions().getOptions();",
+                        "        int i = 0;",
+                        "        for (final Option o : options) {",
+                        "            Assert.assertEquals(o.getOpt(), insertedOrder.get(i));",
+                        "            i++;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Collection<Option>",
+                        "int",
+                        "Option"
+                    ],
+                    "signature": "testOptionComparatorInsertedOrder()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.test.org.apache.commons.cli.bug.BugCLI266Test",
+                            "33-127:BugCLI266Test",
+                            "72-104:getOptions"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "39-336:Options",
+                            "259-261:getOptions"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collection",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "41-895:Option",
+                            "566-568:getOpt"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "get(int)"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Collection<Option>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {
+                "35-35:insertedOrder": {
+                    "start": 35,
+                    "end": 35,
+                    "enum_constant": false,
+                    "body": [
+                        "private final List<String> insertedOrder = Arrays.asList(\"h\", \"d\", \"f\", \"x\", \"s\", \"p\", \"t\", \"w\", \"o\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "List<String>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "List<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "36-36:sortOrder": {
+                    "start": 36,
+                    "end": 36,
+                    "enum_constant": false,
+                    "body": [
+                        "private final List<String> sortOrder = Arrays.asList(\"d\", \"f\", \"h\", \"o\", \"p\", \"s\", \"t\", \"w\", \"x\");"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "List<String>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "List<String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/bug/BugCLI266Test_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-cli/src/bug/BugCLI266Test_test.cj",
+    "import_map": {
+        "ArrayList": "java.util.ArrayList",
+        "Arrays": "java.util.Arrays",
+        "Collection": "java.util.Collection",
+        "Collections": "java.util.Collections",
+        "List": "java.util.List",
+        "HelpFormatter": "org.apache.commons.cli.HelpFormatter",
+        "Option": "org.apache.commons.cli.Option",
+        "OptionGroup": "org.apache.commons.cli.OptionGroup",
+        "Options": "org.apache.commons.cli.Options",
+        "Assert": "org.junit.Assert",
+        "Test": "org.junit.Test"
+    }
+}

@@ -1,0 +1,919 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/test/java/org/apache/commons/codec/language/bm/PhoneticEngineRegressionTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.*;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.*;"
+        },
+        "22-22:import java.util.Arrays;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.Arrays;"
+        },
+        "23-23:import java.util.HashSet;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.HashSet;"
+        },
+        "24-24:import java.util.Map;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.util.Map;"
+        },
+        "25-25:import java.util.TreeMap;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.util.TreeMap;"
+        },
+        "27-27:import org.junit.Test;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "34-243:PhoneticEngineRegressionTest": {
+            "start": 34,
+            "end": 243,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "36-80:testSolrGENERIC": {
+                    "start": 36,
+                    "end": 80,
+                    "body": [
+                        "@Test",
+                        "    public void testSolrGENERIC() {",
+                        "        Map<String, String> args;",
+                        "",
+                        "        // concat is true, ruleType is EXACT",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"GENERIC\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo\");",
+                        "        args.put(\"ruleType\", \"EXACT\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"anZelo|andZelo|angelo|anhelo|anjelo|anxelo\");",
+                        "        assertEquals(encode(args, true, \"D'Angelo\"), \"(anZelo|andZelo|angelo|anhelo|anjelo|anxelo)-(danZelo|dandZelo|dangelo|danhelo|danjelo|danxelo)\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"andZelo|angelo|anxelo\");",
+                        "        assertEquals(encode(args, true, \"1234\"), \"\");",
+                        "",
+                        "        // concat is false, ruleType is EXACT",
+                        "        args = new TreeMap<>();",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo\");",
+                        "        args.put(\"ruleType\", \"EXACT\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"anZelo|andZelo|angelo|anhelo|anjelo|anxelo\");",
+                        "        assertEquals(encode(args, false, \"D'Angelo\"), \"(anZelo|andZelo|angelo|anhelo|anjelo|anxelo)-(danZelo|dandZelo|dangelo|danhelo|danjelo|danxelo)\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"andZelo|angelo|anxelo\");",
+                        "        assertEquals(encode(args, false, \"1234\"), \"\");",
+                        "",
+                        "        // concat is true, ruleType is APPROX",
+                        "        args = new TreeMap<>();",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo\");",
+                        "        args.put(\"ruleType\", \"APPROX\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo\");",
+                        "        assertEquals(encode(args, true, \"D'Angelo\"), \"(YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo)-(dYngYlo|dYngilo|dagilo|dangYlo|dangilo|daniilo|danilo|danxilo|danzilo|dogilo|dongYlo|dongilo|doniilo|donilo|donxilo|donzilo)\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"angilo|anxilo|anzilo|ongilo|onxilo|onzilo\");",
+                        "        assertEquals(encode(args, true, \"1234\"), \"\");",
+                        "",
+                        "        // concat is false, ruleType is APPROX",
+                        "        args = new TreeMap<>();",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo\");",
+                        "        args.put(\"ruleType\", \"APPROX\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo\");",
+                        "        assertEquals(encode(args, false, \"D'Angelo\"), \"(YngYlo|Yngilo|agilo|angYlo|angilo|aniilo|anilo|anxilo|anzilo|ogilo|ongYlo|ongilo|oniilo|onilo|onxilo|onzilo)-(dYngYlo|dYngilo|dagilo|dangYlo|dangilo|daniilo|danilo|danxilo|danzilo|dogilo|dongYlo|dongilo|doniilo|donilo|donxilo|donzilo)\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"angilo|anxilo|anzilo|ongilo|onxilo|onzilo\");",
+                        "        assertEquals(encode(args, false, \"1234\"), \"\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Map<String, String>",
+                        "TreeMap<>"
+                    ],
+                    "signature": "testSolrGENERIC()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.TreeMap",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "put(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.PhoneticEngineRegressionTest",
+                            "34-243:PhoneticEngineRegressionTest",
+                            "207-242:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Map<String, String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "TreeMap<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "82-129:testSolrASHKENAZI": {
+                    "start": 82,
+                    "end": 129,
+                    "body": [
+                        "@Test",
+                        "    public void testSolrASHKENAZI() {",
+                        "        Map<String, String> args;",
+                        "",
+                        "        // concat is true, ruleType is EXACT",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"ASHKENAZI\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"YngYlo|Yngilo|angYlo|angilo|anilo|anxilo|anzilo|ongYlo|ongilo|onilo|onxilo|onzilo\");",
+                        "        args.put(\"ruleType\", \"EXACT\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"andZelo|angelo|anhelo|anxelo\");",
+                        "        assertEquals(encode(args, true, \"D'Angelo\"), \"dandZelo|dangelo|danhelo|danxelo\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"angelo|anxelo\");",
+                        "        assertEquals(encode(args, true, \"1234\"), \"\");",
+                        "",
+                        "        // concat is false, ruleType is EXACT",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"ASHKENAZI\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"YngYlo|Yngilo|angYlo|angilo|anilo|anxilo|anzilo|ongYlo|ongilo|onilo|onxilo|onzilo\");",
+                        "        args.put(\"ruleType\", \"EXACT\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"andZelo|angelo|anhelo|anxelo\");",
+                        "        assertEquals(encode(args, false, \"D'Angelo\"), \"dandZelo|dangelo|danhelo|danxelo\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"angelo|anxelo\");",
+                        "        assertEquals(encode(args, false, \"1234\"), \"\");",
+                        "",
+                        "        // concat is true, ruleType is APPROX",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"ASHKENAZI\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"YngYlo|Yngilo|angYlo|angilo|anilo|anxilo|anzilo|ongYlo|ongilo|onilo|onxilo|onzilo\");",
+                        "        args.put(\"ruleType\", \"APPROX\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"YngYlo|Yngilo|angYlo|angilo|anilo|anxilo|anzilo|ongYlo|ongilo|onilo|onxilo|onzilo\");",
+                        "        assertEquals(encode(args, true, \"D'Angelo\"), \"dYngYlo|dYngilo|dangYlo|dangilo|danilo|danxilo|danzilo|dongYlo|dongilo|donilo|donxilo|donzilo\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"angilo|anxilo|ongilo|onxilo\");",
+                        "        assertEquals(encode(args, true, \"1234\"), \"\");",
+                        "",
+                        "        // concat is false, ruleType is APPROX",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"ASHKENAZI\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"YngYlo|Yngilo|angYlo|angilo|anilo|anxilo|anzilo|ongYlo|ongilo|onilo|onxilo|onzilo\");",
+                        "        args.put(\"ruleType\", \"APPROX\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"YngYlo|Yngilo|angYlo|angilo|anilo|anxilo|anzilo|ongYlo|ongilo|onilo|onxilo|onzilo\");",
+                        "        assertEquals(encode(args, false, \"D'Angelo\"), \"dYngYlo|dYngilo|dangYlo|dangilo|danilo|danxilo|danzilo|dongYlo|dongilo|donilo|donxilo|donzilo\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"angilo|anxilo|ongilo|onxilo\");",
+                        "        assertEquals(encode(args, false, \"1234\"), \"\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Map<String, String>",
+                        "TreeMap<>"
+                    ],
+                    "signature": "testSolrASHKENAZI()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.TreeMap",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "put(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.PhoneticEngineRegressionTest",
+                            "34-243:PhoneticEngineRegressionTest",
+                            "207-242:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Map<String, String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "TreeMap<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "131-178:testSolrSEPHARDIC": {
+                    "start": 131,
+                    "end": 178,
+                    "body": [
+                        "@Test",
+                        "    public void testSolrSEPHARDIC() {",
+                        "        Map<String, String> args;",
+                        "",
+                        "        // concat is true, ruleType is EXACT",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"SEPHARDIC\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        args.put(\"ruleType\", \"EXACT\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"anZelo|andZelo|anxelo\");",
+                        "        assertEquals(encode(args, true, \"D'Angelo\"), \"anZelo|andZelo|anxelo\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"andZelo|anxelo\");",
+                        "        assertEquals(encode(args, true, \"1234\"), \"\");",
+                        "",
+                        "        // concat is false, ruleType is EXACT",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"SEPHARDIC\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        args.put(\"ruleType\", \"EXACT\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"anZelo|andZelo|anxelo\");",
+                        "        assertEquals(encode(args, false, \"D'Angelo\"), \"danZelo|dandZelo|danxelo\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"andZelo|anxelo\");",
+                        "        assertEquals(encode(args, false, \"1234\"), \"\");",
+                        "",
+                        "        // concat is true, ruleType is APPROX",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"SEPHARDIC\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        args.put(\"ruleType\", \"APPROX\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        assertEquals(encode(args, true, \"D'Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, true, \"Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        assertEquals(encode(args, true, \"1234\"), \"\");",
+                        "",
+                        "        // concat is false, ruleType is APPROX",
+                        "        args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"SEPHARDIC\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        args.put(\"ruleType\", \"APPROX\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        assertEquals(encode(args, false, \"D'Angelo\"), \"danhila|danhilu|danzila|danzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        args.put(\"languageSet\", \"italian,greek,spanish\");",
+                        "        assertEquals(encode(args, false, \"Angelo\"), \"anhila|anhilu|anzila|anzilu|nhila|nhilu|nzila|nzilu\");",
+                        "        assertEquals(encode(args, false, \"1234\"), \"\");",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Map<String, String>",
+                        "TreeMap<>"
+                    ],
+                    "signature": "testSolrSEPHARDIC()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.TreeMap",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "put(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.PhoneticEngineRegressionTest",
+                            "34-243:PhoneticEngineRegressionTest",
+                            "207-242:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Map<String, String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "TreeMap<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "180-198:testCompatibilityWithOriginalVersion": {
+                    "start": 180,
+                    "end": 198,
+                    "body": [
+                        "@Test",
+                        "    public void testCompatibilityWithOriginalVersion() {",
+                        "        // see CODEC-187",
+                        "        // comparison: http://stevemorse.org/census/soundex.html",
+                        "",
+                        "        final Map<String, String> args = new TreeMap<>();",
+                        "        args.put(\"nameType\", \"GENERIC\");",
+                        "        args.put(\"ruleType\", \"APPROX\");",
+                        "",
+                        "        assertEquals(encode(args, true, \"abram\"), \"Ybram|Ybrom|abram|abran|abrom|abron|avram|avrom|obram|obran|obrom|obron|ovram|ovrom\");",
+                        "        assertEquals(encode(args, true, \"Bendzin\"), \"bndzn|bntsn|bnzn|vndzn|vntsn\");",
+                        "",
+                        "        args.put(\"nameType\", \"ASHKENAZI\");",
+                        "        args.put(\"ruleType\", \"APPROX\");",
+                        "",
+                        "        assertEquals(encode(args, true, \"abram\"), \"Ybram|Ybrom|abram|abrom|avram|avrom|imbram|imbrom|obram|obrom|ombram|ombrom|ovram|ovrom\");",
+                        "        assertEquals(encode(args, true, \"Halpern\"), \"YlpYrn|Ylpirn|alpYrn|alpirn|olpYrn|olpirn|xalpirn|xolpirn\");",
+                        "",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Map<String, String>",
+                        "TreeMap<>"
+                    ],
+                    "signature": "testCompatibilityWithOriginalVersion()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.TreeMap",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "put(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.test.org.apache.commons.codec.language.bm.PhoneticEngineRegressionTest",
+                            "34-243:PhoneticEngineRegressionTest",
+                            "207-242:encode"
+                        ],
+                        [
+                            "library",
+                            "org.junit.Assert",
+                            "assertEquals(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Map<String, String>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "TreeMap<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                },
+                "207-242:encode": {
+                    "start": 207,
+                    "end": 242,
+                    "body": [
+                        "private static String encode(final Map<String, String> args, final boolean concat, final String input) {",
+                        "        final Languages.LanguageSet languageSet;",
+                        "        final PhoneticEngine engine;",
+                        "",
+                        "        // PhoneticEngine = NameType + RuleType + concat",
+                        "        // we use common-codec's defaults: GENERIC + APPROX + true",
+                        "        final String nameTypeArg = args.get(\"nameType\");",
+                        "        final NameType nameType = (nameTypeArg == null) ? NameType.GENERIC : NameType.valueOf(nameTypeArg);",
+                        "",
+                        "        final String ruleTypeArg = args.get(\"ruleType\");",
+                        "        final RuleType ruleType = (ruleTypeArg == null) ? RuleType.APPROX : RuleType.valueOf(ruleTypeArg);",
+                        "",
+                        "        engine = new PhoneticEngine(nameType, ruleType, concat);",
+                        "",
+                        "        // LanguageSet: defaults to automagic, otherwise a comma-separated list.",
+                        "        final String languageSetArg = args.get(\"languageSet\");",
+                        "        if (languageSetArg == null || languageSetArg.equals(\"auto\")) {",
+                        "            languageSet = null;",
+                        "        } else {",
+                        "            languageSet = Languages.LanguageSet.from(new HashSet<>(Arrays.asList(languageSetArg.split(\",\"))));",
+                        "        }",
+                        "",
+                        "        /*",
+                        "            org/apache/lucene/analysis/phonetic/BeiderMorseFilter.java (lines 96-98) does this:",
+                        "",
+                        "            encoded = (languages == null)",
+                        "                ? engine.encode(termAtt.toString())",
+                        "                : engine.encode(termAtt.toString(), languages);",
+                        "",
+                        "            Hence our approach, below:",
+                        "        */",
+                        "        if (languageSet == null) {",
+                        "            return engine.encode(input);",
+                        "        }",
+                        "        return engine.encode(input, languageSet);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "Languages.LanguageSet",
+                        "Languages",
+                        "LanguageSet",
+                        "PhoneticEngine",
+                        "String",
+                        "NameType",
+                        "RuleType",
+                        "HashSet<>"
+                    ],
+                    "signature": "encode(final Map<String, String> args, final boolean concat, final String input)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Map<String, String>",
+                            "name": "args"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "concat"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "input"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Map",
+                            "get(java.lang.Object)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.PhoneticEngine",
+                            "53-525:PhoneticEngine",
+                            "290-292:PhoneticEngine"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "split(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Arrays",
+                            "asList(java.lang.Object[])"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashSet",
+                            "<init>(java.util.Collection)"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.Languages",
+                            "66-83:LanguageSet",
+                            "68-70:from"
+                        ],
+                        [
+                            "commons-codec.src.main.org.apache.commons.codec.language.bm.PhoneticEngine",
+                            "53-525:PhoneticEngine",
+                            "379-382:encode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Languages.LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Languages": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "LanguageSet": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "PhoneticEngine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "NameType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "RuleType": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "HashSet<>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Map<String, String>|args": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|concat": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|input": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/bm/PhoneticEngineRegressionTest_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/bm/PhoneticEngineRegressionTest_test.cj",
+    "import_map": {
+        "*": "static org.junit.Assert.*",
+        "Arrays": "java.util.Arrays",
+        "HashSet": "java.util.HashSet",
+        "Map": "java.util.Map",
+        "TreeMap": "java.util.TreeMap",
+        "Test": "org.junit.Test"
+    }
+}

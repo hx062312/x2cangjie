@@ -1,0 +1,377 @@
+# x2cangjie 项目预处理与翻译流程指南
+
+x2cangjie 是一个将 Java 代码翻译为 Cangjie 的工具链，基于 TRAM 架构但采用 Java→Cangjie 翻译模式。
+
+## 核心特点
+
+**增量翻译验证**：翻译过程中逐步替换骨架文件中的 `throw Exception('TODO')` 占位符，每翻译一个片段即进行编译验证，确保代码正确性。
+
+**与 cangjie 的主要区别**：使用 tree-sitter 直接解析 Java AST 生成 Schema，而非 CodeQL。
+
+## 环境要求
+
+- Python 3.8+
+- Java 17+
+- tree-sitter-java
+- Cangjie SDK (cjc, cjpm)
+- LLM API 配置 (configs/model_configs.yaml)
+
+## 初始数据准备
+
+> 参考 TRAM 环境配置，详情见 TRAM/Dockerfile
+
+### 1. tree-sitter 语法文件
+
+```bash
+mkdir -p misc/sitter-libs
+git clone https://github.com/tree-sitter/tree-sitter-java.git misc/sitter-libs/java
+cd misc/sitter-libs/java && git checkout v0.23.5
+git clone https://github.com/tree-sitter/tree-sitter-python.git misc/sitter-libs/python
+cd misc/sitter-libs/python && git checkout v0.23.5
+```
+
+### 2. JavaCallgraph
+
+```bash
+mkdir -p misc/java-callgraph
+git clone https://github.com/gousiosg/java-callgraph.git misc/java-callgraph
+cd misc/java-callgraph && mvn clean install -DskipTests
+```
+
+### 3. 类型映射文件
+
+```bash
+mkdir -p data/java/type_resolution
+# 使用 cangjie 项目中已有的类型映射，或参考 cangjie 创建
+```
+
+## 阶段一：项目预处理
+
+> 阶段一复用 TRAM 的预处理流程。详细步骤参考 TRAM/README.md。
+
+### 1.0 下载原始 Java 项目
+
+```bash
+bash scripts/java/download_original_projects.sh
+```
+
+- **作用：** 从 GitHub 下载 10 个 Apache Commons 系列 Java 项目。
+- **生成文件：** `projects/java/original_projects/` 目录。
+- **包含项目：** commons-cli, commons-codec, commons-csv, commons-exec, JavaFastPFOR, commons-fileupload, commons-graph, jansi, commons-pool, commons-validator
+
+### 1.1 构建并验证 Java 项目
+
+```bash
+bash scripts/java/build_original_projects.sh
+```
+
+- **作用：** 在 `cleaned_final_projects_decomposed_tests` 目录下构建并测试所有项目。
+- **依赖：** 需要 Java 8 环境和 Maven。
+- **注意：** 仅验证项目能正常编译测试，不进行翻译。
+
+### 1.2 添加 JAR 插件
+
+**命令：**
+
+```bash
+bash scripts/java/add_plugin.sh <project>
+```
+
+- **作用：** 将 `<project>-jar-plugin` 添加到项目的 `pom.xml`，用于生成测试 JAR。
+- **生成文件：** `projects/java/automated_reduced_projects/<project>/` 目录（从 `original_projects` 复制并添加插件）。
+
+------
+
+### 1.3 构建项目并合并 JAR
+
+**命令：**
+
+```bash
+bash scripts/java/merge_jar.sh <project>
+```
+
+- **作用：** 执行 `mvn clean install` 构建项目，将主代码和测试代码合并成单个 JAR。
+- **依赖：** 需要 Java 和 Maven 环境。
+- **生成文件：**
+  - `projects/java/automated_reduced_projects/<project>/target/*.jar` (主 JAR)
+  - `projects/java/automated_reduced_projects/<project>/target/*-tests.jar` (测试 JAR)
+  - `projects/java/automated_reduced_projects/<project>/target/*-merged.jar` (合并后的 JAR)
+
+------
+
+### 1.4 生成调用图
+
+**命令：**
+
+```bash
+bash scripts/java/generate_cg.sh <project>
+```
+
+- **作用：** 使用 `JavaCallgraph` 工具生成项目的调用图。
+- **依赖：** `misc/java-callgraph/target/javacg-0.1-SNAPSHOT-static.jar`
+- **生成文件：** `projects/java/automated_reduced_projects/<project>/callgraph.txt`
+
+------
+
+### 1.5 缩减第三方依赖
+
+**命令：**
+
+```bash
+bash scripts/java/reduce_third_party_libs.sh <project>
+cp projects/java/automated_reduced_projects/<project> projects/java/cleaned_final_projects/<project>
+```
+
+- **作用：** 分析调用图，移除未使用的第三方依赖，只保留项目自身的代码。
+- **输入：** `callgraph.txt` 和原始项目。
+- **生成文件：** `projects/java/automated_reduced_projects/<project>/` (更新后的项目)。
+- **Python 脚本：** `src/java/preprocessing/reduce_third_party_libs.py`
+
+------
+
+### 1.6 处理 Cangjie 关键字冲突
+
+**命令：**
+
+```bash
+bash scripts/java/handle_keyword_conflicts.sh <project>
+```
+
+- **作用：** 处理 Java 代码中与 Cangjie 关键字冲突的标识符。
+- **输入：** `projects/java/automated_reduced_projects/<project>/`
+- **输出：** `projects/java/keyword_handled/<project>/` (新建目录，非原地修改)
+- **处理规则：** 将 Cangjie 关键字（如 `type`、`init`、`in`、`main`）作为标识符时添加 `_` 后缀
+- **Python 脚本：** `src/java/preprocessing/handle_keyword_conflicts.py`
+
+------
+
+## 阶段二：Schema 生成与翻译
+
+### 2.1 创建项目 Schema
+
+> x2cangjie 使用 tree-sitter 直接解析 Java AST，而非 CodeQL。
+
+**命令：**
+
+```bash
+bash scripts/java/create_schema.sh <project> <model_name> <temperature> <suffix>
+```
+
+- **作用：** 使用 tree-sitter 解析 Java AST，生成项目结构 schema（JSON 格式）。
+- **参数：**
+  - `<project>` - 项目名
+  - `<model_name>` - 模型名（如 `gpt-4o-2024-11-20`）
+  - `<temperature>` - 采样温度
+  - `<suffix>` - 后缀，如 `_decomposed_tests`（可为空）
+- **生成文件：** `data/java/schemas<suffix>/<model_name>/<temperature>/<project>/`
+- **Python 脚本：** `src/java/decomposition/create_schema.py`
+
+**输出格式**
+
+Schema 文件为 JSON 格式，包含：
+- `classes`: 类信息（方法、字段、继承关系）
+- `cangjie_imports`: Cangjie 导入语句
+- Schema key 格式：`{start}-{end}:{classname}`（TRAM 格式）
+
+------
+
+### 2.2 生成翻译顺序
+
+**命令：**
+
+```bash
+python3 utils.py --project_name=<project> --function=parse_dependencies --suffix=<suffix>
+```
+
+- **作用：** 使用 `jdeps` 分析 Java 依赖关系，生成 `traversal.json` 文件
+- **输入：** 编译后的项目（`projects/java/cleaned_final_projects{suffix}/{project}/target/classes`）
+- **生成文件：** `data/java/dependencies{suffix}/{project}/traversal.json`
+- **Python 脚本：** `utils.py`
+
+**traversal.json 格式：**
+```json
+{
+    "0": "Animal",
+    "1": "Dog",
+    "2": "Main"
+}
+```
+
+**用途：** 翻译时按此顺序处理类，确保被依赖的类先翻译。
+
+**前提条件：** 项目必须已完成编译（阶段一 1.3）
+
+------
+
+### 2.3 类型翻译
+
+> 使用 RAG 知识库进行 Java 到 Cangjie 的类型映射。
+
+**第一步：爬取 Java 类型文档（首次设置）**
+
+```bash
+bash scripts/java/crawl_java_base.sh
+```
+
+- **作用：** 从 Oracle Java 文档爬取 java.base 模块的类型描述信息。
+- **生成文件：** `data/java/crawl/java.base_module_doc.json`
+- **Python 脚本：** `src/java/crawler/crawl_java_package.py`
+
+**第二步：执行类型翻译**
+
+```bash
+bash scripts/java/translate_types.sh <project> <model_name> <temperature> <suffix>
+```
+
+- **作用：** 提取 Java 类型并翻译为 Cangjie 类型，构建类型映射。
+- **RAG 知识库：** `data/java/type_resolution/` 目录
+- **Python 脚本：** `src/java/type_resolution/translate_type_rag.py`
+
+------
+
+### 2.4 生成骨架结构
+
+**命令：**
+
+```bash
+bash scripts/java/create_skeleton.sh <project> <model> <suffix> <temperature>
+```
+
+- **作用：** 在 `data/java/skeletons/<project_name>` 下创建 Cangjie 骨架文件。
+- **骨架内容：** 包含类/方法签名的空实现，使用 `throw Exception('TODO')` 占位。
+- **参数说明：**
+  - `<project>` - 项目名
+  - `<model>` - 模型名（如 `gpt-4o-2024-11-20`）
+  - `<suffix>` - 后缀
+  - `<temperature>` - 采样温度
+- **Python 脚本：** `src/java/translation/create_skeleton.py`
+
+------
+
+### 2.5 执行翻译（增量翻译验证）
+
+**命令：**
+
+```bash
+bash scripts/java/translate_fragment.sh <project> <model> <temperature>
+```
+
+- **作用：** 调用 LLM 翻译代码片段，按依赖顺序执行，每翻译一个片段即更新骨架并验证。
+- **参数：**
+  - `<project>` - 项目名
+  - `<model>` - 模型名（如 `gpt-4o-2024-11-20`）
+  - `<temperature>` - 采样温度
+- **Python 脚本：** `src/java/translation/compositional_translation_validation.py`
+
+### 翻译流程
+
+1. **按依赖顺序获取片段**：使用反向调用图确定翻译顺序
+2. **生成 Prompt**：包含 Cangjie ICL 示例（来自 configs/prompt_templates.yaml）
+3. **调用 LLM**：获取翻译结果
+4. **提取代码**：从 markdown 代码块中提取 Cangjie 代码
+5. **编译验证**：使用 `cjpm build` 验证代码正确性
+6. **更新骨架**：验证通过后，替换骨架中的 `throw Exception('TODO')`
+7. **递归重试**：验证失败时递归翻译（最多 2 次）
+
+### 生成文件
+
+- 翻译结果 JSON：`data/java/schemas_decomposed_tests/translations/<model>/<temperature>/<project>/`
+- 骨架文件：`data/java/skeletons/<project>/src/` (增量更新)
+
+------
+
+## 阶段三：验证与测试
+
+### 运行 Cangjie 测试
+
+```bash
+cd data/java/skeletons/<project>
+cjpm build
+cjc --test src/test
+```
+
+### 编译验证
+
+翻译模块使用 `cjpm build` 进行编译验证，确保生成的 Cangjie 代码语法正确。
+
+------
+
+## 核心模块说明
+
+### x2cangjie 独有模块
+
+| 模块 | 路径 | 功能 |
+|------|------|------|
+| Schema 生成 | `src/java/decomposition/create_schema.py` | tree-sitter 解析 Java AST |
+| 类型翻译 | `src/java/type_resolution/translate_type_rag.py` | RAG-based 类型映射 |
+| 骨架生成 | `src/java/translation/create_skeleton.py` | 生成 Cangjie 骨架文件 |
+| 片段翻译 | `src/java/translation/compositional_translation_validation.py` | LLM 翻译与增量验证 |
+| 编译验证 | `src/java/translation/cangjie_compilation_validation.py` | cjpm build 验证 |
+| Prompt 生成 | `src/java/translation/prompt_generator.py` | Cangjie ICL 示例 |
+| 依赖解析 | `src/java/translation/get_reverse_traversal.py` | 按 pre-generated 顺序翻译 |
+| 依赖生成 | `utils.py` | 使用 jdeps 生成 traversal.json |
+
+### 复用 cangjie 的模块
+
+| 模块 | 路径 | 功能 |
+|------|------|------|
+| 缩减第三方依赖 | `src/java/preprocessing/reduce_third_party_libs.py` | 移除未使用的第三方依赖 |
+| 分解测试 | `src/java/preprocessing/decompose_dev_test.py` | 将测试分解为独立片段 |
+| 提取测试 | `src/java/static_analysis/extract_source_tests.py` | 提取测试覆盖率信息 |
+
+## 配置文件
+
+- `configs/model_configs.yaml` - LLM API 配置
+- `configs/prompt_templates.yaml` - Prompt 模板（Cangjie 代码示例）
+
+## 与 TRAM/cangjie 的区别
+
+| 特性 | TRAM | cangjie | x2cangjie |
+|------|------|---------|-----------|
+| 翻译方向 | Java→Python | Java→Python | Java→Cangjie |
+| AST 解析 | tree-sitter | CodeQL | tree-sitter |
+| 类型分析 | CodeQL | CodeQL | RAG + cjpm |
+| 编译验证 | Python exec | GraalVM | cjpm build |
+| ICL 示例 | Python | Python | Cangjie |
+| 翻译方式 | 全量翻译后重组 | 全量翻译后重组 | 增量翻译验证 |
+
+## 目录结构
+
+```
+x2cangjie/
+├── configs/
+│   ├── model_configs.yaml       # LLM API 配置
+│   └── prompt_templates.yaml     # Prompt 模板（Cangjie 示例）
+├── scripts/java/
+│   ├── download_original_projects.sh  # 下载原始 Java 项目
+│   ├── build_original_projects.sh    # 构建原始项目
+│   ├── add_plugin.sh            # 添加 JAR 插件
+│   ├── merge_jar.sh             # 构建并合并 JAR
+│   ├── generate_cg.sh           # 生成调用图
+│   ├── reduce_third_party_libs.sh  # 缩减第三方依赖
+│   ├── extract_coverage.sh      # 提取测试覆盖率
+│   ├── decompose_test.sh        # 分解测试
+│   ├── create_schema.sh         # 创建 Schema（tree-sitter）
+│   ├── create_skeleton.sh       # 创建骨架
+│   ├── translate_fragment.sh     # 增量翻译验证
+│   └── get_dependencies.sh      # 生成 traversal.json
+├── utils.py                     # 依赖解析工具（jdeps + topological sort）
+├── src/java/
+│   ├── decomposition/
+│   │   └── create_schema.py     # Schema 生成（tree-sitter）
+│   ├── type_resolution/
+│   │   └── translate_type_rag.py  # RAG 类型翻译
+│   ├── translation/
+│   │   ├── create_skeleton.py    # 骨架生成
+│   │   ├── compositional_translation_validation.py  # 增量翻译验证
+│   │   ├── cangjie_compilation_validation.py       # 编译验证
+│   │   ├── prompt_generator.py  # Prompt 生成
+│   │   └── get_reverse_traversal.py  # 按顺序翻译
+│   ├── preprocessing/           # 复用 cangjie
+│   │   ├── reduce_third_party_libs.py
+│   │   └── decompose_dev_test.py
+│   └── static_analysis/         # 复用 cangjie
+│       └── extract_source_tests.py
+└── docs/
+    └── start.md                 # 本文档
+```

@@ -1,0 +1,277 @@
+{
+    "path": "projects/java/cleaned_final_projects/commons-codec/src/main/java/org/apache/commons/codec/binary/CharSequenceUtils.java",
+    "imports": {},
+    "classes": {
+        "30-82:CharSequenceUtils": {
+            "start": 30,
+            "end": 82,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "52-81:regionMatches": {
+                    "start": 52,
+                    "end": 81,
+                    "body": [
+                        "static boolean regionMatches(final CharSequence cs, final boolean ignoreCase, final int thisStart,",
+                        "            final CharSequence substring, final int start, final int length) {",
+                        "        if (cs instanceof String && substring instanceof String) {",
+                        "            return ((String) cs).regionMatches(ignoreCase, thisStart, (String) substring, start, length);",
+                        "        }",
+                        "        int index1 = thisStart;",
+                        "        int index2 = start;",
+                        "        int tmpLen = length;",
+                        "",
+                        "        while (tmpLen-- > 0) {",
+                        "            final char c1 = cs.charAt(index1++);",
+                        "            final char c2 = substring.charAt(index2++);",
+                        "",
+                        "            if (c1 == c2) {",
+                        "                continue;",
+                        "            }",
+                        "",
+                        "            if (!ignoreCase) {",
+                        "                return false;",
+                        "            }",
+                        "",
+                        "            // The same check as in String.regionMatches():",
+                        "            if (Character.toUpperCase(c1) != Character.toUpperCase(c2) &&",
+                        "                    Character.toLowerCase(c1) != Character.toLowerCase(c2)) {",
+                        "                return false;",
+                        "            }",
+                        "        }",
+                        "",
+                        "        return true;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "String",
+                        "int",
+                        "char"
+                    ],
+                    "signature": "regionMatches(final CharSequence cs, final boolean ignoreCase, final int thisStart, final CharSequence substring, final int start, final int length)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "CharSequence",
+                            "name": "cs"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "ignoreCase"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "thisStart"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "CharSequence",
+                            "name": "substring"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "start"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "int",
+                            "name": "length"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "regionMatches(boolean,int,java.lang.String,int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.CharSequence",
+                            "charAt(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Character",
+                            "toUpperCase(char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Character",
+                            "toLowerCase(char)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|CharSequence|cs": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|boolean|ignoreCase": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|thisStart": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|CharSequence|substring": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|start": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|int|length": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false
+                }
+            },
+            "fields": {}
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-codec/src/binary/CharSequenceUtils.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/commons-codec/src/binary/CharSequenceUtils.cj"
+}
