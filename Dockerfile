@@ -37,16 +37,16 @@ RUN tar xzvf apache-maven-3.9.9-bin.tar.gz
 ENV PATH="/home/apache-maven-3.9.9/bin:${PATH}"
 RUN rm apache-maven-3.9.9-bin.tar.gz
 
-RUN git clone https://github.com/hx062312/cangjie.git
+RUN git clone https://github.com/hx062312/x2cangjie.git /home/x2cangjie
 
-WORKDIR /home/cangjie
+WORKDIR /home/x2cangjie
 
 SHELL ["/bin/bash", "-c"]
 
 RUN conda init bash
 
-RUN echo "source /root/.bashrc && conda activate cangjie" > /etc/profile.d/conda.sh && \
-    echo "conda activate cangjie" >> ~/.bashrc
+RUN echo "source /root/.bashrc && conda activate x2cangjie" > /etc/profile.d/conda.sh && \
+    echo "conda activate x2cangjie" >> ~/.bashrc
 
 RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
     conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
@@ -59,28 +59,28 @@ RUN curl -s "https://get.sdkman.io" | bash && \
         sdk install java 11.0.26-tem && \
         sdk install java 21.0.3-graal && \
         sdk default java 8.0.432-kona"
-        
-RUN mkdir -p /home/cangjie/misc/sitter-libs
-RUN git clone https://github.com/tree-sitter/tree-sitter-java.git /home/cangjie/misc/sitter-libs/java
-RUN git clone https://github.com/tree-sitter/tree-sitter-python.git /home/cangjie/misc/sitter-libs/python
 
-RUN mkdir -p /home/cangjie/misc/java-callgraph
-RUN git clone https://github.com/gousiosg/java-callgraph.git /home/cangjie/misc/java-callgraph
-WORKDIR /home/cangjie/misc/java-callgraph
+RUN mkdir -p /home/x2cangjie/misc/sitter-libs
+RUN git clone https://github.com/tree-sitter/tree-sitter-java.git /home/x2cangjie/misc/sitter-libs/java
+RUN git clone https://github.com/tree-sitter/tree-sitter-python.git /home/x2cangjie/misc/sitter-libs/python
+
+RUN mkdir -p /home/x2cangjie/misc/java-callgraph
+RUN git clone https://github.com/gousiosg/java-callgraph.git /home/x2cangjie/misc/java-callgraph
+WORKDIR /home/x2cangjie/misc/java-callgraph
 RUN mvn clean install -DskipTests
 
-WORKDIR /home/cangjie
+WORKDIR /home/x2cangjie
 
 RUN wget https://github.com/github/codeql-action/releases/download/codeql-bundle-v2.20.0/codeql-bundle-linux64.tar.gz
-RUN tar -xvf codeql-bundle-linux64.tar.gz -C /home/cangjie/misc
+RUN tar -xvf codeql-bundle-linux64.tar.gz -C /home/x2cangjie/misc
 RUN rm codeql-bundle-linux64.tar.gz
-ENV PATH="/home/cangjie/misc/codeql:$PATH"
+ENV PATH="/home/x2cangjie/misc/codeql:$PATH"
 
 RUN git clone https://github.com/github/vscode-codeql-starter.git
-WORKDIR /home/cangjie/vscode-codeql-starter
+WORKDIR /home/x2cangjie/vscode-codeql-starter
 RUN git submodule update --init --remote
-WORKDIR /home/cangjie/vscode-codeql-starter/ql
+WORKDIR /home/x2cangjie/vscode-codeql-starter/ql
 RUN git checkout 3b2e55bc2ac942ac2cf2646f5c69acd081ce8ea2
 
-WORKDIR /home/cangjie
-RUN cp queries/java/* vscode-codeql-starter/codeql-custom-queries-java
+WORKDIR /home/x2cangjie
+RUN cp misc/sitter-libs/java/queries/* vscode-codeql-starter/codeql-custom-queries-java 2>/dev/null || true
