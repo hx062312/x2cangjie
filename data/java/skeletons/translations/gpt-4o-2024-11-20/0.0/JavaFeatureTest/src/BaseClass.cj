@@ -6,31 +6,31 @@ package JavaFeatureTest
 
 open class BaseClass {
     // Fields Begin
-    var name: String = ""
+    var name: String = throw Exception('TODO')
     // Fields End
 
     // Static Initializer Begin
     static init() {
-                print("Static initializer: BaseClass loaded")
+        throw Exception('TODO')
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init() {
-                self.name = "Base"
+        throw Exception('TODO')
     }
 
     public init(name: String) {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     public open func getName(): String {
-                return name
+        throw Exception('TODO')
     }
 
     public open func introduce(): String {
-                return "I am " + name
+        throw Exception('TODO')
     }
 
     // Methods End

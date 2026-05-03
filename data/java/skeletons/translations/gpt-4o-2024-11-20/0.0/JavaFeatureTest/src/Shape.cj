@@ -6,23 +6,23 @@ package JavaFeatureTest
 
 abstract class Shape {
     // Fields Begin
-    var color: String = ""
+    var color: String = throw Exception('TODO')
     // Fields End
 
     // Static Initializer Begin
     static init() {
-                print("Static initializer: Shape class loaded")
+        throw Exception('TODO')
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init() {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     public init(color: String) {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     public open func getColor(): String {
