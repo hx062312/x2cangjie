@@ -9,6 +9,8 @@ from datetime import datetime
 from src.java.model.model import Model
 from jinja2 import Template
 
+from src.java.rag import get_rag_engine
+
 
 class TypePromptGenerator:
     def __init__(self, context_code_snippet, fragment_type, source_type, source_type_description, type_variation, prompt_type, source_language, target_language, feedback):
@@ -414,6 +416,17 @@ def main(args):
 
                             source_type_description = get_source_type_description(source_type)
 
+                            # RAG context injection for type resolution
+                            rag_context = ""
+                            if hasattr(args, 'use_rag') and args.use_rag:
+                                try:
+                                    rag_engine = get_rag_engine()
+                                    rag_ctx = rag_engine.inject_type_context(source_type)
+                                    if rag_ctx:
+                                        rag_context = rag_ctx
+                                except Exception as e:
+                                    print(f"[RAG] Warning: Type RAG injection failed: {e}")
+
                             prompt_generator = TypePromptGenerator(
                                 fragment_body,
                                 fragment_type,
@@ -426,6 +439,8 @@ def main(args):
                                 feedback
                             )
                             prompt = prompt_generator.generate_prompt()
+                            if rag_context:
+                                prompt = rag_context + "\n\n" + prompt
 
                             interaction = Interaction(role='user', content=prompt)
                             interaction_history.append(interaction)
@@ -515,5 +530,6 @@ if __name__ == '__main__':
     parser.add_argument('--source_language', type=str, dest='source_language', help='source language')
     parser.add_argument('--target_language', type=str, dest='target_language', help='target language')
     parser.add_argument('--budget', type=int, dest='budget', help='budget for each type translation')
+    parser.add_argument('--use_rag', action='store_true', default=False, help='Enable RAG context injection for type resolution')
     args = parser.parse_args()
     main(args)
