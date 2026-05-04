@@ -6,44 +6,44 @@ package JavaFeatureTest
 
 open class Rectangle <: Shape {
     // Fields Begin
-    var width: Float64 = throw Exception('TODO')
-    var height: Float64 = throw Exception('TODO')
+    var width: Float64 = 0.0
+    var height: Float64 = 0.0
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: Rectangle class loaded")
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(width: Float64, height: Float64) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(color: String, width: Float64, height: Float64) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getWidth(): Float64 {
-        throw Exception('TODO')
+                return width
     }
 
     public open func getHeight(): Float64 {
-        throw Exception('TODO')
+                return height
     }
 
     public override func getArea(): Float64 {
-        throw Exception('TODO')
+                return width * height
     }
 
     public override func getPerimeter(): Float64 {
-        throw Exception('TODO')
+                return 2.0 * (width + height)
     }
 
     // Methods End

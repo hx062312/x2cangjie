@@ -6,62 +6,64 @@ package JavaFeatureTest
 
 open class Counter {
     // Fields Begin
-    static var instanceCount: Int64 = throw Exception('TODO')
-    static var totalCount: Int64 = throw Exception('TODO')
-    var name: String = throw Exception('TODO')
-    var count: Int64 = throw Exception('TODO')
+    static var instanceCount: Int64 = 0
+    static var totalCount: Int64 = 0
+    var name: String = ""
+    var count: Int64 = 0
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: Counter class loaded")
+        instanceCount = 0
+        totalCount = 0
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String, initialCount: Int64) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func increment(): Unit {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func increment(delta: Int64): Unit {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func reset(): Unit {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getCount(): Int64 {
-        throw Exception('TODO')
+                return count
     }
 
     public open func getName(): String {
-        throw Exception('TODO')
+                return name
     }
 
     public static func getInstanceCount(): Int64 {
-        throw Exception('TODO')
+                return instanceCount
     }
 
     public static func getTotalCount(): Int64 {
-        throw Exception('TODO')
+                return totalCount
     }
 
     public static func resetAll(): Unit {
-        throw Exception('TODO')
+                totalCount = 0
     }
 
     // Methods End

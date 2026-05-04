@@ -6,32 +6,33 @@ package JavaFeatureTest
 
 class Constants {
     // Fields Begin
-    static var instanceCount: Int64 = throw Exception('TODO')
-    let id: Int64 = throw Exception('TODO')
-    let name: String = throw Exception('TODO')
-    static let MAX_SIZE: Int64 = throw Exception('TODO')
-    static let APP_NAME: String = throw Exception('TODO')
-    static let PI: Float64 = throw Exception('TODO')
+    static var instanceCount: Int64 = 0
+    let id: Int64 = 0
+    let name: String = ""
+    static let MAX_SIZE: Int64 = 100
+    static let APP_NAME: String = "JavaFeatureTest"
+    static let PI: Float64 = 3.141592653589793
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: Constants class loaded")
+        instanceCount = 0
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init(id: Int64, name: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getId(): Int64 {
-        throw Exception('TODO')
+                return id
     }
 
     public open func getName(): String {
-        throw Exception('TODO')
+                return name
     }
 
     // Methods End

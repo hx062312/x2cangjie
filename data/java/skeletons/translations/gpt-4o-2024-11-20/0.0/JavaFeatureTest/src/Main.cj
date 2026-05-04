@@ -13,5 +13,5 @@ open class Main {
 }
 
 main(): Unit {
-    throw Exception('TODO')
+    throw Exception('TODO')  // Already translated, compilation failed
 }

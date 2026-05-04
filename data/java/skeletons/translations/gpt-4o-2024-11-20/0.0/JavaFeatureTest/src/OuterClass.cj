@@ -6,24 +6,24 @@ package JavaFeatureTest
 
 open class OuterClass {
     // Fields Begin
-    var outerName: String = throw Exception('TODO')
-    static var staticOuterName: String = throw Exception('TODO')
+    var outerName: String = ""
+    static var staticOuterName: String = "StaticOuter"
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: OuterClass loaded")
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init(outerName: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getOuterName(): String {
-        throw Exception('TODO')
+                return outerName
     }
 
     public open func createPrivateInner(value: String): Any {

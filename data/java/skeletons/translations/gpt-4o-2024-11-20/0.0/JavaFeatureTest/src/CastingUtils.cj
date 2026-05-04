@@ -10,26 +10,26 @@ open class CastingUtils {
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: CastingUtils loaded")
     }
 
     // Static Initializer End
 
     // Methods Begin
     public static func checkType(obj: Any): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func safeCheck(obj: Any): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func upcast(obj: Any): Any {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func downcast(obj: Any): Any {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     // Methods End

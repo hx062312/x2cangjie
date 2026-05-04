@@ -10,7 +10,7 @@ interface Flyable {
 
     // Methods Begin
     open func fly(): String {
-        throw Exception('TODO')
+                throw Exception('TODO')
     }
 
     // Methods End

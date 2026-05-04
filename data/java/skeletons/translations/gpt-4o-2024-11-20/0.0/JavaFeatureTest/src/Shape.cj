@@ -6,39 +6,39 @@ package JavaFeatureTest
 
 abstract class Shape {
     // Fields Begin
-    var color: String = throw Exception('TODO')
+    var color: String = ""
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: Shape class loaded")
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(color: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getColor(): String {
-        throw Exception('TODO')
+                return color
     }
 
     public open func getArea(): Float64 {
-        throw Exception('TODO')
+                throw Exception('TODO')
     }
 
     public open func getPerimeter(): Float64 {
-        throw Exception('TODO')
+                throw Exception('TODO')
     }
 
     public open func describe(): String {
-        throw Exception('TODO')
+                return "A shape with color " + color
     }
 
     // Methods End

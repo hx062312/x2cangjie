@@ -6,40 +6,40 @@ package JavaFeatureTest
 
 open class Animal {
     // Fields Begin
-    var name: String = throw Exception('TODO')
-    var age: Int64 = throw Exception('TODO')
+    var name: String = ""
+    var age: Int64 = 0
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: Animal class loaded")
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String, age: Int64) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getName(): String {
-        throw Exception('TODO')
+                return name
     }
 
     public open func getAge(): Int64 {
-        throw Exception('TODO')
+                return age
     }
 
     public open func speak(): String {
-        throw Exception('TODO')
+                return "Some sound"
     }
 
     // Methods End

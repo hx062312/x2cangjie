@@ -6,45 +6,48 @@ package JavaFeatureTest
 
 open class Person {
     // Fields Begin
-    var name: String = throw Exception('TODO')
-    var age: Int64 = throw Exception('TODO')
-    var id: String = throw Exception('TODO')
+    var name: String = ""
+    var age: Int64 = 0
+    var id: String = ""
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: Person class loaded")
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init(name: String, age: Int64, id: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getName(): String {
-        throw Exception('TODO')
+                return name
     }
 
     public open func getAge(): Int64 {
-        throw Exception('TODO')
+                return age
     }
 
     public open func getId(): String {
-        throw Exception('TODO')
+                return id
     }
 
     public open func toString(): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func equals(obj: Any): Bool {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func hashCode(): Int64 {
-        throw Exception('TODO')
+                var result = name.hashCode()
+        result = 31 * result + age
+        result = 31 * result + id.hashCode()
+        return result
     }
 
     // Methods End

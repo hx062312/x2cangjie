@@ -6,39 +6,39 @@ package JavaFeatureTest
 
 open class Bird <: Animal {
     // Fields Begin
-    var wingSpan: Int64 = throw Exception('TODO')
+    var wingSpan: Int64 = 0
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: Bird class loaded")
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String, age: Int64, wingSpan: Int64) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getWingSpan(): Int64 {
-        throw Exception('TODO')
+                return wingSpan
     }
 
     public open func fly(): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public override func speak(): String {
-        throw Exception('TODO')
+                return "Chirp!"
     }
 
     // Methods End

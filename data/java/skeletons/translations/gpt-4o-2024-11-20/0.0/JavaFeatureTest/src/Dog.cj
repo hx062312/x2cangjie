@@ -6,43 +6,43 @@ package JavaFeatureTest
 
 open class Dog <: Animal {
     // Fields Begin
-    var breed: String = throw Exception('TODO')
+    var breed: String = ""
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                print("Static initializer: Dog class loaded")
     }
 
     // Static Initializer End
 
     // Methods Begin
     public init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String, age: Int64) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public init(name: String, age: Int64, breed: String) {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getBreed(): String {
-        throw Exception('TODO')
+                return breed
     }
 
     public override func speak(): String {
-        throw Exception('TODO')
+                return "Woof!"
     }
 
     public open func fetch(): String {
-        throw Exception('TODO')
+                return "Fetching the ball!"
     }
 
     // Methods End
