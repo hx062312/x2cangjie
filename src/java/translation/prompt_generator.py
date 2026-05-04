@@ -77,111 +77,10 @@ Notes:
 2. Use Cangjie idiomatic syntax
 3. Add appropriate type annotations
 4. Handle Java and Cangjie differences""",
-            "icl": {
-                "field": """Java code:
-```
-public class Calculator {
-    public int x;
-}
-```
-
-Partial Cangjie translation:
-```
-class Calculator {
-    var x: Int64 =
-```
-
-Cangjie field translation:
-```
-    var x: Int64 = 0
-```""",
-                "method": """Java code:
-```
-public class Calculator {
-    public int add(int a, int b) {
-        return a + b;
-    }
-}
-```
-
-Partial Cangjie translation:
-```
-class Calculator {
-    public func add(a: Int64, b: Int64): Int64 {
-
-    }
-}
-```
-
-Cangjie method translation:
-```
-    public func add(a: Int64, b: Int64): Int64 {
-        return a + b
-    }
-```""",
-                "static_initializer": """Java code:
-```
-public class Calculator {
-    static int count = 0;
-    static {
-        count = 10;
-    }
-}
-```
-
-Partial Cangjie translation:
-```
-class Calculator {
-    static var count: Int64 = 0
-    static init() {
-
-    }
-}
-```
-
-Cangjie static initializer translation:
-```
-    static init() {
-        count = 10
-    }
-```""",
-                "feedback": """Java code:
-```
-public class Calculator {
-    public int add(int a, int b) {
-        return a + b;
-    }
-}
-```
-Incorrect Cangjie translation:
-```
-class Calculator {
-    public func add(a: Int64, b: Int64): Int64 {
-        return a + c
-    }
-}
-```
-
-Compilation feedback:
-```
-error: cannot find 'c' in scope
-```
-
-Partial Cangjie translation:
-```
-class Calculator {
-    public func add(a: Int64, b: Int64): Int64 {
-
-    }
-}
-```
-
-Cangjie method translation:
-```
-    public func add(a: Int64, b: Int64): Int64 {
-        return a + b
-    }
-```""",
+            "translation_notes": {
+                "field": "Java field translation pattern:\nJava: public int x;\nCangjie: var x: Int64 = 0\n",
+                "method": "Java method translation pattern:\nJava: public int add(int a, int b) { return a + b; }\nCangjie: public func add(a: Int64, b: Int64): Int64 { return a + b }\n",
+                "static_initializer": "Java static initializer pattern:\nJava: static { count = 10; }\nCangjie: static init() { count = 10 }\n",
             },
         }
 
@@ -204,38 +103,37 @@ Cangjie method translation:
 
     def build_base_prompt(self):
         self.prompt += self.meta_data[f"{self.args.model}-persona"]
-
         self.double_line_break()
 
+        # instruction first — LLM sees the task immediately
+        self.add_instruction()
+        self.double_line_break()
+
+        # then Java source code
+        self.add_source_code()
+        self.double_line_break()
+
+        # then partial Cangjie translation (skeleton with dependencies)
+        self.add_partial_translation()
+        self.double_line_break()
+
+        # RAG documentation after the task context, not before
         if self.rag_context:
+            self.prompt += "### Reference Cangjie documentation:\n"
             self.prompt += self.rag_context
             self.double_line_break()
 
-        self.prompt += self.adaptive_icl
+        # ICL examples after everything else
+        if self.adaptive_icl:
+            self.prompt += self.adaptive_icl
+            self.double_line_break()
 
-        self.double_line_break()
-
-        self.add_instruction()
-
-        self.double_line_break()
-
-        self.add_source_code()
-
-        self.double_line_break()
-
+        # error feedback at the end (only in feedback loop)
         if self.is_feedback:
             self.add_incorrect_translation()
             self.double_line_break()
             self.add_feedback()
             self.double_line_break()
-            # RAG error context on compilation failure
-            if self.rag_context:
-                self.prompt += self.rag_context
-                self.double_line_break()
-
-        self.add_partial_translation()
-
-        self.double_line_break()
 
         self.add_target_translation()
 
@@ -259,32 +157,45 @@ Cangjie method translation:
                 )
 
         if self.is_feedback:
-            test_icl = (
-                'Java code:\n```\npublic class TestClass {\n    @Test\n    public void testMethod(self) {\n        List<String> inputList = Arrays.asList("apple", "banana", "cherry");\n        assertEquals("inputList size does not match expected size = 3", 3, inputList.size());\n    '
-                + '}\n}\n```\n\nIncorrect Cangjie translation:\n```\nclass TestClass {\n    public func testMethod(): Void {\n        let inputList: Array<String> = ["apple", "banana", "cherry"]\n        @Test.assertEquals("inputList size does not match expected size = 3", 3, inputList.size())\n    }\n```\n\nExecution feedback:\n```\nerror: argument count mismatch\n```\n\nPartial Cangjie translation:\n```\nclass TestClass {\n    public func testMethod(): Void {\n        // TODO: implement\n    }\n}\n```\n\nCangjie method translation:\n```\n    public func testMethod(): Void {\n        let inputList: Array<String> = ["apple", "banana", "cherry"]\n        @Test.assertEquals(3, inputList.size(), "inputList size does not match expected size = 3")\n    }\n```'
-            )
-            test_icl = test_icl.replace("self.pytest.", "pytest.")
+            if used_assertions:
+                test_icl = (
+                    'Java code:\n```\npublic class TestClass {\n    @Test\n    public void testMethod(self) {\n        List<String> inputList = Arrays.asList("apple", "banana", "cherry");\n        assertEquals("inputList size does not match expected size = 3", 3, inputList.size());\n    '
+                    + '}\n}\n```\n\nIncorrect Cangjie translation:\n```\nclass TestClass {\n    public func testMethod(): Void {\n        let inputList: Array<String> = ["apple", "banana", "cherry"]\n        @Test.assertEquals("inputList size does not match expected size = 3", 3, inputList.size())\n    }\n```\n\nExecution feedback:\n```\nerror: argument count mismatch\n```\n\nPartial Cangjie translation:\n```\nclass TestClass {\n    public func testMethod(): Void {\n        // TODO: implement\n    }\n}\n```\n\nCangjie method translation:\n```\n    public func testMethod(): Void {\n        let inputList: Array<String> = ["apple", "banana", "cherry"]\n        @Test.assertEquals(3, inputList.size(), "inputList size does not match expected size = 3")\n    }\n```'
+                )
+                test_icl = test_icl.replace("self.pytest.", "pytest.")
+            else:
+                test_icl = self.meta_data["translation_notes"][self.fragment_type]
         else:
-            test_icl = (
-                "Java code:\n```\npublic class TestClass {\n    @Test\n    public void testMethod(self) {\n        "
-                + source_statements.rstrip()
-                + "\n    "
-                + "}\n}\n```\n\nPartial Cangjie translation:\n```\nclass TestClass {\n    public func testMethod(): Void {\n        // TODO: implement\n    }\n}\n```\n\nCangjie method translation:\n```\n    public func testMethod(): Void {\n        "
-                + target_statements.rstrip()
-                + "\n```\n"
-            )
-            test_icl = test_icl.replace("self.pytest.", "pytest.")
+            if used_assertions:
+                test_icl = (
+                    "Java code:\n```\npublic class TestClass {\n    @Test\n    public void testMethod(self) {\n        "
+                    + source_statements.rstrip()
+                    + "\n    "
+                    + "}\n}\n```\n\nPartial Cangjie translation:\n```\nclass TestClass {\n    public func testMethod(): Void {\n        // TODO: implement\n    }\n}\n```\n\nCangjie method translation:\n```\n    public func testMethod(): Void {\n        "
+                    + target_statements.rstrip()
+                    + "\n```\n"
+                )
+                test_icl = test_icl.replace("self.pytest.", "pytest.")
+            else:
+                self.adaptive_icl = self.meta_data["translation_notes"].get(
+                    self.fragment_type, ""
+                )
+                return  # Early return since we set adaptive_icl directly
 
         if self.is_feedback:
             if used_assertions:
                 self.adaptive_icl = test_icl
             else:
-                self.adaptive_icl = self.meta_data["icl"]["feedback"]
+                self.adaptive_icl = self.meta_data["translation_notes"].get(
+                    self.fragment_type, ""
+                )
         else:
             if used_assertions:
                 self.adaptive_icl = test_icl
             else:
-                self.adaptive_icl = self.meta_data["icl"][self.fragment_type]
+                self.adaptive_icl = self.meta_data["translation_notes"].get(
+                    self.fragment_type, ""
+                )
 
     def load_fragment(self, fragment_details):
         self.schema_name = fragment_details["schema_name"]
@@ -355,10 +266,12 @@ Cangjie method translation:
 
         syntax_note = "\n\nIMPORTANT: Use COLON (:) for return type in function signatures, NOT arrow (->). Example: func foo(): Int64 { ... } NOT func foo() -> Int64 { ... }"
 
+        json_instruction = "\n\nYou MUST output ONLY valid JSON (no markdown, no code fences). The JSON must have these fields:\n- 'class': (optional) the complete class definition\n- 'method': ONLY the translated method (with signature). This field will be inserted into the skeleton.\n- 'reasoning': (optional) your reasoning about the translation\n- 'imports': (optional) any additional imports needed as a comma-separated string"
+
         if self.is_feedback:
-            self.prompt += f'### Instruction:\nBased on the feedback provided, identify the error in the following Cangjie translation of the {self.fragment_type} and correct it. You only need to correct the "{self.fragment_actual_name}" {self.fragment_type}. All necessary dependencies are available in partial Cangjie translation. Only complete the given "{self.fragment_actual_name}" method like the example above and do not add anything else in your response.{main_note}{syntax_note}'
+            self.prompt += f'### Instruction:\nBased on the feedback provided, identify the error in the following Cangjie translation of the {self.fragment_type} and correct it. You only need to correct the "{self.fragment_actual_name}" {self.fragment_type}. All necessary dependencies are available in partial Cangjie translation. Only complete the given "{self.fragment_actual_name}" method.{main_note}{syntax_note}{json_instruction}'
         else:
-            self.prompt += f'### Instruction:\nTranslate the following {self.args.from_lang} {self.fragment_type} to Cangjie like the example above. You only need to translate the "{self.fragment_actual_name}" {self.fragment_type}. All necessary dependencies are available in partial Cangjie translation. Only output the code block and do not add any explanations or additional text in your response.{main_note}{syntax_note}'
+            self.prompt += f'### Instruction:\nTranslate the following {self.args.from_lang} {self.fragment_type} to Cangjie. You only need to translate the "{self.fragment_actual_name}" {self.fragment_type}. All necessary dependencies are available in partial Cangjie translation.{main_note}{syntax_note}{json_instruction}'
 
     def add_source_code(self):
         self.prompt += (
@@ -894,30 +807,7 @@ Cangjie method translation:
 
     def add_target_translation(self):
         self.prompt += "### Response:\n"
-        if self.fragment_type == "field":
-            self.prompt += f"Cangjie field translation:\n```\n"
-
-        elif self.fragment_type == "method":
-            self.prompt += f"Cangjie method translation:\n```\n"
-            self.prompt += (
-                "".join(
-                    self.class_dict["methods"][
-                        self.fragment_name
-                    ]["partial_translation"]
-                )
-                .rstrip()
-                .replace("    pass", "    ")
-            )
-            self.signature = "".join(
-                self.class_dict["methods"][
-                    self.fragment_name
-                ]["partial_translation"]
-            ).strip()
-
-        elif self.fragment_type == "static_initializer":
-            self.prompt += f"Cangjie static initializer translation:\n```\n"
-            self.prompt += "    static init() {\n        "
-            self.signature = "static init()"
+        self.prompt += 'Output ONLY the JSON object with your translation in the "method" field.'
 
     def single_line_break(self):
         self.prompt += "\n"

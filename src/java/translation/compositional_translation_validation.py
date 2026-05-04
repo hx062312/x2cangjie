@@ -15,6 +15,11 @@ from src.java.translation.get_reverse_traversal import get_reverse_traversal
 from src.java.translation.prompt_generator import PromptGenerator
 from src.java.rag import get_rag_engine
 
+# response_format configuration
+JSON_OUTPUT_SCHEMA = {
+    "type": "json_object"
+}
+
 # Status constants for translation validation
 ERROR = "error"
 SUCCESS = "success"
@@ -42,190 +47,6 @@ def find_method_key(methods_dict, method_name):
         if key == method_name or key.endswith(f":{method_name}"):
             return key
     return None
-
-
-def extract_cangjie_code(
-    generation: str, class_name: str = None, method_name: str = None
-):
-    """
-    Extract Cangjie code from markdown code blocks.
-    """
-    generation = generation.replace("```cangjie", "```")
-    generation = generation.replace("```cj", "```")
-    generation = generation.replace("```java", "```")
-
-    pattern = r"(?:```\s*)+(.+?)(?:\s*```)+"
-    match = re.search(pattern, generation, re.DOTALL)
-
-    if match:
-        extracted = match.group(1).strip()
-
-        if method_name:
-            extracted = extract_method_from_code(extracted, method_name, class_name)
-
-        extracted = post_process_cangjie_code(extracted, class_name)
-
-        return extracted
-
-    lines = generation.split("\n")
-    code_lines = []
-    in_code = False
-
-    for line in lines:
-        if any(
-            keyword in line
-            for keyword in [
-                "func ",
-                "class ",
-                "let ",
-                "var ",
-                "pub ",
-                "priv ",
-                "import ",
-                "package ",
-            ]
-        ):
-            in_code = True
-            code_lines.append(line)
-        elif in_code and (
-            line.strip() == ""
-            or line.strip().startswith("//")
-            or line.strip().startswith("#")
-        ):
-            code_lines.append(line)
-        elif in_code and not line.startswith(" ") and not line.startswith("\t"):
-            if line.strip():
-                break
-            code_lines.append(line)
-
-    if code_lines:
-        extracted = "\n".join(code_lines).strip()
-
-        if method_name:
-            extracted = extract_method_from_code(extracted, method_name, class_name)
-
-        extracted = post_process_cangjie_code(extracted, class_name)
-
-        return extracted
-
-    return None
-
-
-def extract_method_from_code(
-    code: str, method_name: str, class_name: str = None
-) -> str:
-    """
-    Extract a specific method from the generated code.
-    """
-    clean_method_name = method_name
-    if ":" in method_name:
-        clean_method_name = method_name.split(":")[-1]
-
-    method_patterns = [
-        rf"(public\s+|private\s+|protected\s+|static\s+|internal\s+|override\s+)*func\s+{re.escape(clean_method_name)}\s*\(",
-        rf"func\s+{re.escape(clean_method_name)}\s*\(",
-    ]
-
-    # Cangjie main() doesn't use 'func' keyword, add pattern for it
-    if clean_method_name == "main":
-        method_patterns.insert(0, rf"main\s*\(")
-
-    for pattern in method_patterns:
-        match = re.search(pattern, code)
-        if match:
-            start_pos = match.start()
-
-            brace_count = 0
-            in_method = False
-            end_pos = start_pos
-
-            for i in range(start_pos, len(code)):
-                if code[i] == "{":
-                    brace_count += 1
-                    in_method = True
-                elif code[i] == "}":
-                    brace_count -= 1
-                    if in_method and brace_count == 0:
-                        end_pos = i + 1
-                        break
-
-            extracted_method = code[start_pos:end_pos].strip()
-            return extracted_method
-
-    return code
-
-
-def post_process_cangjie_code(code: str, class_name: str = None) -> str:
-    """
-    Post-process extracted Cangjie code to fix common issues.
-    """
-    if class_name and "class " not in code:
-        if "func " in code:
-            # Don't wrap main() - it's a top-level function in Cangjie
-            if "main(" not in code:
-                code = f"class {class_name} {{\n{code}\n}}"
-
-    lines = code.split("\n")
-    processed_lines = []
-    brace_count = 0
-    in_class = False
-
-    for line in lines:
-        processed_lines.append(line)
-        brace_count += line.count("{") - line.count("}")
-
-        if "{" in line and "class " in line:
-            in_class = True
-
-        if in_class and brace_count == 0 and "}" not in line:
-            if processed_lines and "}" not in processed_lines[-1]:
-                processed_lines.append("}")
-
-    code = "\n".join(processed_lines)
-
-    return code
-
-
-def extract_code_for_translation(generation: str, fragment: dict, args):
-    """
-    Extract Cangjie code from markdown and prepare for compilation.
-    """
-    class_name = fragment.get("class_name", None)
-    # Extract actual class name (without line number prefix like "4-38:")
-    if class_name and ":" in class_name:
-        class_name = class_name.split(":")[-1]
-    method_name = fragment.get("fragment_name", None)
-    fragment_type = fragment.get("fragment_type", "unknown")
-
-    extracted_code = extract_cangjie_code(generation, class_name, method_name)
-
-    if extracted_code is None:
-        return False, None, "the model did not generate any code"
-
-    code_lines = extracted_code.split("\n")
-
-    meaningful_lines = [
-        line
-        for line in code_lines
-        if line.strip() and not line.strip().startswith("//")
-    ]
-
-    if not meaningful_lines:
-        return False, None, "the model did not generate any code"
-
-    has_function = any("func " in line or "main(" in line or "static init()" in line or "init(" in line for line in code_lines)
-    has_class = any("class " in line for line in code_lines)
-    has_var = any("var " in line for line in code_lines)
-    has_let = any("let " in line for line in code_lines)
-
-    if not (has_function or has_class or has_var or has_let):
-        return (
-            False,
-            None,
-            "the generated code does not appear to be valid Cangjie code",
-        )
-
-    return True, extracted_code.split("\n"), None
 
 
 def get_pending_fragments(fragment_traversal, args):
@@ -429,14 +250,14 @@ def get_total_input_tokens(prompt, args, model_info):
     return total_tokens
 
 
-def prompt_model(model_info, client, prompt, total_input_tokens, args):
+def prompt_model(model_info, client, prompt, total_input_tokens, args, response_format=None):
     max_new_tokens = model_info[args.model]["total"] - total_input_tokens
     max_new_tokens = min(max_new_tokens, model_info[args.model]["max_new_tokens"])
 
-    completion = client.chat.completions.create(
+    kwargs = dict(
         model=model_info[args.model]["model_id"],
         messages=[
-            {"role": "system", "content": "You are a helpful assistant."},
+            {"role": "system", "content": "You are a Java to Cangjie code translation expert. You output only valid JSON."},
             {"role": "user", "content": prompt},
         ],
         max_tokens=max_new_tokens,
@@ -445,6 +266,10 @@ def prompt_model(model_info, client, prompt, total_input_tokens, args):
         frequency_penalty=0.0,
         presence_penalty=0.0,
     )
+    if response_format:
+        kwargs["response_format"] = response_format
+
+    completion = client.chat.completions.create(**kwargs)
 
     generation = completion.choices[0].message.content
 
@@ -458,6 +283,42 @@ def prompt_model(model_info, client, prompt, total_input_tokens, args):
             generation = generation[generation.find("### Response:") :]
 
     return generation
+
+
+def extract_json_translation(generation: str, fragment: dict, args) -> tuple:
+    """
+    Extract translation from JSON output.
+    Returns (success, code_lines_or_body, error_message).
+
+    The JSON is expected to have fields:
+      - "class": (optional) the complete class definition
+      - "method": the translated method (with signature). Used by extract_method_body.
+      - "reasoning": (optional) model's reasoning
+      - "imports": (optional) additional imports needed
+    """
+    try:
+        response = json.loads(generation)
+    except json.JSONDecodeError as e:
+        return False, None, f"the model did not output valid JSON: {e}"
+
+    # Try 'method' first, fall back to 'code' for backward compatibility
+    content = response.get("method") or response.get("code") or ""
+    if not content or not content.strip():
+        return False, None, "the 'method' field in JSON output is empty"
+
+    imports = response.get("imports", "")
+    if imports and imports.strip():
+        print(f"[JSON] Additional imports requested: {imports}")
+
+    fragment_type = fragment.get("fragment_type", "method")
+    if fragment_type in ("method", "static_initializer"):
+        from src.java.translation.cangjie_compilation_validation import extract_method_body
+        body = extract_method_body(content, fragment)
+        if not body or not body.strip():
+            return False, None, "extracted method body is empty"
+        return True, body.split("\n"), None
+    else:
+        return True, content.split("\n"), None
 
 
 def translate(
@@ -528,7 +389,10 @@ def translate(
             update_budget(fragment, args, budget, type_="final")
             break
 
-        generation = prompt_model(model_info, client, prompt, total_input_tokens, args)
+        generation = prompt_model(
+            model_info, client, prompt, total_input_tokens, args,
+            response_format=JSON_OUTPUT_SCHEMA,
+        )
 
         if args.debug:
             print(generation, flush=True)
@@ -537,7 +401,7 @@ def translate(
 
         ############################ <EXTRACT CODE> ############################
         syntactic_status, extracted_code, syntactic_feedback = (
-            extract_code_for_translation(generation, fragment, args)
+            extract_json_translation(generation, fragment, args)
         )
 
         if not syntactic_status:
@@ -566,9 +430,9 @@ def translate(
                 )
             # Update feedback for next iteration
             if not feedback:
-                feedback = syntactic_feedback
+                feedback = f"The output must be valid JSON with 'code' and 'reasoning' fields: {syntactic_feedback}"
             else:
-                feedback = f"{feedback}\n{syntactic_feedback}"
+                feedback = f"{feedback}\nThe output must be valid JSON with 'code' and 'reasoning' fields: {syntactic_feedback}"
             continue
 
         if isinstance(extracted_code, str):
@@ -623,7 +487,7 @@ def translate(
 
             budget[current_budget] -= 1
             # RAG error context injection on compilation failure
-            if hasattr(args, 'use_rag') and args.use_rag:
+            if hasattr(args, 'use_rag') and args.use_rag == 'true':
                 try:
                     rag_engine = get_rag_engine()
                     error_ctx = rag_engine.inject_error_context(compilation_feedback)
@@ -764,9 +628,9 @@ if __name__ == "__main__":
     )
     parser_.add_argument(
         "--use_rag",
-        action="store_true",
-        default=False,
-        help="Enable RAG context on compilation errors",
+        type=str,
+        default="false",
+        help="Enable RAG context on compilation errors (true/false)",
     )
     args = parser_.parse_args()
     main(args)
