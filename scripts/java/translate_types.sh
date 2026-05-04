@@ -24,4 +24,5 @@ python3 src/java/type_resolution/translate_type_rag.py \
     --source_language=Java \
     --target_language=Cangjie \
     --budget=3 \
+    --use_rag \
     --debug

@@ -24,5 +24,6 @@ python3 src/java/translation/compositional_translation_validation.py \
     --suffix=$suffix \
     --temperature=$temperature \
     --validate_by_cangjie \
+    --use_rag \
     --recursion_depth=2 \
     --include_implementation | tee ${project}_${model}_body.log

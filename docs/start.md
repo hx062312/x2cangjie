@@ -217,14 +217,29 @@ bash scripts/java/crawl_java_base.sh
 - **生成文件：** `data/java/crawl/java.base_module_doc.json`
 - **Python 脚本：** `src/java/crawler/crawl_java_package.py`
 
-**第二步：执行类型翻译**
+**第二步：构建 RAG 知识库索引（首次使用）**
+
+```bash
+export OPENAI_API_KEY="your-api-key"
+export OPENAI_BASE_URL="https://openrouter.ai/api/v1"
+python -m src.java.rag.indexer
+```
+
+- **作用：** 扫描 `misc/CangjieCorpus` 目录，对 Cangjie 文档进行分块、向量化（text-embedding-3-large），构建 ChromaDB 向量索引和 BM25 稀疏索引。
+- **依赖：** OpenAI API key（或 OpenRouter），约处理 20,000+ 文档块
+- **生成文件：**
+  - `data/java/rag/chromadb/` — ChromaDB 向量存储
+  - `data/java/rag/bm25_index.pkl` — BM25 索引
+  - `data/java/rag/chunks.json` — 文档块元数据（检查用）
+
+**第三步：执行类型翻译**
 
 ```bash
 bash scripts/java/translate_types.sh <project> <model_name> <temperature> <suffix>
 ```
 
 - **作用：** 提取 Java 类型并翻译为 Cangjie 类型，构建类型映射。
-- **RAG 知识库：** `data/java/type_resolution/` 目录
+- **RAG 注入：** 对每个待翻译的 Java 类型，从 CangjieCorpus 检索相关文档上下文并注入到 LLM Prompt 中（`--use_rag` 默认启用）。
 - **Python 脚本：** `src/java/type_resolution/translate_type_rag.py`
 
 ------
@@ -261,17 +276,19 @@ bash scripts/java/translate_fragment.sh <project> <model> <temperature>
   - `<project>` - 项目名
   - `<model>` - 模型名（如 `gpt-4o-2024-11-20`）
   - `<temperature>` - 采样温度
+- **RAG 注入：** 翻译时自动检索 CangjieCorpus 中相关的 API 文档和语法参考，注入到 LLM Prompt 中；编译失败时自动检索错误修复文档上下文（`--use_rag` 默认启用）。
 - **Python 脚本：** `src/java/translation/compositional_translation_validation.py`
 
 ### 翻译流程
 
 1. **按依赖顺序获取片段**：使用反向调用图确定翻译顺序
-2. **生成 Prompt**：包含 Cangjie ICL 示例（来自 configs/prompt_templates.yaml）
-3. **调用 LLM**：获取翻译结果
-4. **提取代码**：从 markdown 代码块中提取 Cangjie 代码
-5. **编译验证**：使用 `cjpm build` 验证代码正确性
-6. **更新骨架**：验证通过后，替换骨架中的 `throw Exception('TODO')`
-7. **递归重试**：验证失败时递归翻译（最多 2 次）
+2. **RAG 检索**：从 CangjieCorpus 检索当前代码片段相关的文档上下文
+3. **生成 Prompt**：注入 RAG 上下文 + Cangjie ICL 示例（来自 configs/prompt_templates.yaml）
+4. **调用 LLM**：获取翻译结果
+5. **提取代码**：从 markdown 代码块中提取 Cangjie 代码
+6. **编译验证**：使用 `cjpm build` 验证代码正确性
+7. **更新骨架**：验证通过后，替换骨架中的 `throw Exception('TODO')`
+8. **递归重试**：验证失败时触发 RAG 错误修复上下文检索，递归翻译（最多 2 次）
 
 ### 生成文件
 
@@ -307,9 +324,15 @@ cjc --test src/test
 | 骨架生成 | `src/java/translation/create_skeleton.py` | 生成 Cangjie 骨架文件 |
 | 片段翻译 | `src/java/translation/compositional_translation_validation.py` | LLM 翻译与增量验证 |
 | 编译验证 | `src/java/translation/cangjie_compilation_validation.py` | cjpm build 验证 |
-| Prompt 生成 | `src/java/translation/prompt_generator.py` | Cangjie ICL 示例 |
+| Prompt 生成 | `src/java/translation/prompt_generator.py` | Cangjie ICL 示例，含 RAG 注入 |
 | 依赖解析 | `src/java/translation/get_reverse_traversal.py` | 按 pre-generated 顺序翻译 |
 | 依赖生成 | `utils.py` | 使用 jdeps 生成 traversal.json |
+| RAG 引擎 | `src/java/rag/` | 混合检索（向量+BM25），CangjieCorpus 文档检索 |
+| 语料加载 | `src/java/rag/corpus_loader.py` | Markdown 分块、代码块保护、MinHash 去重 |
+| 查询构建 | `src/java/rag/query_builder.py` | Java→Cangjie 术语映射查询 |
+| 混合检索 | `src/java/rag/retriever.py` | ChromaDB 向量 + BM25 + RRF 融合 |
+| 索引构建 | `src/java/rag/indexer.py` | 离线索引：文本分块 → 向量化 → 存储 |
+| 上下文注入 | `src/java/rag/injector.py` | 文档块格式化与 Prompt 注入 |
 
 ### 复用 cangjie 的模块
 
@@ -323,6 +346,7 @@ cjc --test src/test
 
 - `configs/model_configs.yaml` - LLM API 配置
 - `configs/prompt_templates.yaml` - Prompt 模板（Cangjie 代码示例）
+- `configs/java_cangjie_terms.yaml` - Java→Cangjie 术语映射（RAG 查询构建）
 
 ## 与 TRAM/cangjie 的区别
 
@@ -363,15 +387,26 @@ x2cangjie/
 │   │   └── translate_type_rag.py  # RAG 类型翻译
 │   ├── translation/
 │   │   ├── create_skeleton.py    # 骨架生成
-│   │   ├── compositional_translation_validation.py  # 增量翻译验证
+│   │   ├── compositional_translation_validation.py  # 增量翻译验证（含 RAG）
 │   │   ├── cangjie_compilation_validation.py       # 编译验证
-│   │   ├── prompt_generator.py  # Prompt 生成
+│   │   ├── prompt_generator.py  # Prompt 生成（含 RAG 注入）
 │   │   └── get_reverse_traversal.py  # 按顺序翻译
+│   ├── rag/                      # RAG 检索增强生成系统
+│   │   ├── __init__.py           # RagEngine 统一接口
+│   │   ├── corpus_loader.py      # Markdown 分块引擎
+│   │   ├── query_builder.py      # Java→Cangjie 查询构建
+│   │   ├── retriever.py          # 混合检索（向量+BM25+RRF）
+│   │   ├── injector.py          # 文档块格式化注入
+│   │   └── indexer.py           # 离线索引构建
 │   ├── preprocessing/           # 复用 cangjie
 │   │   ├── reduce_third_party_libs.py
 │   │   └── decompose_dev_test.py
 │   └── static_analysis/         # 复用 cangjie
 │       └── extract_source_tests.py
+├── data/java/rag/                # RAG 索引数据（构建生成）
+│   ├── chromadb/                 # ChromaDB 向量存储
+│   ├── bm25_index.pkl           # BM25 稀疏索引
+│   └── chunks.json              # 文档块元数据
 └── docs/
     └── start.md                 # 本文档
 ```
