@@ -443,7 +443,6 @@ def find_fragment_in_skeleton(skeleton_content: str, fragment: dict) -> tuple:
     signature = fragment.get("signature", "")
     is_test = fragment.get("is_test_method", False)
 
-    print(f"[DEBUG find_fragment_in_skeleton] fragment_name={fragment_name}, fragment_type={fragment_type}")
 
     if ":" in fragment_name:
         name = fragment_name.split(":")[-1]
@@ -675,25 +674,19 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
     fragment_type = fragment.get("fragment_type", "")
     fragment_name = fragment.get("fragment_name", "")
 
-    print(f"[DEBUG cangjie_compile_with_skeleton] fragment_type={fragment_type}, fragment_name={fragment_name}")
-    print(f"[DEBUG cangjie_compile_with_skeleton] skeleton_file={skeleton_file}")
 
     if not os.path.exists(skeleton_file):
-        print(f"[DEBUG cangjie_compile_with_skeleton] skeleton file not found, using cangjie_compile")
         return cangjie_compile(cangjie_code, fragment, args)
 
     with open(skeleton_file, 'r') as f:
         skeleton_content = f.read()
 
     fragment_sig, start_pos, end_pos = find_fragment_in_skeleton(skeleton_content, fragment)
-    print(f"[DEBUG cangjie_compile_with_skeleton] fragment_sig={fragment_sig}, start_pos={start_pos}, end_pos={end_pos}")
 
     if fragment_sig is None:
-        print(f"[DEBUG cangjie_compile_with_skeleton] fragment_sig is None, using cangjie_compile")
         return cangjie_compile(cangjie_code, fragment, args)
 
     fragment_body = extract_method_body(cangjie_code, fragment)
-    print(f"[DEBUG cangjie_compile_with_skeleton] fragment_body=\n{fragment_body}")
 
     modified_skeleton = replace_fragment_in_skeleton(skeleton_content, fragment_sig, fragment_body, fragment_type)
 
@@ -720,7 +713,6 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
             return (SUCCESS, None, "Compilation successful")
 
         error_info = parse_cjpm_error(result.stderr, result.stdout)
-        print(f"[DEBUG cangjie_compile_with_skeleton] Compilation FAILED, error_info={error_info}")
 
         # Reset from current skeleton (which contains previous successful translations)
         with open(skeleton_file, 'r') as f:
@@ -732,7 +724,6 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
         return (ERROR, error_info, f"Compilation failed: {error_info}")
 
     except subprocess.TimeoutExpired:
-        print(f"[DEBUG cangjie_compile_with_skeleton] Compilation TIMEOUT")
         with open(skeleton_file, 'r') as f:
             current_skeleton = f.read()
         reset_skeleton = reset_fragment_to_todo(current_skeleton, fragment_sig, fragment_type, args, fragment)
@@ -740,7 +731,6 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
             f.write(reset_skeleton)
         return (ERROR, "Compilation timeout", "Timeout after 60 seconds")
     except Exception as e:
-        print(f"[DEBUG cangjie_compile_with_skeleton] Exception: {e}")
         with open(skeleton_file, 'r') as f:
             current_skeleton = f.read()
         reset_skeleton = reset_fragment_to_todo(current_skeleton, fragment_sig, fragment_type, args, fragment)
@@ -758,7 +748,6 @@ def extract_method_body(cangjie_code: str, fragment: dict) -> str:
     class_name = fragment.get("class_name", "")
     fragment_type = fragment.get("fragment_type", "")
 
-    print(f"[DEBUG extract_method_body] fragment_name={fragment_name}, fragment_type={fragment_type}")
 
     if ":" in fragment_name:
         method_name = fragment_name.split(":")[-1]
@@ -777,7 +766,6 @@ def extract_method_body(cangjie_code: str, fragment: dict) -> str:
     is_static_initializer = (fragment_type == "static_initializer")
     is_constructor = fragment.get("is_constructor", False)
 
-    print(f"[DEBUG extract_method_body] is_static_initializer={is_static_initializer}, is_constructor={is_constructor}, cangjie_code=\n{cangjie_code[:200]}")
 
     # Helper to parse Cangjie params: "a: Int64, b: Float64" -> ["Int64", "Float64"]
     def parse_cangjie_params(param_str):
@@ -960,7 +948,7 @@ def parse_cjc_error(stderr: str, stdout: str) -> str:
     except Exception:
         pass
 
-    return combined_output[:2000]
+    return f"--- cjc stderr ---\n{stderr}\n--- cjc stdout ---\n{stdout}"
 
 
 def parse_cjpm_error(stderr: str, stdout: str) -> str:
@@ -1028,7 +1016,7 @@ def parse_cjpm_error(stderr: str, stdout: str) -> str:
     if error_lines:
         return '\n'.join(error_lines[:10])
 
-    return combined_output[:2000]
+    return f"--- cjpm stderr ---\n{stderr}\n--- cjpm stdout ---\n{stdout}"
 
 
 def cangjie_compilation_validation(generation: str, fragment: dict, args) -> tuple:

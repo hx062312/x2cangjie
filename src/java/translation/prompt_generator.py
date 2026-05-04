@@ -226,7 +226,6 @@ Notes:
         if "partial_translation" not in self.fragment_dict:
             self.fragment_dict["partial_translation"] = []
 
-        print(f"[DEBUG load_fragment] fragment_type={self.fragment_type}, fragment_name={self.fragment_name}, fragment_dict partial_translation={self.fragment_dict.get('partial_translation')}")
 
         self.source_fragment_body = (
             "\n".join(
@@ -447,8 +446,6 @@ Notes:
             with open(f"{self.args.translation_dir}/{super_class_schema}", "r") as f:
                 super_class_data = json.load(f)
 
-            print(f"[DEBUG] super_class: {super_class}, super_class_schema: {super_class_schema}")
-            print(f"[DEBUG] super_class_data classes keys: {list(super_class_data.get('classes', {}).keys())}")
 
             if (
                 f"class {super_class}:" in self.partial_translation
@@ -457,7 +454,6 @@ Notes:
                 continue
 
             super_class_key = find_class_key(super_class_data["classes"], super_class)
-            print(f"[DEBUG] super_class_key: {super_class_key}")
             super_class_decl = super_class_data["classes"][super_class_key]["cangjie_class_declaration"]
             # Don't close the class here - we'll close it after adding fields
 
@@ -790,7 +786,6 @@ Notes:
                     + "\n"
                 )
         elif self.fragment_type == "static_initializer":
-            print(f"[DEBUG add_partial_translation] static_initializer fragment_dict={self.fragment_dict.get('partial_translation')}")
             if "partial_translation" in self.fragment_dict:
                 main_class_partial_translation += (
                     "".join(self.fragment_dict["partial_translation"]).replace(
