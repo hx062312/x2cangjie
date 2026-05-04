@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Usage: ./scripts/java/translate_fragment.sh <project> <model> <suffix> <temperature>
-# Example: ./scripts/java/translate_fragment.sh JavaFeatureTest gpt-4o-2024-11-20 "" 0.0
+# Usage: ./scripts/java/translate_fragment.sh <project> <model> <suffix> <temperature> <use_rag>
+# Example: ./scripts/java/translate_fragment.sh JavaFeatureTest gpt-4o-2024-11-20 "" 0.0 true
+# use_rag: "true" or "false" (default: true)
 
-if [ $# -ne 4 ]; then
-  echo "Usage: ./scripts/java/translate_fragment.sh <project> <model> <suffix> <temperature>"
+if [ $# -lt 4 ]; then
+  echo "Usage: ./scripts/java/translate_fragment.sh <project> <model> <suffix> <temperature> [use_rag]"
   exit 1
 fi
 
@@ -12,6 +13,7 @@ project=$1
 model=$2
 suffix=$3
 temperature=$4
+use_rag=${5:-true}
 
 export PYTHONPATH=$(pwd)
 python3 src/java/translation/compositional_translation_validation.py \
@@ -24,6 +26,6 @@ python3 src/java/translation/compositional_translation_validation.py \
     --suffix=$suffix \
     --temperature=$temperature \
     --validate_by_cangjie \
-    --use_rag \
+    --use_rag=$use_rag \
     --recursion_depth=2 \
     --include_implementation | tee ${project}_${model}_body.log
