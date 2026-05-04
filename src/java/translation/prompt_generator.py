@@ -1,6 +1,8 @@
 import json
 import os
 
+from src.java.rag import get_rag_engine
+
 
 def find_class_key(classes_dict, class_name):
     """Find a class key that matches the given class_name pattern.
@@ -42,6 +44,7 @@ class PromptGenerator:
         self.feedback = feedback
         self.prompt_status = "success"
         self.use_icl_pool = use_icl_pool
+        self.rag_context: str = ""
         self.fragment_details = fragment_details
         self.signature = None
 
@@ -186,12 +189,27 @@ Cangjie method translation:
 
         self.load_fragment(fragment_details)
         self.construct_adaptive_icl()
+
+        # RAG context injection
+        if getattr(self.args, 'use_rag', False):
+            try:
+                rag = get_rag_engine()
+                context = rag.inject_fragment_context(self.source_fragment_body)
+                if context:
+                    self.rag_context = context
+            except Exception as e:
+                print(f"[RAG] Warning: Fragment RAG injection failed: {e}")
+
         self.build_base_prompt()
 
     def build_base_prompt(self):
         self.prompt += self.meta_data[f"{self.args.model}-persona"]
 
         self.double_line_break()
+
+        if self.rag_context:
+            self.prompt += self.rag_context
+            self.double_line_break()
 
         self.prompt += self.adaptive_icl
 
@@ -210,6 +228,10 @@ Cangjie method translation:
             self.double_line_break()
             self.add_feedback()
             self.double_line_break()
+            # RAG error context on compilation failure
+            if self.rag_context:
+                self.prompt += self.rag_context
+                self.double_line_break()
 
         self.add_partial_translation()
 
