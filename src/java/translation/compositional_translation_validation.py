@@ -13,6 +13,7 @@ from openai import OpenAI
 from src.java.translation.cangjie_compilation_validation import cangjie_compilation_validation
 from src.java.translation.get_reverse_traversal import get_reverse_traversal
 from src.java.translation.prompt_generator import PromptGenerator
+from src.java.rag import get_rag_engine
 
 # Status constants for translation validation
 ERROR = "error"
@@ -621,6 +622,15 @@ def translate(
                 )
 
             budget[current_budget] -= 1
+            # RAG error context injection on compilation failure
+            if hasattr(args, 'use_rag') and args.use_rag:
+                try:
+                    rag_engine = get_rag_engine()
+                    error_ctx = rag_engine.inject_error_context(compilation_feedback)
+                    if error_ctx:
+                        compilation_feedback = error_ctx + "\n\n" + compilation_feedback
+                except Exception as e:
+                    print(f"[RAG] Warning: Compilation error RAG injection failed: {e}")
             # Update feedback for next iteration - append to existing feedback
             if not feedback:
                 feedback = compilation_feedback
@@ -751,6 +761,12 @@ if __name__ == "__main__":
         type=int,
         dest="recursion_depth",
         help="depth of recursion for translation",
+    )
+    parser_.add_argument(
+        "--use_rag",
+        action="store_true",
+        default=False,
+        help="Enable RAG context on compilation errors",
     )
     args = parser_.parse_args()
     main(args)
