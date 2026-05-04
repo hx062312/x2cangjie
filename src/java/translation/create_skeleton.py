@@ -544,8 +544,9 @@ def main(args):
         # Start building skeleton (package header will be added later based on sub_path)
         skeleton = ""
 
-        # Imports section
+        # Imports section (placeholder, filled after type_translation and dependency processing)
         skeleton += "// Imports Begin\n"
+        skeleton += "__IMPORTS_PLACEHOLDER__\n"
         skeleton += "// Imports End\n\n"
 
         # Get class order for processing
@@ -663,6 +664,39 @@ def main(args):
                 # Add import if needed
                 if dep_class_name not in processed_classes:
                     cangjie_imports.add(f"import {dep_class_name}")
+
+        # Collect standard library imports from type_translations in schema
+        for class_key in class_order:
+            if class_key not in schema.get('classes', {}):
+                continue
+            class_info = schema['classes'][class_key]
+            for fragment_type in ['fields', 'methods']:
+                for frag_key, frag_data in class_info.get(fragment_type, {}).items():
+                    for tv in ['types', 'return_types', 'parameters', 'body_types']:
+                        for tid, tdata in frag_data.get('type_translations', {}).get(tv, {}).items():
+                            imports_val = tdata.get('imports', '')
+                            if imports_val and imports_val not in ('None', ''):
+                                for imp in imports_val.split('\n'):
+                                    imp = imp.strip()
+                                    if imp:
+                                        cangjie_imports.add(imp)
+
+        # Fill imports placeholder (filter out same-package class imports)
+        filtered_imports = set()
+        for imp in cangjie_imports:
+            # Skip bare class name imports (e.g. "import Student") that are custom types in same package
+            if imp.startswith('import ') and not imp.startswith(('import std.', 'import ohos.')):
+                imported_name = imp[len('import '):].strip()
+                # Skip if it's a known custom type (defined in this project)
+                if '.' not in imported_name and imported_name in custom_types:
+                    continue
+            filtered_imports.add(imp)
+
+        if filtered_imports:
+            imports_str = '\n'.join(sorted(filtered_imports)) + '\n'
+        else:
+            imports_str = '\n'
+        skeleton = skeleton.replace('__IMPORTS_PLACEHOLDER__\n', imports_str)
 
         # Write skeleton file
         # Use schema["path"] to get actual Java source path

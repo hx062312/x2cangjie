@@ -251,77 +251,14 @@ main(): Int64 {{
 
 def main(args):
 
-    # Java to Cangjie primitive type mappings
-    JAVA_TO_CANGJIE_PRIMITIVES = {
-        # Integers
-        'int': 'Int64',
-        'Integer': 'Int64',
-        'java.lang.Integer': 'Int64',
-        'long': 'Int64',
-        'java.lang.Long': 'Int64',
-        'Long': 'Int64',
-        'short': 'Int64',
-        'java.lang.Short': 'Int64',
-        'Short': 'Int64',
-        'byte': 'Int64',
-        'Byte': 'Int64',
-        'java.lang.Byte': 'Int64',
-
-        # Floating point
-        'float': 'Float64',
-        'java.lang.Float': 'Float64',
-        'Float': 'Float64',
-        'double': 'Float64',
-        'Double': 'Float64',
-        'java.lang.Double': 'Float64',
-
-        # Boolean
-        'boolean': 'Bool',
-        'Boolean': 'Bool',
-        'java.lang.Boolean': 'Bool',
-
-        # Character / String
-        'char': 'Rune',
-        'java.lang.Character': 'Rune',
-        'java.lang.String': 'String',
-        'Character': 'Rune',
-        'String': 'String',
-
-        # Void
-        'void': 'Void',
-        'Void': 'Void',
-        'java.lang.Void': 'Void',
-
-        # Collections
-        'List<T>': 'Array<T>',
-        'ArrayList<T>': 'Array<T>',
-        'Map<K, V>': 'HashMap<K, V>',
-        'HashMap<K, V>': 'HashMap<K, V>',
-        'Set<T>': 'HashSet<T>',
-        'HashSet<T>': 'HashSet<T>',
-        'Collection<T>': 'Array<T>',
-        'Iterable<T>': 'Iterator<T>',
-        'Iterator<T>': 'Iterator<T>',
-
-        # Optional
-        'Optional<T>': '?T',
-        'OptionalInt': '?Int64',
-        'OptionalLong': '?Int64',
-        'OptionalDouble': '?Float64',
-
-        # Common types
-        'Object': 'Any',
-        'java.lang.Object': 'Any',
-        'Class<T>': 'Type',
-        'java.lang.Class': 'Type',
-        'Comparable<T>': 'Comparable<T>',
-        'Runnable': '() -> Void',
-        'Callable<T>': '() -> T',
-        'Exception': 'Exception',
-        'RuntimeException': 'RuntimeException',
-        'IllegalArgumentException': 'IllegalArgumentException',
-        'NullPointerException': 'NullPointerException',
-    }
+    # Load fixed type map from JSON (more accurate than old hardcoded JAVA_TO_CANGJIE_PRIMITIVES)
+    FIXED_TYPE_MAP = {}
+    fixed_map_path = "data/java/type_resolution/fixed_type_map.json"
+    if os.path.exists(fixed_map_path):
+        with open(fixed_map_path, 'r') as f:
+            FIXED_TYPE_MAP = json.load(f)
+    if args.debug:
+        print(f"[DEBUG] Loaded {len(FIXED_TYPE_MAP)} entries from fixed_type_map.json", flush=True)
 
     model_info = yaml.safe_load(open('configs/model_configs.yaml', 'r'))['models']
     args.schema_dir = f'data/java/schemas{args.suffix}/{args.model_name}/{args.temperature}/{args.project_name}'
@@ -387,11 +324,11 @@ def main(args):
                             result.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                             result.source_type = source_type
 
-                            # Check if it's a known primitive or custom type
-                            if source_type in custom_types or source_type in JAVA_TO_CANGJIE_PRIMITIVES:
+                            # Check if it's a known fixed type or custom type
+                            if source_type in custom_types or source_type in FIXED_TYPE_MAP:
                                 result.translated = True
-                                if source_type in JAVA_TO_CANGJIE_PRIMITIVES:
-                                    result.translated_target_type = JAVA_TO_CANGJIE_PRIMITIVES.get(source_type)
+                                if source_type in FIXED_TYPE_MAP:
+                                    result.translated_target_type = FIXED_TYPE_MAP.get(source_type)
                                 else:
                                     result.translated_target_type = source_type
                                 # Record successful translation
@@ -405,8 +342,8 @@ def main(args):
                                 save_results(data, args.schema_dir, schema_file)
 
                                 if args.debug:
-                                    if source_type in JAVA_TO_CANGJIE_PRIMITIVES:
-                                        message = 'PRIMITIVE TYPE DETECTED'
+                                    if source_type in FIXED_TYPE_MAP:
+                                        message = 'FIXED TYPE DETECTED (fixed_type_map)'
                                     else:
                                         message = 'CUSTOM TYPE DETECTED'
                                     print('=' * 50 + message + '=' * 50, flush=True)
@@ -418,7 +355,7 @@ def main(args):
 
                             # RAG context injection for type resolution
                             rag_context = ""
-                            if hasattr(args, 'use_rag') and args.use_rag:
+                            if hasattr(args, 'use_rag') and args.use_rag == 'true':
                                 try:
                                     rag_engine = get_rag_engine()
                                     rag_ctx = rag_engine.inject_type_context(source_type)
@@ -530,6 +467,6 @@ if __name__ == '__main__':
     parser.add_argument('--source_language', type=str, dest='source_language', help='source language')
     parser.add_argument('--target_language', type=str, dest='target_language', help='target language')
     parser.add_argument('--budget', type=int, dest='budget', help='budget for each type translation')
-    parser.add_argument('--use_rag', action='store_true', default=False, help='Enable RAG context injection for type resolution')
+    parser.add_argument('--use_rag', type=str, default='false', help='Enable RAG context injection for type resolution (true/false)')
     args = parser.parse_args()
     main(args)
