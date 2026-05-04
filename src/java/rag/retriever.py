@@ -8,9 +8,14 @@ from typing import Optional
 
 import chromadb
 from chromadb.config import Settings as ChromaSettings
+from openai import OpenAI
 from rank_bm25 import BM25Okapi
 
 from src.java.rag.corpus_loader import Chunk
+
+
+EMBEDDING_MODEL = "text-embedding-3-large"
+EMBEDDING_DIM = 1536
 
 
 RRF_K = 60
@@ -98,8 +103,17 @@ class Retriever:
             return []
 
         try:
+            # Embed query using same model as indexer for dimension compatibility
+            client = OpenAI()
+            response = client.embeddings.create(
+                model=EMBEDDING_MODEL,
+                input=query,
+                dimensions=EMBEDDING_DIM,
+            )
+            query_embedding = response.data[0].embedding
+
             results = self._collection.query(
-                query_texts=[query],
+                query_embeddings=[query_embedding],
                 n_results=top_k,
             )
         except Exception:
