@@ -1,0 +1,966 @@
+{
+    "path": "projects/java/cleaned_final_projects/RagTestProject/src/main/java/me/ragtest/StudentManager.java",
+    "imports": {
+        "3-3:import java.util.ArrayList;": {
+            "start": 3,
+            "end": 3,
+            "body": "import java.util.ArrayList;"
+        },
+        "4-4:import java.util.HashMap;": {
+            "start": 4,
+            "end": 4,
+            "body": "import java.util.HashMap;"
+        },
+        "5-5:import java.util.Optional;": {
+            "start": 5,
+            "end": 5,
+            "body": "import java.util.Optional;"
+        }
+    },
+    "classes": {
+        "7-68:StudentManager": {
+            "start": 7,
+            "end": 68,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "10-12:StudentManager": {
+                    "start": 10,
+                    "end": 12,
+                    "body": [
+                        "public StudentManager() {",
+                        "        this.students = new ArrayList<>();",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [
+                        "ArrayList<>"
+                    ],
+                    "signature": "StudentManager()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {
+                            "ArrayList<>": {
+                                "identifier": "ArrayList<>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:43:14",
+                                "source_type": "ArrayList<>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.ArrayList\n```\n\nCANGJIE TRANSLATION:\n```\nArrayList<Any>\n```\n\nREASONING:\nThe error indicates that the type `ArrayList<>` in Cangjie requires a specific type argument, unlike Java where the type argument can be omitted. To match the functionality of Java's `ArrayList<>` (which allows any type of element, including null), the equivalent in Cangjie is `ArrayList<Any>`. The `Any` type in Cangjie represents a generic type that can hold any value, making it the closest match to Java's untyped `ArrayList<>`.",
+                                "imports": "import std.collection.ArrayList",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "The error indicates that the type `ArrayList<>` in Cangjie requires a specific type argument, unlike Java where the type argument can be omitted. To match the functionality of Java's `ArrayList<>` (which allows any type of element, including null), the equivalent in Cangjie is `ArrayList<Any>`. The `Any` type in Cangjie represents a generic type that can hold any value, making it the closest match to Java's untyped `ArrayList<>`.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: ArrayList]\n[Context: ArrayList]\n\n\u4f7f\u7528 ArrayList \u7c7b\u578b\u9700\u8981\u5bfc\u5165 collection \u5305\uff1a\n\n<!-- run -->\n\n```cangjie\nimport std.collection.*\n```\n\n\u4ed3\u9889\u4f7f\u7528 `ArrayList<T>` \u8868\u793a ArrayList \u7c7b\u578b\uff0cT \u8868\u793a ArrayList \u7684\u5143\u7d20\u7c7b\u578b\uff0cT \u53ef\u4ee5\u662f\u4efb\u610f\u7c7b\u578b\u3002\n\nArrayList \u5177\u5907\u975e\u5e38\u597d\u7684\u6269\u5bb9\u80fd\u529b\uff0c\u9002\u5408\u4e8e\u9700\u8981\u9891\u7e41\u589e\u52a0\u548c\u5220\u9664\u5143\u7d20\u7684\u573a\u666f\u3002\n\n\u76f8\u6bd4 Array\uff0cArrayList \u65e2\u53ef\u4ee5\u539f\u5730\u4fee\u6539\u5143\u7d20\uff0c\u4e5f\u53ef\u4ee5\u539f\u5730\u589e\u52a0\u548c\u5220\u9664\u5143\u7d20\u3002\n\nArrayList \u7684\u53ef\u53d8\u6027\u662f\u4e00\u4e2a\u975e\u5e38\u6709\u7528\u7684\u7279\u5f81\uff0c\u53ef\u4ee5\u8ba9\u540c\u4e00\u4e2a ArrayList \u5b9e\u4f8b\u7684\u6240\u6709\u5f15\u7528\u90fd\u5171\u4eab\u540c\u6837\u7684\u5143\u7d20\uff0c\u5e76\u4e14\u5bf9\u5b83\u4eec\u7edf\u4e00\u8fdb\u884c\u4fee\u6539\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nvar a: ArrayList<Int64> = ... // ArrayList whose element type is Int64\nvar b: ArrayList<String> = ... // ArrayList whose element type is String\n```\n\n\u5143\u7d20\u7c7b\u578b\u4e0d\u76f8\u540c\u7684 ArrayList \u662f\u4e0d\u76f8\u540c\u7684\u7c7b\u578b\uff0c\u6240\u4ee5\u5b83\u4eec\u4e4b\u95f4\u4e0d\u53ef\u4ee5\u4e92\u76f8\u8d4b\u503c\u3002\n\n\u56e0\u6b64\u4ee5\u4e0b\u4f8b\u5b50\u662f\u4e0d\u5408\u6cd5\u7684\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nb = a // Type mismatch\n```\n\n\u4ed3\u9889\u4e2d\u53ef\u4ee5\u4f7f\u7528\u6784\u9020\u51fd\u6570\u7684\u65b9\u5f0f\u6784\u9020\u4e00\u4e2a\u6307\u5b9a\u7684 ArrayList\u3002\n\n<!-- run -->\n\n```cangjie\nlet a = ArrayList<String>() // Created an empty ArrayList whose element type is String\nlet b = ArrayList<String>(100) // Created an ArrayList whose element type is String, and allocate a space of 100\nlet c = ArrayList<Int64>([0, 1, 2]) // Created an ArrayList whose element type is Int64, containing elements 0, 1, 2\nlet d = ArrayList<Int64>(c) // Use another Collection to initialize an ArrayList\nlet e = ArrayList<String>(2, {x: Int64 => x.toString()}) // Created an ArrayList whose element type is String and size is 2. All elements are initialized by specified rule function\n```\n\n### Reference [Source: Language Manual]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n\n\u6bcf\u4e2a ArrayList \u90fd\u9700\u8981\u7279\u5b9a\u6570\u91cf\u7684\u5185\u5b58\u6765\u4fdd\u5b58\u5176\u5185\u5bb9\u3002\u5f53\u5411 ArrayList \u6dfb\u52a0\u5143\u7d20\u5e76\u4e14\u8be5 ArrayList \u5f00\u59cb\u8d85\u51fa\u5176\u4fdd\u7559\u5bb9\u91cf\u65f6\uff0c\u8be5 ArrayList \u4f1a\u5206\u914d\u66f4\u5927\u7684\u5185\u5b58\u533a\u57df\u5e76\u5c06\u5176\u6240\u6709\u5143\u7d20\u590d\u5236\u5230\u65b0\u5185\u5b58\u4e2d\u3002\u8fd9\u79cd\u589e\u957f\u7b56\u7565\u610f\u5473\u7740\u89e6\u53d1\u91cd\u65b0\u5206\u914d\u5185\u5b58\u7684\u6dfb\u52a0\u64cd\u4f5c\u5177\u6709\u6027\u80fd\u6210\u672c\uff0c\u4f46\u968f\u7740 ArrayList \u7684\u4fdd\u7559\u5185\u5b58\u53d8\u5927\uff0c\u5b83\u4eec\u53d1\u751f\u7684\u9891\u7387\u4f1a\u8d8a\u6765\u8d8a\u4f4e\u3002\n\n\u5982\u679c\u77e5\u9053\u5927\u7ea6\u9700\u8981\u6dfb\u52a0\u591a\u5c11\u4e2a\u5143\u7d20\uff0c\u53ef\u4ee5\u5728\u6dfb\u52a0\u4e4b\u524d\u9884\u5907\u8db3\u591f\u7684\u5185\u5b58\u4ee5\u907f\u514d\u4e2d\u95f4\u91cd\u65b0\u5206\u914d\uff0c\u8fd9\u6837\u53ef\u4ee5\u63d0\u5347\u6027\u80fd\u8868\u73b0\u3002\n\n<!-- run -->\n\n```cangjie\nimport std.collection.ArrayList\n\nmain() {\n    let list = ArrayList<Int64>(100) // Allocate space at once\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n    list.reserve(100) // Prepare more space\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n}\n```\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nArrayList<>\n```\n\nJAVA TYPE DESCRIPTION:\nResizable-array implementation of the List interface.  Implements\n all optional list operations, and permits all elements, including\n null.  In addition to implementing the List interface,\n this class provides methods to manipulate the size of the array that is\n used internally to store the list.  (This class is roughly equivalent to\n Vector, except that it is unsynchronized.)\n\n\nJAVA CODE:\n```\n    public StudentManager() {\n        this.students = new ArrayList<>();\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: expected type argument\n \u001b[36m==>\u001b[0m /tmp/tmpsjry5nu6.cj:6:30:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: ArrayList<>\u001b[0m\n  \u001b[36m| \u001b[0m                             \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "public init() {\n        students = ArrayList<Student>()\n    }",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 32.65871524810791,
+                    "generation_timestamp": "2026-05-04T09:19:45.742844",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "public init() {\n        students = ArrayList<Student>()\n    }",
+                    "original_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 5,
+                        "test_execution": 5
+                    },
+                    "final_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 4,
+                        "test_execution": 5
+                    }
+                },
+                "14-16:addStudent": {
+                    "start": 14,
+                    "end": 16,
+                    "body": [
+                        "public void addStudent(Student student) {",
+                        "        students.add(student);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "addStudent( Student student)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "Student",
+                            "name": "student"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "add(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-04 08:43:23",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|Student|student": {
+                                "identifier": "|Student|student",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-04 08:43:23",
+                                "source_type": "Student",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Student",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "students.add(student)",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 19.888237476348877,
+                    "generation_timestamp": "2026-05-04T10:17:22.794325",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "students.add(student)",
+                    "original_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 5,
+                        "test_execution": 5
+                    },
+                    "final_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 5,
+                        "test_execution": 5
+                    }
+                },
+                "18-25:findStudentByName": {
+                    "start": 18,
+                    "end": 25,
+                    "body": [
+                        "public Optional<Student> findStudentByName(String name) {",
+                        "        for (Student s : students) {",
+                        "            if (s.getName().equals(name)) {",
+                        "                return Optional.of(s);",
+                        "            }",
+                        "        }",
+                        "        return Optional.empty();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Optional<Student>"
+                    ],
+                    "body_types": [
+                        "Student"
+                    ],
+                    "signature": "findStudentByName( String name)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "name"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "RagTestProject.src.main.me.ragtest.Student",
+                            "6-55:Student",
+                            "17-19:getName"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Optional",
+                            "of(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Optional",
+                            "empty()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Optional<Student>": {
+                                "identifier": "Optional<Student>",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-04 08:43:35",
+                                "source_type": "Optional<Student>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport Optional\nimport Student\n```\n\nCANGJIE TRANSLATION:\n```\nOptional<Student>\n```\n\nREASONING:\nThe error indicates that both `Optional` and `Student` types are undeclared in the Cangjie environment. To resolve this, the necessary imports for `Optional` and `Student` must be included. The `Optional<Student>` type in Java directly corresponds to the `Optional<Student>` type in Cangjie, as both represent a container that may or may not hold a value. By adding the required imports, the type translation will compile correctly.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: runtime \u73af\u5883\u53d8\u91cf\u4f7f\u7528\u624b\u518c > runtime \u521d\u59cb\u5316\u53ef\u9009\u914d\u7f6e > \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b]\n[Context: runtime \u73af\u5883\u53d8\u91cf\u4f7f\u7528\u624b\u518c > runtime \u521d\u59cb\u5316\u53ef\u9009\u914d\u7f6e > \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b]\n\n- \u4ed3\u9889 GWP-Asan \u662f\u4e00\u79cd\u57fa\u4e8e\u91c7\u6837\u7684\u5185\u5b58\u68c0\u67e5\u5de5\u5177\uff0c\u5185\u5b58\u8d8a\u754c\u95ee\u9898\u53ef\u80fd\u65e0\u6cd5\u5b8c\u5168\u68c0\u51fa\u3002\n- \u4ed3\u9889 GWP-Asan \u5bf9\u4ed3\u9889\u5806\u5185\u5b58\u7684\u8d8a\u754c\u68c0\u6d4b\u8303\u56f4\u6709\u9650\uff0c\u65e0\u6cd5\u68c0\u6d4b\u5185\u5b58\u8bfb\u8d8a\u754c\u8bbf\u95ee\uff0c\u4ec5\u80fd\u68c0\u6d4b\u90e8\u5206\u5199\u8d8a\u754c\u8bbf\u95ee\uff1a\u5411\u524d\u5199\u8d8a\u754c 8 \u5b57\u8282\u4ee5\u5185\uff1b\u5411\u540e\u5199\u8d8a\u754c\u5230\u5c3e\u90e8\u7684\u586b\u5145\u533a\u57df\uff08\u6839\u636e\u6570\u7ec4\u5bf9\u8c61\u957f\u5ea6\u7684\u4e0d\u540c\uff0c\u586b\u5145\u533a\u57df\u53ef\u80fd\u4e3a 0-7 \u5b57\u8282\uff09\u3002\n\n### Reference [Source: Extended Library]\n[Context: \u679a\u4e3e > enum TlsClientIdentificationMode > Optional]\n[Context: \u679a\u4e3e > enum TlsClientIdentificationMode > Optional]\n\n```cangjie\nOptional\n```\n\n\u529f\u80fd\uff1a\u8868\u793a\u670d\u52a1\u7aef\u6821\u9a8c\u5ba2\u6237\u7aef\u8bc1\u4e66\uff0c\u4f46\u5ba2\u6237\u7aef\u53ef\u4ee5\u4e0d\u63d0\u4f9b\u8bc1\u4e66\u53ca\u516c\u94a5\uff0c\u4e0d\u63d0\u4f9b\u65f6\u5219\u5355\u5411\u8ba4\u8bc1\uff0c\u63d0\u4f9b\u65f6\u5219\u4e3a\u53cc\u5411\u8ba4\u8bc1\u3002\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nOptional<Student>\n```\n\nJAVA TYPE DESCRIPTION:\nA container object which may or may not contain a non-null value.\n If a value is present, isPresent() returns true. If no\n value is present, the object is considered empty and\n isPresent() returns false.\n\n\nJAVA CODE:\n```\n    public Optional<Student> findStudentByName(String name) {\n        for (Student s : students) {\n            if (s.getName().equals(name)) {\n                return Optional.of(s);\n            }\n        }\n        return Optional.empty();\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'Optional'\n \u001b[36m==>\u001b[0m /tmp/tmpyx_bzqfb.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: Optional<Student>\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[31merror\u001b[0m: undeclared type name 'Student'\n \u001b[36m==>\u001b[0m /tmp/tmpyx_bzqfb.cj:6:29:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: Optional<Student>\u001b[0m\n  \u001b[36m| \u001b[0m                            \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n2 errors generated, 2 errors printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "body_types": {
+                            "Student": {
+                                "identifier": "Student",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:43:42",
+                                "source_type": "Student",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Student",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|name": {
+                                "identifier": "|String|name",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-04 08:43:42",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "for (s in students) {\nif (s.getName() == name) {\nreturn Some(s)\n}\n}\nreturn None",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 48.69088697433472,
+                    "generation_timestamp": "2026-05-04T10:18:11.496890",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "for (s in students) {\nif (s.getName() == name) {\nreturn Some(s)\n}\n}\nreturn None",
+                    "original_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 5,
+                        "test_execution": 5
+                    },
+                    "final_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 3,
+                        "test_execution": 5
+                    }
+                },
+                "27-38:getTopStudent": {
+                    "start": 27,
+                    "end": 38,
+                    "body": [
+                        "public Optional<Student> getTopStudent() {",
+                        "        if (students.isEmpty()) {",
+                        "            return Optional.empty();",
+                        "        }",
+                        "        Student top = students.get(0);",
+                        "        for (Student s : students) {",
+                        "            if (s.getAverageGrade() > top.getAverageGrade()) {",
+                        "                top = s;",
+                        "            }",
+                        "        }",
+                        "        return Optional.of(top);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Optional<Student>"
+                    ],
+                    "body_types": [
+                        "Student"
+                    ],
+                    "signature": "getTopStudent()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "isEmpty()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Optional",
+                            "empty()"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "get(int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "RagTestProject.src.main.me.ragtest.Student",
+                            "6-55:Student",
+                            "33-42:getAverageGrade"
+                        ],
+                        [
+                            "library",
+                            "java.util.Optional",
+                            "of(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Optional<Student>": {
+                                "identifier": "Optional<Student>",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-04 08:43:55",
+                                "source_type": "Optional<Student>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport Optional\nimport Student\n```\n\nCANGJIE TRANSLATION:\n```\nOptional<Student>\n```\n\nREASONING:\nThe error indicates that both `Optional` and `Student` types were not declared or imported in the Cangjie environment. To resolve this, the necessary imports for `Optional` and `Student` must be included. The `Optional<Student>` type in Java directly maps to the same type in Cangjie, as it represents a container that may or may not hold a value. By adding the required imports, the translation should now work correctly.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: runtime \u73af\u5883\u53d8\u91cf\u4f7f\u7528\u624b\u518c > runtime \u521d\u59cb\u5316\u53ef\u9009\u914d\u7f6e > \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b]\n[Context: runtime \u73af\u5883\u53d8\u91cf\u4f7f\u7528\u624b\u518c > runtime \u521d\u59cb\u5316\u53ef\u9009\u914d\u7f6e > \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b]\n\n- \u4ed3\u9889 GWP-Asan \u662f\u4e00\u79cd\u57fa\u4e8e\u91c7\u6837\u7684\u5185\u5b58\u68c0\u67e5\u5de5\u5177\uff0c\u5185\u5b58\u8d8a\u754c\u95ee\u9898\u53ef\u80fd\u65e0\u6cd5\u5b8c\u5168\u68c0\u51fa\u3002\n- \u4ed3\u9889 GWP-Asan \u5bf9\u4ed3\u9889\u5806\u5185\u5b58\u7684\u8d8a\u754c\u68c0\u6d4b\u8303\u56f4\u6709\u9650\uff0c\u65e0\u6cd5\u68c0\u6d4b\u5185\u5b58\u8bfb\u8d8a\u754c\u8bbf\u95ee\uff0c\u4ec5\u80fd\u68c0\u6d4b\u90e8\u5206\u5199\u8d8a\u754c\u8bbf\u95ee\uff1a\u5411\u524d\u5199\u8d8a\u754c 8 \u5b57\u8282\u4ee5\u5185\uff1b\u5411\u540e\u5199\u8d8a\u754c\u5230\u5c3e\u90e8\u7684\u586b\u5145\u533a\u57df\uff08\u6839\u636e\u6570\u7ec4\u5bf9\u8c61\u957f\u5ea6\u7684\u4e0d\u540c\uff0c\u586b\u5145\u533a\u57df\u53ef\u80fd\u4e3a 0-7 \u5b57\u8282\uff09\u3002\n\n### Reference [Source: Extended Library]\n[Context: \u679a\u4e3e > enum TlsClientIdentificationMode > Optional]\n[Context: \u679a\u4e3e > enum TlsClientIdentificationMode > Optional]\n\n```cangjie\nOptional\n```\n\n\u529f\u80fd\uff1a\u8868\u793a\u670d\u52a1\u7aef\u6821\u9a8c\u5ba2\u6237\u7aef\u8bc1\u4e66\uff0c\u4f46\u5ba2\u6237\u7aef\u53ef\u4ee5\u4e0d\u63d0\u4f9b\u8bc1\u4e66\u53ca\u516c\u94a5\uff0c\u4e0d\u63d0\u4f9b\u65f6\u5219\u5355\u5411\u8ba4\u8bc1\uff0c\u63d0\u4f9b\u65f6\u5219\u4e3a\u53cc\u5411\u8ba4\u8bc1\u3002\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nOptional<Student>\n```\n\nJAVA TYPE DESCRIPTION:\nA container object which may or may not contain a non-null value.\n If a value is present, isPresent() returns true. If no\n value is present, the object is considered empty and\n isPresent() returns false.\n\n\nJAVA CODE:\n```\n    public Optional<Student> getTopStudent() {\n        if (students.isEmpty()) {\n            return Optional.empty();\n        }\n        Student top = students.get(0);\n        for (Student s : students) {\n            if (s.getAverageGrade() > top.getAverageGrade()) {\n                top = s;\n            }\n        }\n        return Optional.of(top);\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'Optional'\n \u001b[36m==>\u001b[0m /tmp/tmp8fvmer_u.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: Optional<Student>\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[31merror\u001b[0m: undeclared type name 'Student'\n \u001b[36m==>\u001b[0m /tmp/tmp8fvmer_u.cj:6:29:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: Optional<Student>\u001b[0m\n  \u001b[36m| \u001b[0m                            \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n2 errors generated, 2 errors printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "body_types": {
+                            "Student": {
+                                "identifier": "Student",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:00",
+                                "source_type": "Student",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Student",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func getTopStudent(): Option<Student> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: \u001b[31merror\u001b[0m: mismatched types\n1 error generated, 1 error printed.\nError: failed to compile package `RagTestProject`, return code is 1\nError: cjpm build failed"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 75.16140747070312,
+                    "generation_timestamp": "2026-05-04T10:19:26.671275",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getTopStudent(): Option<Student> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 5,
+                        "test_execution": 5
+                    },
+                    "final_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 1,
+                        "test_execution": 5
+                    }
+                },
+                "40-49:getClassAverage": {
+                    "start": 40,
+                    "end": 49,
+                    "body": [
+                        "public double getClassAverage() {",
+                        "        if (students.isEmpty()) {",
+                        "            return 0.0;",
+                        "        }",
+                        "        double total = 0.0;",
+                        "        for (Student s : students) {",
+                        "            total += s.getAverageGrade();",
+                        "        }",
+                        "        return total / students.size();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "double"
+                    ],
+                    "body_types": [
+                        "double",
+                        "Student"
+                    ],
+                    "signature": "getClassAverage()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "isEmpty()"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "RagTestProject.src.main.me.ragtest.Student",
+                            "6-55:Student",
+                            "33-42:getAverageGrade"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "size()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "double": {
+                                "identifier": "double",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-04 08:44:00",
+                                "source_type": "double",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Float64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "double": {
+                                "identifier": "double",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:00",
+                                "source_type": "double",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Float64",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Student": {
+                                "identifier": "Student",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:00",
+                                "source_type": "Student",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Student",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func getClassAverage(): Float64 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: \u001b[31merror\u001b[0m: expected pattern, found keyword 'let'\n1 error generated, 1 error printed.\nError: failed to compile package `RagTestProject`, return code is 1\nError: cjpm build failed"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 74.73068284988403,
+                    "generation_timestamp": "2026-05-04T10:20:41.414660",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getClassAverage(): Float64 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 5,
+                        "test_execution": 5
+                    },
+                    "final_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 1,
+                        "test_execution": 5
+                    }
+                },
+                "51-67:getStudentsByGrade": {
+                    "start": 51,
+                    "end": 67,
+                    "body": [
+                        "public HashMap<String, ArrayList<String>> getStudentsByGrade(String subject, int threshold) {",
+                        "        HashMap<String, ArrayList<String>> result = new HashMap<>();",
+                        "        result.put(\"above\", new ArrayList<>());",
+                        "        result.put(\"below\", new ArrayList<>());",
+                        "",
+                        "        for (Student s : students) {",
+                        "            Integer score = s.getGrade(subject);",
+                        "            if (score != null) {",
+                        "                if (score >= threshold) {",
+                        "                    result.get(\"above\").add(s.getName());",
+                        "                } else {",
+                        "                    result.get(\"below\").add(s.getName());",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "        return result;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "HashMap<String, ArrayList<String>>"
+                    ],
+                    "body_types": [
+                        "HashMap<String, ArrayList<String>>",
+                        "ArrayList<String>",
+                        "HashMap<>",
+                        "ArrayList<>",
+                        "Student",
+                        "Integer"
+                    ],
+                    "signature": "getStudentsByGrade( String subject,  int threshold)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "subject"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "int",
+                            "name": "threshold"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.HashMap",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashMap",
+                            "put(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "RagTestProject.src.main.me.ragtest.Student",
+                            "6-55:Student",
+                            "29-31:getGrade"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Integer",
+                            "intValue()"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashMap",
+                            "get(java.lang.Object)"
+                        ],
+                        [
+                            "RagTestProject.src.main.me.ragtest.Student",
+                            "6-55:Student",
+                            "17-19:getName"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "add(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "HashMap<String, ArrayList<String>>": {
+                                "identifier": "HashMap<String, ArrayList<String>>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-04 08:44:00",
+                                "source_type": "HashMap<String, ArrayList<String>>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.*\n```\n\nCANGJIE TRANSLATION:\n```\nHashMap<String, ArrayList<String>>\n```\n\nREASONING:\nThe Java type `HashMap<String, ArrayList<String>>` represents a hash table where the keys are strings and the values are lists of strings. In Cangjie, the `HashMap<K, V>` type is used for hash tables, and `ArrayList<T>` is used for lists. Since both `String` and `ArrayList<String>` are directly supported in Cangjie, the equivalent type in Cangjie is `HashMap<String, ArrayList<String>>`.",
+                                "imports": "import std.collection.*",
+                                "translated_target_type": "HashMap<String, ArrayList<String>>",
+                                "reasoning": "The Java type `HashMap<String, ArrayList<String>>` represents a hash table where the keys are strings and the values are lists of strings. In Cangjie, the `HashMap<K, V>` type is used for hash tables, and `ArrayList<T>` is used for lists. Since both `String` and `ArrayList<String>` are directly supported in Cangjie, the equivalent type in Cangjie is `HashMap<String, ArrayList<String>>`.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: HashMap]\n[Context: HashMap]\n\n\u4f7f\u7528 HashMap \u7c7b\u578b\u9700\u8981\u5bfc\u5165 collection \u5305\uff1a\n\n<!-- run -->\n\n```cangjie\nimport std.collection.*\n```\n\n\u53ef\u4ee5\u4f7f\u7528 HashMap \u7c7b\u578b\u6765\u6784\u9020\u5143\u7d20\u4e3a\u952e\u503c\u5bf9\u7684 Collection\u3002\n\nHashMap \u662f\u4e00\u79cd\u54c8\u5e0c\u8868\uff0c\u63d0\u4f9b\u5bf9\u5176\u5305\u542b\u7684\u5143\u7d20\u7684\u5feb\u901f\u8bbf\u95ee\u3002\u8868\u4e2d\u7684\u6bcf\u4e2a\u5143\u7d20\u90fd\u4f7f\u7528\u5176\u952e\u4f5c\u4e3a\u6807\u8bc6\uff0c\u53ef\u4ee5\u4f7f\u7528\u952e\u6765\u8bbf\u95ee\u76f8\u5e94\u7684\u503c\u3002\n\n\u4ed3\u9889\u4f7f\u7528 `HashMap<K, V>` \u8868\u793a HashMap \u7c7b\u578b\uff0cK \u8868\u793a HashMap \u7684\u952e\u7c7b\u578b\uff0cK \u5fc5\u987b\u662f\u5b9e\u73b0\u4e86 Hashable \u548c `Equatable<K>` \u63a5\u53e3\u7684\u7c7b\u578b\uff0c\u4f8b\u5982\u6570\u503c\u6216 String\u3002V \u8868\u793a HashMap \u7684\u503c\u7c7b\u578b\uff0cV \u53ef\u4ee5\u662f\u4efb\u610f\u7c7b\u578b\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nvar a: HashMap<Int64, Int64> = ... // HashMap whose key type is Int64 and value type is Int64\nvar b: HashMap<String, Int64> = ... // HashMap whose key type is String and value type is Int64\n```\n\n\u5143\u7d20\u7c7b\u578b\u4e0d\u76f8\u540c\u7684 HashMap \u662f\u4e0d\u76f8\u540c\u7684\u7c7b\u578b\uff0c\u6240\u4ee5\u5b83\u4eec\u4e4b\u95f4\u4e0d\u53ef\u4ee5\u4e92\u76f8\u8d4b\u503c\u3002\n\n\u56e0\u6b64\u4ee5\u4e0b\u4f8b\u5b50\u662f\u4e0d\u5408\u6cd5\u7684\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nb = a // Type mismatch\n```\n\n\u4ed3\u9889\u4e2d\u53ef\u4ee5\u4f7f\u7528\u6784\u9020\u51fd\u6570\u7684\u65b9\u5f0f\u6784\u9020\u4e00\u4e2a\u6307\u5b9a\u7684 HashMap\u3002\n\n<!-- run -->\n\n```cangjie\nlet a = HashMap<String, Int64>() // Created an empty HashMap whose key type is String and value type is Int64\nlet b = HashMap<String, Int64>([(\"a\", 0), (\"b\", 1), (\"c\", 2)]) // whose key type is String and value type is Int64, containing elements (\"a\", 0), (\"b\", 1), (\"c\", 2)\nlet c = HashMap<String, Int64>(b) // Use another Collection to initialize a HashMap\nlet d = HashMap<String, Int64>(10) // Created a HashMap whose key type is String and value type is Int64 and capacity is 10\nlet e = HashMap<Int64, Int64>(10, {x: Int64 => (x, x * x)}) // Created a HashMap whose key and value type is Int64 and size is 10. All elements are initialized by specified rule function\n```\n\n### Reference [Source: OpenHarmony Docs]\n[Context: ohos.ark_interop_helper\uff08ArkTS\u4e92\u64cd\u4f5c\u516c\u5171\u8f85\u52a9\u529f\u80fd\u51fd\u6570\uff09 > func mapFromJSValue\\<T>(JSContext, JSValue, (JSContext,JSValue) -> T)]\n[Context: ohos.ark_interop_helper\uff08ArkTS\u4e92\u64cd\u4f5c\u516c\u5171\u8f85\u52a9\u529f\u80fd\u51fd\u6570\uff09 > func mapFromJSValue\\<T>(JSContext, JSValue, (JSContext,JSValue) -> T)]\n\n```cangjie\npublic func mapFromJSValue<T>(\n    context: JSContext,\n    value: JSValue,\n    convert: (JSContext, JSValue) -> T\n): ?HashMap<String, T>\n```\n\n**\u529f\u80fd\uff1a** \u628a JSValue \u683c\u5f0f\u7684\u6570\u636e\u8f6c\u6362\u6210 HashMap \u3002\n\n**\u8d77\u59cb\u7248\u672c\uff1a** 22\n\n**\u53c2\u6570\uff1a**\n\n|\u53c2\u6570\u540d|\u7c7b\u578b|\u5fc5\u586b|\u9ed8\u8ba4\u503c|\u8bf4\u660e|\n|:---|:---|:---|:---|:---|\n|context|[JSContext](cj-apis-ark_interop.md#class-jscontext)|\u662f|-|\u4e92\u64cd\u4f5c\u4e0a\u4e0b\u6587\u3002|\n|value|[JSValue](cj-apis-ark_interop.md#class-jsvalue)|\u662f|-|\u9700\u8981\u8f6c\u6362\u7684 JSValue \u6570\u636e\u3002|\n|convert|([JSContext](cj-apis-ark_interop.md#class-jscontext), [JSValue](cj-apis-ark_interop.md#class-jsvalue))->T|\u662f|-|\u628a JSValue \u5f53\u4f5c\u4e00\u4e2a HashMap \u540e\uff0c\u83b7\u53d6\u8fd9\u4e2a HashMap \u7684 key \u5bf9\u5e94\u7684 value \u8f6c\u6362\u6210 T\u3002|\n\n**\u8fd4\u56de\u503c\uff1a**\n\n|\u7c7b\u578b|\u8bf4\u660e|\n|:----|:----|\n|?HashMap\\<String, T>|\u8f6c\u6362\u540e\u7684 HashMap \u6570\u636e\u3002|\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nHashMap<String, ArrayList<String>>\n```\n\nJAVA TYPE DESCRIPTION:\nHash table based implementation of the Map interface.  This\n implementation provides all of the optional map operations, and permits\n null values and the null key.  (The HashMap\n class is roughly equivalent to Hashtable, except that it is\n unsynchronized and permits nulls.)  This class makes no guarantees as to\n the order of the map; in particular, it does not guarantee that the order\n will remain constant over time.\n\n\nJAVA CODE:\n```\n    public HashMap<String, ArrayList<String>> getStudentsByGrade(String subject, int threshold) {\n        HashMap<String, ArrayList<String>> result = new HashMap<>();\n        result.put(\"above\", new ArrayList<>());\n        result.put(\"below\", new ArrayList<>());\n\n        for (Student s : students) {\n            Integer score = s.getGrade(subject);\n            if (score != null) {\n                if (score >= threshold) {\n                    result.get(\"above\").add(s.getName());\n                } else {\n                    result.get(\"below\").add(s.getName());\n                }\n            }\n        }\n        return result;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "body_types": {
+                            "HashMap<String, ArrayList<String>>": {
+                                "identifier": "HashMap<String, ArrayList<String>>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:10",
+                                "source_type": "HashMap<String, ArrayList<String>>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.*\n```\n\nCANGJIE TRANSLATION:\n```\nHashMap<String, List<String>>\n```\n\nREASONING:\nThe Java type `HashMap<String, ArrayList<String>>` represents a hash table where the keys are strings and the values are lists of strings. In Cangjie, the equivalent type for a hash table is `HashMap<K, V>`, and the equivalent for `ArrayList` is `List`. Therefore, the corresponding Cangjie type is `HashMap<String, List<String>>`.",
+                                "imports": "import std.collection.*",
+                                "translated_target_type": "HashMap<String, List<String>>",
+                                "reasoning": "The Java type `HashMap<String, ArrayList<String>>` represents a hash table where the keys are strings and the values are lists of strings. In Cangjie, the equivalent type for a hash table is `HashMap<K, V>`, and the equivalent for `ArrayList` is `List`. Therefore, the corresponding Cangjie type is `HashMap<String, List<String>>`.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: HashMap]\n[Context: HashMap]\n\n\u4f7f\u7528 HashMap \u7c7b\u578b\u9700\u8981\u5bfc\u5165 collection \u5305\uff1a\n\n<!-- run -->\n\n```cangjie\nimport std.collection.*\n```\n\n\u53ef\u4ee5\u4f7f\u7528 HashMap \u7c7b\u578b\u6765\u6784\u9020\u5143\u7d20\u4e3a\u952e\u503c\u5bf9\u7684 Collection\u3002\n\nHashMap \u662f\u4e00\u79cd\u54c8\u5e0c\u8868\uff0c\u63d0\u4f9b\u5bf9\u5176\u5305\u542b\u7684\u5143\u7d20\u7684\u5feb\u901f\u8bbf\u95ee\u3002\u8868\u4e2d\u7684\u6bcf\u4e2a\u5143\u7d20\u90fd\u4f7f\u7528\u5176\u952e\u4f5c\u4e3a\u6807\u8bc6\uff0c\u53ef\u4ee5\u4f7f\u7528\u952e\u6765\u8bbf\u95ee\u76f8\u5e94\u7684\u503c\u3002\n\n\u4ed3\u9889\u4f7f\u7528 `HashMap<K, V>` \u8868\u793a HashMap \u7c7b\u578b\uff0cK \u8868\u793a HashMap \u7684\u952e\u7c7b\u578b\uff0cK \u5fc5\u987b\u662f\u5b9e\u73b0\u4e86 Hashable \u548c `Equatable<K>` \u63a5\u53e3\u7684\u7c7b\u578b\uff0c\u4f8b\u5982\u6570\u503c\u6216 String\u3002V \u8868\u793a HashMap \u7684\u503c\u7c7b\u578b\uff0cV \u53ef\u4ee5\u662f\u4efb\u610f\u7c7b\u578b\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nvar a: HashMap<Int64, Int64> = ... // HashMap whose key type is Int64 and value type is Int64\nvar b: HashMap<String, Int64> = ... // HashMap whose key type is String and value type is Int64\n```\n\n\u5143\u7d20\u7c7b\u578b\u4e0d\u76f8\u540c\u7684 HashMap \u662f\u4e0d\u76f8\u540c\u7684\u7c7b\u578b\uff0c\u6240\u4ee5\u5b83\u4eec\u4e4b\u95f4\u4e0d\u53ef\u4ee5\u4e92\u76f8\u8d4b\u503c\u3002\n\n\u56e0\u6b64\u4ee5\u4e0b\u4f8b\u5b50\u662f\u4e0d\u5408\u6cd5\u7684\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nb = a // Type mismatch\n```\n\n\u4ed3\u9889\u4e2d\u53ef\u4ee5\u4f7f\u7528\u6784\u9020\u51fd\u6570\u7684\u65b9\u5f0f\u6784\u9020\u4e00\u4e2a\u6307\u5b9a\u7684 HashMap\u3002\n\n<!-- run -->\n\n```cangjie\nlet a = HashMap<String, Int64>() // Created an empty HashMap whose key type is String and value type is Int64\nlet b = HashMap<String, Int64>([(\"a\", 0), (\"b\", 1), (\"c\", 2)]) // whose key type is String and value type is Int64, containing elements (\"a\", 0), (\"b\", 1), (\"c\", 2)\nlet c = HashMap<String, Int64>(b) // Use another Collection to initialize a HashMap\nlet d = HashMap<String, Int64>(10) // Created a HashMap whose key type is String and value type is Int64 and capacity is 10\nlet e = HashMap<Int64, Int64>(10, {x: Int64 => (x, x * x)}) // Created a HashMap whose key and value type is Int64 and size is 10. All elements are initialized by specified rule function\n```\n\n### Reference [Source: OpenHarmony Docs]\n[Context: ohos.ark_interop_helper\uff08ArkTS\u4e92\u64cd\u4f5c\u516c\u5171\u8f85\u52a9\u529f\u80fd\u51fd\u6570\uff09 > func mapFromJSValue\\<T>(JSContext, JSValue, (JSContext,JSValue) -> T)]\n[Context: ohos.ark_interop_helper\uff08ArkTS\u4e92\u64cd\u4f5c\u516c\u5171\u8f85\u52a9\u529f\u80fd\u51fd\u6570\uff09 > func mapFromJSValue\\<T>(JSContext, JSValue, (JSContext,JSValue) -> T)]\n\n```cangjie\npublic func mapFromJSValue<T>(\n    context: JSContext,\n    value: JSValue,\n    convert: (JSContext, JSValue) -> T\n): ?HashMap<String, T>\n```\n\n**\u529f\u80fd\uff1a** \u628a JSValue \u683c\u5f0f\u7684\u6570\u636e\u8f6c\u6362\u6210 HashMap \u3002\n\n**\u8d77\u59cb\u7248\u672c\uff1a** 22\n\n**\u53c2\u6570\uff1a**\n\n|\u53c2\u6570\u540d|\u7c7b\u578b|\u5fc5\u586b|\u9ed8\u8ba4\u503c|\u8bf4\u660e|\n|:---|:---|:---|:---|:---|\n|context|[JSContext](cj-apis-ark_interop.md#class-jscontext)|\u662f|-|\u4e92\u64cd\u4f5c\u4e0a\u4e0b\u6587\u3002|\n|value|[JSValue](cj-apis-ark_interop.md#class-jsvalue)|\u662f|-|\u9700\u8981\u8f6c\u6362\u7684 JSValue \u6570\u636e\u3002|\n|convert|([JSContext](cj-apis-ark_interop.md#class-jscontext), [JSValue](cj-apis-ark_interop.md#class-jsvalue))->T|\u662f|-|\u628a JSValue \u5f53\u4f5c\u4e00\u4e2a HashMap \u540e\uff0c\u83b7\u53d6\u8fd9\u4e2a HashMap \u7684 key \u5bf9\u5e94\u7684 value \u8f6c\u6362\u6210 T\u3002|\n\n**\u8fd4\u56de\u503c\uff1a**\n\n|\u7c7b\u578b|\u8bf4\u660e|\n|:----|:----|\n|?HashMap\\<String, T>|\u8f6c\u6362\u540e\u7684 HashMap \u6570\u636e\u3002|\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nHashMap<String, ArrayList<String>>\n```\n\nJAVA TYPE DESCRIPTION:\nHash table based implementation of the Map interface.  This\n implementation provides all of the optional map operations, and permits\n null values and the null key.  (The HashMap\n class is roughly equivalent to Hashtable, except that it is\n unsynchronized and permits nulls.)  This class makes no guarantees as to\n the order of the map; in particular, it does not guarantee that the order\n will remain constant over time.\n\n\nJAVA CODE:\n```\n    public HashMap<String, ArrayList<String>> getStudentsByGrade(String subject, int threshold) {\n        HashMap<String, ArrayList<String>> result = new HashMap<>();\n        result.put(\"above\", new ArrayList<>());\n        result.put(\"below\", new ArrayList<>());\n\n        for (Student s : students) {\n            Integer score = s.getGrade(subject);\n            if (score != null) {\n                if (score >= threshold) {\n                    result.get(\"above\").add(s.getName());\n                } else {\n                    result.get(\"below\").add(s.getName());\n                }\n            }\n        }\n        return result;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "ArrayList<String>": {
+                                "identifier": "ArrayList<String>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:20",
+                                "source_type": "ArrayList<String>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.*\n```\n\nCANGJIE TRANSLATION:\n```\nArrayList<String>\n```\n\nREASONING:\nThe Java type `ArrayList<String>` corresponds directly to the Cangjie type `ArrayList<String>`. Both represent a resizable array structure that can store elements of type `String`. The Cangjie documentation explicitly states that `ArrayList<T>` is used for resizable array-like collections, where `T` is the type of the elements. Since the Java type is `ArrayList<String>`, the equivalent Cangjie type is `ArrayList<String>`.",
+                                "imports": "import std.collection.*",
+                                "translated_target_type": "ArrayList<String>",
+                                "reasoning": "The Java type `ArrayList<String>` corresponds directly to the Cangjie type `ArrayList<String>`. Both represent a resizable array structure that can store elements of type `String`. The Cangjie documentation explicitly states that `ArrayList<T>` is used for resizable array-like collections, where `T` is the type of the elements. Since the Java type is `ArrayList<String>`, the equivalent Cangjie type is `ArrayList<String>`.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: ArrayList]\n[Context: ArrayList]\n\n\u4f7f\u7528 ArrayList \u7c7b\u578b\u9700\u8981\u5bfc\u5165 collection \u5305\uff1a\n\n<!-- run -->\n\n```cangjie\nimport std.collection.*\n```\n\n\u4ed3\u9889\u4f7f\u7528 `ArrayList<T>` \u8868\u793a ArrayList \u7c7b\u578b\uff0cT \u8868\u793a ArrayList \u7684\u5143\u7d20\u7c7b\u578b\uff0cT \u53ef\u4ee5\u662f\u4efb\u610f\u7c7b\u578b\u3002\n\nArrayList \u5177\u5907\u975e\u5e38\u597d\u7684\u6269\u5bb9\u80fd\u529b\uff0c\u9002\u5408\u4e8e\u9700\u8981\u9891\u7e41\u589e\u52a0\u548c\u5220\u9664\u5143\u7d20\u7684\u573a\u666f\u3002\n\n\u76f8\u6bd4 Array\uff0cArrayList \u65e2\u53ef\u4ee5\u539f\u5730\u4fee\u6539\u5143\u7d20\uff0c\u4e5f\u53ef\u4ee5\u539f\u5730\u589e\u52a0\u548c\u5220\u9664\u5143\u7d20\u3002\n\nArrayList \u7684\u53ef\u53d8\u6027\u662f\u4e00\u4e2a\u975e\u5e38\u6709\u7528\u7684\u7279\u5f81\uff0c\u53ef\u4ee5\u8ba9\u540c\u4e00\u4e2a ArrayList \u5b9e\u4f8b\u7684\u6240\u6709\u5f15\u7528\u90fd\u5171\u4eab\u540c\u6837\u7684\u5143\u7d20\uff0c\u5e76\u4e14\u5bf9\u5b83\u4eec\u7edf\u4e00\u8fdb\u884c\u4fee\u6539\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nvar a: ArrayList<Int64> = ... // ArrayList whose element type is Int64\nvar b: ArrayList<String> = ... // ArrayList whose element type is String\n```\n\n\u5143\u7d20\u7c7b\u578b\u4e0d\u76f8\u540c\u7684 ArrayList \u662f\u4e0d\u76f8\u540c\u7684\u7c7b\u578b\uff0c\u6240\u4ee5\u5b83\u4eec\u4e4b\u95f4\u4e0d\u53ef\u4ee5\u4e92\u76f8\u8d4b\u503c\u3002\n\n\u56e0\u6b64\u4ee5\u4e0b\u4f8b\u5b50\u662f\u4e0d\u5408\u6cd5\u7684\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nb = a // Type mismatch\n```\n\n\u4ed3\u9889\u4e2d\u53ef\u4ee5\u4f7f\u7528\u6784\u9020\u51fd\u6570\u7684\u65b9\u5f0f\u6784\u9020\u4e00\u4e2a\u6307\u5b9a\u7684 ArrayList\u3002\n\n<!-- run -->\n\n```cangjie\nlet a = ArrayList<String>() // Created an empty ArrayList whose element type is String\nlet b = ArrayList<String>(100) // Created an ArrayList whose element type is String, and allocate a space of 100\nlet c = ArrayList<Int64>([0, 1, 2]) // Created an ArrayList whose element type is Int64, containing elements 0, 1, 2\nlet d = ArrayList<Int64>(c) // Use another Collection to initialize an ArrayList\nlet e = ArrayList<String>(2, {x: Int64 => x.toString()}) // Created an ArrayList whose element type is String and size is 2. All elements are initialized by specified rule function\n```\n\n### Reference [Source: Language Manual]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n\n\u6bcf\u4e2a ArrayList \u90fd\u9700\u8981\u7279\u5b9a\u6570\u91cf\u7684\u5185\u5b58\u6765\u4fdd\u5b58\u5176\u5185\u5bb9\u3002\u5f53\u5411 ArrayList \u6dfb\u52a0\u5143\u7d20\u5e76\u4e14\u8be5 ArrayList \u5f00\u59cb\u8d85\u51fa\u5176\u4fdd\u7559\u5bb9\u91cf\u65f6\uff0c\u8be5 ArrayList \u4f1a\u5206\u914d\u66f4\u5927\u7684\u5185\u5b58\u533a\u57df\u5e76\u5c06\u5176\u6240\u6709\u5143\u7d20\u590d\u5236\u5230\u65b0\u5185\u5b58\u4e2d\u3002\u8fd9\u79cd\u589e\u957f\u7b56\u7565\u610f\u5473\u7740\u89e6\u53d1\u91cd\u65b0\u5206\u914d\u5185\u5b58\u7684\u6dfb\u52a0\u64cd\u4f5c\u5177\u6709\u6027\u80fd\u6210\u672c\uff0c\u4f46\u968f\u7740 ArrayList \u7684\u4fdd\u7559\u5185\u5b58\u53d8\u5927\uff0c\u5b83\u4eec\u53d1\u751f\u7684\u9891\u7387\u4f1a\u8d8a\u6765\u8d8a\u4f4e\u3002\n\n\u5982\u679c\u77e5\u9053\u5927\u7ea6\u9700\u8981\u6dfb\u52a0\u591a\u5c11\u4e2a\u5143\u7d20\uff0c\u53ef\u4ee5\u5728\u6dfb\u52a0\u4e4b\u524d\u9884\u5907\u8db3\u591f\u7684\u5185\u5b58\u4ee5\u907f\u514d\u4e2d\u95f4\u91cd\u65b0\u5206\u914d\uff0c\u8fd9\u6837\u53ef\u4ee5\u63d0\u5347\u6027\u80fd\u8868\u73b0\u3002\n\n<!-- run -->\n\n```cangjie\nimport std.collection.ArrayList\n\nmain() {\n    let list = ArrayList<Int64>(100) // Allocate space at once\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n    list.reserve(100) // Prepare more space\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n}\n```\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nArrayList<String>\n```\n\nJAVA TYPE DESCRIPTION:\nResizable-array implementation of the List interface.  Implements\n all optional list operations, and permits all elements, including\n null.  In addition to implementing the List interface,\n this class provides methods to manipulate the size of the array that is\n used internally to store the list.  (This class is roughly equivalent to\n Vector, except that it is unsynchronized.)\n\n\nJAVA CODE:\n```\n    public HashMap<String, ArrayList<String>> getStudentsByGrade(String subject, int threshold) {\n        HashMap<String, ArrayList<String>> result = new HashMap<>();\n        result.put(\"above\", new ArrayList<>());\n        result.put(\"below\", new ArrayList<>());\n\n        for (Student s : students) {\n            Integer score = s.getGrade(subject);\n            if (score != null) {\n                if (score >= threshold) {\n                    result.get(\"above\").add(s.getName());\n                } else {\n                    result.get(\"below\").add(s.getName());\n                }\n            }\n        }\n        return result;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "HashMap<>": {
+                                "identifier": "HashMap<>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:29",
+                                "source_type": "HashMap<>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.*\n```\n\nCANGJIE TRANSLATION:\n```\nHashMap<String, ArrayList<String>>\n```\n\nREASONING:\nThe Java `HashMap<>` type corresponds directly to the Cangjie `HashMap<K, V>` type, which is a hash table-based collection for storing key-value pairs. In the provided Java code, the `HashMap` has a key type of `String` and a value type of `ArrayList<String>`. In Cangjie, this can be represented as `HashMap<String, ArrayList<String>>`, where `ArrayList<String>` is the equivalent of a list of strings in Java. The import statement `import std.collection.*` is necessary to use the `HashMap` type in Cangjie.",
+                                "imports": "import std.collection.*",
+                                "translated_target_type": "HashMap<String, ArrayList<String>>",
+                                "reasoning": "The Java `HashMap<>` type corresponds directly to the Cangjie `HashMap<K, V>` type, which is a hash table-based collection for storing key-value pairs. In the provided Java code, the `HashMap` has a key type of `String` and a value type of `ArrayList<String>`. In Cangjie, this can be represented as `HashMap<String, ArrayList<String>>`, where `ArrayList<String>` is the equivalent of a list of strings in Java. The import statement `import std.collection.*` is necessary to use the `HashMap` type in Cangjie.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: HashMap]\n[Context: HashMap]\n\n\u4f7f\u7528 HashMap \u7c7b\u578b\u9700\u8981\u5bfc\u5165 collection \u5305\uff1a\n\n<!-- run -->\n\n```cangjie\nimport std.collection.*\n```\n\n\u53ef\u4ee5\u4f7f\u7528 HashMap \u7c7b\u578b\u6765\u6784\u9020\u5143\u7d20\u4e3a\u952e\u503c\u5bf9\u7684 Collection\u3002\n\nHashMap \u662f\u4e00\u79cd\u54c8\u5e0c\u8868\uff0c\u63d0\u4f9b\u5bf9\u5176\u5305\u542b\u7684\u5143\u7d20\u7684\u5feb\u901f\u8bbf\u95ee\u3002\u8868\u4e2d\u7684\u6bcf\u4e2a\u5143\u7d20\u90fd\u4f7f\u7528\u5176\u952e\u4f5c\u4e3a\u6807\u8bc6\uff0c\u53ef\u4ee5\u4f7f\u7528\u952e\u6765\u8bbf\u95ee\u76f8\u5e94\u7684\u503c\u3002\n\n\u4ed3\u9889\u4f7f\u7528 `HashMap<K, V>` \u8868\u793a HashMap \u7c7b\u578b\uff0cK \u8868\u793a HashMap \u7684\u952e\u7c7b\u578b\uff0cK \u5fc5\u987b\u662f\u5b9e\u73b0\u4e86 Hashable \u548c `Equatable<K>` \u63a5\u53e3\u7684\u7c7b\u578b\uff0c\u4f8b\u5982\u6570\u503c\u6216 String\u3002V \u8868\u793a HashMap \u7684\u503c\u7c7b\u578b\uff0cV \u53ef\u4ee5\u662f\u4efb\u610f\u7c7b\u578b\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nvar a: HashMap<Int64, Int64> = ... // HashMap whose key type is Int64 and value type is Int64\nvar b: HashMap<String, Int64> = ... // HashMap whose key type is String and value type is Int64\n```\n\n\u5143\u7d20\u7c7b\u578b\u4e0d\u76f8\u540c\u7684 HashMap \u662f\u4e0d\u76f8\u540c\u7684\u7c7b\u578b\uff0c\u6240\u4ee5\u5b83\u4eec\u4e4b\u95f4\u4e0d\u53ef\u4ee5\u4e92\u76f8\u8d4b\u503c\u3002\n\n\u56e0\u6b64\u4ee5\u4e0b\u4f8b\u5b50\u662f\u4e0d\u5408\u6cd5\u7684\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nb = a // Type mismatch\n```\n\n\u4ed3\u9889\u4e2d\u53ef\u4ee5\u4f7f\u7528\u6784\u9020\u51fd\u6570\u7684\u65b9\u5f0f\u6784\u9020\u4e00\u4e2a\u6307\u5b9a\u7684 HashMap\u3002\n\n<!-- run -->\n\n```cangjie\nlet a = HashMap<String, Int64>() // Created an empty HashMap whose key type is String and value type is Int64\nlet b = HashMap<String, Int64>([(\"a\", 0), (\"b\", 1), (\"c\", 2)]) // whose key type is String and value type is Int64, containing elements (\"a\", 0), (\"b\", 1), (\"c\", 2)\nlet c = HashMap<String, Int64>(b) // Use another Collection to initialize a HashMap\nlet d = HashMap<String, Int64>(10) // Created a HashMap whose key type is String and value type is Int64 and capacity is 10\nlet e = HashMap<Int64, Int64>(10, {x: Int64 => (x, x * x)}) // Created a HashMap whose key and value type is Int64 and size is 10. All elements are initialized by specified rule function\n```\n\n### Reference [Source: OpenHarmony Docs]\n[Context: ohos.ark_interop_helper\uff08ArkTS\u4e92\u64cd\u4f5c\u516c\u5171\u8f85\u52a9\u529f\u80fd\u51fd\u6570\uff09 > func mapFromJSValue\\<T>(JSContext, JSValue, (JSContext,JSValue) -> T)]\n[Context: ohos.ark_interop_helper\uff08ArkTS\u4e92\u64cd\u4f5c\u516c\u5171\u8f85\u52a9\u529f\u80fd\u51fd\u6570\uff09 > func mapFromJSValue\\<T>(JSContext, JSValue, (JSContext,JSValue) -> T)]\n\n```cangjie\npublic func mapFromJSValue<T>(\n    context: JSContext,\n    value: JSValue,\n    convert: (JSContext, JSValue) -> T\n): ?HashMap<String, T>\n```\n\n**\u529f\u80fd\uff1a** \u628a JSValue \u683c\u5f0f\u7684\u6570\u636e\u8f6c\u6362\u6210 HashMap \u3002\n\n**\u8d77\u59cb\u7248\u672c\uff1a** 22\n\n**\u53c2\u6570\uff1a**\n\n|\u53c2\u6570\u540d|\u7c7b\u578b|\u5fc5\u586b|\u9ed8\u8ba4\u503c|\u8bf4\u660e|\n|:---|:---|:---|:---|:---|\n|context|[JSContext](cj-apis-ark_interop.md#class-jscontext)|\u662f|-|\u4e92\u64cd\u4f5c\u4e0a\u4e0b\u6587\u3002|\n|value|[JSValue](cj-apis-ark_interop.md#class-jsvalue)|\u662f|-|\u9700\u8981\u8f6c\u6362\u7684 JSValue \u6570\u636e\u3002|\n|convert|([JSContext](cj-apis-ark_interop.md#class-jscontext), [JSValue](cj-apis-ark_interop.md#class-jsvalue))->T|\u662f|-|\u628a JSValue \u5f53\u4f5c\u4e00\u4e2a HashMap \u540e\uff0c\u83b7\u53d6\u8fd9\u4e2a HashMap \u7684 key \u5bf9\u5e94\u7684 value \u8f6c\u6362\u6210 T\u3002|\n\n**\u8fd4\u56de\u503c\uff1a**\n\n|\u7c7b\u578b|\u8bf4\u660e|\n|:----|:----|\n|?HashMap\\<String, T>|\u8f6c\u6362\u540e\u7684 HashMap \u6570\u636e\u3002|\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nHashMap<>\n```\n\nJAVA TYPE DESCRIPTION:\nHash table based implementation of the Map interface.  This\n implementation provides all of the optional map operations, and permits\n null values and the null key.  (The HashMap\n class is roughly equivalent to Hashtable, except that it is\n unsynchronized and permits nulls.)  This class makes no guarantees as to\n the order of the map; in particular, it does not guarantee that the order\n will remain constant over time.\n\n\nJAVA CODE:\n```\n    public HashMap<String, ArrayList<String>> getStudentsByGrade(String subject, int threshold) {\n        HashMap<String, ArrayList<String>> result = new HashMap<>();\n        result.put(\"above\", new ArrayList<>());\n        result.put(\"below\", new ArrayList<>());\n\n        for (Student s : students) {\n            Integer score = s.getGrade(subject);\n            if (score != null) {\n                if (score >= threshold) {\n                    result.get(\"above\").add(s.getName());\n                } else {\n                    result.get(\"below\").add(s.getName());\n                }\n            }\n        }\n        return result;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "ArrayList<>": {
+                                "identifier": "ArrayList<>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:39",
+                                "source_type": "ArrayList<>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.*\n```\n\nCANGJIE TRANSLATION:\n```\nHashMap<String, ArrayList<String>>\n```\n\nREASONING:\nThe Java `ArrayList<>` type corresponds to the `ArrayList<T>` type in Cangjie, as described in the documentation. The Java `HashMap<String, ArrayList<String>>` type is a map where the keys are strings and the values are lists of strings. In Cangjie, this would be represented as `HashMap<String, ArrayList<String>>`, where `HashMap` and `ArrayList` are directly imported from the `std.collection` package.",
+                                "imports": "import std.collection.*",
+                                "translated_target_type": "HashMap<String, ArrayList<String>>",
+                                "reasoning": "The Java `ArrayList<>` type corresponds to the `ArrayList<T>` type in Cangjie, as described in the documentation. The Java `HashMap<String, ArrayList<String>>` type is a map where the keys are strings and the values are lists of strings. In Cangjie, this would be represented as `HashMap<String, ArrayList<String>>`, where `HashMap` and `ArrayList` are directly imported from the `std.collection` package.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: ArrayList]\n[Context: ArrayList]\n\n\u4f7f\u7528 ArrayList \u7c7b\u578b\u9700\u8981\u5bfc\u5165 collection \u5305\uff1a\n\n<!-- run -->\n\n```cangjie\nimport std.collection.*\n```\n\n\u4ed3\u9889\u4f7f\u7528 `ArrayList<T>` \u8868\u793a ArrayList \u7c7b\u578b\uff0cT \u8868\u793a ArrayList \u7684\u5143\u7d20\u7c7b\u578b\uff0cT \u53ef\u4ee5\u662f\u4efb\u610f\u7c7b\u578b\u3002\n\nArrayList \u5177\u5907\u975e\u5e38\u597d\u7684\u6269\u5bb9\u80fd\u529b\uff0c\u9002\u5408\u4e8e\u9700\u8981\u9891\u7e41\u589e\u52a0\u548c\u5220\u9664\u5143\u7d20\u7684\u573a\u666f\u3002\n\n\u76f8\u6bd4 Array\uff0cArrayList \u65e2\u53ef\u4ee5\u539f\u5730\u4fee\u6539\u5143\u7d20\uff0c\u4e5f\u53ef\u4ee5\u539f\u5730\u589e\u52a0\u548c\u5220\u9664\u5143\u7d20\u3002\n\nArrayList \u7684\u53ef\u53d8\u6027\u662f\u4e00\u4e2a\u975e\u5e38\u6709\u7528\u7684\u7279\u5f81\uff0c\u53ef\u4ee5\u8ba9\u540c\u4e00\u4e2a ArrayList \u5b9e\u4f8b\u7684\u6240\u6709\u5f15\u7528\u90fd\u5171\u4eab\u540c\u6837\u7684\u5143\u7d20\uff0c\u5e76\u4e14\u5bf9\u5b83\u4eec\u7edf\u4e00\u8fdb\u884c\u4fee\u6539\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nvar a: ArrayList<Int64> = ... // ArrayList whose element type is Int64\nvar b: ArrayList<String> = ... // ArrayList whose element type is String\n```\n\n\u5143\u7d20\u7c7b\u578b\u4e0d\u76f8\u540c\u7684 ArrayList \u662f\u4e0d\u76f8\u540c\u7684\u7c7b\u578b\uff0c\u6240\u4ee5\u5b83\u4eec\u4e4b\u95f4\u4e0d\u53ef\u4ee5\u4e92\u76f8\u8d4b\u503c\u3002\n\n\u56e0\u6b64\u4ee5\u4e0b\u4f8b\u5b50\u662f\u4e0d\u5408\u6cd5\u7684\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nb = a // Type mismatch\n```\n\n\u4ed3\u9889\u4e2d\u53ef\u4ee5\u4f7f\u7528\u6784\u9020\u51fd\u6570\u7684\u65b9\u5f0f\u6784\u9020\u4e00\u4e2a\u6307\u5b9a\u7684 ArrayList\u3002\n\n<!-- run -->\n\n```cangjie\nlet a = ArrayList<String>() // Created an empty ArrayList whose element type is String\nlet b = ArrayList<String>(100) // Created an ArrayList whose element type is String, and allocate a space of 100\nlet c = ArrayList<Int64>([0, 1, 2]) // Created an ArrayList whose element type is Int64, containing elements 0, 1, 2\nlet d = ArrayList<Int64>(c) // Use another Collection to initialize an ArrayList\nlet e = ArrayList<String>(2, {x: Int64 => x.toString()}) // Created an ArrayList whose element type is String and size is 2. All elements are initialized by specified rule function\n```\n\n### Reference [Source: Language Manual]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n\n\u6bcf\u4e2a ArrayList \u90fd\u9700\u8981\u7279\u5b9a\u6570\u91cf\u7684\u5185\u5b58\u6765\u4fdd\u5b58\u5176\u5185\u5bb9\u3002\u5f53\u5411 ArrayList \u6dfb\u52a0\u5143\u7d20\u5e76\u4e14\u8be5 ArrayList \u5f00\u59cb\u8d85\u51fa\u5176\u4fdd\u7559\u5bb9\u91cf\u65f6\uff0c\u8be5 ArrayList \u4f1a\u5206\u914d\u66f4\u5927\u7684\u5185\u5b58\u533a\u57df\u5e76\u5c06\u5176\u6240\u6709\u5143\u7d20\u590d\u5236\u5230\u65b0\u5185\u5b58\u4e2d\u3002\u8fd9\u79cd\u589e\u957f\u7b56\u7565\u610f\u5473\u7740\u89e6\u53d1\u91cd\u65b0\u5206\u914d\u5185\u5b58\u7684\u6dfb\u52a0\u64cd\u4f5c\u5177\u6709\u6027\u80fd\u6210\u672c\uff0c\u4f46\u968f\u7740 ArrayList \u7684\u4fdd\u7559\u5185\u5b58\u53d8\u5927\uff0c\u5b83\u4eec\u53d1\u751f\u7684\u9891\u7387\u4f1a\u8d8a\u6765\u8d8a\u4f4e\u3002\n\n\u5982\u679c\u77e5\u9053\u5927\u7ea6\u9700\u8981\u6dfb\u52a0\u591a\u5c11\u4e2a\u5143\u7d20\uff0c\u53ef\u4ee5\u5728\u6dfb\u52a0\u4e4b\u524d\u9884\u5907\u8db3\u591f\u7684\u5185\u5b58\u4ee5\u907f\u514d\u4e2d\u95f4\u91cd\u65b0\u5206\u914d\uff0c\u8fd9\u6837\u53ef\u4ee5\u63d0\u5347\u6027\u80fd\u8868\u73b0\u3002\n\n<!-- run -->\n\n```cangjie\nimport std.collection.ArrayList\n\nmain() {\n    let list = ArrayList<Int64>(100) // Allocate space at once\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n    list.reserve(100) // Prepare more space\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n}\n```\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nArrayList<>\n```\n\nJAVA TYPE DESCRIPTION:\nResizable-array implementation of the List interface.  Implements\n all optional list operations, and permits all elements, including\n null.  In addition to implementing the List interface,\n this class provides methods to manipulate the size of the array that is\n used internally to store the list.  (This class is roughly equivalent to\n Vector, except that it is unsynchronized.)\n\n\nJAVA CODE:\n```\n    public HashMap<String, ArrayList<String>> getStudentsByGrade(String subject, int threshold) {\n        HashMap<String, ArrayList<String>> result = new HashMap<>();\n        result.put(\"above\", new ArrayList<>());\n        result.put(\"below\", new ArrayList<>());\n\n        for (Student s : students) {\n            Integer score = s.getGrade(subject);\n            if (score != null) {\n                if (score >= threshold) {\n                    result.get(\"above\").add(s.getName());\n                } else {\n                    result.get(\"below\").add(s.getName());\n                }\n            }\n        }\n        return result;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "Student": {
+                                "identifier": "Student",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:49",
+                                "source_type": "Student",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Student",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Integer": {
+                                "identifier": "Integer",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-04 08:44:49",
+                                "source_type": "Integer",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|subject": {
+                                "identifier": "|String|subject",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-04 08:44:10",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|int|threshold": {
+                                "identifier": "|int|threshold",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-04 08:44:10",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func getStudentsByGrade(subject: String, threshold: Int64): HashMap<String, ArrayList<String>> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: \u001b[31merror\u001b[0m: undeclared identifier 'nil'\n\u001b[31merror\u001b[0m: 'getOrElse' is not a member of class 'ArrayList<Struct-String>'\n\u001b[31merror\u001b[0m: 'getOrElse' is not a member of class 'ArrayList<Struct-String>'\n3 errors generated, 3 errors printed.\nError: failed to compile package `RagTestProject`, return code is 1\nError: cjpm build failed"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 77.96312427520752,
+                    "generation_timestamp": "2026-05-04T10:21:59.390395",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getStudentsByGrade(subject: String, threshold: Int64): HashMap<String, ArrayList<String>> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 5,
+                        "test_execution": 5
+                    },
+                    "final_budget": {
+                        "syntactic": 5,
+                        "cangjie_compilation": 1,
+                        "test_execution": 5
+                    }
+                }
+            },
+            "fields": {
+                "8-8:students": {
+                    "start": 8,
+                    "end": 8,
+                    "enum_constant": false,
+                    "body": [
+                        "private ArrayList<Student> students;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "ArrayList<Student>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "ArrayList<Student>": {
+                                "identifier": "ArrayList<Student>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-04 08:42:59",
+                                "source_type": "ArrayList<Student>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.ArrayList\n```\n\nCANGJIE TRANSLATION:\n```\nArrayList<Any>\n```\n\nREASONING:\nThe error indicates that the type `Student` is not declared or recognized in the Cangjie context. To resolve this, the generic type `Any` can be used as a placeholder for an unspecified or undeclared type in Cangjie. This ensures the translation remains valid and avoids compilation errors.",
+                                "imports": "import std.collection.ArrayList",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "The error indicates that the type `Student` is not declared or recognized in the Cangjie context. To resolve this, the generic type `Any` can be used as a placeholder for an unspecified or undeclared type in Cangjie. This ensures the translation remains valid and avoids compilation errors.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: ArrayList]\n[Context: ArrayList]\n\n\u4f7f\u7528 ArrayList \u7c7b\u578b\u9700\u8981\u5bfc\u5165 collection \u5305\uff1a\n\n<!-- run -->\n\n```cangjie\nimport std.collection.*\n```\n\n\u4ed3\u9889\u4f7f\u7528 `ArrayList<T>` \u8868\u793a ArrayList \u7c7b\u578b\uff0cT \u8868\u793a ArrayList \u7684\u5143\u7d20\u7c7b\u578b\uff0cT \u53ef\u4ee5\u662f\u4efb\u610f\u7c7b\u578b\u3002\n\nArrayList \u5177\u5907\u975e\u5e38\u597d\u7684\u6269\u5bb9\u80fd\u529b\uff0c\u9002\u5408\u4e8e\u9700\u8981\u9891\u7e41\u589e\u52a0\u548c\u5220\u9664\u5143\u7d20\u7684\u573a\u666f\u3002\n\n\u76f8\u6bd4 Array\uff0cArrayList \u65e2\u53ef\u4ee5\u539f\u5730\u4fee\u6539\u5143\u7d20\uff0c\u4e5f\u53ef\u4ee5\u539f\u5730\u589e\u52a0\u548c\u5220\u9664\u5143\u7d20\u3002\n\nArrayList \u7684\u53ef\u53d8\u6027\u662f\u4e00\u4e2a\u975e\u5e38\u6709\u7528\u7684\u7279\u5f81\uff0c\u53ef\u4ee5\u8ba9\u540c\u4e00\u4e2a ArrayList \u5b9e\u4f8b\u7684\u6240\u6709\u5f15\u7528\u90fd\u5171\u4eab\u540c\u6837\u7684\u5143\u7d20\uff0c\u5e76\u4e14\u5bf9\u5b83\u4eec\u7edf\u4e00\u8fdb\u884c\u4fee\u6539\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nvar a: ArrayList<Int64> = ... // ArrayList whose element type is Int64\nvar b: ArrayList<String> = ... // ArrayList whose element type is String\n```\n\n\u5143\u7d20\u7c7b\u578b\u4e0d\u76f8\u540c\u7684 ArrayList \u662f\u4e0d\u76f8\u540c\u7684\u7c7b\u578b\uff0c\u6240\u4ee5\u5b83\u4eec\u4e4b\u95f4\u4e0d\u53ef\u4ee5\u4e92\u76f8\u8d4b\u503c\u3002\n\n\u56e0\u6b64\u4ee5\u4e0b\u4f8b\u5b50\u662f\u4e0d\u5408\u6cd5\u7684\u3002\n\n<!-- code_no_check -->\n\n```cangjie\nb = a // Type mismatch\n```\n\n\u4ed3\u9889\u4e2d\u53ef\u4ee5\u4f7f\u7528\u6784\u9020\u51fd\u6570\u7684\u65b9\u5f0f\u6784\u9020\u4e00\u4e2a\u6307\u5b9a\u7684 ArrayList\u3002\n\n<!-- run -->\n\n```cangjie\nlet a = ArrayList<String>() // Created an empty ArrayList whose element type is String\nlet b = ArrayList<String>(100) // Created an ArrayList whose element type is String, and allocate a space of 100\nlet c = ArrayList<Int64>([0, 1, 2]) // Created an ArrayList whose element type is Int64, containing elements 0, 1, 2\nlet d = ArrayList<Int64>(c) // Use another Collection to initialize an ArrayList\nlet e = ArrayList<String>(2, {x: Int64 => x.toString()}) // Created an ArrayList whose element type is String and size is 2. All elements are initialized by specified rule function\n```\n\n### Reference [Source: Language Manual]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n\n\u6bcf\u4e2a ArrayList \u90fd\u9700\u8981\u7279\u5b9a\u6570\u91cf\u7684\u5185\u5b58\u6765\u4fdd\u5b58\u5176\u5185\u5bb9\u3002\u5f53\u5411 ArrayList \u6dfb\u52a0\u5143\u7d20\u5e76\u4e14\u8be5 ArrayList \u5f00\u59cb\u8d85\u51fa\u5176\u4fdd\u7559\u5bb9\u91cf\u65f6\uff0c\u8be5 ArrayList \u4f1a\u5206\u914d\u66f4\u5927\u7684\u5185\u5b58\u533a\u57df\u5e76\u5c06\u5176\u6240\u6709\u5143\u7d20\u590d\u5236\u5230\u65b0\u5185\u5b58\u4e2d\u3002\u8fd9\u79cd\u589e\u957f\u7b56\u7565\u610f\u5473\u7740\u89e6\u53d1\u91cd\u65b0\u5206\u914d\u5185\u5b58\u7684\u6dfb\u52a0\u64cd\u4f5c\u5177\u6709\u6027\u80fd\u6210\u672c\uff0c\u4f46\u968f\u7740 ArrayList \u7684\u4fdd\u7559\u5185\u5b58\u53d8\u5927\uff0c\u5b83\u4eec\u53d1\u751f\u7684\u9891\u7387\u4f1a\u8d8a\u6765\u8d8a\u4f4e\u3002\n\n\u5982\u679c\u77e5\u9053\u5927\u7ea6\u9700\u8981\u6dfb\u52a0\u591a\u5c11\u4e2a\u5143\u7d20\uff0c\u53ef\u4ee5\u5728\u6dfb\u52a0\u4e4b\u524d\u9884\u5907\u8db3\u591f\u7684\u5185\u5b58\u4ee5\u907f\u514d\u4e2d\u95f4\u91cd\u65b0\u5206\u914d\uff0c\u8fd9\u6837\u53ef\u4ee5\u63d0\u5347\u6027\u80fd\u8868\u73b0\u3002\n\n<!-- run -->\n\n```cangjie\nimport std.collection.ArrayList\n\nmain() {\n    let list = ArrayList<Int64>(100) // Allocate space at once\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n    list.reserve(100) // Prepare more space\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n}\n```\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nArrayList<Student>\n```\n\nJAVA TYPE DESCRIPTION:\nResizable-array implementation of the List interface.  Implements\n all optional list operations, and permits all elements, including\n null.  In addition to implementing the List interface,\n this class provides methods to manipulate the size of the array that is\n used internally to store the list.  (This class is roughly equivalent to\n Vector, except that it is unsynchronized.)\n\n\nJAVA CODE:\n```\n    private ArrayList<Student> students;\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'Unknown'\n \u001b[36m==>\u001b[0m /tmp/tmpkelxgkji.cj:6:30:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: ArrayList<Unknown>\u001b[0m\n  \u001b[36m| \u001b[0m                             \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        }
+                    },
+                    "translation": "var students: ArrayList<Student> = ArrayList<Student>()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 18.626495361328125,
+                    "generation_timestamp": "2026-05-04T09:19:13.069033",
+                    "model_name": "",
+                    "partial_translation": "var students: ArrayList<Student> = ArrayList<Student>()",
+                    "original_budget": {
+                        "syntactic": 2,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    },
+                    "final_budget": {
+                        "syntactic": 2,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    }
+                }
+            },
+            "cangjie_class_declaration": "open class StudentManager {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/RagTestProject/src/StudentManager.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/gpt-4o-2024-11-20/0.0/RagTestProject/src/StudentManager.cj",
+    "import_map": {
+        "ArrayList": "java.util.ArrayList",
+        "HashMap": "java.util.HashMap",
+        "Optional": "java.util.Optional"
+    }
+}
