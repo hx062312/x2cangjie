@@ -82,54 +82,7 @@ bash scripts/java/add_plugin.sh <project>
 
 ------
 
-### 1.3 构建项目并合并 JAR
-
-**命令：**
-
-```bash
-bash scripts/java/merge_jar.sh <project>
-```
-
-- **作用：** 执行 `mvn clean install` 构建项目，将主代码和测试代码合并成单个 JAR。
-- **依赖：** 需要 Java 和 Maven 环境。
-- **生成文件：**
-  - `projects/java/automated_reduced_projects/<project>/target/*.jar` (主 JAR)
-  - `projects/java/automated_reduced_projects/<project>/target/*-tests.jar` (测试 JAR)
-  - `projects/java/automated_reduced_projects/<project>/target/*-merged.jar` (合并后的 JAR)
-
-------
-
-### 1.4 生成调用图
-
-**命令：**
-
-```bash
-bash scripts/java/generate_cg.sh <project>
-```
-
-- **作用：** 使用 `JavaCallgraph` 工具生成项目的调用图。
-- **依赖：** `misc/java-callgraph/target/javacg-0.1-SNAPSHOT-static.jar`
-- **生成文件：** `projects/java/automated_reduced_projects/<project>/callgraph.txt`
-
-------
-
-### 1.5 缩减第三方依赖
-
-**命令：**
-
-```bash
-bash scripts/java/reduce_third_party_libs.sh <project>
-cp projects/java/automated_reduced_projects/<project> projects/java/cleaned_final_projects/<project>
-```
-
-- **作用：** 分析调用图，移除未使用的第三方依赖，只保留项目自身的代码。
-- **输入：** `callgraph.txt` 和原始项目。
-- **生成文件：** `projects/java/automated_reduced_projects/<project>/` (更新后的项目)。
-- **Python 脚本：** `src/java/preprocessing/reduce_third_party_libs.py`
-
-------
-
-### 1.6 处理 Cangjie 关键字冲突
+### 1.3 处理 Cangjie 关键字冲突
 
 **命令：**
 
@@ -140,8 +93,55 @@ bash scripts/java/handle_keyword_conflicts.sh <project>
 - **作用：** 处理 Java 代码中与 Cangjie 关键字冲突的标识符。
 - **输入：** `projects/java/automated_reduced_projects/<project>/`
 - **输出：** `projects/java/keyword_handled/<project>/` (新建目录，非原地修改)
-- **处理规则：** 将 Cangjie 关键字（如 `type`、`init`、`in`、`main`）作为标识符时添加 `_` 后缀
+- **处理规则：** 将 Cangjie 关键字（如 `type`、`init`、`in`）作为标识符时添加 `__` 或 `_` 后缀
 - **Python 脚本：** `src/java/preprocessing/handle_keyword_conflicts.py`
+
+------
+
+### 1.4 构建项目并合并 JAR
+
+**命令：**
+
+```bash
+bash scripts/java/merge_jar.sh <project>
+```
+
+- **作用：** 执行 `mvn clean install` 构建项目，将主代码和测试代码合并成单个 JAR。
+- **依赖：** 需要 Java 和 Maven 环境。
+- **生成文件：**
+  - `projects/java/keyword_handled/<project>/target/*.jar` (主 JAR)
+  - `projects/java/keyword_handled/<project>/target/*-tests.jar` (测试 JAR)
+  - `projects/java/keyword_handled/<project>/target/*-merged.jar` (合并后的 JAR)
+
+------
+
+### 1.5 生成调用图
+
+**命令：**
+
+```bash
+bash scripts/java/generate_cg.sh <project>
+```
+
+- **作用：** 使用 `JavaCallgraph` 工具生成项目的调用图。
+- **依赖：** `misc/java-callgraph/target/javacg-0.1-SNAPSHOT-static.jar`
+- **生成文件：** `projects/java/keyword_handled/<project>/callgraph.txt`
+
+------
+
+### 1.6 缩减第三方依赖
+
+**命令：**
+
+```bash
+bash scripts/java/reduce_third_party_libs.sh <project>
+cp -r projects/java/keyword_handled/<project> projects/java/cleaned_final_projects/<project>
+```
+
+- **作用：** 分析调用图，移除未使用的第三方依赖，只保留项目自身的代码。
+- **输入：** `callgraph.txt` 和 `keyword_handled/` 项目。
+- **生成文件：** `projects/java/cleaned_final_projects/<project>/` (清理后的项目)。
+- **Python 脚本：** `src/java/preprocessing/reduce_third_party_libs.py`
 
 ------
 
