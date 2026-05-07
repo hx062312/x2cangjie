@@ -8,7 +8,7 @@ if [ $# -ne 1 ]; then
 fi
 
 project="$1"
-project_dir="./projects/java/automated_reduced_projects/$project"
+project_dir="./projects/java/keyword_handled/$project"
 
 if [ ! -d "$project_dir" ]; then
   echo "Error: Directory '$project_dir' does not exist."
@@ -28,13 +28,7 @@ fi
 
 if [ "$project" == "commons-pool" ]; then
   TARGET_FILE="$project_dir/src/test/java/org/apache/commons/pool2/performance/PerformanceTest.java"
-
-  if [ -f "$TARGET_FILE" ]; then
-    rm -f "$TARGET_FILE"
-  else
-    echo "Error: File '$TARGET_FILE' not found."
-    exit 1
-  fi
+  rm -f "$TARGET_FILE"
 fi
 
 cd "$project_dir" || exit 1
