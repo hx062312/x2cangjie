@@ -17,7 +17,7 @@ from tree_sitter import Language, Parser
 
 # Cangjie keywords that can conflict with Java identifiers
 CANGJIE_KEYWORDS = {
-    'type', 'init', 'in', 'func', 'class', 'interface', 'struct',
+    'type', 'init', 'in', 'is', 'func', 'class', 'interface', 'struct',
     'enum', 'public', 'private', 'protected', 'internal', 'static', 'var',
     'let', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'match',
     'where', 'throws', 'try', 'catch', 'finally', 'override', 'abstract',
