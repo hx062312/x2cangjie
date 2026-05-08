@@ -1,0 +1,3399 @@
+{
+    "path": "projects/java/cleaned_final_projects/jansi/src/main/java/org/fusesource/jansi/io/AnsiOutputStream.java",
+    "imports": {
+        "18-18:import java.io.FilterOutputStream;": {
+            "start": 18,
+            "end": 18,
+            "body": "import java.io.FilterOutputStream;"
+        },
+        "19-19:import java.io.IOException;": {
+            "start": 19,
+            "end": 19,
+            "body": "import java.io.IOException;"
+        },
+        "20-20:import java.io.OutputStream;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.OutputStream;"
+        },
+        "21-21:import java.nio.charset.Charset;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.nio.charset.Charset;"
+        },
+        "22-22:import java.util.ArrayList;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.ArrayList;"
+        },
+        "24-24:import org.fusesource.jansi.AnsiColors;": {
+            "start": 24,
+            "end": 24,
+            "body": "import org.fusesource.jansi.AnsiColors;"
+        },
+        "25-25:import org.fusesource.jansi.AnsiMode;": {
+            "start": 25,
+            "end": 25,
+            "body": "import org.fusesource.jansi.AnsiMode;"
+        },
+        "26-26:import org.fusesource.jansi.AnsiType;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.fusesource.jansi.AnsiType;"
+        },
+        "28-28:import static java.nio.charset.StandardCharsets.US_ASCII;": {
+            "start": 28,
+            "end": 28,
+            "body": "import static java.nio.charset.StandardCharsets.US_ASCII;"
+        }
+    },
+    "classes": {
+        "41-359:AnsiOutputStream": {
+            "start": 41,
+            "end": 359,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [
+                "45-48:IoRunnable",
+                "50-53:WidthSupplier",
+                "55-60:ZeroWidthSupplier"
+            ],
+            "implements": [],
+            "extends": [
+                "java.io.FilterOutputStream"
+            ],
+            "methods": {
+                "99-120:AnsiOutputStream": {
+                    "start": 99,
+                    "end": 120,
+                    "body": [
+                        "public AnsiOutputStream(",
+                        "            OutputStream os,",
+                        "            WidthSupplier width,",
+                        "            AnsiMode mode,",
+                        "            AnsiProcessor processor,",
+                        "            AnsiType type,",
+                        "            AnsiColors colors,",
+                        "            Charset cs,",
+                        "            IoRunnable installer,",
+                        "            IoRunnable uninstaller,",
+                        "            boolean resetAtUninstall) {",
+                        "        super(os);",
+                        "        this.width = width;",
+                        "        this.processor = processor;",
+                        "        this.type = type;",
+                        "        this.colors = colors;",
+                        "        this.installer = installer;",
+                        "        this.uninstaller = uninstaller;",
+                        "        this.resetAtUninstall = resetAtUninstall;",
+                        "        this.cs = cs;",
+                        "        setMode(mode);",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "AnsiOutputStream( OutputStream os,  WidthSupplier width,  AnsiMode mode,  AnsiProcessor processor,  AnsiType type,  AnsiColors colors,  Charset cs,  IoRunnable installer,  IoRunnable uninstaller,  boolean resetAtUninstall)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "OutputStream",
+                            "name": "os"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "WidthSupplier",
+                            "name": "width"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "AnsiMode",
+                            "name": "mode"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "AnsiProcessor",
+                            "name": "processor"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "AnsiType",
+                            "name": "type"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "AnsiColors",
+                            "name": "colors"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "Charset",
+                            "name": "cs"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "IoRunnable",
+                            "name": "installer"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "IoRunnable",
+                            "name": "uninstaller"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "boolean",
+                            "name": "resetAtUninstall"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "|OutputStream|os": {
+                                "identifier": "|OutputStream|os",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "OutputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "OutputStream",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|WidthSupplier|width": {
+                                "identifier": "|WidthSupplier|width",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "WidthSupplier",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "WidthSupplier",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|AnsiMode|mode": {
+                                "identifier": "|AnsiMode|mode",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "AnsiMode",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMode",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|AnsiProcessor|processor": {
+                                "identifier": "|AnsiProcessor|processor",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "AnsiProcessor",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiProcessor",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|AnsiType|type": {
+                                "identifier": "|AnsiType|type",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "AnsiType",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiType",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|AnsiColors|colors": {
+                                "identifier": "|AnsiColors|colors",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "AnsiColors",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiColors",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|Charset|cs": {
+                                "identifier": "|Charset|cs",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:51:36",
+                                "source_type": "Charset",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nUTF16\n```\n\nREASONING:\nIn Cangjie, the standard library does not have a direct equivalent to Java's `Charset` class. However, the `UTF16` type from the `std` package (accessible without explicit import in some contexts) serves as a named mapping between Unicode code units and bytes, similar to `Charset`. It is immutable and can be used for encoding/decoding operations. The previous errors indicate that `std.encoding` is not available, so `UTF16` is the closest built-in type that matches the functionality of `Charset` for handling character encoding in output streams.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nCharset\n```\n\nJAVA TYPE DESCRIPTION:\nA named mapping between sequences of sixteen-bit Unicode code units and sequences of\n bytes.  This class defines methods for creating decoders and encoders and\n for retrieving the various names associated with a charset.  Instances of\n this class are immutable.\n\n\nJAVA CODE:\n```\n    public AnsiOutputStream(\n            OutputStream os,\n            WidthSupplier width,\n            AnsiMode mode,\n            AnsiProcessor processor,\n            AnsiType type,\n            AnsiColors colors,\n            Charset cs,\n            IoRunnable installer,\n            IoRunnable uninstaller,\n            boolean resetAtUninstall) {\n        super(os);\n        this.width = width;\n        this.processor = processor;\n        this.type = type;\n        this.colors = colors;\n        this.installer = installer;\n        this.uninstaller = uninstaller;\n        this.resetAtUninstall = resetAtUninstall;\n        this.cs = cs;\n        setMode(mode);\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: 'encoding' is not accessible in package 'std'\n \u001b[36m==>\u001b[0m /tmp/tmpags3_ogt.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.encoding\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "|IoRunnable|installer": {
+                                "identifier": "|IoRunnable|installer",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "IoRunnable",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "IoRunnable",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|IoRunnable|uninstaller": {
+                                "identifier": "|IoRunnable|uninstaller",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "IoRunnable",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "IoRunnable",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|boolean|resetAtUninstall": {
+                                "identifier": "|boolean|resetAtUninstall",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public init(os: OutputStream, width: WidthSupplier, mode: AnsiMode, processor: AnsiProcessor, type: AnsiType, colors: AnsiColors, cs: Any, installer: IoRunnable, uninstaller: IoRunnable, resetAtUninstall: Bool) {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "122-124:getTerminalWidth": {
+                    "start": 122,
+                    "end": 124,
+                    "body": [
+                        "public int getTerminalWidth() {",
+                        "        return width.getTerminalWidth();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "getTerminalWidth()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getTerminalWidth(): Int64 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "126-128:getType": {
+                    "start": 126,
+                    "end": 128,
+                    "body": [
+                        "public AnsiType getType() {",
+                        "        return type;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "AnsiType"
+                    ],
+                    "body_types": [],
+                    "signature": "getType()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "AnsiType": {
+                                "identifier": "AnsiType",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "AnsiType",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiType",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getType(): AnsiType {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "130-132:getColors": {
+                    "start": 130,
+                    "end": 132,
+                    "body": [
+                        "public AnsiColors getColors() {",
+                        "        return colors;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "AnsiColors"
+                    ],
+                    "body_types": [],
+                    "signature": "getColors()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "AnsiColors": {
+                                "identifier": "AnsiColors",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "AnsiColors",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiColors",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getColors(): AnsiColors {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "134-136:getMode": {
+                    "start": 134,
+                    "end": 136,
+                    "body": [
+                        "public AnsiMode getMode() {",
+                        "        return mode;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "AnsiMode"
+                    ],
+                    "body_types": [],
+                    "signature": "getMode()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "AnsiMode": {
+                                "identifier": "AnsiMode",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "AnsiMode",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMode",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getMode(): AnsiMode {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "138-143:setMode": {
+                    "start": 138,
+                    "end": 143,
+                    "body": [
+                        "public void setMode(AnsiMode mode) {",
+                        "        ap = mode == AnsiMode.Strip",
+                        "                ? new AnsiProcessor(out)",
+                        "                : mode == AnsiMode.Force || processor == null ? new ColorsAnsiProcessor(out, colors) : processor;",
+                        "        this.mode = mode;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "AnsiProcessor",
+                        "ColorsAnsiProcessor"
+                    ],
+                    "signature": "setMode( AnsiMode mode)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "AnsiMode",
+                            "name": "mode"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "AnsiProcessor": {
+                                "identifier": "AnsiProcessor",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "AnsiProcessor",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiProcessor",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "ColorsAnsiProcessor": {
+                                "identifier": "ColorsAnsiProcessor",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "ColorsAnsiProcessor",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ColorsAnsiProcessor",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|AnsiMode|mode": {
+                                "identifier": "|AnsiMode|mode",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "AnsiMode",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMode",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func setMode(mode: AnsiMode): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "145-147:isResetAtUninstall": {
+                    "start": 145,
+                    "end": 147,
+                    "body": [
+                        "public boolean isResetAtUninstall() {",
+                        "        return resetAtUninstall;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isResetAtUninstall()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func isResetAtUninstall(): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "149-151:setResetAtUninstall": {
+                    "start": 149,
+                    "end": 151,
+                    "body": [
+                        "public void setResetAtUninstall(boolean resetAtUninstall) {",
+                        "        this.resetAtUninstall = resetAtUninstall;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "setResetAtUninstall( boolean resetAtUninstall)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "boolean",
+                            "name": "resetAtUninstall"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|boolean|resetAtUninstall": {
+                                "identifier": "|boolean|resetAtUninstall",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func setResetAtUninstall(resetAtUninstall: Bool): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "156-293:write": {
+                    "start": 156,
+                    "end": 293,
+                    "body": [
+                        "@Override",
+                        "    public void write(int data) throws IOException {",
+                        "        switch (state) {",
+                        "            case LOOKING_FOR_FIRST_ESC_CHAR:",
+                        "                if (data == FIRST_ESC_CHAR) {",
+                        "                    buffer[pos++] = (byte) data;",
+                        "                    state = LOOKING_FOR_SECOND_ESC_CHAR;",
+                        "                } else {",
+                        "                    out.write(data);",
+                        "                }",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_SECOND_ESC_CHAR:",
+                        "                buffer[pos++] = (byte) data;",
+                        "                if (data == SECOND_ESC_CHAR) {",
+                        "                    state = LOOKING_FOR_NEXT_ARG;",
+                        "                } else if (data == SECOND_OSC_CHAR) {",
+                        "                    state = LOOKING_FOR_OSC_COMMAND;",
+                        "                } else if (data == SECOND_CHARSET0_CHAR) {",
+                        "                    options.add(0);",
+                        "                    state = LOOKING_FOR_CHARSET;",
+                        "                } else if (data == SECOND_CHARSET1_CHAR) {",
+                        "                    options.add(1);",
+                        "                    state = LOOKING_FOR_CHARSET;",
+                        "                } else {",
+                        "                    reset(false);",
+                        "                }",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_NEXT_ARG:",
+                        "                buffer[pos++] = (byte) data;",
+                        "                if ('\"' == data) {",
+                        "                    startOfValue = pos - 1;",
+                        "                    state = LOOKING_FOR_STR_ARG_END;",
+                        "                } else if ('0' <= data && data <= '9') {",
+                        "                    startOfValue = pos - 1;",
+                        "                    state = LOOKING_FOR_INT_ARG_END;",
+                        "                } else if (';' == data) {",
+                        "                    options.add(null);",
+                        "                } else if ('?' == data) {",
+                        "                    options.add('?');",
+                        "                } else if ('=' == data) {",
+                        "                    options.add('=');",
+                        "                } else {",
+                        "                    processEscapeCommand(data);",
+                        "                }",
+                        "                break;",
+                        "            default:",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_INT_ARG_END:",
+                        "                buffer[pos++] = (byte) data;",
+                        "                if (!('0' <= data && data <= '9')) {",
+                        "                    String strValue = new String(buffer, startOfValue, (pos - 1) - startOfValue);",
+                        "                    Integer value = Integer.valueOf(strValue);",
+                        "                    options.add(value);",
+                        "                    if (data == ';') {",
+                        "                        state = LOOKING_FOR_NEXT_ARG;",
+                        "                    } else {",
+                        "                        processEscapeCommand(data);",
+                        "                    }",
+                        "                }",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_STR_ARG_END:",
+                        "                buffer[pos++] = (byte) data;",
+                        "                if ('\"' != data) {",
+                        "                    String value = new String(buffer, startOfValue, (pos - 1) - startOfValue, cs);",
+                        "                    options.add(value);",
+                        "                    if (data == ';') {",
+                        "                        state = LOOKING_FOR_NEXT_ARG;",
+                        "                    } else {",
+                        "                        processEscapeCommand(data);",
+                        "                    }",
+                        "                }",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_OSC_COMMAND:",
+                        "                buffer[pos++] = (byte) data;",
+                        "                if ('0' <= data && data <= '9') {",
+                        "                    startOfValue = pos - 1;",
+                        "                    state = LOOKING_FOR_OSC_COMMAND_END;",
+                        "                } else {",
+                        "                    reset(false);",
+                        "                }",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_OSC_COMMAND_END:",
+                        "                buffer[pos++] = (byte) data;",
+                        "                if (';' == data) {",
+                        "                    String strValue = new String(buffer, startOfValue, (pos - 1) - startOfValue);",
+                        "                    Integer value = Integer.valueOf(strValue);",
+                        "                    options.add(value);",
+                        "                    startOfValue = pos;",
+                        "                    state = LOOKING_FOR_OSC_PARAM;",
+                        "                } else if ('0' <= data && data <= '9') {",
+                        "                    // already pushed digit to buffer, just keep looking",
+                        "                } else {",
+                        "                    // oops, did not expect this",
+                        "                    reset(false);",
+                        "                }",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_OSC_PARAM:",
+                        "                buffer[pos++] = (byte) data;",
+                        "                if (BEL == data) {",
+                        "                    String value = new String(buffer, startOfValue, (pos - 1) - startOfValue, cs);",
+                        "                    options.add(value);",
+                        "                    processOperatingSystemCommand();",
+                        "                } else if (FIRST_ESC_CHAR == data) {",
+                        "                    state = LOOKING_FOR_ST;",
+                        "                } else {",
+                        "                    // just keep looking while adding text",
+                        "                }",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_ST:",
+                        "                buffer[pos++] = (byte) data;",
+                        "                if (SECOND_ST_CHAR == data) {",
+                        "                    String value = new String(buffer, startOfValue, (pos - 2) - startOfValue, cs);",
+                        "                    options.add(value);",
+                        "                    processOperatingSystemCommand();",
+                        "                } else {",
+                        "                    state = LOOKING_FOR_OSC_PARAM;",
+                        "                }",
+                        "                break;",
+                        "",
+                        "            case LOOKING_FOR_CHARSET:",
+                        "                options.add((char) data);",
+                        "                processCharsetSelect();",
+                        "                break;",
+                        "        }",
+                        "",
+                        "        // Is it just too long?",
+                        "        if (pos >= buffer.length) {",
+                        "            reset(false);",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "byte",
+                        "String",
+                        "Integer",
+                        "char"
+                    ],
+                    "signature": "write( int data)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "int",
+                            "name": "data"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte": {
+                                "identifier": "byte",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "byte",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int8",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Integer": {
+                                "identifier": "Integer",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "Integer",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "char": {
+                                "identifier": "char",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "char",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Rune",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|int|data": {
+                                "identifier": "|int|data",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func write(data: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "295-302:processCharsetSelect": {
+                    "start": 295,
+                    "end": 302,
+                    "body": [
+                        "private void processCharsetSelect() throws IOException {",
+                        "        try {",
+                        "            reset(ap != null && ap.processCharsetSelect(options));",
+                        "        } catch (RuntimeException e) {",
+                        "            reset(true);",
+                        "            throw e;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "RuntimeException"
+                    ],
+                    "signature": "processCharsetSelect()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:28",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "RuntimeException": {
+                                "identifier": "RuntimeException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:10:30",
+                                "source_type": "RuntimeException",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nException\n```\n\nREASONING:\nIn Cangjie, there is no direct `RuntimeException` type. The equivalent base exception type for runtime errors is `Exception`, which is the superclass of all exceptions and can be thrown during normal operation. It is part of the standard library and requires no import.",
+                                "imports": "",
+                                "translated_target_type": "Exception",
+                                "reasoning": "In Cangjie, there is no direct `RuntimeException` type. The equivalent base exception type for runtime errors is `Exception`, which is the superclass of all exceptions and can be thrown during normal operation. It is part of the standard library and requires no import.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nRuntimeException\n```\n\nJAVA TYPE DESCRIPTION:\nRuntimeException is the superclass of those\n exceptions that can be thrown during the normal operation of the\n Java Virtual Machine.\n\n\nJAVA CODE:\n```\n    private void processCharsetSelect() throws IOException {\n        try {\n            reset(ap != null && ap.processCharsetSelect(options));\n        } catch (RuntimeException e) {\n            reset(true);\n            throw e;\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'RuntimeException'\n \u001b[36m==>\u001b[0m /tmp/tmp8g67heas.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: RuntimeException\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private func processCharsetSelect(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "304-311:processOperatingSystemCommand": {
+                    "start": 304,
+                    "end": 311,
+                    "body": [
+                        "private void processOperatingSystemCommand() throws IOException {",
+                        "        try {",
+                        "            reset(ap != null && ap.processOperatingSystemCommand(options));",
+                        "        } catch (RuntimeException e) {",
+                        "            reset(true);",
+                        "            throw e;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "RuntimeException"
+                    ],
+                    "signature": "processOperatingSystemCommand()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:32",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "RuntimeException": {
+                                "identifier": "RuntimeException",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:51:43",
+                                "source_type": "RuntimeException",
+                                "generation": "CANGJIE IMPORTS:\n```\nfrom std.exception import *\n```\n\nCANGJIE TRANSLATION:\n```\nException\n```\n\nREASONING:\nIn Cangjie, the standard base class for exceptions that can be thrown during normal program execution is `Exception` (from the `std.exception` module). This serves the same role as Java's `RuntimeException`. The import statement must be placed at the top of the file, and the type name used in code is simply `Exception`.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nRuntimeException\n```\n\nJAVA TYPE DESCRIPTION:\nRuntimeException is the superclass of those\n exceptions that can be thrown during the normal operation of the\n Java Virtual Machine.\n\n\nJAVA CODE:\n```\n    private void processOperatingSystemCommand() throws IOException {\n        try {\n            reset(ap != null && ap.processOperatingSystemCommand(options));\n        } catch (RuntimeException e) {\n            reset(true);\n            throw e;\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: expected declaration, found 'from'\n \u001b[36m==>\u001b[0m /tmp/tmpsg37fghd.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mfrom std.exception import *\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private func processOperatingSystemCommand(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "313-320:processEscapeCommand": {
+                    "start": 313,
+                    "end": 320,
+                    "body": [
+                        "private void processEscapeCommand(int data) throws IOException {",
+                        "        try {",
+                        "            reset(ap != null && ap.processEscapeCommand(options, data));",
+                        "        } catch (RuntimeException e) {",
+                        "            reset(true);",
+                        "            throw e;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "RuntimeException"
+                    ],
+                    "signature": "processEscapeCommand( int data)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "int",
+                            "name": "data"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:38",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "RuntimeException": {
+                                "identifier": "RuntimeException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:51:46",
+                                "source_type": "RuntimeException",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nException\n```\n\nREASONING:\nIn Cangjie, there is no direct equivalent to Java's `RuntimeException` as a separate class. Instead, all exceptions that can be thrown during normal operation are represented by the base `Exception` class, which is the superclass of all exceptions. The `RuntimeException` in Java is used for unchecked exceptions, but in Cangjie, all exceptions are unchecked by default, so `Exception` serves the same purpose.",
+                                "imports": "",
+                                "translated_target_type": "Exception",
+                                "reasoning": "In Cangjie, there is no direct equivalent to Java's `RuntimeException` as a separate class. Instead, all exceptions that can be thrown during normal operation are represented by the base `Exception` class, which is the superclass of all exceptions. The `RuntimeException` in Java is used for unchecked exceptions, but in Cangjie, all exceptions are unchecked by default, so `Exception` serves the same purpose.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nRuntimeException\n```\n\nJAVA TYPE DESCRIPTION:\nRuntimeException is the superclass of those\n exceptions that can be thrown during the normal operation of the\n Java Virtual Machine.\n\n\nJAVA CODE:\n```\n    private void processEscapeCommand(int data) throws IOException {\n        try {\n            reset(ap != null && ap.processEscapeCommand(options, data));\n        } catch (RuntimeException e) {\n            reset(true);\n            throw e;\n        }\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {
+                            "|int|data": {
+                                "identifier": "|int|data",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:38",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private func processEscapeCommand(data: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "327-335:reset": {
+                    "start": 327,
+                    "end": 335,
+                    "body": [
+                        "private void reset(boolean skipBuffer) throws IOException {",
+                        "        if (!skipBuffer) {",
+                        "            out.write(buffer, 0, pos);",
+                        "        }",
+                        "        pos = 0;",
+                        "        startOfValue = 0;",
+                        "        options.clear();",
+                        "        state = LOOKING_FOR_FIRST_ESC_CHAR;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "reset( boolean skipBuffer)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "boolean",
+                            "name": "skipBuffer"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:44",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|boolean|skipBuffer": {
+                                "identifier": "|boolean|skipBuffer",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:10:44",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private func reset(skipBuffer: Bool): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "337-341:install": {
+                    "start": 337,
+                    "end": 341,
+                    "body": [
+                        "public void install() throws IOException {",
+                        "        if (installer != null) {",
+                        "            installer.run();",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "install()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:44",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func install(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "343-352:uninstall": {
+                    "start": 343,
+                    "end": 352,
+                    "body": [
+                        "public void uninstall() throws IOException {",
+                        "        if (resetAtUninstall && type != AnsiType.Redirected && type != AnsiType.Unsupported) {",
+                        "            setMode(AnsiMode.Default);",
+                        "            write(RESET_CODE);",
+                        "            flush();",
+                        "        }",
+                        "        if (uninstaller != null) {",
+                        "            uninstaller.run();",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "uninstall()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:45",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func uninstall(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "354-358:close": {
+                    "start": 354,
+                    "end": 358,
+                    "body": [
+                        "@Override",
+                        "    public void close() throws IOException {",
+                        "        uninstall();",
+                        "        super.close();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "close()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:45",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func close(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                }
+            },
+            "fields": {
+                "43-43:RESET_CODE": {
+                    "start": 43,
+                    "end": 43,
+                    "enum_constant": false,
+                    "body": [
+                        "public static final byte[] RESET_CODE = \"\\033[0m\".getBytes(US_ASCII);"
+                    ],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "byte[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:09",
+                                "source_type": "byte[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<UInt8>\n```\n\nREASONING:\nIn Java, `byte[]` represents an array of signed 8-bit integers. In Cangjie, the equivalent type is `Array<UInt8>`, which is an array of unsigned 8-bit integers. This maintains the same functionality for byte-level data storage and manipulation.",
+                                "imports": "",
+                                "translated_target_type": "Array<UInt8>",
+                                "reasoning": "In Java, `byte[]` represents an array of signed 8-bit integers. In Cangjie, the equivalent type is `Array<UInt8>`, which is an array of unsigned 8-bit integers. This maintains the same functionality for byte-level data storage and manipulation.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nbyte[]\n```\n\nJAVA TYPE DESCRIPTION:\n\n\nJAVA CODE:\n```\n    public static final byte[] RESET_CODE = \"\\033[0m\".getBytes(US_ASCII);\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let RESET_CODE: Array<Byte> = throw Exception('TODO')\n"
+                    ]
+                },
+                "62-62:LOOKING_FOR_FIRST_ESC_CHAR": {
+                    "start": 62,
+                    "end": 62,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_FIRST_ESC_CHAR = 0;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_FIRST_ESC_CHAR: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "63-63:LOOKING_FOR_SECOND_ESC_CHAR": {
+                    "start": 63,
+                    "end": 63,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_SECOND_ESC_CHAR = 1;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_SECOND_ESC_CHAR: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "64-64:LOOKING_FOR_NEXT_ARG": {
+                    "start": 64,
+                    "end": 64,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_NEXT_ARG = 2;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_NEXT_ARG: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "65-65:LOOKING_FOR_STR_ARG_END": {
+                    "start": 65,
+                    "end": 65,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_STR_ARG_END = 3;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_STR_ARG_END: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "66-66:LOOKING_FOR_INT_ARG_END": {
+                    "start": 66,
+                    "end": 66,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_INT_ARG_END = 4;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_INT_ARG_END: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "67-67:LOOKING_FOR_OSC_COMMAND": {
+                    "start": 67,
+                    "end": 67,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_OSC_COMMAND = 5;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_OSC_COMMAND: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "68-68:LOOKING_FOR_OSC_COMMAND_END": {
+                    "start": 68,
+                    "end": 68,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_OSC_COMMAND_END = 6;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_OSC_COMMAND_END: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "69-69:LOOKING_FOR_OSC_PARAM": {
+                    "start": 69,
+                    "end": 69,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_OSC_PARAM = 7;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_OSC_PARAM: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "70-70:LOOKING_FOR_ST": {
+                    "start": 70,
+                    "end": 70,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_ST = 8;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_ST: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "71-71:LOOKING_FOR_CHARSET": {
+                    "start": 71,
+                    "end": 71,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int LOOKING_FOR_CHARSET = 9;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let LOOKING_FOR_CHARSET: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "73-73:FIRST_ESC_CHAR": {
+                    "start": 73,
+                    "end": 73,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int FIRST_ESC_CHAR = 27;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let FIRST_ESC_CHAR: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "74-74:SECOND_ESC_CHAR": {
+                    "start": 74,
+                    "end": 74,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int SECOND_ESC_CHAR = '[';"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let SECOND_ESC_CHAR: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "75-75:SECOND_OSC_CHAR": {
+                    "start": 75,
+                    "end": 75,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int SECOND_OSC_CHAR = ']';"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let SECOND_OSC_CHAR: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "76-76:BEL": {
+                    "start": 76,
+                    "end": 76,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int BEL = 7;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let BEL: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "77-77:SECOND_ST_CHAR": {
+                    "start": 77,
+                    "end": 77,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int SECOND_ST_CHAR = '\\\\';"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let SECOND_ST_CHAR: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "78-78:SECOND_CHARSET0_CHAR": {
+                    "start": 78,
+                    "end": 78,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int SECOND_CHARSET0_CHAR = '(';"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let SECOND_CHARSET0_CHAR: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "79-79:SECOND_CHARSET1_CHAR": {
+                    "start": 79,
+                    "end": 79,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int SECOND_CHARSET1_CHAR = ')';"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let SECOND_CHARSET1_CHAR: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "81-81:ap": {
+                    "start": 81,
+                    "end": 81,
+                    "enum_constant": false,
+                    "body": [
+                        "private AnsiProcessor ap;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "AnsiProcessor"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "AnsiProcessor": {
+                                "identifier": "AnsiProcessor",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "AnsiProcessor",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiProcessor",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    var ap: AnsiProcessor = throw Exception('TODO')\n"
+                    ]
+                },
+                "82-82:MAX_ESCAPE_SEQUENCE_LENGTH": {
+                    "start": 82,
+                    "end": 82,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final int MAX_ESCAPE_SEQUENCE_LENGTH = 100;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let MAX_ESCAPE_SEQUENCE_LENGTH: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "83-83:buffer": {
+                    "start": 83,
+                    "end": 83,
+                    "enum_constant": false,
+                    "body": [
+                        "private final byte[] buffer = new byte[MAX_ESCAPE_SEQUENCE_LENGTH];"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "byte[]"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "byte[]": {
+                                "identifier": "byte[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:11",
+                                "source_type": "byte[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<Byte>\n```",
+                                "imports": "",
+                                "translated_target_type": "Array<Byte>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nbyte[]\n```\n\nJAVA TYPE DESCRIPTION:\n\n\nJAVA CODE:\n```\n    private final byte[] buffer = new byte[MAX_ESCAPE_SEQUENCE_LENGTH];\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let buffer: Array<Byte> = throw Exception('TODO')\n"
+                    ]
+                },
+                "84-84:pos": {
+                    "start": 84,
+                    "end": 84,
+                    "enum_constant": false,
+                    "body": [
+                        "private int pos = 0;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:13",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    var pos: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "85-85:startOfValue": {
+                    "start": 85,
+                    "end": 85,
+                    "enum_constant": false,
+                    "body": [
+                        "private int startOfValue;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:13",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    var startOfValue: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "86-86:options": {
+                    "start": 86,
+                    "end": 86,
+                    "enum_constant": false,
+                    "body": [
+                        "private final ArrayList<Object> options = new ArrayList<>();"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "ArrayList<Object>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "ArrayList<Object>": {
+                                "identifier": "ArrayList<Object>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:13",
+                                "source_type": "ArrayList<Object>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.ArrayList\n```\n\nCANGJIE TRANSLATION:\n```\nArrayList<Object>\n```",
+                                "imports": "import std.collection.ArrayList",
+                                "translated_target_type": "ArrayList<Object>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nArrayList<Object>\n```\n\nJAVA TYPE DESCRIPTION:\nResizable-array implementation of the List interface.  Implements\n all optional list operations, and permits all elements, including\n null.  In addition to implementing the List interface,\n this class provides methods to manipulate the size of the array that is\n used internally to store the list.  (This class is roughly equivalent to\n Vector, except that it is unsynchronized.)\n\n\nJAVA CODE:\n```\n    private final ArrayList<Object> options = new ArrayList<>();\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let options: ArrayList<Any> = throw Exception('TODO')\n"
+                    ]
+                },
+                "87-87:state": {
+                    "start": 87,
+                    "end": 87,
+                    "enum_constant": false,
+                    "body": [
+                        "private int state = LOOKING_FOR_FIRST_ESC_CHAR;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "int"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:15",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    var state: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "88-88:cs": {
+                    "start": 88,
+                    "end": 88,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Charset cs;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Charset"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Charset": {
+                                "identifier": "Charset",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:51:28",
+                                "source_type": "Charset",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.encoding\n```\n\nCANGJIE TRANSLATION:\n```\nstd.encoding.Encoding\n```\n\nREASONING:\nThe Java `Charset` class represents a named mapping between Unicode code units and byte sequences, providing encoding/decoding functionality. In Cangjie, the equivalent type is `std.encoding.Encoding`, which serves the same purpose. The correct import is `std.encoding` (the package), and the type is accessed as `std.encoding.Encoding`. The previous errors were due to incorrect import paths or missing package resolution.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nCharset\n```\n\nJAVA TYPE DESCRIPTION:\nA named mapping between sequences of sixteen-bit Unicode code units and sequences of\n bytes.  This class defines methods for creating decoders and encoders and\n for retrieving the various names associated with a charset.  Instances of\n this class are immutable.\n\n\nJAVA CODE:\n```\n    private final Charset cs;\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'Encoding'\n \u001b[36m==>\u001b[0m /tmp/tmp2j653161.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: Encoding\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let cs: Any = throw Exception('TODO')\n"
+                    ]
+                },
+                "90-90:width": {
+                    "start": 90,
+                    "end": 90,
+                    "enum_constant": false,
+                    "body": [
+                        "private final WidthSupplier width;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "WidthSupplier"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "WidthSupplier": {
+                                "identifier": "WidthSupplier",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "WidthSupplier",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "WidthSupplier",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let width: WidthSupplier = throw Exception('TODO')\n"
+                    ]
+                },
+                "91-91:processor": {
+                    "start": 91,
+                    "end": 91,
+                    "enum_constant": false,
+                    "body": [
+                        "private final AnsiProcessor processor;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "AnsiProcessor"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "AnsiProcessor": {
+                                "identifier": "AnsiProcessor",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "AnsiProcessor",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiProcessor",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let processor: AnsiProcessor = throw Exception('TODO')\n"
+                    ]
+                },
+                "92-92:type": {
+                    "start": 92,
+                    "end": 92,
+                    "enum_constant": false,
+                    "body": [
+                        "private final AnsiType type;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "AnsiType"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "AnsiType": {
+                                "identifier": "AnsiType",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "AnsiType",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiType",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let type: AnsiType = throw Exception('TODO')\n"
+                    ]
+                },
+                "93-93:colors": {
+                    "start": 93,
+                    "end": 93,
+                    "enum_constant": false,
+                    "body": [
+                        "private final AnsiColors colors;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "AnsiColors"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "AnsiColors": {
+                                "identifier": "AnsiColors",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "AnsiColors",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiColors",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let colors: AnsiColors = throw Exception('TODO')\n"
+                    ]
+                },
+                "94-94:installer": {
+                    "start": 94,
+                    "end": 94,
+                    "enum_constant": false,
+                    "body": [
+                        "private final IoRunnable installer;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "IoRunnable"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "IoRunnable": {
+                                "identifier": "IoRunnable",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "IoRunnable",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "IoRunnable",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let installer: IoRunnable = throw Exception('TODO')\n"
+                    ]
+                },
+                "95-95:uninstaller": {
+                    "start": 95,
+                    "end": 95,
+                    "enum_constant": false,
+                    "body": [
+                        "private final IoRunnable uninstaller;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "IoRunnable"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "IoRunnable": {
+                                "identifier": "IoRunnable",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "IoRunnable",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "IoRunnable",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    let uninstaller: IoRunnable = throw Exception('TODO')\n"
+                    ]
+                },
+                "96-96:mode": {
+                    "start": 96,
+                    "end": 96,
+                    "enum_constant": false,
+                    "body": [
+                        "private AnsiMode mode;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "AnsiMode"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "AnsiMode": {
+                                "identifier": "AnsiMode",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "AnsiMode",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMode",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    var mode: AnsiMode = throw Exception('TODO')\n"
+                    ]
+                },
+                "97-97:resetAtUninstall": {
+                    "start": 97,
+                    "end": 97,
+                    "enum_constant": false,
+                    "body": [
+                        "private boolean resetAtUninstall;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:10:21",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    var resetAtUninstall: Bool = throw Exception('TODO')\n"
+                    ]
+                }
+            },
+            "cangjie_class_declaration": "open class AnsiOutputStream <: FilterOutputStream {\n"
+        },
+        "45-48:IoRunnable": {
+            "start": 45,
+            "end": 48,
+            "is_abstract": false,
+            "is_interface": true,
+            "is_enum": false,
+            "modifiers": [
+                "@FunctionalInterface",
+                "public"
+            ],
+            "nested_inside": "41-359:AnsiOutputStream",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "47-47:run": {
+                    "start": 47,
+                    "end": 47,
+                    "body": [
+                        "void run() throws IOException;"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "run()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:45",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    open func run(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                }
+            },
+            "fields": {},
+            "cangjie_class_declaration": "interface IoRunnable {\n"
+        },
+        "50-53:WidthSupplier": {
+            "start": 50,
+            "end": 53,
+            "is_abstract": false,
+            "is_interface": true,
+            "is_enum": false,
+            "modifiers": [
+                "@FunctionalInterface",
+                "public"
+            ],
+            "nested_inside": "41-359:AnsiOutputStream",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "52-52:getTerminalWidth": {
+                    "start": 52,
+                    "end": 52,
+                    "body": [
+                        "int getTerminalWidth();"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "getTerminalWidth()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:45",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    open func getTerminalWidth(): Int64 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                }
+            },
+            "fields": {},
+            "cangjie_class_declaration": "interface WidthSupplier {\n"
+        },
+        "55-60:ZeroWidthSupplier": {
+            "start": 55,
+            "end": 60,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public",
+                "static"
+            ],
+            "nested_inside": "41-359:AnsiOutputStream",
+            "nests": [],
+            "implements": [
+                "WidthSupplier"
+            ],
+            "extends": [],
+            "methods": {
+                "56-59:getTerminalWidth": {
+                    "start": 56,
+                    "end": 59,
+                    "body": [
+                        "@Override",
+                        "        public int getTerminalWidth() {",
+                        "            return 0;",
+                        "        }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "getTerminalWidth()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:10:45",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getTerminalWidth(): Int64 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                }
+            },
+            "fields": {},
+            "cangjie_class_declaration": "open class ZeroWidthSupplier <: WidthSupplier {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/io/AnsiOutputStream.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/io/AnsiOutputStream.cj",
+    "import_map": {
+        "FilterOutputStream": "java.io.FilterOutputStream",
+        "IOException": "java.io.IOException",
+        "OutputStream": "java.io.OutputStream",
+        "Charset": "java.nio.charset.Charset",
+        "ArrayList": "java.util.ArrayList",
+        "AnsiColors": "org.fusesource.jansi.AnsiColors",
+        "AnsiMode": "org.fusesource.jansi.AnsiMode",
+        "AnsiType": "org.fusesource.jansi.AnsiType",
+        "US_ASCII": "static java.nio.charset.StandardCharsets.US_ASCII"
+    }
+}

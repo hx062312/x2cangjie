@@ -1,0 +1,2117 @@
+{
+    "path": "projects/java/cleaned_final_projects/jansi/src/main/java/org/fusesource/jansi/internal/JansiLoader.java",
+    "imports": {
+        "34-34:import java.io.File;": {
+            "start": 34,
+            "end": 34,
+            "body": "import java.io.File;"
+        },
+        "35-35:import java.io.FileInputStream;": {
+            "start": 35,
+            "end": 35,
+            "body": "import java.io.FileInputStream;"
+        },
+        "36-36:import java.io.FileOutputStream;": {
+            "start": 36,
+            "end": 36,
+            "body": "import java.io.FileOutputStream;"
+        },
+        "37-37:import java.io.FilenameFilter;": {
+            "start": 37,
+            "end": 37,
+            "body": "import java.io.FilenameFilter;"
+        },
+        "38-38:import java.io.IOException;": {
+            "start": 38,
+            "end": 38,
+            "body": "import java.io.IOException;"
+        },
+        "39-39:import java.io.InputStream;": {
+            "start": 39,
+            "end": 39,
+            "body": "import java.io.InputStream;"
+        },
+        "40-40:import java.net.URL;": {
+            "start": 40,
+            "end": 40,
+            "body": "import java.net.URL;"
+        },
+        "41-41:import java.nio.file.Files;": {
+            "start": 41,
+            "end": 41,
+            "body": "import java.nio.file.Files;"
+        },
+        "42-42:import java.nio.file.StandardCopyOption;": {
+            "start": 42,
+            "end": 42,
+            "body": "import java.nio.file.StandardCopyOption;"
+        },
+        "43-43:import java.util.Arrays;": {
+            "start": 43,
+            "end": 43,
+            "body": "import java.util.Arrays;"
+        },
+        "44-44:import java.util.LinkedList;": {
+            "start": 44,
+            "end": 44,
+            "body": "import java.util.LinkedList;"
+        },
+        "45-45:import java.util.List;": {
+            "start": 45,
+            "end": 45,
+            "body": "import java.util.List;"
+        },
+        "46-46:import java.util.Properties;": {
+            "start": 46,
+            "end": 46,
+            "body": "import java.util.Properties;"
+        },
+        "47-47:import java.util.Random;": {
+            "start": 47,
+            "end": 47,
+            "body": "import java.util.Random;"
+        },
+        "49-49:import org.fusesource.jansi.AnsiConsole;": {
+            "start": 49,
+            "end": 49,
+            "body": "import org.fusesource.jansi.AnsiConsole;"
+        }
+    },
+    "classes": {
+        "61-395:JansiLoader": {
+            "start": 61,
+            "end": 395,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "73-91:initialize": {
+                    "start": 73,
+                    "end": 91,
+                    "body": [
+                        "public static synchronized boolean initialize() {",
+                        "        // only cleanup before the first extract",
+                        "        if (!loaded) {",
+                        "            Thread cleanup = new Thread(JansiLoader::cleanup, \"cleanup\");",
+                        "            cleanup.setPriority(Thread.MIN_PRIORITY);",
+                        "            cleanup.setDaemon(true);",
+                        "            cleanup.start();",
+                        "        }",
+                        "        try {",
+                        "            loadJansiNativeLibrary();",
+                        "        } catch (Exception e) {",
+                        "            if (!Boolean.parseBoolean(System.getProperty(AnsiConsole.JANSI_GRACEFUL, \"true\"))) {",
+                        "                throw new RuntimeException(",
+                        "                        \"Unable to load jansi native library. You may want set the `jansi.graceful` system property to true to be able to use Jansi on your platform\",",
+                        "                        e);",
+                        "            }",
+                        "        }",
+                        "        return loaded;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static",
+                        "synchronized"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "Thread",
+                        "Exception",
+                        "RuntimeException"
+                    ],
+                    "signature": "initialize()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:08:08",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Thread": {
+                                "identifier": "Thread",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:08",
+                                "source_type": "Thread",
+                                "generation": "CANGJIE IMPORTS:\n```\n// No additional imports needed for Thread in Cangjie\n```\n\nCANGJIE TRANSLATION:\n```\nThread\n```",
+                                "imports": "// No additional imports needed for Thread in Cangjie",
+                                "translated_target_type": "Thread",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nThread\n```\n\nJAVA TYPE DESCRIPTION:\nA thread is a thread of execution in a program. The Java\n virtual machine allows an application to have multiple threads of\n execution running concurrently.\n\n\nJAVA CODE:\n```\n    public static synchronized boolean initialize() {\n        // only cleanup before the first extract\n        if (!loaded) {\n            Thread cleanup = new Thread(JansiLoader::cleanup, \"cleanup\");\n            cleanup.setPriority(Thread.MIN_PRIORITY);\n            cleanup.setDaemon(true);\n            cleanup.start();\n        }\n        try {\n            loadJansiNativeLibrary();\n        } catch (Exception e) {\n            if (!Boolean.parseBoolean(System.getProperty(AnsiConsole.JANSI_GRACEFUL, \"true\"))) {\n                throw new RuntimeException(\n                        \"Unable to load jansi native library. You may want set the `jansi.graceful` system property to true to be able to use Jansi on your platform\",\n                        e);\n            }\n        }\n        return loaded;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "Exception": {
+                                "identifier": "Exception",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:10",
+                                "source_type": "Exception",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nException\n```",
+                                "imports": "",
+                                "translated_target_type": "Exception",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nException\n```\n\nJAVA TYPE DESCRIPTION:\nThe class Exception and its subclasses are a form of\n Throwable that indicates conditions that a reasonable\n application might want to catch.\n\n\nJAVA CODE:\n```\n    public static synchronized boolean initialize() {\n        // only cleanup before the first extract\n        if (!loaded) {\n            Thread cleanup = new Thread(JansiLoader::cleanup, \"cleanup\");\n            cleanup.setPriority(Thread.MIN_PRIORITY);\n            cleanup.setDaemon(true);\n            cleanup.start();\n        }\n        try {\n            loadJansiNativeLibrary();\n        } catch (Exception e) {\n            if (!Boolean.parseBoolean(System.getProperty(AnsiConsole.JANSI_GRACEFUL, \"true\"))) {\n                throw new RuntimeException(\n                        \"Unable to load jansi native library. You may want set the `jansi.graceful` system property to true to be able to use Jansi on your platform\",\n                        e);\n            }\n        }\n        return loaded;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "RuntimeException": {
+                                "identifier": "RuntimeException",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:50:20",
+                                "source_type": "RuntimeException",
+                                "generation": "CANGJIE IMPORTS:\n```\nfrom std.exception import RuntimeException\n```\n\nCANGJIE TRANSLATION:\n```\nRuntimeException\n```\n\nREASONING:\nThe previous error occurred because the import statement was placed incorrectly in the test file. The correct translation for Java's `RuntimeException` in Cangjie is `RuntimeException` from the `std.exception` module. The import must be provided separately in the IMPORTS section, and the type name alone should be given in the TRANSLATION section.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nRuntimeException\n```\n\nJAVA TYPE DESCRIPTION:\nRuntimeException is the superclass of those\n exceptions that can be thrown during the normal operation of the\n Java Virtual Machine.\n\n\nJAVA CODE:\n```\n    public static synchronized boolean initialize() {\n        // only cleanup before the first extract\n        if (!loaded) {\n            Thread cleanup = new Thread(JansiLoader::cleanup, \"cleanup\");\n            cleanup.setPriority(Thread.MIN_PRIORITY);\n            cleanup.setDaemon(true);\n            cleanup.start();\n        }\n        try {\n            loadJansiNativeLibrary();\n        } catch (Exception e) {\n            if (!Boolean.parseBoolean(System.getProperty(AnsiConsole.JANSI_GRACEFUL, \"true\"))) {\n                throw new RuntimeException(\n                        \"Unable to load jansi native library. You may want set the `jansi.graceful` system property to true to be able to use Jansi on your platform\",\n                        e);\n            }\n        }\n        return loaded;\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: expected declaration, found 'from'\n \u001b[36m==>\u001b[0m /tmp/tmpgyybtsse.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mfrom std.exception import RuntimeException\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public static func initialize(): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "93-95:getNativeLibraryPath": {
+                    "start": 93,
+                    "end": 95,
+                    "body": [
+                        "public static String getNativeLibraryPath() {",
+                        "        return nativeLibraryPath;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getNativeLibraryPath()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:08:18",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public static func getNativeLibraryPath(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "97-99:getNativeLibrarySourceUrl": {
+                    "start": 97,
+                    "end": 99,
+                    "body": [
+                        "public static String getNativeLibrarySourceUrl() {",
+                        "        return nativeLibrarySourceUrl;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "getNativeLibrarySourceUrl()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:08:18",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public static func getNativeLibrarySourceUrl(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "101-103:getTempDir": {
+                    "start": 101,
+                    "end": 103,
+                    "body": [
+                        "private static File getTempDir() {",
+                        "        return new File(System.getProperty(\"jansi.tmpdir\", System.getProperty(\"java.io.tmpdir\")));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "File"
+                    ],
+                    "body_types": [
+                        "File"
+                    ],
+                    "signature": "getTempDir()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "File": {
+                                "identifier": "File",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:08:22",
+                                "source_type": "File",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nIn Cangjie, the equivalent of Java's `java.io.File` is `std.fs.File`. The `std.fs` package provides file system operations, including the `File` type for representing file and directory pathnames. The previous errors occurred because `std.file` does not exist and `File` is not in the default scope; importing `std.fs.*` brings `File` into scope.",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": "In Cangjie, the equivalent of Java's `java.io.File` is `std.fs.File`. The `std.fs` package provides file system operations, including the `File` type for representing file and directory pathnames. The previous errors occurred because `std.file` does not exist and `File` is not in the default scope; importing `std.fs.*` brings `File` into scope.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    private static File getTempDir() {\n        return new File(System.getProperty(\"jansi.tmpdir\", System.getProperty(\"java.io.tmpdir\")));\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'File'\n \u001b[36m==>\u001b[0m /tmp/tmphuzh5xpp.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: File\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "body_types": {
+                            "File": {
+                                "identifier": "File",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:26",
+                                "source_type": "File",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nThe Java `File` class represents file and directory pathnames. In Cangjie, the equivalent type is `File` from the `std.fs` package, which provides similar functionality for file system path representation and operations. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`.",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": "The Java `File` class represents file and directory pathnames. In Cangjie, the equivalent type is `File` from the `std.fs` package, which provides similar functionality for file system path representation and operations. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    private static File getTempDir() {\n        return new File(System.getProperty(\"jansi.tmpdir\", System.getProperty(\"java.io.tmpdir\")));\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: can not find package 'std.file'\n \u001b[36m==>\u001b[0m /tmp/tmpash3c5_0.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.file.*\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mhelp\u001b[0m: check if the .cjo file of the package exists in CANGJIE_PATH or CANGJIE_HOME, or use '--import-path' to specify the .cjo file path\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func getTempDir(): File {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "109-132:cleanup": {
+                    "start": 109,
+                    "end": 132,
+                    "body": [
+                        "static void cleanup() {",
+                        "        String tempFolder = getTempDir().getAbsolutePath();",
+                        "        File dir = new File(tempFolder);",
+                        "",
+                        "        File[] nativeLibFiles = dir.listFiles(new FilenameFilter() {",
+                        "            private final String searchPattern = \"jansi-\" + getVersion();",
+                        "",
+                        "            public boolean accept(File dir, String name) {",
+                        "                return name.startsWith(searchPattern) && !name.endsWith(\".lck\");",
+                        "            }",
+                        "        });",
+                        "        if (nativeLibFiles != null) {",
+                        "            for (File nativeLibFile : nativeLibFiles) {",
+                        "                File lckFile = new File(nativeLibFile.getAbsolutePath() + \".lck\");",
+                        "                if (!lckFile.exists()) {",
+                        "                    try {",
+                        "                        nativeLibFile.delete();",
+                        "                    } catch (SecurityException e) {",
+                        "                        System.err.println(\"Failed to delete old native lib\" + e.getMessage());",
+                        "                    }",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "File",
+                        "File[]",
+                        "FilenameFilter",
+                        "boolean",
+                        "SecurityException"
+                    ],
+                    "signature": "cleanup()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:08:29",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:29",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File": {
+                                "identifier": "File",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:30",
+                                "source_type": "File",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nThe Java `File` class represents file and directory pathnames. In Cangjie, the equivalent type is `File` from the `std.fs` package. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`. The `File` type in `std.fs` provides similar functionality for file and directory path manipulation, including methods like `exists()`, `delete()`, and path operations.",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": "The Java `File` class represents file and directory pathnames. In Cangjie, the equivalent type is `File` from the `std.fs` package. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`. The `File` type in `std.fs` provides similar functionality for file and directory path manipulation, including methods like `exists()`, `delete()`, and path operations.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    static void cleanup() {\n        String tempFolder = getTempDir().getAbsolutePath();\n        File dir = new File(tempFolder);\n\n        File[] nativeLibFiles = dir.listFiles(new FilenameFilter() {\n            private final String searchPattern = \"jansi-\" + getVersion();\n\n            public boolean accept(File dir, String name) {\n                return name.startsWith(searchPattern) && !name.endsWith(\".lck\");\n            }\n        });\n        if (nativeLibFiles != null) {\n            for (File nativeLibFile : nativeLibFiles) {\n                File lckFile = new File(nativeLibFile.getAbsolutePath() + \".lck\");\n                if (!lckFile.exists()) {\n                    try {\n                        nativeLibFile.delete();\n                    } catch (SecurityException e) {\n                        System.err.println(\"Failed to delete old native lib\" + e.getMessage());\n                    }\n                }\n            }\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: can not find package 'std.file'\n \u001b[36m==>\u001b[0m /tmp/tmpn73zrmjs.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.file.*\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mhelp\u001b[0m: check if the .cjo file of the package exists in CANGJIE_PATH or CANGJIE_HOME, or use '--import-path' to specify the .cjo file path\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "File[]": {
+                                "identifier": "File[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:50:26",
+                                "source_type": "File[]",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nArray<File>\n```\n\nREASONING:\nThe Java type `File[]` represents an array of `File` objects. In Cangjie, the equivalent is `Array<File>`, where `File` is from the `std.fs` package (the standard file system module). The previous error occurred because `std.file` is not a valid package; the correct package for file handling in Cangjie is `std.fs`.",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "Array<File>",
+                                "reasoning": "The Java type `File[]` represents an array of `File` objects. In Cangjie, the equivalent is `Array<File>`, where `File` is from the `std.fs` package (the standard file system module). The previous error occurred because `std.file` is not a valid package; the correct package for file handling in Cangjie is `std.fs`.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile[]\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    static void cleanup() {\n        String tempFolder = getTempDir().getAbsolutePath();\n        File dir = new File(tempFolder);\n\n        File[] nativeLibFiles = dir.listFiles(new FilenameFilter() {\n            private final String searchPattern = \"jansi-\" + getVersion();\n\n            public boolean accept(File dir, String name) {\n                return name.startsWith(searchPattern) && !name.endsWith(\".lck\");\n            }\n        });\n        if (nativeLibFiles != null) {\n            for (File nativeLibFile : nativeLibFiles) {\n                File lckFile = new File(nativeLibFile.getAbsolutePath() + \".lck\");\n                if (!lckFile.exists()) {\n                    try {\n                        nativeLibFile.delete();\n                    } catch (SecurityException e) {\n                        System.err.println(\"Failed to delete old native lib\" + e.getMessage());\n                    }\n                }\n            }\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: can not find package 'std.file'\n \u001b[36m==>\u001b[0m /tmp/tmp9d84go33.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.file.*\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mhelp\u001b[0m: check if the .cjo file of the package exists in CANGJIE_PATH or CANGJIE_HOME, or use '--import-path' to specify the .cjo file path\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "FilenameFilter": {
+                                "identifier": "FilenameFilter",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:50:34",
+                                "source_type": "FilenameFilter",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\ninterface FilenameFilter {\n    func accept(dir: String, name: String): Bool\n}\n```",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFilenameFilter\n```\n\nJAVA TYPE DESCRIPTION:\nInstances of classes that implement this interface are used to\n filter filenames. These instances are used to filter directory\n listings in the list method of class\n File, and by the Abstract Window Toolkit's file\n dialog component.\n\nJAVA CODE:\n```\n    static void cleanup() {\n        String tempFolder = getTempDir().getAbsolutePath();\n        File dir = new File(tempFolder);\n\n        File[] nativeLibFiles = dir.listFiles(new FilenameFilter() {\n            private final String searchPattern = \"jansi-\" + getVersion();\n\n            public boolean accept(File dir, String name) {\n                return name.startsWith(searchPattern) && !name.endsWith(\".lck\");\n            }\n        });\n        if (nativeLibFiles != null) {\n            for (File nativeLibFile : nativeLibFiles) {\n                File lckFile = new File(nativeLibFile.getAbsolutePath() + \".lck\");\n                if (!lckFile.exists()) {\n                    try {\n                        nativeLibFile.delete();\n                    } catch (SecurityException e) {\n                        System.err.println(\"Failed to delete old native lib\" + e.getMessage());\n                    }\n                }\n            }\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: expected type name after ':', found keyword 'interface'\n \u001b[36m==>\u001b[0m /tmp/tmp97lcsu3c.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: interface FilenameFilter {\u001b[0m\n  \u001b[36m| \u001b[0m                 \u001b[36m~\u001b[0m \u001b[31m^^^^^^^^^ expected type name here\u001b[0m\n  \u001b[36m| \u001b[0m                 \u001b[36m|\u001b[0m\n  \u001b[36m| \u001b[0m                 \u001b[36mafter ':'\u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:43",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "SecurityException": {
+                                "identifier": "SecurityException",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:50:40",
+                                "source_type": "SecurityException",
+                                "generation": "CANGJIE IMPORTS:\n```\nfrom std.security import SecurityException\n```\n\nCANGJIE TRANSLATION:\n```\nSecurityException\n```\n\nREASONING:\nThe Java `SecurityException` is used to indicate a security violation. In Cangjie, the equivalent type is also named `SecurityException` and is provided by the standard library module `std.security`. The import statement is required to bring it into scope.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nSecurityException\n```\n\nJAVA TYPE DESCRIPTION:\nThrown by the security manager to indicate a security violation.\n\nJAVA CODE:\n```\n    static void cleanup() {\n        String tempFolder = getTempDir().getAbsolutePath();\n        File dir = new File(tempFolder);\n\n        File[] nativeLibFiles = dir.listFiles(new FilenameFilter() {\n            private final String searchPattern = \"jansi-\" + getVersion();\n\n            public boolean accept(File dir, String name) {\n                return name.startsWith(searchPattern) && !name.endsWith(\".lck\");\n            }\n        });\n        if (nativeLibFiles != null) {\n            for (File nativeLibFile : nativeLibFiles) {\n                File lckFile = new File(nativeLibFile.getAbsolutePath() + \".lck\");\n                if (!lckFile.exists()) {\n                    try {\n                        nativeLibFile.delete();\n                    } catch (SecurityException e) {\n                        System.err.println(\"Failed to delete old native lib\" + e.getMessage());\n                    }\n                }\n            }\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: expected declaration, found 'from'\n \u001b[36m==>\u001b[0m /tmp/tmpvt3yzinn.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mfrom std.security import SecurityException\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    static func cleanup(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "134-143:readNBytes": {
+                    "start": 134,
+                    "end": 143,
+                    "body": [
+                        "private static int readNBytes(InputStream in, byte[] b) throws IOException {",
+                        "        int n = 0;",
+                        "        int len = b.length;",
+                        "        while (n < len) {",
+                        "            int count = in.read(b, n, len - n);",
+                        "            if (count <= 0) break;",
+                        "            n += count;",
+                        "        }",
+                        "        return n;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "int"
+                    ],
+                    "signature": "readNBytes( InputStream in,  byte[] b)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "InputStream",
+                            "name": "in"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "byte[]",
+                            "name": "b"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:08:49",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:50",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|InputStream|in": {
+                                "identifier": "|InputStream|in",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:08:49",
+                                "source_type": "InputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "InputStream",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|byte[]|b": {
+                                "identifier": "|byte[]|b",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:08:49",
+                                "source_type": "byte[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<Byte>\n```",
+                                "imports": "",
+                                "translated_target_type": "Array<Byte>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nbyte[]\n```\n\nJAVA TYPE DESCRIPTION:\n\n\nJAVA CODE:\n```\n    private static int readNBytes(InputStream in, byte[] b) throws IOException {\n        int n = 0;\n        int len = b.length;\n        while (n < len) {\n            int count = in.read(b, n, len - n);\n            if (count <= 0) break;\n            n += count;\n        }\n        return n;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func readNBytes(in: InputStream, b: Array<Byte>): Int64 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "145-174:contentsEquals": {
+                    "start": 145,
+                    "end": 174,
+                    "body": [
+                        "private static String contentsEquals(InputStream in1, InputStream in2) throws IOException {",
+                        "        byte[] buffer1 = new byte[8192];",
+                        "        byte[] buffer2 = new byte[8192];",
+                        "        int numRead1;",
+                        "        int numRead2;",
+                        "        while (true) {",
+                        "            numRead1 = readNBytes(in1, buffer1);",
+                        "            numRead2 = readNBytes(in2, buffer2);",
+                        "            if (numRead1 > 0) {",
+                        "                if (numRead2 <= 0) {",
+                        "                    return \"EOF on second stream but not first\";",
+                        "                }",
+                        "                if (numRead2 != numRead1) {",
+                        "                    return \"Read size different (\" + numRead1 + \" vs \" + numRead2 + \")\";",
+                        "                }",
+                        "                // Otherwise same number of bytes read",
+                        "                if (!Arrays.equals(buffer1, buffer2)) {",
+                        "                    return \"Content differs\";",
+                        "                }",
+                        "                // Otherwise same bytes read, so continue ...",
+                        "            } else {",
+                        "                // Nothing more in stream 1 ...",
+                        "                if (numRead2 > 0) {",
+                        "                    return \"EOF on first stream but not second\";",
+                        "                } else {",
+                        "                    return null;",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "byte[]",
+                        "byte",
+                        "int"
+                    ],
+                    "signature": "contentsEquals( InputStream in1,  InputStream in2)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "InputStream",
+                            "name": "in1"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "InputStream",
+                            "name": "in2"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:08:50",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "byte[]": {
+                                "identifier": "byte[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:50",
+                                "source_type": "byte[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<Byte>\n```",
+                                "imports": "",
+                                "translated_target_type": "Array<Byte>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nbyte[]\n```\n\nJAVA TYPE DESCRIPTION:\n\n\nJAVA CODE:\n```\n    private static String contentsEquals(InputStream in1, InputStream in2) throws IOException {\n        byte[] buffer1 = new byte[8192];\n        byte[] buffer2 = new byte[8192];\n        int numRead1;\n        int numRead2;\n        while (true) {\n            numRead1 = readNBytes(in1, buffer1);\n            numRead2 = readNBytes(in2, buffer2);\n            if (numRead1 > 0) {\n                if (numRead2 <= 0) {\n                    return \"EOF on second stream but not first\";\n                }\n                if (numRead2 != numRead1) {\n                    return \"Read size different (\" + numRead1 + \" vs \" + numRead2 + \")\";\n                }\n                // Otherwise same number of bytes read\n                if (!Arrays.equals(buffer1, buffer2)) {\n                    return \"Content differs\";\n                }\n                // Otherwise same bytes read, so continue ...\n            } else {\n                // Nothing more in stream 1 ...\n                if (numRead2 > 0) {\n                    return \"EOF on first stream but not second\";\n                } else {\n                    return null;\n                }\n            }\n        }\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "byte": {
+                                "identifier": "byte",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:51",
+                                "source_type": "byte",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int8",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:51",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|InputStream|in1": {
+                                "identifier": "|InputStream|in1",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:08:50",
+                                "source_type": "InputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "InputStream",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|InputStream|in2": {
+                                "identifier": "|InputStream|in2",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:08:50",
+                                "source_type": "InputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "InputStream",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func contentsEquals(in1: InputStream, in2: InputStream): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "184-235:extractAndLoadLibraryFile": {
+                    "start": 184,
+                    "end": 235,
+                    "body": [
+                        "private static boolean extractAndLoadLibraryFile(",
+                        "            String libFolderForCurrentOS, String libraryFileName, String targetFolder) {",
+                        "        String nativeLibraryFilePath = libFolderForCurrentOS + \"/\" + libraryFileName;",
+                        "        // Include architecture name in temporary filename in order to avoid conflicts",
+                        "        // when multiple JVMs with different architectures running at the same time",
+                        "        String uuid = randomUUID();",
+                        "        String extractedLibFileName = String.format(\"jansi-%s-%s-%s\", getVersion(), uuid, libraryFileName);",
+                        "        String extractedLckFileName = extractedLibFileName + \".lck\";",
+                        "",
+                        "        File extractedLibFile = new File(targetFolder, extractedLibFileName);",
+                        "        File extractedLckFile = new File(targetFolder, extractedLckFileName);",
+                        "",
+                        "        try {",
+                        "            // Extract a native library file into the target directory",
+                        "            try (InputStream in = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {",
+                        "                if (!extractedLckFile.exists()) {",
+                        "                    new FileOutputStream(extractedLckFile).close();",
+                        "                }",
+                        "                Files.copy(in, extractedLibFile.toPath(), StandardCopyOption.REPLACE_EXISTING);",
+                        "            } finally {",
+                        "                // Delete the extracted lib file on JVM exit.",
+                        "                extractedLibFile.deleteOnExit();",
+                        "                extractedLckFile.deleteOnExit();",
+                        "            }",
+                        "",
+                        "            // Set executable (x) flag to enable Java to load the native library",
+                        "            extractedLibFile.setReadable(true);",
+                        "            extractedLibFile.setWritable(true);",
+                        "            extractedLibFile.setExecutable(true);",
+                        "",
+                        "            // Check whether the contents are properly copied from the resource folder",
+                        "            try (InputStream nativeIn = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {",
+                        "                try (InputStream extractedLibIn = new FileInputStream(extractedLibFile)) {",
+                        "                    String eq = contentsEquals(nativeIn, extractedLibIn);",
+                        "                    if (eq != null) {",
+                        "                        throw new RuntimeException(String.format(",
+                        "                                \"Failed to write a native library file at %s because %s\", extractedLibFile, eq));",
+                        "                    }",
+                        "                }",
+                        "            }",
+                        "",
+                        "            // Load library",
+                        "            if (loadNativeLibrary(extractedLibFile)) {",
+                        "                nativeLibrarySourceUrl =",
+                        "                        JansiLoader.class.getResource(nativeLibraryFilePath).toExternalForm();",
+                        "                return true;",
+                        "            }",
+                        "        } catch (IOException e) {",
+                        "            System.err.println(e.getMessage());",
+                        "        }",
+                        "        return false;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "String",
+                        "File",
+                        "InputStream",
+                        "JansiLoader",
+                        "FileOutputStream",
+                        "FileInputStream",
+                        "RuntimeException",
+                        "IOException"
+                    ],
+                    "signature": "extractAndLoadLibraryFile( String libFolderForCurrentOS,  String libraryFileName,  String targetFolder)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "libFolderForCurrentOS"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "libraryFileName"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "targetFolder"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:08:51",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:51",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File": {
+                                "identifier": "File",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:50:43",
+                                "source_type": "File",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nThe Java `File` type is used for file and directory pathname operations. In Cangjie, the equivalent type is `File` from the `std.fs` package, which provides similar functionality for file system operations. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`.",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": "The Java `File` type is used for file and directory pathname operations. In Cangjie, the equivalent type is `File` from the `std.fs` package, which provides similar functionality for file system operations. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    private static boolean extractAndLoadLibraryFile(\n            String libFolderForCurrentOS, String libraryFileName, String targetFolder) {\n        String nativeLibraryFilePath = libFolderForCurrentOS + \"/\" + libraryFileName;\n        // Include architecture name in temporary filename in order to avoid conflicts\n        // when multiple JVMs with different architectures running at the same time\n        String uuid = randomUUID();\n        String extractedLibFileName = String.format(\"jansi-%s-%s-%s\", getVersion(), uuid, libraryFileName);\n        String extractedLckFileName = extractedLibFileName + \".lck\";\n\n        File extractedLibFile = new File(targetFolder, extractedLibFileName);\n        File extractedLckFile = new File(targetFolder, extractedLckFileName);\n\n        try {\n            // Extract a native library file into the target directory\n            try (InputStream in = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {\n                if (!extractedLckFile.exists()) {\n                    new FileOutputStream(extractedLckFile).close();\n                }\n                Files.copy(in, extractedLibFile.toPath(), StandardCopyOption.REPLACE_EXISTING);\n            } finally {\n                // Delete the extracted lib file on JVM exit.\n                extractedLibFile.deleteOnExit();\n                extractedLckFile.deleteOnExit();\n            }\n\n            // Set executable (x) flag to enable Java to load the native library\n            extractedLibFile.setReadable(true);\n            extractedLibFile.setWritable(true);\n            extractedLibFile.setExecutable(true);\n\n            // Check whether the contents are properly copied from the resource folder\n            try (InputStream nativeIn = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {\n                try (InputStream extractedLibIn = new FileInputStream(extractedLibFile)) {\n                    String eq = contentsEquals(nativeIn, extractedLibIn);\n                    if (eq != null) {\n                        throw new RuntimeException(String.format(\n                                \"Failed to write a native library file at %s because %s\", extractedLibFile, eq));\n                    }\n                }\n            }\n\n            // Load library\n            if (loadNativeLibrary(extractedLibFile)) {\n                nativeLibrarySourceUrl =\n                        JansiLoader.class.getResource(nativeLibraryFilePath).toExternalForm();\n                return true;\n            }\n        } catch (IOException e) {\n            System.err.println(e.getMessage());\n        }\n        return false;\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: can not find package 'std.file'\n \u001b[36m==>\u001b[0m /tmp/tmp9mnbos4m.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.file.*\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mhelp\u001b[0m: check if the .cjo file of the package exists in CANGJIE_PATH or CANGJIE_HOME, or use '--import-path' to specify the .cjo file path\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "InputStream": {
+                                "identifier": "InputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:58",
+                                "source_type": "InputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "InputStream",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "JansiLoader": {
+                                "identifier": "JansiLoader",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:08:58",
+                                "source_type": "JansiLoader",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "JansiLoader",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileOutputStream": {
+                                "identifier": "FileOutputStream",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:50:52",
+                                "source_type": "FileOutputStream",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.io.*\n```\n\nCANGJIE TRANSLATION:\n```\nFileOutputStream\n```\n\nREASONING:\nThe Java `FileOutputStream` is used in the provided code to create an empty lock file by opening and immediately closing the stream. In Cangjie, the equivalent type for writing to a file is `FileOutputStream` from the `std.io` module, which provides the same functionality for creating and writing to files. The previous errors occurred because the import was unused in the test context, but the type name itself is correct. The `FileOutputStream` type in Cangjie directly corresponds to Java's `FileOutputStream` for file output operations.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFileOutputStream\n```\n\nJAVA TYPE DESCRIPTION:\nA file output stream is an output stream for writing data to a\n File or to a FileDescriptor. Whether or not\n a file is available or may be created depends upon the underlying\n platform.  Some platforms, in particular, allow a file to be opened\n for writing by only one FileOutputStream (or other\n file-writing object) at a time.  In such situations the constructors in\n this class will fail if the file involved is already open.\n\n\nJAVA CODE:\n```\n    private static boolean extractAndLoadLibraryFile(\n            String libFolderForCurrentOS, String libraryFileName, String targetFolder) {\n        String nativeLibraryFilePath = libFolderForCurrentOS + \"/\" + libraryFileName;\n        // Include architecture name in temporary filename in order to avoid conflicts\n        // when multiple JVMs with different architectures running at the same time\n        String uuid = randomUUID();\n        String extractedLibFileName = String.format(\"jansi-%s-%s-%s\", getVersion(), uuid, libraryFileName);\n        String extractedLckFileName = extractedLibFileName + \".lck\";\n\n        File extractedLibFile = new File(targetFolder, extractedLibFileName);\n        File extractedLckFile = new File(targetFolder, extractedLckFileName);\n\n        try {\n            // Extract a native library file into the target directory\n            try (InputStream in = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {\n                if (!extractedLckFile.exists()) {\n                    new FileOutputStream(extractedLckFile).close();\n                }\n                Files.copy(in, extractedLibFile.toPath(), StandardCopyOption.REPLACE_EXISTING);\n            } finally {\n                // Delete the extracted lib file on JVM exit.\n                extractedLibFile.deleteOnExit();\n                extractedLckFile.deleteOnExit();\n            }\n\n            // Set executable (x) flag to enable Java to load the native library\n            extractedLibFile.setReadable(true);\n            extractedLibFile.setWritable(true);\n            extractedLibFile.setExecutable(true);\n\n            // Check whether the contents are properly copied from the resource folder\n            try (InputStream nativeIn = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {\n                try (InputStream extractedLibIn = new FileInputStream(extractedLibFile)) {\n                    String eq = contentsEquals(nativeIn, extractedLibIn);\n                    if (eq != null) {\n                        throw new RuntimeException(String.format(\n                                \"Failed to write a native library file at %s because %s\", extractedLibFile, eq));\n                    }\n                }\n            }\n\n            // Load library\n            if (loadNativeLibrary(extractedLibFile)) {\n                nativeLibrarySourceUrl =\n                        JansiLoader.class.getResource(nativeLibraryFilePath).toExternalForm();\n                return true;\n            }\n        } catch (IOException e) {\n            System.err.println(e.getMessage());\n        }\n        return false;\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'File'\n \u001b[36m==>\u001b[0m /tmp/tmpi0ydfv5e.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: File\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[33mwarning\u001b[0m: unused import 'std.io.*'\n \u001b[36m==>\u001b[0m /tmp/tmpi0ydfv5e.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.io.*\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[33m^^^^^^^^^^^^^^^ unused import\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: this warning can be suppressed by setting the compiler option `-Woff unused`\n\n1 error generated, 1 error printed.\n1 warning generated, 1 warning printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "FileInputStream": {
+                                "identifier": "FileInputStream",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:51:00",
+                                "source_type": "FileInputStream",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.io.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nIn Cangjie, the `File` class from `std.io` provides input stream functionality for reading bytes from a file, similar to Java's `FileInputStream`. The `File` class in Cangjie can be used to open a file for reading, which is the equivalent operation. The previous error occurred because `FileInputStream` does not exist in Cangjie; the correct type is `File`.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFileInputStream\n```\n\nJAVA TYPE DESCRIPTION:\nA FileInputStream obtains input bytes\n from a file in a file system. What files\n are  available depends on the host environment.\n\n\nJAVA CODE:\n```\n    private static boolean extractAndLoadLibraryFile(\n            String libFolderForCurrentOS, String libraryFileName, String targetFolder) {\n        String nativeLibraryFilePath = libFolderForCurrentOS + \"/\" + libraryFileName;\n        // Include architecture name in temporary filename in order to avoid conflicts\n        // when multiple JVMs with different architectures running at the same time\n        String uuid = randomUUID();\n        String extractedLibFileName = String.format(\"jansi-%s-%s-%s\", getVersion(), uuid, libraryFileName);\n        String extractedLckFileName = extractedLibFileName + \".lck\";\n\n        File extractedLibFile = new File(targetFolder, extractedLibFileName);\n        File extractedLckFile = new File(targetFolder, extractedLckFileName);\n\n        try {\n            // Extract a native library file into the target directory\n            try (InputStream in = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {\n                if (!extractedLckFile.exists()) {\n                    new FileOutputStream(extractedLckFile).close();\n                }\n                Files.copy(in, extractedLibFile.toPath(), StandardCopyOption.REPLACE_EXISTING);\n            } finally {\n                // Delete the extracted lib file on JVM exit.\n                extractedLibFile.deleteOnExit();\n                extractedLckFile.deleteOnExit();\n            }\n\n            // Set executable (x) flag to enable Java to load the native library\n            extractedLibFile.setReadable(true);\n            extractedLibFile.setWritable(true);\n            extractedLibFile.setExecutable(true);\n\n            // Check whether the contents are properly copied from the resource folder\n            try (InputStream nativeIn = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {\n                try (InputStream extractedLibIn = new FileInputStream(extractedLibFile)) {\n                    String eq = contentsEquals(nativeIn, extractedLibIn);\n                    if (eq != null) {\n                        throw new RuntimeException(String.format(\n                                \"Failed to write a native library file at %s because %s\", extractedLibFile, eq));\n                    }\n                }\n            }\n\n            // Load library\n            if (loadNativeLibrary(extractedLibFile)) {\n                nativeLibrarySourceUrl =\n                        JansiLoader.class.getResource(nativeLibraryFilePath).toExternalForm();\n                return true;\n            }\n        } catch (IOException e) {\n            System.err.println(e.getMessage());\n        }\n        return false;\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'File'\n \u001b[36m==>\u001b[0m /tmp/tmpxf7ws2x4.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: File\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[33mwarning\u001b[0m: unused import 'std.io.*'\n \u001b[36m==>\u001b[0m /tmp/tmpxf7ws2x4.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.io.*\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[33m^^^^^^^^^^^^^^^ unused import\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: this warning can be suppressed by setting the compiler option `-Woff unused`\n\n1 error generated, 1 error printed.\n1 warning generated, 1 warning printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "RuntimeException": {
+                                "identifier": "RuntimeException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:10",
+                                "source_type": "RuntimeException",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nException\n```",
+                                "imports": "",
+                                "translated_target_type": "Exception",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nRuntimeException\n```\n\nJAVA TYPE DESCRIPTION:\nRuntimeException is the superclass of those\n exceptions that can be thrown during the normal operation of the\n Java Virtual Machine.\n\n\nJAVA CODE:\n```\n    private static boolean extractAndLoadLibraryFile(\n            String libFolderForCurrentOS, String libraryFileName, String targetFolder) {\n        String nativeLibraryFilePath = libFolderForCurrentOS + \"/\" + libraryFileName;\n        // Include architecture name in temporary filename in order to avoid conflicts\n        // when multiple JVMs with different architectures running at the same time\n        String uuid = randomUUID();\n        String extractedLibFileName = String.format(\"jansi-%s-%s-%s\", getVersion(), uuid, libraryFileName);\n        String extractedLckFileName = extractedLibFileName + \".lck\";\n\n        File extractedLibFile = new File(targetFolder, extractedLibFileName);\n        File extractedLckFile = new File(targetFolder, extractedLckFileName);\n\n        try {\n            // Extract a native library file into the target directory\n            try (InputStream in = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {\n                if (!extractedLckFile.exists()) {\n                    new FileOutputStream(extractedLckFile).close();\n                }\n                Files.copy(in, extractedLibFile.toPath(), StandardCopyOption.REPLACE_EXISTING);\n            } finally {\n                // Delete the extracted lib file on JVM exit.\n                extractedLibFile.deleteOnExit();\n                extractedLckFile.deleteOnExit();\n            }\n\n            // Set executable (x) flag to enable Java to load the native library\n            extractedLibFile.setReadable(true);\n            extractedLibFile.setWritable(true);\n            extractedLibFile.setExecutable(true);\n\n            // Check whether the contents are properly copied from the resource folder\n            try (InputStream nativeIn = JansiLoader.class.getResourceAsStream(nativeLibraryFilePath)) {\n                try (InputStream extractedLibIn = new FileInputStream(extractedLibFile)) {\n                    String eq = contentsEquals(nativeIn, extractedLibIn);\n                    if (eq != null) {\n                        throw new RuntimeException(String.format(\n                                \"Failed to write a native library file at %s because %s\", extractedLibFile, eq));\n                    }\n                }\n            }\n\n            // Load library\n            if (loadNativeLibrary(extractedLibFile)) {\n                nativeLibrarySourceUrl =\n                        JansiLoader.class.getResource(nativeLibraryFilePath).toExternalForm();\n                return true;\n            }\n        } catch (IOException e) {\n            System.err.println(e.getMessage());\n        }\n        return false;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "IOException": {
+                                "identifier": "IOException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:12",
+                                "source_type": "IOException",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "IOException",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|libFolderForCurrentOS": {
+                                "identifier": "|String|libFolderForCurrentOS",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:08:51",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|String|libraryFileName": {
+                                "identifier": "|String|libraryFileName",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:08:51",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "|String|targetFolder": {
+                                "identifier": "|String|targetFolder",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:08:51",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func extractAndLoadLibraryFile(libFolderForCurrentOS: String, libraryFileName: String, targetFolder: String): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "237-239:randomUUID": {
+                    "start": 237,
+                    "end": 239,
+                    "body": [
+                        "private static String randomUUID() {",
+                        "        return Long.toHexString(new Random().nextLong());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "Random"
+                    ],
+                    "signature": "randomUUID()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:09:12",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Random": {
+                                "identifier": "Random",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:12",
+                                "source_type": "Random",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.random.Random\n```\n\nCANGJIE TRANSLATION:\n```\nRandom\n```",
+                                "imports": "import std.random.Random",
+                                "translated_target_type": "Random",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nRandom\n```\n\nJAVA TYPE DESCRIPTION:\nAn instance of this class is used to generate a stream of\n pseudorandom numbers; its period is only 248.\n The class uses a 48-bit seed, which is\n modified using a linear congruential formula. (See Donald E. Knuth,\n The Art of Computer Programming, Volume 2, Third\n edition: Seminumerical Algorithms, Section 3.2.1.)\n \n\nJAVA CODE:\n```\n    private static String randomUUID() {\n        return Long.toHexString(new Random().nextLong());\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func randomUUID(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "247-276:loadNativeLibrary": {
+                    "start": 247,
+                    "end": 276,
+                    "body": [
+                        "private static boolean loadNativeLibrary(File libPath) {",
+                        "        if (libPath.exists()) {",
+                        "            try {",
+                        "                String path = libPath.getAbsolutePath();",
+                        "                System.load(path);",
+                        "                nativeLibraryPath = path;",
+                        "                return true;",
+                        "            } catch (UnsatisfiedLinkError e) {",
+                        "                if (!libPath.canExecute()) {",
+                        "                    // NOTE: this can be tested using something like:",
+                        "                    // docker run --rm --tmpfs /tmp -v $PWD:/jansi openjdk:11 java -jar",
+                        "                    // /jansi/target/jansi-xxx-SNAPSHOT.jar",
+                        "                    System.err.printf(",
+                        "                            \"Failed to load native library:%s. The native library file at %s is not executable, \"",
+                        "                                    + \"make sure that the directory is mounted on a partition without the noexec flag, or set the \"",
+                        "                                    + \"jansi.tmpdir system property to point to a proper location.  osinfo: %s%n\",",
+                        "                            libPath.getName(), libPath, OSInfo.getNativeLibFolderPathForCurrentOS());",
+                        "                } else {",
+                        "                    System.err.printf(",
+                        "                            \"Failed to load native library:%s. osinfo: %s%n\",",
+                        "                            libPath.getName(), OSInfo.getNativeLibFolderPathForCurrentOS());",
+                        "                }",
+                        "                System.err.println(e);",
+                        "                return false;",
+                        "            }",
+                        "",
+                        "        } else {",
+                        "            return false;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "String",
+                        "UnsatisfiedLinkError"
+                    ],
+                    "signature": "loadNativeLibrary( File libPath)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "File",
+                            "name": "libPath"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:09:13",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:17",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "UnsatisfiedLinkError": {
+                                "identifier": "UnsatisfiedLinkError",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:51:07",
+                                "source_type": "UnsatisfiedLinkError",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nLinkError\n```\n\nREASONING:\nIn Cangjie, the standard library does not have a direct `UnsatisfiedLinkError` type. The equivalent error for native library loading failures is `LinkError`, which is part of the `std` package and does not require explicit imports. It serves the same purpose as Java's `UnsatisfiedLinkError` \u2014 thrown when a native method definition cannot be found or loaded.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nUnsatisfiedLinkError\n```\n\nJAVA TYPE DESCRIPTION:\nThrown if the Java Virtual Machine cannot find an appropriate\n native-language definition of a method declared native.\n\nJAVA CODE:\n```\n    private static boolean loadNativeLibrary(File libPath) {\n        if (libPath.exists()) {\n            try {\n                String path = libPath.getAbsolutePath();\n                System.load(path);\n                nativeLibraryPath = path;\n                return true;\n            } catch (UnsatisfiedLinkError e) {\n                if (!libPath.canExecute()) {\n                    // NOTE: this can be tested using something like:\n                    // docker run --rm --tmpfs /tmp -v $PWD:/jansi openjdk:11 java -jar\n                    // /jansi/target/jansi-xxx-SNAPSHOT.jar\n                    System.err.printf(\n                            \"Failed to load native library:%s. The native library file at %s is not executable, \"\n                                    + \"make sure that the directory is mounted on a partition without the noexec flag, or set the \"\n                                    + \"jansi.tmpdir system property to point to a proper location.  osinfo: %s%n\",\n                            libPath.getName(), libPath, OSInfo.getNativeLibFolderPathForCurrentOS());\n                } else {\n                    System.err.printf(\n                            \"Failed to load native library:%s. osinfo: %s%n\",\n                            libPath.getName(), OSInfo.getNativeLibFolderPathForCurrentOS());\n                }\n                System.err.println(e);\n                return false;\n            }\n\n        } else {\n            return false;\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'UnsatisfiedLinkError'\n \u001b[36m==>\u001b[0m /tmp/tmp4nkt5vz3.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: UnsatisfiedLinkError\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {
+                            "|File|libPath": {
+                                "identifier": "|File|libPath",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:09:14",
+                                "source_type": "File",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nThe Java `File` type is used for file and directory pathname operations. In Cangjie, the equivalent type is `File` from the `std.fs` package, which provides similar functionality for file path representation, existence checks, and path operations. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`.",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": "The Java `File` type is used for file and directory pathname operations. In Cangjie, the equivalent type is `File` from the `std.fs` package, which provides similar functionality for file path representation, existence checks, and path operations. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    private static boolean loadNativeLibrary(File libPath) {\n        if (libPath.exists()) {\n            try {\n                String path = libPath.getAbsolutePath();\n                System.load(path);\n                nativeLibraryPath = path;\n                return true;\n            } catch (UnsatisfiedLinkError e) {\n                if (!libPath.canExecute()) {\n                    // NOTE: this can be tested using something like:\n                    // docker run --rm --tmpfs /tmp -v $PWD:/jansi openjdk:11 java -jar\n                    // /jansi/target/jansi-xxx-SNAPSHOT.jar\n                    System.err.printf(\n                            \"Failed to load native library:%s. The native library file at %s is not executable, \"\n                                    + \"make sure that the directory is mounted on a partition without the noexec flag, or set the \"\n                                    + \"jansi.tmpdir system property to point to a proper location.  osinfo: %s%n\",\n                            libPath.getName(), libPath, OSInfo.getNativeLibFolderPathForCurrentOS());\n                } else {\n                    System.err.printf(\n                            \"Failed to load native library:%s. osinfo: %s%n\",\n                            libPath.getName(), OSInfo.getNativeLibFolderPathForCurrentOS());\n                }\n                System.err.println(e);\n                return false;\n            }\n\n        } else {\n            return false;\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: can not find package 'std.file'\n \u001b[36m==>\u001b[0m /tmp/tmpnmqh5poo.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.file.*\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mhelp\u001b[0m: check if the .cjo file of the package exists in CANGJIE_PATH or CANGJIE_HOME, or use '--import-path' to specify the .cjo file path\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func loadNativeLibrary(libPath: File): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "283-353:loadJansiNativeLibrary": {
+                    "start": 283,
+                    "end": 353,
+                    "body": [
+                        "private static void loadJansiNativeLibrary() throws Exception {",
+                        "        if (loaded) {",
+                        "            return;",
+                        "        }",
+                        "",
+                        "        List<String> triedPaths = new LinkedList<String>();",
+                        "",
+                        "        // Try loading library from library.jansi.path library path */",
+                        "        String jansiNativeLibraryPath = System.getProperty(\"library.jansi.path\");",
+                        "        String jansiNativeLibraryName = System.getProperty(\"library.jansi.name\");",
+                        "        if (jansiNativeLibraryName == null) {",
+                        "            jansiNativeLibraryName = System.mapLibraryName(\"jansi\");",
+                        "            assert jansiNativeLibraryName != null;",
+                        "            if (jansiNativeLibraryName.endsWith(\".dylib\")) {",
+                        "                jansiNativeLibraryName = jansiNativeLibraryName.replace(\".dylib\", \".jnilib\");",
+                        "            }",
+                        "        }",
+                        "",
+                        "        if (jansiNativeLibraryPath != null) {",
+                        "            String withOs = jansiNativeLibraryPath + \"/\" + OSInfo.getNativeLibFolderPathForCurrentOS();",
+                        "            if (loadNativeLibrary(new File(withOs, jansiNativeLibraryName))) {",
+                        "                loaded = true;",
+                        "                return;",
+                        "            } else {",
+                        "                triedPaths.add(withOs);",
+                        "            }",
+                        "",
+                        "            if (loadNativeLibrary(new File(jansiNativeLibraryPath, jansiNativeLibraryName))) {",
+                        "                loaded = true;",
+                        "                return;",
+                        "            } else {",
+                        "                triedPaths.add(jansiNativeLibraryPath);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        // Load the os-dependent library from the jar file",
+                        "        String packagePath = JansiLoader.class.getPackage().getName().replace('.', '/');",
+                        "        jansiNativeLibraryPath =",
+                        "                String.format(\"/%s/native/%s\", packagePath, OSInfo.getNativeLibFolderPathForCurrentOS());",
+                        "        boolean hasNativeLib = hasResource(jansiNativeLibraryPath + \"/\" + jansiNativeLibraryName);",
+                        "",
+                        "        if (hasNativeLib) {",
+                        "            // temporary library folder",
+                        "            String tempFolder = getTempDir().getAbsolutePath();",
+                        "            // Try extracting the library from jar",
+                        "            if (extractAndLoadLibraryFile(jansiNativeLibraryPath, jansiNativeLibraryName, tempFolder)) {",
+                        "                loaded = true;",
+                        "                return;",
+                        "            } else {",
+                        "                triedPaths.add(jansiNativeLibraryPath);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        // As a last resort try from java.library.path",
+                        "        String javaLibraryPath = System.getProperty(\"java.library.path\", \"\");",
+                        "        for (String ldPath : javaLibraryPath.split(File.pathSeparator)) {",
+                        "            if (ldPath.isEmpty()) {",
+                        "                continue;",
+                        "            }",
+                        "            if (loadNativeLibrary(new File(ldPath, jansiNativeLibraryName))) {",
+                        "                loaded = true;",
+                        "                return;",
+                        "            } else {",
+                        "                triedPaths.add(ldPath);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        throw new Exception(String.format(",
+                        "                \"No native library found for os.name=%s, os.arch=%s, paths=[%s]\",",
+                        "                OSInfo.getOSName(), OSInfo.getArchName(), String.join(File.pathSeparator, triedPaths)));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "List<String>",
+                        "LinkedList<String>",
+                        "String",
+                        "File",
+                        "JansiLoader",
+                        "boolean",
+                        "Exception"
+                    ],
+                    "signature": "loadJansiNativeLibrary()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:09:23",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "List<String>": {
+                                "identifier": "List<String>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:23",
+                                "source_type": "List<String>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.ArrayList\n```\n\nCANGJIE TRANSLATION:\n```\nArrayList<String>\n```",
+                                "imports": "import std.collection.ArrayList",
+                                "translated_target_type": "ArrayList<String>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nList<String>\n```\n\nJAVA TYPE DESCRIPTION:\nAn ordered collection, where the user has precise control over where in the\n list each element is inserted.  The user can access elements by their integer\n index (position in the list), and search for elements in the list.\n\n\nJAVA CODE:\n```\n    private static void loadJansiNativeLibrary() throws Exception {\n        if (loaded) {\n            return;\n        }\n\n        List<String> triedPaths = new LinkedList<String>();\n\n        // Try loading library from library.jansi.path library path */\n        String jansiNativeLibraryPath = System.getProperty(\"library.jansi.path\");\n        String jansiNativeLibraryName = System.getProperty(\"library.jansi.name\");\n        if (jansiNativeLibraryName == null) {\n            jansiNativeLibraryName = System.mapLibraryName(\"jansi\");\n            assert jansiNativeLibraryName != null;\n            if (jansiNativeLibraryName.endsWith(\".dylib\")) {\n                jansiNativeLibraryName = jansiNativeLibraryName.replace(\".dylib\", \".jnilib\");\n            }\n        }\n\n        if (jansiNativeLibraryPath != null) {\n            String withOs = jansiNativeLibraryPath + \"/\" + OSInfo.getNativeLibFolderPathForCurrentOS();\n            if (loadNativeLibrary(new File(withOs, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(withOs);\n            }\n\n            if (loadNativeLibrary(new File(jansiNativeLibraryPath, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(jansiNativeLibraryPath);\n            }\n        }\n\n        // Load the os-dependent library from the jar file\n        String packagePath = JansiLoader.class.getPackage().getName().replace('.', '/');\n        jansiNativeLibraryPath =\n                String.format(\"/%s/native/%s\", packagePath, OSInfo.getNativeLibFolderPathForCurrentOS());\n        boolean hasNativeLib = hasResource(jansiNativeLibraryPath + \"/\" + jansiNativeLibraryName);\n\n        if (hasNativeLib) {\n            // temporary library folder\n            String tempFolder = getTempDir().getAbsolutePath();\n            // Try extracting the library from jar\n            if (extractAndLoadLibraryFile(jansiNativeLibraryPath, jansiNativeLibraryName, tempFolder)) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(jansiNativeLibraryPath);\n            }\n        }\n\n        // As a last resort try from java.library.path\n        String javaLibraryPath = System.getProperty(\"java.library.path\", \"\");\n        for (String ldPath : javaLibraryPath.split(File.pathSeparator)) {\n            if (ldPath.isEmpty()) {\n                continue;\n            }\n            if (loadNativeLibrary(new File(ldPath, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(ldPath);\n            }\n        }\n\n        throw new Exception(String.format(\n                \"No native library found for os.name=%s, os.arch=%s, paths=[%s]\",\n                OSInfo.getOSName(), OSInfo.getArchName(), String.join(File.pathSeparator, triedPaths)));\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "LinkedList<String>": {
+                                "identifier": "LinkedList<String>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:24",
+                                "source_type": "LinkedList<String>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.ArrayList\n```\n\nCANGJIE TRANSLATION:\n```\nArrayList<String>\n```",
+                                "imports": "import std.collection.ArrayList",
+                                "translated_target_type": "ArrayList<String>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nLinkedList<String>\n```\n\nJAVA TYPE DESCRIPTION:\nDoubly-linked list implementation of the List and Deque\n interfaces.  Implements all optional list operations, and permits all\n elements (including null).\n\n\nJAVA CODE:\n```\n    private static void loadJansiNativeLibrary() throws Exception {\n        if (loaded) {\n            return;\n        }\n\n        List<String> triedPaths = new LinkedList<String>();\n\n        // Try loading library from library.jansi.path library path */\n        String jansiNativeLibraryPath = System.getProperty(\"library.jansi.path\");\n        String jansiNativeLibraryName = System.getProperty(\"library.jansi.name\");\n        if (jansiNativeLibraryName == null) {\n            jansiNativeLibraryName = System.mapLibraryName(\"jansi\");\n            assert jansiNativeLibraryName != null;\n            if (jansiNativeLibraryName.endsWith(\".dylib\")) {\n                jansiNativeLibraryName = jansiNativeLibraryName.replace(\".dylib\", \".jnilib\");\n            }\n        }\n\n        if (jansiNativeLibraryPath != null) {\n            String withOs = jansiNativeLibraryPath + \"/\" + OSInfo.getNativeLibFolderPathForCurrentOS();\n            if (loadNativeLibrary(new File(withOs, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(withOs);\n            }\n\n            if (loadNativeLibrary(new File(jansiNativeLibraryPath, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(jansiNativeLibraryPath);\n            }\n        }\n\n        // Load the os-dependent library from the jar file\n        String packagePath = JansiLoader.class.getPackage().getName().replace('.', '/');\n        jansiNativeLibraryPath =\n                String.format(\"/%s/native/%s\", packagePath, OSInfo.getNativeLibFolderPathForCurrentOS());\n        boolean hasNativeLib = hasResource(jansiNativeLibraryPath + \"/\" + jansiNativeLibraryName);\n\n        if (hasNativeLib) {\n            // temporary library folder\n            String tempFolder = getTempDir().getAbsolutePath();\n            // Try extracting the library from jar\n            if (extractAndLoadLibraryFile(jansiNativeLibraryPath, jansiNativeLibraryName, tempFolder)) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(jansiNativeLibraryPath);\n            }\n        }\n\n        // As a last resort try from java.library.path\n        String javaLibraryPath = System.getProperty(\"java.library.path\", \"\");\n        for (String ldPath : javaLibraryPath.split(File.pathSeparator)) {\n            if (ldPath.isEmpty()) {\n                continue;\n            }\n            if (loadNativeLibrary(new File(ldPath, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(ldPath);\n            }\n        }\n\n        throw new Exception(String.format(\n                \"No native library found for os.name=%s, os.arch=%s, paths=[%s]\",\n                OSInfo.getOSName(), OSInfo.getArchName(), String.join(File.pathSeparator, triedPaths)));\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:26",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File": {
+                                "identifier": "File",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:27",
+                                "source_type": "File",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nIn Cangjie, the equivalent of Java's `java.io.File` is `std.fs.File`. The `std.fs` package provides file and directory pathname abstractions similar to Java's `File` class. The previous attempt used `std.file` which does not exist; the correct package is `std.fs`.",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": "In Cangjie, the equivalent of Java's `java.io.File` is `std.fs.File`. The `std.fs` package provides file and directory pathname abstractions similar to Java's `File` class. The previous attempt used `std.file` which does not exist; the correct package is `std.fs`.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    private static void loadJansiNativeLibrary() throws Exception {\n        if (loaded) {\n            return;\n        }\n\n        List<String> triedPaths = new LinkedList<String>();\n\n        // Try loading library from library.jansi.path library path */\n        String jansiNativeLibraryPath = System.getProperty(\"library.jansi.path\");\n        String jansiNativeLibraryName = System.getProperty(\"library.jansi.name\");\n        if (jansiNativeLibraryName == null) {\n            jansiNativeLibraryName = System.mapLibraryName(\"jansi\");\n            assert jansiNativeLibraryName != null;\n            if (jansiNativeLibraryName.endsWith(\".dylib\")) {\n                jansiNativeLibraryName = jansiNativeLibraryName.replace(\".dylib\", \".jnilib\");\n            }\n        }\n\n        if (jansiNativeLibraryPath != null) {\n            String withOs = jansiNativeLibraryPath + \"/\" + OSInfo.getNativeLibFolderPathForCurrentOS();\n            if (loadNativeLibrary(new File(withOs, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(withOs);\n            }\n\n            if (loadNativeLibrary(new File(jansiNativeLibraryPath, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(jansiNativeLibraryPath);\n            }\n        }\n\n        // Load the os-dependent library from the jar file\n        String packagePath = JansiLoader.class.getPackage().getName().replace('.', '/');\n        jansiNativeLibraryPath =\n                String.format(\"/%s/native/%s\", packagePath, OSInfo.getNativeLibFolderPathForCurrentOS());\n        boolean hasNativeLib = hasResource(jansiNativeLibraryPath + \"/\" + jansiNativeLibraryName);\n\n        if (hasNativeLib) {\n            // temporary library folder\n            String tempFolder = getTempDir().getAbsolutePath();\n            // Try extracting the library from jar\n            if (extractAndLoadLibraryFile(jansiNativeLibraryPath, jansiNativeLibraryName, tempFolder)) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(jansiNativeLibraryPath);\n            }\n        }\n\n        // As a last resort try from java.library.path\n        String javaLibraryPath = System.getProperty(\"java.library.path\", \"\");\n        for (String ldPath : javaLibraryPath.split(File.pathSeparator)) {\n            if (ldPath.isEmpty()) {\n                continue;\n            }\n            if (loadNativeLibrary(new File(ldPath, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(ldPath);\n            }\n        }\n\n        throw new Exception(String.format(\n                \"No native library found for os.name=%s, os.arch=%s, paths=[%s]\",\n                OSInfo.getOSName(), OSInfo.getArchName(), String.join(File.pathSeparator, triedPaths)));\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: can not find package 'std.file'\n \u001b[36m==>\u001b[0m /tmp/tmpl395snum.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.file.*\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mhelp\u001b[0m: check if the .cjo file of the package exists in CANGJIE_PATH or CANGJIE_HOME, or use '--import-path' to specify the .cjo file path\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "JansiLoader": {
+                                "identifier": "JansiLoader",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:30",
+                                "source_type": "JansiLoader",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "JansiLoader",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:30",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Exception": {
+                                "identifier": "Exception",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:30",
+                                "source_type": "Exception",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nException\n```",
+                                "imports": "",
+                                "translated_target_type": "Exception",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nException\n```\n\nJAVA TYPE DESCRIPTION:\nThe class Exception and its subclasses are a form of\n Throwable that indicates conditions that a reasonable\n application might want to catch.\n\n\nJAVA CODE:\n```\n    private static void loadJansiNativeLibrary() throws Exception {\n        if (loaded) {\n            return;\n        }\n\n        List<String> triedPaths = new LinkedList<String>();\n\n        // Try loading library from library.jansi.path library path */\n        String jansiNativeLibraryPath = System.getProperty(\"library.jansi.path\");\n        String jansiNativeLibraryName = System.getProperty(\"library.jansi.name\");\n        if (jansiNativeLibraryName == null) {\n            jansiNativeLibraryName = System.mapLibraryName(\"jansi\");\n            assert jansiNativeLibraryName != null;\n            if (jansiNativeLibraryName.endsWith(\".dylib\")) {\n                jansiNativeLibraryName = jansiNativeLibraryName.replace(\".dylib\", \".jnilib\");\n            }\n        }\n\n        if (jansiNativeLibraryPath != null) {\n            String withOs = jansiNativeLibraryPath + \"/\" + OSInfo.getNativeLibFolderPathForCurrentOS();\n            if (loadNativeLibrary(new File(withOs, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(withOs);\n            }\n\n            if (loadNativeLibrary(new File(jansiNativeLibraryPath, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(jansiNativeLibraryPath);\n            }\n        }\n\n        // Load the os-dependent library from the jar file\n        String packagePath = JansiLoader.class.getPackage().getName().replace('.', '/');\n        jansiNativeLibraryPath =\n                String.format(\"/%s/native/%s\", packagePath, OSInfo.getNativeLibFolderPathForCurrentOS());\n        boolean hasNativeLib = hasResource(jansiNativeLibraryPath + \"/\" + jansiNativeLibraryName);\n\n        if (hasNativeLib) {\n            // temporary library folder\n            String tempFolder = getTempDir().getAbsolutePath();\n            // Try extracting the library from jar\n            if (extractAndLoadLibraryFile(jansiNativeLibraryPath, jansiNativeLibraryName, tempFolder)) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(jansiNativeLibraryPath);\n            }\n        }\n\n        // As a last resort try from java.library.path\n        String javaLibraryPath = System.getProperty(\"java.library.path\", \"\");\n        for (String ldPath : javaLibraryPath.split(File.pathSeparator)) {\n            if (ldPath.isEmpty()) {\n                continue;\n            }\n            if (loadNativeLibrary(new File(ldPath, jansiNativeLibraryName))) {\n                loaded = true;\n                return;\n            } else {\n                triedPaths.add(ldPath);\n            }\n        }\n\n        throw new Exception(String.format(\n                \"No native library found for os.name=%s, os.arch=%s, paths=[%s]\",\n                OSInfo.getOSName(), OSInfo.getArchName(), String.join(File.pathSeparator, triedPaths)));\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func loadJansiNativeLibrary(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "355-357:hasResource": {
+                    "start": 355,
+                    "end": 357,
+                    "body": [
+                        "private static boolean hasResource(String path) {",
+                        "        return JansiLoader.class.getResource(path) != null;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [
+                        "JansiLoader"
+                    ],
+                    "signature": "hasResource( String path)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "path"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:09:31",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "JansiLoader": {
+                                "identifier": "JansiLoader",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:31",
+                                "source_type": "JansiLoader",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "JansiLoader",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|path": {
+                                "identifier": "|String|path",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:09:31",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func hasResource(path: String): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "362-365:getMajorVersion": {
+                    "start": 362,
+                    "end": 365,
+                    "body": [
+                        "public static int getMajorVersion() {",
+                        "        String[] c = getVersion().split(\"\\\\.\");",
+                        "        return (c.length > 0) ? Integer.parseInt(c[0]) : 1;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "String[]"
+                    ],
+                    "signature": "getMajorVersion()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:09:31",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "String[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:31",
+                                "source_type": "String[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<String>\n```",
+                                "imports": "",
+                                "translated_target_type": "Array<String>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nString[]\n```\n\nJAVA TYPE DESCRIPTION:\nThe String class represents character strings. All\n string literals in Java programs, such as \"abc\", are\n implemented as instances of this class.\n \n\nJAVA CODE:\n```\n    public static int getMajorVersion() {\n        String[] c = getVersion().split(\"\\\\.\");\n        return (c.length > 0) ? Integer.parseInt(c[0]) : 1;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public static func getMajorVersion(): Int64 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "370-373:getMinorVersion": {
+                    "start": 370,
+                    "end": 373,
+                    "body": [
+                        "public static int getMinorVersion() {",
+                        "        String[] c = getVersion().split(\"\\\\.\");",
+                        "        return (c.length > 1) ? Integer.parseInt(c[1]) : 0;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [
+                        "String[]"
+                    ],
+                    "signature": "getMinorVersion()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:09:33",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "String[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:33",
+                                "source_type": "String[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<String>\n```",
+                                "imports": "",
+                                "translated_target_type": "Array<String>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nString[]\n```\n\nJAVA TYPE DESCRIPTION:\nThe String class represents character strings. All\n string literals in Java programs, such as \"abc\", are\n implemented as instances of this class.\n \n\nJAVA CODE:\n```\n    public static int getMinorVersion() {\n        String[] c = getVersion().split(\"\\\\.\");\n        return (c.length > 1) ? Integer.parseInt(c[1]) : 0;\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public static func getMinorVersion(): Int64 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "378-394:getVersion": {
+                    "start": 378,
+                    "end": 394,
+                    "body": [
+                        "public static String getVersion() {",
+                        "",
+                        "        URL versionFile = JansiLoader.class.getResource(\"/org/fusesource/jansi/jansi.properties\");",
+                        "",
+                        "        String version = \"unknown\";",
+                        "        try {",
+                        "            if (versionFile != null) {",
+                        "                Properties versionData = new Properties();",
+                        "                versionData.load(versionFile.openStream());",
+                        "                version = versionData.getProperty(\"version\", version);",
+                        "                version = version.trim().replaceAll(\"[^0-9.]\", \"\");",
+                        "            }",
+                        "        } catch (IOException e) {",
+                        "            System.err.println(e);",
+                        "        }",
+                        "        return version;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "URL",
+                        "JansiLoader",
+                        "String",
+                        "Properties",
+                        "IOException"
+                    ],
+                    "signature": "getVersion()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:09:34",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "URL": {
+                                "identifier": "URL",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:51:14",
+                                "source_type": "URL",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.net\n```\n\nCANGJIE TRANSLATION:\n```\nnet.URL\n```\n\nREASONING:\nThe Cangjie standard library provides the `URL` type under the `std.net` package, but it is not directly accessible as `std.net.URL`. Instead, you must import the `std.net` package and then use the fully qualified name `net.URL` to reference the type. This matches the Java `URL` class functionality for representing Uniform Resource Locators.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nURL\n```\n\nJAVA TYPE DESCRIPTION:\nClass URL represents a Uniform Resource\n Locator, a pointer to a \"resource\" on the World\n Wide Web. A resource can be something as simple as a file or a\n directory, or it can be a reference to a more complicated object,\n such as a query to a database or to a search engine. More\n information on the types of URLs and their formats can be found at:\n \n\nJAVA CODE:\n```\n    public static String getVersion() {\n\n        URL versionFile = JansiLoader.class.getResource(\"/org/fusesource/jansi/jansi.properties\");\n\n        String version = \"unknown\";\n        try {\n            if (versionFile != null) {\n                Properties versionData = new Properties();\n                versionData.load(versionFile.openStream());\n                version = versionData.getProperty(\"version\", version);\n                version = version.trim().replaceAll(\"[^0-9.]\", \"\");\n            }\n        } catch (IOException e) {\n            System.err.println(e);\n        }\n        return version;\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: 'URL' is not accessible in package 'std.net'\n \u001b[36m==>\u001b[0m /tmp/tmptixbsgap.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.net.URL\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "JansiLoader": {
+                                "identifier": "JansiLoader",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:41",
+                                "source_type": "JansiLoader",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "JansiLoader",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:41",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Properties": {
+                                "identifier": "Properties",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:41",
+                                "source_type": "Properties",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "HashMap<String, String>",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "IOException": {
+                                "identifier": "IOException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:41",
+                                "source_type": "IOException",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "IOException",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public static func getVersion(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                }
+            },
+            "fields": {
+                "63-63:loaded": {
+                    "start": 63,
+                    "end": 63,
+                    "enum_constant": false,
+                    "body": [
+                        "private static boolean loaded = false;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "types": [
+                        "boolean"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:08:08",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static var loaded: Bool = throw Exception('TODO')\n"
+                    ]
+                },
+                "64-64:nativeLibraryPath": {
+                    "start": 64,
+                    "end": 64,
+                    "enum_constant": false,
+                    "body": [
+                        "private static String nativeLibraryPath;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:08:08",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static var nativeLibraryPath: String = throw Exception('TODO')\n"
+                    ]
+                },
+                "65-65:nativeLibrarySourceUrl": {
+                    "start": 65,
+                    "end": 65,
+                    "enum_constant": false,
+                    "body": [
+                        "private static String nativeLibrarySourceUrl;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "types": [
+                        "String"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-06 19:08:08",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static var nativeLibrarySourceUrl: String = throw Exception('TODO')\n"
+                    ]
+                }
+            },
+            "cangjie_class_declaration": "open class JansiLoader {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/internal/JansiLoader.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/internal/JansiLoader.cj",
+    "import_map": {
+        "File": "java.io.File",
+        "FileInputStream": "java.io.FileInputStream",
+        "FileOutputStream": "java.io.FileOutputStream",
+        "FilenameFilter": "java.io.FilenameFilter",
+        "IOException": "java.io.IOException",
+        "InputStream": "java.io.InputStream",
+        "URL": "java.net.URL",
+        "Files": "java.nio.file.Files",
+        "StandardCopyOption": "java.nio.file.StandardCopyOption",
+        "Arrays": "java.util.Arrays",
+        "LinkedList": "java.util.LinkedList",
+        "List": "java.util.List",
+        "Properties": "java.util.Properties",
+        "Random": "java.util.Random",
+        "AnsiConsole": "org.fusesource.jansi.AnsiConsole"
+    }
+}

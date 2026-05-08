@@ -17,7 +17,7 @@ use_rag=${5:-true}
 
 echo "Translating types for $project (use_rag=$use_rag)"
 export PYTHONPATH=$(pwd)
-python3 src/java/type_resolution/translate_type_rag.py \
+python src/java/type_resolution/translate_type_rag.py \
     --project_name=$project \
     --model_name=$model_name \
     --temperature=$temperature \

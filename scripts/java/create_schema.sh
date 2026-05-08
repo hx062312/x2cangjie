@@ -15,4 +15,4 @@ suffix=$4
 
 echo "Creating schema for $project"
 export PYTHONPATH=$(pwd)
-python3 src/java/decomposition/create_schema.py --project_name=$project --suffix=$suffix --model_name=$model_name --temperature=$temperature
+python src/java/decomposition/create_schema.py --project_name=$project --suffix=$suffix --model_name=$model_name --temperature=$temperature

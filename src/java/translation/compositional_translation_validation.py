@@ -4,7 +4,9 @@ import json
 import math
 import os
 import re
+import sys
 import time
+from pathlib import Path
 
 import tiktoken
 import tqdm
@@ -14,6 +16,11 @@ from src.java.translation.cangjie_compilation_validation import cangjie_compilat
 from src.java.translation.get_reverse_traversal import get_reverse_traversal
 from src.java.translation.prompt_generator import PromptGenerator
 from src.java.rag import get_rag_engine
+from src.java.isolation_validation.test_runner import (
+    run_mock_tests_for_fragment,
+    session_clean,
+    session_inject,
+)
 
 # response_format configuration
 JSON_OUTPUT_SCHEMA = {
@@ -236,7 +243,9 @@ def get_adaptive_budget(fragment, args, feedback=False):
     elif fragment["fragment_type"] == "method" and fragment["is_test_method"]:
         return 2 if not feedback else 1
 
-    return 5 if not feedback else 1
+    # Shared pool: 4 attempts cover both compilation failures AND mock-test
+    # failures for normal methods (constructors included).
+    return 4 if not feedback else 1
 
 
 def get_total_input_tokens(prompt, args, model_info):
@@ -327,6 +336,17 @@ def translate(
 
     if recursion_depth == 0:
         return
+
+    # >>> DEBUG_LOG_BEGIN
+    print(
+        f"\n[DEBUG_LOG] >>>>> fragment "
+        f"{fragment.get('schema_name')}|{fragment.get('class_name')}|{fragment.get('fragment_name')} "
+        f"(type={fragment.get('fragment_type')}, "
+        f"test={fragment.get('is_test_method')}, "
+        f"ctor={fragment.get('is_constructor')})",
+        flush=True,
+    )
+    # <<< DEBUG_LOG_END
 
     model_info = yaml.safe_load(open("configs/model_configs.yaml", "r"))["models"]
 
@@ -503,41 +523,106 @@ def translate(
             continue
 
         cangjie_compilation_status = "success"
+        # Intermediate state: compile passed, mock test pending. Final
+        # translation_status flips to "completed" only after mock-test resolves
+        # (or is skipped for non-normal-method fragments).
         update_labels(
             args=args,
             fragment=fragment,
             translation=generation,
-            translation_status="completed",
+            translation_status="attempted",
             cangjie_compilation={"outcome": "success", "message": message},
             test_execution="pending",
             elapsed_time=time.time() - start_time,
         )
-        update_budget(fragment, args, budget, type_="final")
-
-        if fragment["is_test_method"]:
-            return
-
-        if fragment["fragment_type"] in ["field", "static_initializer"]:
-            break
         ############################ </CANGJIE COMPILATION VALIDATION> ############################
 
         ############################ <TEST EXECUTION> ############################
-        current_budget = "test_execution"
+        # Mock test runs only for "normal" methods: not test, not constructor,
+        # and not field/static_initializer. For other fragment shapes we keep
+        # the previous behavior (test_execution = not-exercised / pending).
+        is_normal_method = (
+            fragment["fragment_type"] == "method"
+            and not fragment["is_test_method"]
+            and not fragment.get("is_constructor")
+        )
 
+        if not is_normal_method:
+            update_labels(
+                args=args,
+                fragment=fragment,
+                translation=generation,
+                translation_status="completed",
+                cangjie_compilation={"outcome": "success", "message": message},
+                test_execution=("pending" if fragment["is_test_method"] else "not-exercised"),
+                elapsed_time=time.time() - start_time,
+            )
+            update_budget(fragment, args, budget, type_="final")
+            if fragment["is_test_method"]:
+                return
+            break
+
+        mock_status, mock_message = run_mock_tests_for_fragment(
+            fragment=fragment,
+            skeleton_dir=args.skeleton_dir,
+            staging_dir=args.staging_dir,
+        )
+
+        if mock_status in ("no-tests", "success"):
+            update_labels(
+                args=args,
+                fragment=fragment,
+                translation=generation,
+                translation_status="completed",
+                cangjie_compilation={"outcome": "success", "message": message},
+                test_execution=(
+                    "not-exercised"
+                    if mock_status == "no-tests"
+                    else {"outcome": "success", "message": mock_message}
+                ),
+                elapsed_time=time.time() - start_time,
+            )
+            update_budget(fragment, args, budget, type_="final")
+            break
+
+        # mock_status == "failure": share the cangjie_compilation budget pool.
+        if budget["cangjie_compilation"] - 1 == 0:
+            # Exhausted. Per spec H(ii): compile succeeded → status=completed,
+            # only test_execution carries the failure.
+            update_labels(
+                args=args,
+                fragment=fragment,
+                translation=generation,
+                translation_status="completed",
+                cangjie_compilation={"outcome": "success", "message": message},
+                test_execution={"outcome": "failure", "message": mock_message},
+                elapsed_time=time.time() - start_time,
+            )
+            update_budget(fragment, args, budget, type_="final")
+            break
+
+        budget["cangjie_compilation"] -= 1
+        if args.debug:
+            print(
+                "=======================MOCK TEST FAILED - REPROMPTING=======================",
+                f"Feedback: {mock_message}",
+                flush=True,
+            )
+        # Mark intermediate retry state so the schema reflects the rollback.
         update_labels(
             args=args,
             fragment=fragment,
             translation=generation,
-            translation_status="completed",
-            cangjie_compilation={
-                "outcome": "success",
-                "message": message,
-            },
-            test_execution="not-exercised",
+            translation_status="attempted",
+            cangjie_compilation={"outcome": "success", "message": message},
+            test_execution={"outcome": "failure", "message": mock_message},
             elapsed_time=time.time() - start_time,
         )
-        update_budget(fragment, args, budget, type_="final")
-        break
+        if not feedback:
+            feedback = mock_message
+        else:
+            feedback = f"{feedback}\n{mock_message}"
+        continue
         ############################ </TEST EXECUTION> ############################
 
 
@@ -546,26 +631,49 @@ def main(args):
     args.prompt_type = "body" if args.include_implementation else "signature"
     args.translation_dir = f"data/java/schemas{args.suffix}/{args.model}/{args.temperature}/{args.project}"
 
+    args.skeleton_dir = Path(f"data/java/skeletons/{args.project}")
+    args.staging_dir = Path(f"/tmp/cangjie_mock/{args.project}")
+
+    if not args.skeleton_dir.is_dir() or not (args.skeleton_dir / "cjpm.toml").is_file():
+        print(
+            f"[mock] skeleton project not found: {args.skeleton_dir} (cjpm.toml required). "
+            f"Run create_skeleton.sh {args.project} first.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
+    if not args.staging_dir.is_dir():
+        print(
+            f"[mock] staging dir not found: {args.staging_dir}. "
+            f"Run scripts/java/build_mock_corpus.sh {args.project} first.",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
     fragment_traversal = get_reverse_traversal(args)
 
     processed_fragments, pending_fragments = get_pending_fragments(
         fragment_traversal, args
     )
 
-    for fragment in tqdm.tqdm(pending_fragments):
-        frag_key = f"{fragment['schema_name']}|{fragment['class_name']}|{fragment['fragment_name']}"
-        if frag_key in processed_fragments:
-            continue
-
-        if fragment["fragment_type"] == "field":
-            if is_field_already_translated(fragment, args):
-                processed_fragments.append(frag_key)
+    session_inject(args.skeleton_dir)
+    try:
+        for fragment in tqdm.tqdm(pending_fragments):
+            frag_key = f"{fragment['schema_name']}|{fragment['class_name']}|{fragment['fragment_name']}"
+            if frag_key in processed_fragments:
                 continue
 
-        translate(
-            fragment, args, processed_fragments, recursion_depth=args.recursion_depth
-        )
-        processed_fragments.append(frag_key)
+            if fragment["fragment_type"] == "field":
+                if is_field_already_translated(fragment, args):
+                    processed_fragments.append(frag_key)
+                    continue
+
+            translate(
+                fragment, args, processed_fragments, recursion_depth=args.recursion_depth
+            )
+            processed_fragments.append(frag_key)
+    finally:
+        session_clean(args.skeleton_dir)
 
 
 if __name__ == "__main__":

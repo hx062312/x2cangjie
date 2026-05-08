@@ -15,4 +15,4 @@ temperature=$4
 
 echo "Creating skeleton for $project"
 export PYTHONPATH=$(pwd)
-python3 src/java/translation/create_skeleton.py --project=$project --model=$model --suffix=$suffix --temperature=$temperature
+python src/java/translation/create_skeleton.py --project=$project --model=$model --suffix=$suffix --temperature=$temperature
