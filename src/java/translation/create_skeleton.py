@@ -5,7 +5,6 @@ Adapted from TRAM but targeting Cangjie instead of Python.
 """
 import argparse
 import json
-import keyword
 import os
 import sys
 
@@ -13,6 +12,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 from src.java.utils.get_dependencies import get_dependencies
 from src.java.utils.get_class_order import get_class_order
 from src.java.utils.get_custom_types import get_custom_types
+
+
+# ============================================================
+# Schema Preprocessing
+# ============================================================
 
 
 def remove_duplicate_methods(schema, class_to_methods=None, all_schema_classes=None):
@@ -54,20 +58,41 @@ def remove_duplicate_methods(schema, class_to_methods=None, all_schema_classes=N
             # Check each method in current class
             for method_key in schema['classes'][class_key]['methods']:
                 method_name = method_key.split(':')[1].strip()
-                if method_name in parent_methods:
+                if method_name not in parent_methods:
+                    continue
+
+                # Get child method parameter types
+                child_method = schema['classes'][class_key]['methods'][method_key]
+                child_param_types = [p['type'] for p in child_method.get('parameters', [])]
+
+                # Find matching parent method with same name AND parameter types
+                is_override = False
+                if parent_class_short in all_schema_classes:
+                    for pm_key, pm_info in all_schema_classes[parent_class_short].get('methods', {}).items():
+                        pm_name = pm_key.split(':')[1].strip()
+                        if pm_name == method_name:
+                            parent_param_types = [p['type'] for p in pm_info.get('parameters', [])]
+                            if child_param_types == parent_param_types:
+                                is_override = True
+                                break
+
+                if is_override:
                     # This is an override
                     schema['classes'][class_key]['methods'][method_key]['is_override'] = True
 
                     # Also mark parent method as needing 'open'
-                    # Find parent method key in all_schema_classes
                     if parent_class_short in all_schema_classes:
                         for parent_method_key in all_schema_classes[parent_class_short].get('methods', {}):
                             parent_method_name = parent_method_key.split(':')[1].strip()
                             if parent_method_name == method_name:
-                                # Mark parent method as needing open
                                 all_schema_classes[parent_class_short]['methods'][parent_method_key]['needs_open'] = True
 
     return schema
+
+
+# ============================================================
+# Type Resolution
+# ============================================================
 
 
 def get_cangjie_type(java_type, type_map):
@@ -153,6 +178,74 @@ def normalize_class_name(class_name, type_map):
     return class_name
 
 
+def _filter_jdk_types(type_list, class_to_package):
+    """Filter out JDK types not present in the project from extends/implements."""
+    if not type_list:
+        return []
+    result = []
+    for t in type_list:
+        short_name = t.split('.')[-1] if '.' in t else t
+        if short_name in class_to_package:
+            result.append(t)
+    return result
+
+
+def _get_class_parent(class_name, extends, implements, class_to_package, type_map):
+    """Resolve class declaration parent from extends/implements.
+
+    Returns (parent_name, implements_str) — both can be empty.
+    Filters out types in sub-packages (root pkg can't depend on sub-pkgs in Cangjie).
+    """
+    current_pkg = class_to_package.get(class_name, '')
+
+    # Try single extends first
+    parent_name = ''
+    for t in (extends or []):
+        short_name = t.split('.')[-1]
+        if short_name in class_to_package:
+            ref_pkg = class_to_package[short_name]
+            if not (current_pkg and ref_pkg.startswith(current_pkg + '.')):
+                parent_name = normalize_class_name(t, type_map)
+                break
+
+    if parent_name:
+        return parent_name, ''
+
+    # Fallback to implements
+    impls = []
+    for t in (implements or []):
+        short_name = t.split('.')[-1]
+        if short_name in class_to_package:
+            ref_pkg = class_to_package[short_name]
+            if not (current_pkg and ref_pkg.startswith(current_pkg + '.')):
+                impls.append(normalize_class_name(t, type_map))
+
+    return parent_name, ' & '.join(impls)
+
+
+def _get_interface_parents(class_name, extends, class_to_package, type_map):
+    """Resolve interface extends, filtering out inaccessible sub-package types.
+
+    Returns list of extended interface names.
+    """
+    current_pkg = class_to_package.get(class_name, '')
+
+    result = []
+    for t in (extends or []):
+        short_name = t.split('.')[-1]
+        if short_name in class_to_package:
+            ref_pkg = class_to_package[short_name]
+            if not (current_pkg and ref_pkg.startswith(current_pkg + '.')):
+                result.append(normalize_class_name(t, type_map))
+
+    return result
+
+
+# ============================================================
+# Modifier Decisions
+# ============================================================
+
+
 def get_access_modifier(modifiers):
     """Convert Java modifiers to Cangjie."""
     if 'public' in modifiers:
@@ -168,6 +261,111 @@ def is_static(modifiers):
     return 'static' in modifiers
 
 
+def get_method_modifiers(modifiers, is_override=False, is_interface=False,
+                         is_constructor=False, needs_open=False):
+    """Build Cangjie method modifier prefix string.
+
+    Returns e.g. 'public override open ', 'public override ', 'public open ',
+    'public static ', ''.
+    Interface methods return '' (modifiers are implicitly public open).
+    Constructors return only access modifier (no open/override/static).
+    The caller handles the func/init keyword.
+    """
+    if is_interface:
+        return ""
+
+    if is_constructor:
+        return get_access_modifier(modifiers)
+
+    access_mod = get_access_modifier(modifiers)
+
+    if is_static(modifiers):
+        return f"{access_mod}static "
+
+    if is_override:
+        if not access_mod:
+            access_mod = "public "
+        if needs_open:
+            return f"{access_mod}override open "
+        return f"{access_mod}override "
+
+    if method_needs_open(modifiers):
+        if not access_mod:
+            access_mod = "public "
+        return f"{access_mod}open "
+
+    return access_mod
+
+
+def get_class_modifiers(java_modifiers, is_abstract):
+    """Build Cangjie class modifier prefix string.
+
+    Returns e.g. 'public abstract ', 'public open ', 'public ', ''.
+    """
+    access_mod = get_access_modifier(java_modifiers)
+    if is_abstract:
+        return f"{access_mod}abstract "
+    if class_needs_open(java_modifiers, is_abstract):
+        return f"{access_mod}open "
+    return access_mod
+
+
+def get_interface_modifiers(java_modifiers):
+    """Build Cangjie interface modifier prefix string.
+
+    Returns e.g. 'public ', ''.
+    Interfaces are implicitly open in Cangjie — no 'open' needed.
+    """
+    return get_access_modifier(java_modifiers)
+
+
+def get_field_modifiers(modifiers):
+    """Build Cangjie field modifier prefix string.
+
+    Returns e.g. 'static let ', 'static var ', 'let ', 'var '.
+    In Cangjie, final fields use 'let', mutable fields use 'var'.
+    """
+    parts = []
+    if is_static(modifiers):
+        parts.append('static')
+    if 'final' in modifiers:
+        parts.append('let')
+    else:
+        parts.append('var')
+    return ' '.join(parts) + ' '
+
+
+def get_method_params(method_info, type_map):
+    """Extract Cangjie parameter list from method info.
+
+    Returns list of strings like ['name: String', 'count: Int32'].
+    """
+    params = method_info.get('parameters', [])
+    result = []
+    for param in params:
+        param_name = param.get('name', 'arg')
+        param_type = param.get('type', 'Any')
+        cangjie_type = get_cangjie_type(param_type, type_map)
+        result.append(f"{param_name}: {cangjie_type}")
+    return result
+
+
+def get_method_return_type(method_info, type_map, is_constructor=False):
+    """Extract Cangjie return type string from method info.
+
+    Returns the type string (e.g. 'String', 'Unit'), or '' for constructors.
+    """
+    if is_constructor:
+        return ''
+    return_types = method_info.get('return_types', [])
+    if not return_types:
+        return 'Unit'
+    rt = return_types[0]
+    if rt.startswith('<') and rt.endswith('>') and len(return_types) > 1:
+        rt = return_types[1]
+    return get_cangjie_type(rt, type_map)
+
+
 def generate_field_skeleton(field_info, field_key, type_map):
     """
     Generate skeleton for a single field.
@@ -177,8 +375,6 @@ def generate_field_skeleton(field_info, field_key, type_map):
     """
     field_name = field_key.split(':')[1].strip()
     modifiers = field_info.get('modifiers', [])
-    is_static_field = is_static(modifiers)
-    is_final = 'final' in modifiers
 
     types = field_info.get('types', [])
     if types:
@@ -187,13 +383,7 @@ def generate_field_skeleton(field_info, field_key, type_map):
     else:
         field_type = 'Any'
 
-    field_prefix = ""
-    if is_static_field:
-        field_prefix += "static "
-    if is_final:
-        field_prefix += "let "
-    else:
-        field_prefix += "var "
+    field_prefix = get_field_modifiers(modifiers)
 
     skeleton = f"    {field_prefix}{field_name}: {field_type} = throw Exception('TODO')\n"
 
@@ -203,64 +393,60 @@ def generate_field_skeleton(field_info, field_key, type_map):
     return skeleton, partial_translation
 
 
-def generate_method_skeleton(method_info, method_key, class_info, type_map, is_interface=False):
+def generate_method_skeleton(method_info, method_key, type_map,
+                              is_override=False, needs_super_call=False,
+                              custom_method_name=None, is_interface=False,
+                              needs_open=False):
     """
     Generate skeleton for a single method.
+
+    Parameters:
+        custom_method_name: If provided, use instead of parsing from method_key
+                            (handles field-method name conflict rename).
 
     Returns:
         tuple: (skeleton_string, partial_translation_list)
     """
-    method_name = method_key.split(':')[1].strip()
-    if '(' in method_name:
-        method_name = method_name.split('(')[0].strip()
+    if custom_method_name:
+        method_name = custom_method_name
+    else:
+        method_name = method_key.split(':')[1].strip()
+        if '(' in method_name:
+            method_name = method_name.split('(')[0].strip()
 
     if not method_name:
         return "", []
 
     modifiers = method_info.get('modifiers', [])
-    access_mod = get_access_modifier(modifiers)
-    is_static_method = is_static(modifiers)
     is_constructor = method_info.get('is_constructor', False)
 
-    parameters = method_info.get('parameters', [])
-    param_strings = []
-    for param in parameters:
-        param_name = param.get('name', 'arg')
-        param_type = param.get('type', 'Any')
-        cangjie_type = get_cangjie_type(param_type, type_map)
-        param_strings.append(f"{param_name}: {cangjie_type}")
+    param_strings = get_method_params(method_info, type_map)
+    return_type = get_method_return_type(method_info, type_map, is_constructor)
 
-    return_types = method_info.get('return_types', [])
-    if return_types:
-        return_type = get_cangjie_type(return_types[0], type_map)
-    elif is_constructor:
-        return_type = ''
-    else:
-        return_type = 'Unit'
-
-    # Build method signature
+    mod_prefix = get_method_modifiers(
+        modifiers,
+        is_override=is_override,
+        is_interface=is_interface,
+        is_constructor=is_constructor,
+        needs_open=needs_open,
+    )
+    params_str = ', '.join(param_strings)
     if is_constructor:
-        method_sig = f"    {access_mod}init({', '.join(param_strings)})"
-        if is_static_method:
-            method_sig = "static " + method_sig
-    elif is_static_method:
-        method_sig = f"    {access_mod}static func {method_name}({', '.join(param_strings)})"
+        method_sig = f"    {mod_prefix}init({params_str})"
     else:
-        is_override = method_info.get('is_override', False)
-        if is_override:
-            override_prefix = "override "
-            open_prefix = ""
-        else:
-            override_prefix = ""
-            open_prefix = "open " if is_open_method(method_info, class_info) else ""
-        method_sig = f"    {access_mod}{override_prefix}{open_prefix}func {method_name}({', '.join(param_strings)})"
+        method_sig = f"    {mod_prefix}func {method_name}({params_str})"
+        if return_type:
+            method_sig += f": {return_type}"
 
-    if not is_constructor:
-        method_sig += f": {return_type}"
+    body_lines = []
+    if is_constructor and needs_super_call:
+        body_lines.append("        super()")
+    body_lines.append("        throw Exception('TODO')")
+    body_str = "\n".join(body_lines)
 
-    skeleton = f"{method_sig} {{\n        throw Exception('TODO')\n    }}\n\n"
+    skeleton = f"{method_sig} {{\n{body_str}\n    }}\n\n"
 
-    partial_translation = [f"{method_sig} {{", "        throw Exception('TODO')", "    }\n"]
+    partial_translation = [f"{method_sig} {{", body_str, "    }\n"]
 
     return skeleton, partial_translation
 
@@ -283,68 +469,218 @@ def generate_static_initializer_skeleton(static_init_info, static_init_key):
     return skeleton, partial_translation
 
 
-def generate_class_declaration(class_info, class_name, type_map, schema_fname, is_interface, is_abstract_class):
+def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
+                             class_to_package, all_schema_classes):
     """
-    Generate class/interface declaration skeleton.
+    Generate class declaration + fields + static initializers + methods.
+    Modifies class_info in-place with partial_translations.
+    Returns (skeleton_string, has_main_from_class).
+    """
+    is_abstract_class = class_info.get('is_abstract', False)
+    java_modifiers = class_info.get('modifiers', [])
+    class_mod = get_class_modifiers(java_modifiers, is_abstract_class)
 
-    Returns:
-        tuple: (skeleton_string, cangjie_class_declaration)
-    """
     extends = class_info.get('extends', [])
     implements = class_info.get('implements', [])
 
-    # Determine open_prefix and abstract_prefix
-    if is_interface:
-        open_prefix = ""
-    elif is_abstract_class:
-        open_prefix = ""
-    else:
-        open_prefix = "open " if is_open_class(class_info) else ""
-    abstract_prefix = "abstract " if is_abstract_class else ""
-
     # Build class declaration
-    if is_interface:
-        # Interface
-        if extends:
-            extends_str = ' & '.join([normalize_class_name(e, type_map) for e in extends if e])
-            class_declaration = f"{open_prefix}interface {class_name} <: {extends_str} {{\n"
-        else:
-            class_declaration = f"{open_prefix}interface {class_name} {{\n"
-    elif extends:
-        # Class with parent
-        parent = extends[0] if extends else None
-        if parent:
-            parent_name = normalize_class_name(parent, type_map)
-            class_declaration = f"{abstract_prefix}{open_prefix}class {class_name} <: {parent_name} {{\n"
-        else:
-            class_declaration = f"{abstract_prefix}{open_prefix}class {class_name} {{\n"
-    elif implements:
-        # Class implementing interfaces (Cangjie uses & for multiple interfaces)
-        impl_str = ' & '.join([normalize_class_name(i, type_map) for i in implements if i])
-        class_declaration = f"{abstract_prefix}{open_prefix}class {class_name} <: {impl_str} {{\n"
+    parent_name, impl_str = _get_class_parent(
+        class_name, extends, implements, class_to_package, type_map
+    )
+    if parent_name:
+        declaration = f"{class_mod}class {class_name} <: {parent_name} {{\n"
+    elif impl_str:
+        declaration = f"{class_mod}class {class_name} <: {impl_str} {{\n"
     else:
-        # Simple class
-        class_declaration = f"{abstract_prefix}{open_prefix}class {class_name} {{\n"
+        declaration = f"{class_mod}class {class_name} {{\n"
 
-    skeleton = class_declaration
+    skeleton = declaration
+    class_info['cangjie_class_declaration'] = declaration
 
     # Add test annotation if needed
-    is_test_class = False
-    for method_ in class_info.get('methods', {}):
-        annotations = class_info['methods'][method_].get('annotations', [])
-        if '@Test' in [x.split('(')[0] for x in annotations]:
-            is_test_class = True
-            break
-
-    if 'src.test' in schema_fname and is_test_class:
+    if 'src.test' in schema_fname and _is_test_class(class_info):
         skeleton = "@Test\n" + skeleton
 
-    return skeleton, class_declaration
+    # Fields
+    skeleton += "    // Fields Begin\n"
+    for field_key in sorted(class_info.get('fields', {})):
+        field_info = class_info['fields'][field_key]
+        field_skeleton, field_partial = generate_field_skeleton(field_info, field_key, type_map)
+        skeleton += field_skeleton
+        field_info['partial_translation'] = field_partial
+    skeleton += "    // Fields End\n\n"
+
+    # Static initializers
+    if class_info.get('static_initializers'):
+        skeleton += "    // Static Initializer Begin\n"
+        for static_init_key, static_init_info in class_info.get('static_initializers', {}).items():
+            static_init_skeleton, static_init_partial = generate_static_initializer_skeleton(
+                static_init_info, static_init_key
+            )
+            skeleton += static_init_skeleton
+            static_init_info['partial_translation'] = static_init_partial
+        skeleton += "    // Static Initializer End\n\n"
+
+    # Methods
+    skeleton += "    // Methods Begin\n"
+
+    # Check if child constructors need explicit super() call
+    needs_super_call = _check_needs_super_call(extends, all_schema_classes)
+
+    # Field names for conflict detection
+    field_names = set()
+    for field_key in class_info.get('fields', {}):
+        fn = field_key.split(':')[1].strip()
+        if fn:
+            field_names.add(fn)
+
+    used_sigs = set()
+    has_main_from_class = False
+
+    for method_key in class_info.get('methods', {}):
+        method_info = class_info['methods'][method_key]
+        method_name = method_key.split(':')[1].strip()
+        if '(' in method_name:
+            method_name = method_name.split('(')[0].strip()
+        if not method_name:
+            continue
+
+        # Main method detection (handled at file level in Cangjie)
+        if method_name == 'main':
+            has_main_from_class = True
+            continue
+
+        # Rename method if it conflicts with a field name
+        custom_method_name = method_name
+        if method_name in field_names:
+            custom_method_name = method_name + '_method'
+            method_info['renamed_from'] = method_name
+
+        # Signature conflict detection
+        is_constructor = method_info.get('is_constructor', False)
+        cangjie_method_name = 'init' if is_constructor else custom_method_name
+        cangjie_param_types = tuple(
+            get_cangjie_type(p.get('type', 'Any'), type_map)
+            for p in method_info.get('parameters', [])
+        )
+        sig_key = (cangjie_method_name, cangjie_param_types)
+
+        if sig_key in used_sigs:
+            if is_constructor:
+                method_skeleton = f"    // TODO: constructor with same signature 'init({', '.join(cangjie_param_types)})' needs manual resolution\n"
+                skeleton += method_skeleton
+                method_info['partial_translation'] = [method_skeleton]
+                method_info['skipped'] = True
+                continue
+            else:
+                suffix = 1
+                while (f"{custom_method_name}_{suffix}", cangjie_param_types) in used_sigs:
+                    suffix += 1
+                custom_method_name = f"{custom_method_name}_{suffix}"
+        used_sigs.add(sig_key)
+
+        method_skeleton, method_partial = generate_method_skeleton(
+            method_info, method_key, type_map,
+            is_override=method_info.get('is_override', False),
+            needs_super_call=needs_super_call,
+            custom_method_name=custom_method_name,
+            needs_open=method_info.get('needs_open', False),
+        )
+        skeleton += method_skeleton
+        method_info['partial_translation'] = method_partial
+
+    skeleton += "    // Methods End\n"
+
+    # Add synthetic no-arg constructor if class has param constructors but no no-arg.
+    # This gives subclasses a super() target to call in their constructors.
+    if _needs_synthetic_no_arg_constructor(class_info):
+        skeleton += "\n    protected init() {\n        throw Exception('TODO')\n    }\n"
+
+    skeleton += "}\n\n"
+
+    return skeleton, has_main_from_class
 
 
-def is_abstract(modifiers):
-    """Check if method has abstract modifier."""
-    return 'abstract' in modifiers
+def generate_interface_skeleton(class_info, class_name, type_map, schema_fname, class_to_package):
+    """
+    Generate interface declaration + methods.
+    Modifies class_info in-place with partial_translations.
+    Returns skeleton_string.
+    """
+    java_modifiers = class_info.get('modifiers', [])
+    interface_mod = get_interface_modifiers(java_modifiers)
+
+    extends = class_info.get('extends', [])
+    parent_names = _get_interface_parents(class_name, extends, class_to_package, type_map)
+    if parent_names:
+        declaration = f"{interface_mod}interface {class_name} <: {' & '.join(parent_names)} {{\n"
+    else:
+        declaration = f"{interface_mod}interface {class_name} {{\n"
+
+    skeleton = declaration
+    class_info['cangjie_class_declaration'] = declaration
+
+    # Add test annotation if needed
+    if 'src.test' in schema_fname and _is_test_class(class_info):
+        skeleton = "@Test\n" + skeleton
+
+    # Methods (interfaces don't have fields/static initializers)
+    skeleton += "    // Methods Begin\n"
+
+    used_sigs = set()
+    for method_key in class_info.get('methods', {}):
+        method_info = class_info['methods'][method_key]
+        method_name = method_key.split(':')[1].strip()
+        if '(' in method_name:
+            method_name = method_name.split('(')[0].strip()
+        if not method_name:
+            continue
+
+        # Signature conflict detection
+        is_constructor = method_info.get('is_constructor', False)
+        cangjie_method_name = 'init' if is_constructor else method_name
+        cangjie_param_types = tuple(
+            get_cangjie_type(p.get('type', 'Any'), type_map)
+            for p in method_info.get('parameters', [])
+        )
+        sig_key = (cangjie_method_name, cangjie_param_types)
+
+        if sig_key in used_sigs:
+            if is_constructor:
+                method_skeleton = f"    // TODO: constructor with same signature 'init({', '.join(cangjie_param_types)})' needs manual resolution\n"
+                skeleton += method_skeleton
+                method_info['partial_translation'] = [method_skeleton]
+                method_info['skipped'] = True
+                continue
+            else:
+                suffix = 1
+                while (f"{method_name}_{suffix}", cangjie_param_types) in used_sigs:
+                    suffix += 1
+                method_name = f"{method_name}_{suffix}"
+        used_sigs.add(sig_key)
+
+        method_skeleton, method_partial = generate_method_skeleton(
+            method_info, method_key, type_map,
+            is_override=method_info.get('is_override', False),
+            needs_super_call=False,
+            is_interface=True
+        )
+        skeleton += method_skeleton
+        method_info['partial_translation'] = method_partial
+
+    skeleton += "    // Methods End\n"
+    skeleton += "}\n\n"
+
+    return skeleton
+
+
+def generate_package_header(cjpm_name, sub_path):
+    """Generate Cangjie package header string."""
+    if sub_path:
+        package_name = f"{cjpm_name}.{sub_path.replace('/', '.')}"
+    else:
+        package_name = cjpm_name
+    return f"// Package: {package_name}\npackage {package_name}\n\n"
 
 
 def is_interface(schema_classes, class_key):
@@ -354,107 +690,438 @@ def is_interface(schema_classes, class_key):
     return schema_classes[class_key].get('is_interface', False)
 
 
-def is_open_method(method_info, class_info):
-    """
-    Check if a method should be marked as open (overridable).
-
-    Returns True for non-static, non-final, non-private methods.
-    """
-    modifiers = method_info.get('modifiers', [])
-
-    if is_static(modifiers):
+def class_needs_open(java_modifiers, is_abstract):
+    """A Cangjie class needs 'open' if inheritable (non-final, non-abstract)."""
+    if is_abstract:
         return False
-    if 'final' in modifiers:
-        return False
-    if 'private' in modifiers:
-        return False
+    return 'final' not in java_modifiers
 
+
+def method_needs_open(java_modifiers):
+    """A Cangjie method needs 'open' if overridable (non-static, non-final, non-private)."""
+    if 'static' in java_modifiers:
+        return False
+    if 'final' in java_modifiers:
+        return False
+    if 'private' in java_modifiers:
+        return False
     return True
 
 
-def is_abstract(modifiers):
-    return 'abstract' in modifiers
+def _is_test_class(class_info):
+    """Check if any method in the class has @Test annotation."""
+    return any(
+        '@Test' in [x.split('(')[0] for x in class_info['methods'][m].get('annotations', [])]
+        for m in class_info.get('methods', {})
+    )
 
 
-def is_final(modifiers):
-    return 'final' in modifiers
+def _check_needs_super_call(extends, all_schema_classes):
+    """Check if child constructors need explicit super() call.
 
-
-def is_open_class(class_info):
-    """Java class is open (inheritable) if not final."""
-    # Interface is always open
-    if class_info.get('is_interface', False):
-        return True
-    # Abstract class is open (can be inherited)
-    if class_info.get('is_abstract', False):
-        return True
-    # Check if class has 'final' modifier
-    modifiers = class_info.get('modifiers', [])
-    return 'final' not in modifiers
-
-
-def is_open_method(method_info, class_info):
-    """Java instance method is open (overridable) if not final, not static, not private."""
-    modifiers = method_info.get('modifiers', [])
-    # Static methods cannot be overridden
-    if 'static' in modifiers:
+    Returns True when the parent class has constructors but no no-arg constructor,
+    meaning child constructors must call super() explicitly.
+    """
+    if not extends:
         return False
-    # Final methods cannot be overridden
-    if 'final' in modifiers:
+    parent_short = extends[0].split('.')[-1]
+    if parent_short not in all_schema_classes:
         return False
-    # Private methods cannot be open
-    if 'private' in modifiers:
+    parent_constructors = [
+        pm for pm_key, pm in all_schema_classes[parent_short].get('methods', {}).items()
+        if pm.get('is_constructor', False)
+    ]
+    if not parent_constructors:
         return False
-    # In Java, all other instance methods are overridable by default
-    return True
+    return not any(len(pm.get('parameters', [])) == 0 for pm in parent_constructors)
 
 
-def get_class_order(schema):
-    """Get topological order of classes based on inheritance."""
-    dependency_graph = []
+def _needs_synthetic_no_arg_constructor(class_info):
+    """Check if class needs a synthetic protected no-arg constructor.
 
-    for class_ in schema.get('classes', {}):
-        extends = schema['classes'][class_].get('extends', [])
-        if extends:
-            for parent in extends:
-                parent_short = parent.split('.')[-1]
-                if parent_short in schema.get('classes', {}):
-                    dependency_graph.append((class_, parent))
+    Cangjie requires subclasses to call super() explicitly if the parent
+    has parameter constructors but no no-arg constructor. This function
+    detects whether the current class needs such a synthetic constructor.
+    """
+    has_constructor = False
+    has_no_arg = False
+    for mk, mv in class_info.get('methods', {}).items():
+        if mv.get('is_constructor', False):
+            has_constructor = True
+            if len(mv.get('parameters', [])) == 0:
+                has_no_arg = True
+                break
+    return has_constructor and not has_no_arg
 
-    # Topological sort
-    in_degree = {}
-    adjacency = {}
-    for class_ in schema.get('classes', {}):
-        in_degree[class_] = 0
-        adjacency[class_] = []
 
-    for child, parent in dependency_graph:
-        if parent in in_degree and child in in_degree:
-            in_degree[child] += 1
-            adjacency[parent].append(child)
+# ============================================================
+# Path & Package
+# ============================================================
 
-    queue = [c for c in in_degree if in_degree[c] == 0]
-    result = []
 
-    while queue:
-        node = queue.pop(0)
-        result.append(node)
-        for neighbor in adjacency.get(node, []):
-            in_degree[neighbor] -= 1
-            if in_degree[neighbor] == 0:
-                queue.append(neighbor)
+def _parse_java_path(java_path):
+    """
+    Extract the Java package sub-path from a full source path.
 
-    # Add remaining classes
-    for class_ in in_degree:
-        if class_ not in result:
-            result.append(class_)
+    For a path like ``.../src/main/java/org/apache/Foo.java``,
+    returns ``org/apache``.  Returns ``None`` when no standard
+    Java source root (``src/main/java/`` or ``src/test/java/``)
+    is found.
+    """
+    for marker in ('src/main/java/', 'src/test/java/'):
+        if marker in java_path:
+            after = java_path.split(marker, 1)[1]
+            parts = after.split('/')
+            return '/'.join(parts[:-1]) if len(parts) > 1 else None
+    return None
 
-    return result
+
+def _get_cangjie_package(java_path, cjpm_package_name):
+    """Compute Cangjie package name from a Java source file path."""
+    sub_path = _compute_skeleton_sub_path(java_path)
+    if sub_path:
+        return f"{cjpm_package_name}.{sub_path.replace('/', '.')}"
+    return cjpm_package_name
+
+
+def _compute_skeleton_sub_path(java_path):
+    """
+    Compute the skeleton sub_path by walking up the Java directory tree.
+
+    Finds the first directory (going upward from the file) that contains .java
+    files, then finds the parent of that directory that also has .java files.
+    The difference between them is the meaningful sub_path.
+
+    e.g. .../codec/net/URLCodec.java -> 'net'
+         .../codec/language/bm/Rule.java -> 'bm'
+         .../codec/BinaryDecoder.java -> None (root package)
+    """
+    path_parts = java_path.split('/')[:-1]
+    java_parent_dir = '/'.join(path_parts)
+
+    # Find first directory (going upward) that has .java files
+    first_java_dir_full_path = None
+    for i in range(len(path_parts) - 1, -1, -1):
+        current_dir = path_parts[i]
+        if current_dir == 'src':
+            break
+        check_dir = '/'.join(path_parts[:i + 1])
+        if os.path.isdir(check_dir):
+            java_files = [f for f in os.listdir(check_dir) if f.endswith('.java')]
+            if java_files:
+                first_java_dir_full_path = check_dir
+                break
+
+    if not first_java_dir_full_path:
+        return None
+
+    # Find parent of first_java_dir that also has .java files
+    base_java_dir_full_path = None
+    first_name = first_java_dir_full_path.split('/')[-1]
+    if first_name in path_parts:
+        first_index = path_parts.index(first_name)
+        for i in range(first_index - 1, -1, -1):
+            current_dir = path_parts[i]
+            if current_dir == 'src':
+                break
+            check_dir = '/'.join(path_parts[:i + 1])
+            if os.path.isdir(check_dir):
+                java_files = [f for f in os.listdir(check_dir) if f.endswith('.java')]
+                if java_files:
+                    base_java_dir_full_path = check_dir
+                    break
+
+    if base_java_dir_full_path:
+        return first_java_dir_full_path[len(base_java_dir_full_path) + 1:]
+    elif java_parent_dir != first_java_dir_full_path:
+        return first_java_dir_full_path.split('/')[-1]
+    else:
+        return None
+
+
+# ============================================================
+# Import Helpers
+# ============================================================
+
+
+# Known Cangjie std lib type to import mappings
+STD_TYPE_IMPORTS = {
+    'ArrayList': 'import std.collection.ArrayList',
+    'HashMap': 'import std.collection.HashMap',
+    'HashSet': 'import std.collection.HashSet',
+    'InputStream': 'import std.io.InputStream',
+    'OutputStream': 'import std.io.OutputStream',
+    'ByteBuffer': 'import std.io.ByteBuffer',
+    'Regex': 'import std.regex.Regex',
+    'BigInt': 'import std.math.numeric.BigInt',
+}
+
+
+def _extract_type_names(cangjie_type_str):
+    """Extract all base type names from a Cangjie type string, including nested generics."""
+    names = set()
+    depth = 0
+    current = ""
+    for c in cangjie_type_str:
+        if c == '<':
+            depth += 1
+            if current.strip():
+                names.add(current.strip())
+            current = ""
+        elif c == '>':
+            depth -= 1
+            if current.strip():
+                names.add(current.strip())
+            current = ""
+        elif c == ',' and depth > 0:
+            if current.strip():
+                names.add(current.strip())
+            current = ""
+        elif c == ' ':
+            continue
+        else:
+            current += c
+    if current.strip():
+        names.add(current.strip())
+    return names
+
+
+def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
+                               cjpm_name, type_map, class_to_package,
+                               dependencies, custom_types, processed_classes):
+    """Build the complete import section for a skeleton file.
+
+    Returns the import string to replace __IMPORTS_PLACEHOLDER__.
+    """
+    cangjie_imports = set()
+
+    _add_project_imports(cangjie_imports, dependencies, schema_fname,
+                         processed_classes, schema, class_order,
+                         java_path, cjpm_name, class_to_package)
+
+    _add_lib_imports(cangjie_imports, schema, class_order, type_map)
+
+    # Filter out custom types (they're in the same project, no import needed)
+    filtered_imports = set()
+    for imp in cangjie_imports:
+        if imp.startswith('import ') and not imp.startswith(('import std.', 'import ohos.')):
+            imported_name = imp[len('import '):].strip()
+            if '.' not in imported_name and imported_name in custom_types:
+                continue
+        filtered_imports.add(imp)
+
+    if filtered_imports:
+        return '\n'.join(sorted(filtered_imports)) + '\n'
+    return '\n'
+
+
+def _add_project_imports(cangjie_imports, dependencies, schema_fname,
+                         processed_classes, schema, class_order,
+                         java_path, cjpm_name, class_to_package):
+    """Add imports for project types (dependencies + cross-package extends/implements)."""
+    # Process dependencies for imports
+    dependency_key = None
+    for key in dependencies:
+        if f'{key}.json' in schema_fname:
+            dependency_key = key
+            break
+
+    if dependency_key and dependency_key in dependencies:
+        for dependent_class in dependencies[dependency_key]:
+            dep_class_name = dependent_class[0]
+            if dep_class_name not in processed_classes:
+                cangjie_imports.add(f"import {dep_class_name}")
+
+    # Cross-package imports for extends/implements
+    cur_pkg = _get_cangjie_package(java_path, cjpm_name)
+    is_root_pkg = (cur_pkg == cjpm_name)
+    for class_key in class_order:
+        if class_key not in schema.get('classes', {}):
+            continue
+        class_info = schema['classes'][class_key]
+        for ref_type in class_info.get('extends', []) + class_info.get('implements', []):
+            ref_name = ref_type.split('.')[-1]
+            if ref_name not in class_to_package:
+                continue
+            ref_pkg = class_to_package[ref_name]
+            if ref_pkg == cur_pkg:
+                continue
+            # Root package cannot import from its own sub-packages in Cangjie
+            if is_root_pkg and ref_pkg.startswith(cjpm_name + '.'):
+                continue
+            cangjie_imports.add(f"import {ref_pkg}.{ref_name}")
+
+
+def _add_lib_imports(cangjie_imports, schema, class_order, type_map):
+    """Add imports for library types (std + type_translations)."""
+    # Scan all types for std imports
+    for class_key in class_order:
+        if class_key not in schema.get('classes', {}):
+            continue
+        class_info = schema['classes'][class_key]
+        for field_key, field_info in class_info.get('fields', {}).items():
+            for t in field_info.get('types', []):
+                _add_std_import_for_type(get_cangjie_type(t, type_map), cangjie_imports)
+        for method_key, method_info in class_info.get('methods', {}).items():
+            for rt in method_info.get('return_types', []):
+                _add_std_import_for_type(get_cangjie_type(rt, type_map), cangjie_imports)
+            for p in method_info.get('parameters', []):
+                _add_std_import_for_type(get_cangjie_type(p.get('type', 'Any'), type_map), cangjie_imports)
+
+    # Collect std imports from type_translations
+    for class_key in class_order:
+        if class_key not in schema.get('classes', {}):
+            continue
+        class_info = schema['classes'][class_key]
+        for fragment_type in ['fields', 'methods']:
+            for frag_key, frag_data in class_info.get(fragment_type, {}).items():
+                for tv in ['types', 'return_types', 'parameters', 'body_types']:
+                    for tid, tdata in frag_data.get('type_translations', {}).get(tv, {}).items():
+                        imports_val = tdata.get('imports', '')
+                        if imports_val and imports_val not in ('None', ''):
+                            for imp in imports_val.split('\n'):
+                                imp = imp.strip()
+                                if imp:
+                                    cangjie_imports.add(imp)
+
+
+def _add_std_import_for_type(cangjie_type_name, cangjie_imports):
+    """Add std lib import if any type name matches a known std type."""
+    for name in _extract_type_names(cangjie_type_name):
+        if name in STD_TYPE_IMPORTS:
+            cangjie_imports.add(STD_TYPE_IMPORTS[name])
+
+
+# ============================================================
+# Per-File Orchestrator
+# ============================================================
+
+
+def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, type_map,
+                                class_to_package, all_schema_classes, class_to_methods,
+                                dependencies, custom_types, skeletons_dir,
+                                translations_skeleton_dir):
+    """
+    Generate Cangjie skeleton for one schema file.
+
+    Handles package header, imports, class/interface skeletons,
+    main method extraction, import resolution, and file output.
+
+    Returns True if any main method was found in this file.
+    """
+    # Package header
+    java_path = schema.get('path', '')
+    sub_path = _compute_skeleton_sub_path(java_path)
+    skeleton = generate_package_header(cjpm_name, sub_path)
+
+    # Imports placeholder
+    skeleton += "// Imports Begin\n__IMPORTS_PLACEHOLDER__\n// Imports End\n\n"
+
+    # Class order
+    class_order = get_class_order(schema)
+    processed_classes = set()
+
+    has_main_from_file = False
+
+    # Process each class in dependency order
+    for class_key in class_order:
+        if class_key not in schema.get('classes', {}):
+            continue
+
+        class_info = schema['classes'][class_key]
+        class_name = class_key.split(':')[1].strip()
+
+        # Handle nested class names
+        if '<' in class_name:
+            class_name = class_name.split('<')[0].replace("new ", "").strip()
+        if '(' in class_name:
+            class_name = class_name.split('(')[0].replace("new ", "").strip()
+
+        if class_name in processed_classes:
+            continue
+        processed_classes.add(class_name)
+
+        is_interface_class = class_info.get('is_interface', False)
+
+        if is_interface_class:
+            class_skeleton = generate_interface_skeleton(
+                class_info, class_name, type_map, schema_fname, class_to_package
+            )
+            skeleton += class_skeleton
+        else:
+            class_skeleton, has_main_from_class = generate_class_skeleton(
+                class_info, class_name, type_map, schema_fname,
+                class_to_package, all_schema_classes
+            )
+            skeleton += class_skeleton
+            if has_main_from_class:
+                has_main_from_file = True
+
+        # Store cangjie_class_declaration in schema for PromptGenerator
+        schema['classes'][class_key]['cangjie_class_declaration'] = class_info.get('cangjie_class_declaration', '')
+
+    imports_str = generate_imports_skeleton(
+        schema, class_order, schema_fname, java_path,
+        cjpm_name, type_map, class_to_package,
+        dependencies, custom_types, processed_classes
+    )
+    skeleton = skeleton.replace('__IMPORTS_PLACEHOLDER__\n', imports_str)
+
+    # Write skeleton file
+    is_test = 'src/test' in java_path
+    class_name = java_path.split('/')[-1].replace('.java', '')
+    if is_test and not class_name.endswith('_test'):
+        class_name = class_name + '_test'
+
+    src_dir = f"{skeletons_dir}/src"
+    if sub_path:
+        os.makedirs(f"{src_dir}/{sub_path}", exist_ok=True)
+        file_path = f"{src_dir}/{sub_path}/{class_name}.cj"
+    else:
+        os.makedirs(src_dir, exist_ok=True)
+        file_path = f"{src_dir}/{class_name}.cj"
+
+    # Append main at package level if any class had one
+    if has_main_from_file:
+        skeleton += "main(): Unit {\n"
+        skeleton += "    throw Exception('TODO')\n"
+        skeleton += "}\n"
+
+    with open(file_path, 'w') as f:
+        f.write(skeleton)
+
+    print(f"Generated: {file_path}")
+
+    # Translations skeleton
+    relative_path = os.path.relpath(file_path, skeletons_dir)
+    translations_file_path = os.path.join(translations_skeleton_dir, relative_path)
+    os.makedirs(os.path.dirname(translations_file_path), exist_ok=True)
+
+    with open(translations_file_path, 'w') as f:
+        f.write(skeleton)
+
+    print(f"Generated translations: {translations_file_path}")
+
+    # Update schema with partial translation
+    target_schema = schema.copy()
+    target_schema['cangjie_skeleton_path'] = file_path
+    target_schema['cangjie_translations_skeleton_path'] = translations_file_path
+    with open(schema_path, 'w') as f:
+        json.dump(target_schema, f, indent=4)
+
+    return has_main_from_file
+
+
+# ============================================================
+# Main Pipeline
+# ============================================================
 
 
 def main(args):
     # Load type mappings
     type_map = {}
+
+    # Phase 1: Build Global Context
 
     # Load fixed_type_map.json
     fixed_map_path = "data/java/type_resolution/fixed_type_map.json"
@@ -468,49 +1135,48 @@ def main(args):
     if os.path.exists(universal_map_path):
         with open(universal_map_path, 'r') as f:
             universal_map = json.load(f)
-            # Universal map overrides fixed map
             for k, v in universal_map.items():
-                if v:  # Only update if value is not empty
+                if v:
                     type_map[k] = v
 
-    # Schema directory path
+    # Schema directory
     schema_dir = f"data/java/schemas{args.suffix}/{args.model}/{args.temperature}/{args.project}"
 
     if not os.path.exists(schema_dir):
         print(f"Error: Schema directory not found: {schema_dir}")
         return
 
-    # Get dependencies
+    # Dependencies and custom types
     args.schemas_dir = schema_dir
     dependencies = get_dependencies(args)
-
-    # Get custom types from schema
     custom_types = get_custom_types(schema_dir)
     additional_custom_types = ['Exception', 'Error', 'RuntimeException']
     custom_types = list(set(custom_types + additional_custom_types))
 
-    # Output directory for skeletons
+    # Output directories
     skeletons_dir = f"data/java/skeletons/{args.project}"
     os.makedirs(skeletons_dir, exist_ok=True)
+    translations_skeleton_dir = f"data/java/skeletons/translations/{args.model}/{args.temperature}/{args.project}"
+    os.makedirs(translations_skeleton_dir, exist_ok=True)
 
-    # Convert project name to valid cjpm name (replace hyphens with underscores)
+    # Cangjie package name
     cjpm_name = args.project.replace('-', '_')
 
-    # Track main methods found across all schemas
-    main_methods = []  # List of {'params': [...], 'return_type': '...'}
-    has_main = False  # Track if any main method exists
+    # Build cross-schema mappings and load all schemas
+    class_to_methods = {}
+    all_schema_classes = {}
+    class_to_package = {}
+    all_schemas = []
 
-    # Build a class_name -> {parent_class_name: [method_names]} map across all schemas
-    # This is needed to detect overriding across schema files
-    class_to_methods = {}  # class_name -> {parent: [method_names]}
-    all_schema_classes = {}  # class_name -> {methods: {method_key: method_info}}
     for schema_fname in os.listdir(schema_dir):
         if not schema_fname.endswith('.json'):
             continue
         if f'{args.project}.src.main' not in schema_fname and f'{args.project}.src.test' not in schema_fname:
             continue
-        with open(f"{schema_dir}/{schema_fname}", 'r') as f:
+        schema_path = f"{schema_dir}/{schema_fname}"
+        with open(schema_path, 'r') as f:
             schema = json.load(f)
+        cangjie_pkg = _get_cangjie_package(schema.get('path', ''), cjpm_name)
         for class_key, class_info in schema.get('classes', {}).items():
             class_name = class_key.split(':')[-1]
             extends = class_info.get('extends', [])
@@ -519,297 +1185,32 @@ def main(args):
             method_names = [m.split(':')[1].strip() if ':' in m else m for m in methods]
             class_to_methods[class_name] = {'parent': parent, 'methods': method_names}
             all_schema_classes[class_name] = {'extends': extends, 'methods': class_info.get('methods', {})}
+            class_to_package[class_name] = cangjie_pkg
+        all_schemas.append((schema_fname, schema_path, schema))
 
-    # Process each schema file
-    for schema_fname in os.listdir(schema_dir):
-        if not schema_fname.endswith('.json'):
+    # Phase 1b: Run remove_duplicate_methods on all schemas to populate needs_open flags
+    for schema_fname, schema_path, schema in all_schemas:
+        if 'package-info' in schema_fname or 'module-info' in schema_fname:
             continue
+        remove_duplicate_methods(schema, class_to_methods, all_schema_classes)
 
+    # Phase 2: Generate Skeletons (using Phase 1 schema data — no reload from disk)
+    has_main = False
+
+    for schema_fname, schema_path, schema in all_schemas:
         if 'package-info' in schema_fname or 'module-info' in schema_fname:
             continue
 
-        if f'{args.project}.src.main' not in schema_fname and f'{args.project}.src.test' not in schema_fname:
-            continue
+        has_main_from_file = generate_one_file_skeleton(
+            schema, schema_fname, schema_path, cjpm_name, type_map,
+            class_to_package, all_schema_classes, class_to_methods,
+            dependencies, custom_types, skeletons_dir, translations_skeleton_dir
+        )
+        has_main = has_main or has_main_from_file
 
-        schema_path = f"{schema_dir}/{schema_fname}"
-
-        with open(schema_path, 'r') as f:
-            schema = json.load(f)
-
-        schema = remove_duplicate_methods(schema, class_to_methods, all_schema_classes)
-
-        # Use cjpm-compatible package name
-        cjpm_package_name = args.project.replace('-', '_').replace('.', '_')
-
-        # Start building skeleton (package header will be added later based on sub_path)
-        skeleton = ""
-
-        # Imports section (placeholder, filled after type_translation and dependency processing)
-        skeleton += "// Imports Begin\n"
-        skeleton += "__IMPORTS_PLACEHOLDER__\n"
-        skeleton += "// Imports End\n\n"
-
-        # Get class order for processing
-        class_order = get_class_order(schema)
-        processed_classes = set()
-
-        # Collect all cangjie imports
-        cangjie_imports = set()
-
-        # Process each class
-        for class_key in class_order:
-            if class_key not in schema.get('classes', {}):
-                continue
-
-            class_info = schema['classes'][class_key]
-            class_name = class_key.split(':')[1].strip()
-
-            # Handle nested class names
-            if '<' in class_name:
-                class_name = class_name.split('<')[0].replace("new ", "").strip()
-            if '(' in class_name:
-                class_name = class_name.split('(')[0].replace("new ", "").strip()
-
-            # Skip if already processed
-            if class_name in processed_classes:
-                continue
-            processed_classes.add(class_name)
-
-            is_interface = class_info.get('is_interface', False)
-            is_abstract_class = class_info.get('is_abstract', False)
-            is_enum = class_info.get('is_enum', False)
-
-            # Generate class/interface declaration
-            skeleton_prefix, class_declaration = generate_class_declaration(
-                class_info, class_name, type_map, schema_fname, is_interface, is_abstract_class
-            )
-            skeleton += skeleton_prefix
-
-            # Store cangjie_class_declaration in schema for PromptGenerator
-            schema['classes'][class_key]['cangjie_class_declaration'] = class_declaration
-
-            # Process fields
-            skeleton += "    // Fields Begin\n"
-            for field_key in sorted(class_info.get('fields', {})):
-                field_info = class_info['fields'][field_key]
-                field_skeleton, field_partial = generate_field_skeleton(field_info, field_key, type_map)
-                skeleton += field_skeleton
-                field_info['partial_translation'] = field_partial
-
-            skeleton += "    // Fields End\n\n"
-
-            # Process static initializers
-            if class_info.get('static_initializers'):
-                skeleton += "    // Static Initializer Begin\n"
-                for static_init_key, static_init_info in class_info.get('static_initializers', {}).items():
-                    static_init_skeleton, static_init_partial = generate_static_initializer_skeleton(
-                        static_init_info, static_init_key
-                    )
-                    skeleton += static_init_skeleton
-                    static_init_info['partial_translation'] = static_init_partial
-                skeleton += "    // Static Initializer End\n\n"
-
-            # Process methods
-            skeleton += "    // Methods Begin\n"
-            for method_key in class_info.get('methods', {}):
-                method_info = class_info['methods'][method_key]
-
-                method_name = method_key.split(':')[1].strip()
-                if '(' in method_name:
-                    method_name = method_name.split('(')[0].strip()
-
-                # Skip empty names
-                if not method_name:
-                    continue
-
-                # Detect Java main method - should be at package level in Cangjie
-                if method_name == 'main':
-                    # Get return type for main method collection
-                    return_types = method_info.get('return_types', [])
-                    return_type = get_cangjie_type(return_types[0], type_map) if return_types else 'Unit'
-                    parameters = method_info.get('parameters', [])
-                    param_strings = []
-                    for param in parameters:
-                        param_name = param.get('name', 'arg')
-                        param_type = param.get('type', 'Any')
-                        cangjie_type = get_cangjie_type(param_type, type_map)
-                        param_strings.append(f"{param_name}: {cangjie_type}")
-                    main_methods.append({
-                        'params': param_strings,
-                        'return_type': return_type
-                    })
-                    has_main = True
-                    continue  # Don't add to class body
-
-                # Generate method skeleton using helper function
-                method_skeleton, method_partial = generate_method_skeleton(
-                    method_info, method_key, class_info, type_map, is_interface
-                )
-                skeleton += method_skeleton
-                method_info['partial_translation'] = method_partial
-
-            skeleton += "    // Methods End\n"
-            skeleton += "}\n\n"
-
-        # Process dependencies for imports
-        dependency_key = None
-        for key in dependencies:
-            if f'{key}.json' in schema_fname:
-                dependency_key = key
-                break
-
-        if dependency_key and dependency_key in dependencies:
-            for dependent_class in dependencies[dependency_key]:
-                dep_class_name = dependent_class[0]
-                # Add import if needed
-                if dep_class_name not in processed_classes:
-                    cangjie_imports.add(f"import {dep_class_name}")
-
-        # Collect standard library imports from type_translations in schema
-        for class_key in class_order:
-            if class_key not in schema.get('classes', {}):
-                continue
-            class_info = schema['classes'][class_key]
-            for fragment_type in ['fields', 'methods']:
-                for frag_key, frag_data in class_info.get(fragment_type, {}).items():
-                    for tv in ['types', 'return_types', 'parameters', 'body_types']:
-                        for tid, tdata in frag_data.get('type_translations', {}).get(tv, {}).items():
-                            imports_val = tdata.get('imports', '')
-                            if imports_val and imports_val not in ('None', ''):
-                                for imp in imports_val.split('\n'):
-                                    imp = imp.strip()
-                                    if imp:
-                                        cangjie_imports.add(imp)
-
-        # Fill imports placeholder (filter out same-package class imports)
-        filtered_imports = set()
-        for imp in cangjie_imports:
-            # Skip bare class name imports (e.g. "import Student") that are custom types in same package
-            if imp.startswith('import ') and not imp.startswith(('import std.', 'import ohos.')):
-                imported_name = imp[len('import '):].strip()
-                # Skip if it's a known custom type (defined in this project)
-                if '.' not in imported_name and imported_name in custom_types:
-                    continue
-            filtered_imports.add(imp)
-
-        if filtered_imports:
-            imports_str = '\n'.join(sorted(filtered_imports)) + '\n'
-        else:
-            imports_str = '\n'
-        skeleton = skeleton.replace('__IMPORTS_PLACEHOLDER__\n', imports_str)
-
-        # Write skeleton file
-        # Use schema["path"] to get actual Java source path
-        java_path = schema["path"]
-        is_test = 'src/test' in java_path
-
-        # Get the class name
-        class_name = java_path.split('/')[-1].replace('.java', '')
-        if is_test and not class_name.endswith('_test'):
-            class_name = class_name + '_test'
-
-        # Find directories for path calculation
-        path_parts = java_path.split('/')[:-1]  # Remove filename
-        java_parent_dir = '/'.join(path_parts)
-
-        # Find first_java_dir: first directory with .java files from file's parent going upward
-        first_java_dir_full_path = None
-        for i in range(len(path_parts) - 1, -1, -1):
-            current_dir = path_parts[i]
-            if current_dir == 'src':
-                break
-            check_dir = '/'.join(path_parts[:i+1])
-            if os.path.isdir(check_dir):
-                java_files = [f for f in os.listdir(check_dir) if f.endswith('.java')]
-                if java_files:
-                    first_java_dir_full_path = check_dir
-                    break
-
-        # Find base_java_dir: parent of first_java_dir that also has .java files
-        base_java_dir_full_path = None
-        if first_java_dir_full_path:
-            first_index = path_parts.index(first_java_dir_full_path.split('/')[-1])
-            for i in range(first_index - 1, -1, -1):
-                current_dir = path_parts[i]
-                if current_dir == 'src':
-                    break
-                check_dir = '/'.join(path_parts[:i+1])
-                if os.path.isdir(check_dir):
-                    java_files = [f for f in os.listdir(check_dir) if f.endswith('.java')]
-                    if java_files:
-                        base_java_dir_full_path = check_dir
-                        break
-
-        # Build final path under src/
-        src_dir = f"{skeletons_dir}/src"
-
-        if base_java_dir_full_path:
-            # File is in a subdirectory of base_java_dir
-            # sub_path is the part between base and the file
-            sub_path = first_java_dir_full_path[len(base_java_dir_full_path)+1:]
-        elif first_java_dir_full_path and java_parent_dir != first_java_dir_full_path:
-            # File's parent is first_java_dir itself
-            sub_path = first_java_dir_full_path.split('/')[-1]
-        else:
-            # File is directly in first_java_dir
-            sub_path = None
-
-        if sub_path:
-            os.makedirs(f"{src_dir}/{sub_path}", exist_ok=True)
-            file_path = f"{src_dir}/{sub_path}/{class_name}.cj"
-        else:
-            os.makedirs(src_dir, exist_ok=True)
-            file_path = f"{src_dir}/{class_name}.cj"
-
-        # Build package header based on sub_path
-        if sub_path:
-            package_name = f"{cjpm_package_name}.{sub_path.replace('/', '.')}"
-        else:
-            package_name = cjpm_package_name
-        package_header = f"// Package: {package_name}\npackage {package_name}\n\n"
-
-        # Append main method at package level (Cangjie requires main outside classes)
-        skeleton_with_main = skeleton
-        if main_methods:
-            skeleton_with_main += "main(): Unit {\n"
-            skeleton_with_main += "    throw Exception('TODO')\n"
-            skeleton_with_main += "}\n"
-        # Clear main_methods for next schema file (each schema gets its own main methods in its own file)
-        main_methods.clear()
-
-        with open(file_path, 'w') as f:
-            f.write(package_header + skeleton_with_main)
-
-        print(f"Generated: {file_path}")
-
-        # translations 骨架写入
-        # 保持与原始骨架相同的目录结构，用于模型翻译
-        translations_skeleton_dir = f"data/java/skeletons/translations/{args.model}/{args.temperature}/{args.project}"
-        os.makedirs(translations_skeleton_dir, exist_ok=True)
-
-        # 构建 translations 下的相对路径
-        # file_path 格式: data/java/skeletons/{project}/src/{path}/{ClassName}.cj
-        # relative_path 应为: src/{path}/{ClassName}.cj
-        relative_path = os.path.relpath(file_path, skeletons_dir)
-        translations_file_path = os.path.join(translations_skeleton_dir, relative_path)
-        os.makedirs(os.path.dirname(translations_file_path), exist_ok=True)
-
-        with open(translations_file_path, 'w') as f:
-            f.write(package_header + skeleton_with_main)
-
-        print(f"Generated translations: {translations_file_path}")
-
-        # Update schema with partial translation
-        target_schema = schema.copy()
-        target_schema['cangjie_skeleton_path'] = file_path
-        target_schema['cangjie_translations_skeleton_path'] = translations_file_path
-        with open(schema_path, 'w') as f:
-            json.dump(target_schema, f, indent=4)
-
-    # Generate cjpm.toml once at the end with correct output-type
+    # Phase 3: Generate cjpm.toml
     output_type = "executable" if has_main else "static"
 
-    # cjpm.toml for skeletons dir
     cjpm_content = f"""[package]
   cjc-version = "1.0.5"
   name = "{cjpm_name}"
@@ -818,7 +1219,7 @@ def main(args):
   src-dir = "src"
   target-dir = ""
   output-type = "{output_type}"
-  compile-option = ""
+  compile-option = "-Woff unused"
   override-compile-option = ""
   link-option = ""
   package-configuration = {{}}
@@ -828,13 +1229,11 @@ def main(args):
     with open(f"{skeletons_dir}/cjpm.toml", 'w') as f:
         f.write(cjpm_content)
 
-    # cjpm.toml for translations dir
     translations_cjpm_path = f"{translations_skeleton_dir}/cjpm.toml"
     with open(translations_cjpm_path, 'w') as f:
         f.write(cjpm_content)
 
     print(f"\nSkeleton generation complete: {skeletons_dir}")
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Create Cangjie skeleton from Java schema')
