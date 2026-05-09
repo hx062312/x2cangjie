@@ -844,17 +844,12 @@ def _compute_skeleton_sub_path(java_path):
 # ============================================================
 
 
-# Known Cangjie std lib type to import mappings
-STD_TYPE_IMPORTS = {
-    'ArrayList': 'import std.collection.ArrayList',
-    'HashMap': 'import std.collection.HashMap',
-    'HashSet': 'import std.collection.HashSet',
-    'InputStream': 'import std.io.InputStream',
-    'OutputStream': 'import std.io.OutputStream',
-    'ByteBuffer': 'import std.io.ByteBuffer',
-    'Regex': 'import std.regex.Regex',
-    'BigInt': 'import std.math.numeric.BigInt',
-}
+# Known Cangjie std lib type to import mappings.
+#
+# Types from std.core (Duration, Option, Iterator, Collection, StringBuilder,
+# Array, etc.) are auto-imported and must NOT appear in this mapping.
+# The mapping is loaded from data/java/type_resolution/std_type_imports.json
+# in main() and passed through the call chain.
 
 
 def _extract_type_names(cangjie_type_str):
@@ -888,7 +883,8 @@ def _extract_type_names(cangjie_type_str):
 
 def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
                                cjpm_name, type_map, class_to_package,
-                               dependencies, custom_types, processed_classes):
+                               dependencies, custom_types, processed_classes,
+                               std_type_imports):
     """Build the complete import section for a skeleton file.
 
     Returns the import string to replace __IMPORTS_PLACEHOLDER__.
@@ -899,7 +895,7 @@ def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
                          processed_classes, schema, class_order,
                          java_path, cjpm_name, class_to_package)
 
-    _add_lib_imports(cangjie_imports, schema, class_order, type_map)
+    _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports)
 
     # Filter out custom types (they're in the same project, no import needed)
     filtered_imports = set()
@@ -919,6 +915,9 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
                          processed_classes, schema, class_order,
                          java_path, cjpm_name, class_to_package):
     """Add imports for project types (dependencies + cross-package extends/implements)."""
+    cur_pkg = _get_cangjie_package(java_path, cjpm_name)
+    is_root_pkg = (cur_pkg == cjpm_name)
+
     # Process dependencies for imports
     dependency_key = None
     for key in dependencies:
@@ -929,12 +928,18 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
     if dependency_key and dependency_key in dependencies:
         for dependent_class in dependencies[dependency_key]:
             dep_class_name = dependent_class[0]
-            if dep_class_name not in processed_classes:
-                cangjie_imports.add(f"import {dep_class_name}")
+            if dep_class_name not in class_to_package:
+                continue
+            dep_pkg = class_to_package[dep_class_name]
+            # Same package — types are auto-visible, no import needed
+            if dep_pkg == cur_pkg:
+                continue
+            # Root package cannot import from its own sub-packages in Cangjie
+            if is_root_pkg and dep_pkg.startswith(cjpm_name + '.'):
+                continue
+            cangjie_imports.add(f"import {dep_pkg}.{dep_class_name}")
 
     # Cross-package imports for extends/implements
-    cur_pkg = _get_cangjie_package(java_path, cjpm_name)
-    is_root_pkg = (cur_pkg == cjpm_name)
     for class_key in class_order:
         if class_key not in schema.get('classes', {}):
             continue
@@ -952,7 +957,7 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
             cangjie_imports.add(f"import {ref_pkg}.{ref_name}")
 
 
-def _add_lib_imports(cangjie_imports, schema, class_order, type_map):
+def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports):
     """Add imports for library types (std + type_translations)."""
     # Scan all types for std imports
     for class_key in class_order:
@@ -961,12 +966,12 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map):
         class_info = schema['classes'][class_key]
         for field_key, field_info in class_info.get('fields', {}).items():
             for t in field_info.get('types', []):
-                _add_std_import_for_type(get_cangjie_type(t, type_map), cangjie_imports)
+                _add_std_import_for_type(get_cangjie_type(t, type_map), cangjie_imports, std_type_imports)
         for method_key, method_info in class_info.get('methods', {}).items():
             for rt in method_info.get('return_types', []):
-                _add_std_import_for_type(get_cangjie_type(rt, type_map), cangjie_imports)
+                _add_std_import_for_type(get_cangjie_type(rt, type_map), cangjie_imports, std_type_imports)
             for p in method_info.get('parameters', []):
-                _add_std_import_for_type(get_cangjie_type(p.get('type', 'Any'), type_map), cangjie_imports)
+                _add_std_import_for_type(get_cangjie_type(p.get('type', 'Any'), type_map), cangjie_imports, std_type_imports)
 
     # Collect std imports from type_translations
     for class_key in class_order:
@@ -985,11 +990,11 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map):
                                     cangjie_imports.add(imp)
 
 
-def _add_std_import_for_type(cangjie_type_name, cangjie_imports):
+def _add_std_import_for_type(cangjie_type_name, cangjie_imports, std_type_imports):
     """Add std lib import if any type name matches a known std type."""
     for name in _extract_type_names(cangjie_type_name):
-        if name in STD_TYPE_IMPORTS:
-            cangjie_imports.add(STD_TYPE_IMPORTS[name])
+        if name in std_type_imports:
+            cangjie_imports.add(std_type_imports[name])
 
 
 # ============================================================
@@ -1000,7 +1005,7 @@ def _add_std_import_for_type(cangjie_type_name, cangjie_imports):
 def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, type_map,
                                 class_to_package, all_schema_classes, class_to_methods,
                                 dependencies, custom_types, skeletons_dir,
-                                translations_skeleton_dir):
+                                translations_skeleton_dir, std_type_imports):
     """
     Generate Cangjie skeleton for one schema file.
 
@@ -1063,7 +1068,8 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
     imports_str = generate_imports_skeleton(
         schema, class_order, schema_fname, java_path,
         cjpm_name, type_map, class_to_package,
-        dependencies, custom_types, processed_classes
+        dependencies, custom_types, processed_classes,
+        std_type_imports
     )
     skeleton = skeleton.replace('__IMPORTS_PLACEHOLDER__\n', imports_str)
 
@@ -1188,6 +1194,13 @@ def main(args):
             class_to_package[class_name] = cangjie_pkg
         all_schemas.append((schema_fname, schema_path, schema))
 
+    # Load std_type_imports.json
+    std_type_imports = {}
+    std_type_imports_path = "data/java/type_resolution/std_type_imports.json"
+    if os.path.exists(std_type_imports_path):
+        with open(std_type_imports_path, 'r') as f:
+            std_type_imports = json.load(f)
+
     # Phase 1b: Run remove_duplicate_methods on all schemas to populate needs_open flags
     for schema_fname, schema_path, schema in all_schemas:
         if 'package-info' in schema_fname or 'module-info' in schema_fname:
@@ -1204,12 +1217,16 @@ def main(args):
         has_main_from_file = generate_one_file_skeleton(
             schema, schema_fname, schema_path, cjpm_name, type_map,
             class_to_package, all_schema_classes, class_to_methods,
-            dependencies, custom_types, skeletons_dir, translations_skeleton_dir
+            dependencies, custom_types, skeletons_dir, translations_skeleton_dir,
+            std_type_imports
         )
         has_main = has_main or has_main_from_file
 
     # Phase 3: Generate cjpm.toml
-    output_type = "executable" if has_main else "static"
+    output_type = "static"
+    # Note: using 'static' because Cangjie's independent-package compilation
+    # prevents sub-packages from importing root when output-type is 'executable'.
+    # Switch to 'executable' later when filling in real implementation.
 
     cjpm_content = f"""[package]
   cjc-version = "1.0.5"
