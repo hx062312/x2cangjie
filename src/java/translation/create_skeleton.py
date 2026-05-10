@@ -194,9 +194,10 @@ def _get_class_parent(class_name, extends, implements, class_to_package, type_ma
     """Resolve class declaration parent from extends/implements.
 
     Returns (parent_name, implements_str) — both can be empty.
-    Filters out types in sub-packages (root pkg can't depend on sub-pkgs in Cangjie).
+    Filters out sub-package types for root packages to avoid cyclic dependencies.
     """
     current_pkg = class_to_package.get(class_name, '')
+    is_root_pkg = current_pkg and '.' not in current_pkg
 
     # Try single extends first
     parent_name = ''
@@ -204,9 +205,10 @@ def _get_class_parent(class_name, extends, implements, class_to_package, type_ma
         short_name = t.split('.')[-1]
         if short_name in class_to_package:
             ref_pkg = class_to_package[short_name]
-            if not (current_pkg and ref_pkg.startswith(current_pkg + '.')):
-                parent_name = normalize_class_name(t, type_map)
-                break
+            if is_root_pkg and ref_pkg.startswith(current_pkg + '.'):
+                continue
+            parent_name = normalize_class_name(t, type_map)
+            break
 
     if parent_name:
         return parent_name, ''
@@ -217,26 +219,30 @@ def _get_class_parent(class_name, extends, implements, class_to_package, type_ma
         short_name = t.split('.')[-1]
         if short_name in class_to_package:
             ref_pkg = class_to_package[short_name]
-            if not (current_pkg and ref_pkg.startswith(current_pkg + '.')):
-                impls.append(normalize_class_name(t, type_map))
+            if is_root_pkg and ref_pkg.startswith(current_pkg + '.'):
+                continue
+            impls.append(normalize_class_name(t, type_map))
 
     return parent_name, ' & '.join(impls)
 
 
 def _get_interface_parents(class_name, extends, class_to_package, type_map):
-    """Resolve interface extends, filtering out inaccessible sub-package types.
+    """Resolve interface extends.
 
     Returns list of extended interface names.
+    Filters out sub-package types for root packages to avoid cyclic dependencies.
     """
     current_pkg = class_to_package.get(class_name, '')
+    is_root_pkg = current_pkg and '.' not in current_pkg
 
     result = []
     for t in (extends or []):
         short_name = t.split('.')[-1]
         if short_name in class_to_package:
             ref_pkg = class_to_package[short_name]
-            if not (current_pkg and ref_pkg.startswith(current_pkg + '.')):
-                result.append(normalize_class_name(t, type_map))
+            if is_root_pkg and ref_pkg.startswith(current_pkg + '.'):
+                continue
+            result.append(normalize_class_name(t, type_map))
 
     return result
 
@@ -934,7 +940,7 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
             # Same package — types are auto-visible, no import needed
             if dep_pkg == cur_pkg:
                 continue
-            # Root package cannot import from its own sub-packages in Cangjie
+            # Root package importing sub-package types creates cyclic deps
             if is_root_pkg and dep_pkg.startswith(cjpm_name + '.'):
                 continue
             cangjie_imports.add(f"import {dep_pkg}.{dep_class_name}")
@@ -951,7 +957,7 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
             ref_pkg = class_to_package[ref_name]
             if ref_pkg == cur_pkg:
                 continue
-            # Root package cannot import from its own sub-packages in Cangjie
+            # Root package importing sub-package types creates cyclic deps
             if is_root_pkg and ref_pkg.startswith(cjpm_name + '.'):
                 continue
             cangjie_imports.add(f"import {ref_pkg}.{ref_name}")
@@ -1223,10 +1229,28 @@ def main(args):
         has_main = has_main or has_main_from_file
 
     # Phase 3: Generate cjpm.toml
-    output_type = "static"
-    # Note: using 'static' because Cangjie's independent-package compilation
-    # prevents sub-packages from importing root when output-type is 'executable'.
-    # Switch to 'executable' later when filling in real implementation.
+    # If any sub-package imports from root, root must be compiled as a lib
+    # ("static"), because "executable" output cannot be imported by sub-packages.
+    # Otherwise, use "executable" if the project has a main() function.
+    sub_imports_root = False
+    src_dir = os.path.join(skeletons_dir, 'src')
+    if os.path.isdir(src_dir):
+        for entry in os.listdir(src_dir):
+            sub_dir = os.path.join(src_dir, entry)
+            if not os.path.isdir(sub_dir):
+                continue
+            for fname in os.listdir(sub_dir):
+                if fname.endswith('.cj'):
+                    with open(os.path.join(sub_dir, fname)) as f:
+                        for line in f:
+                            if line.startswith(f'import {cjpm_name}.'):
+                                sub_imports_root = True
+                                break
+                    if sub_imports_root:
+                        break
+            if sub_imports_root:
+                break
+    output_type = "executable" if (has_main and not sub_imports_root) else "static"
 
     cjpm_content = f"""[package]
   cjc-version = "1.0.5"
