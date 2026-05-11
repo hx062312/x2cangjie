@@ -194,19 +194,12 @@ def _get_class_parent(class_name, extends, implements, class_to_package, type_ma
     """Resolve class declaration parent from extends/implements.
 
     Returns (parent_name, implements_str) — both can be empty.
-    Filters out sub-package types for root packages to avoid cyclic dependencies.
     """
-    current_pkg = class_to_package.get(class_name, '')
-    is_root_pkg = current_pkg and '.' not in current_pkg
-
     # Try single extends first
     parent_name = ''
     for t in (extends or []):
         short_name = t.split('.')[-1]
         if short_name in class_to_package:
-            ref_pkg = class_to_package[short_name]
-            if is_root_pkg and ref_pkg.startswith(current_pkg + '.'):
-                continue
             parent_name = normalize_class_name(t, type_map)
             break
 
@@ -218,9 +211,6 @@ def _get_class_parent(class_name, extends, implements, class_to_package, type_ma
     for t in (implements or []):
         short_name = t.split('.')[-1]
         if short_name in class_to_package:
-            ref_pkg = class_to_package[short_name]
-            if is_root_pkg and ref_pkg.startswith(current_pkg + '.'):
-                continue
             impls.append(normalize_class_name(t, type_map))
 
     return parent_name, ' & '.join(impls)
@@ -230,18 +220,11 @@ def _get_interface_parents(class_name, extends, class_to_package, type_map):
     """Resolve interface extends.
 
     Returns list of extended interface names.
-    Filters out sub-package types for root packages to avoid cyclic dependencies.
     """
-    current_pkg = class_to_package.get(class_name, '')
-    is_root_pkg = current_pkg and '.' not in current_pkg
-
     result = []
     for t in (extends or []):
         short_name = t.split('.')[-1]
         if short_name in class_to_package:
-            ref_pkg = class_to_package[short_name]
-            if is_root_pkg and ref_pkg.startswith(current_pkg + '.'):
-                continue
             result.append(normalize_class_name(t, type_map))
 
     return result
@@ -551,9 +534,13 @@ def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
         if not method_name:
             continue
 
-        # Main method detection (handled at file level in Cangjie)
+        # # Main method detection (handled at file level in Cangjie)
+        # if method_name == 'main':
+        #     has_main_from_class = True
+        #     continue
+
+        # Skip main method
         if method_name == 'main':
-            has_main_from_class = True
             continue
 
         # Rename method if it conflicts with a field name
@@ -922,7 +909,6 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
                          java_path, cjpm_name, class_to_package):
     """Add imports for project types (dependencies + cross-package extends/implements)."""
     cur_pkg = _get_cangjie_package(java_path, cjpm_name)
-    is_root_pkg = (cur_pkg == cjpm_name)
 
     # Process dependencies for imports
     dependency_key = None
@@ -940,9 +926,6 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
             # Same package — types are auto-visible, no import needed
             if dep_pkg == cur_pkg:
                 continue
-            # Root package importing sub-package types creates cyclic deps
-            if is_root_pkg and dep_pkg.startswith(cjpm_name + '.'):
-                continue
             cangjie_imports.add(f"import {dep_pkg}.{dep_class_name}")
 
     # Cross-package imports for extends/implements
@@ -956,9 +939,6 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
                 continue
             ref_pkg = class_to_package[ref_name]
             if ref_pkg == cur_pkg:
-                continue
-            # Root package importing sub-package types creates cyclic deps
-            if is_root_pkg and ref_pkg.startswith(cjpm_name + '.'):
                 continue
             cangjie_imports.add(f"import {ref_pkg}.{ref_name}")
 
@@ -1065,8 +1045,8 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
                 class_to_package, all_schema_classes
             )
             skeleton += class_skeleton
-            if has_main_from_class:
-                has_main_from_file = True
+            # if has_main_from_class:
+            #     has_main_from_file = True
 
         # Store cangjie_class_declaration in schema for PromptGenerator
         schema['classes'][class_key]['cangjie_class_declaration'] = class_info.get('cangjie_class_declaration', '')
@@ -1093,11 +1073,11 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
         os.makedirs(src_dir, exist_ok=True)
         file_path = f"{src_dir}/{class_name}.cj"
 
-    # Append main at package level if any class had one
-    if has_main_from_file:
-        skeleton += "main(): Unit {\n"
-        skeleton += "    throw Exception('TODO')\n"
-        skeleton += "}\n"
+    # # Append main at package level if any class had one
+    # if has_main_from_file:
+    #     skeleton += "main(): Unit {\n"
+    #     skeleton += "    throw Exception('TODO')\n"
+    #     skeleton += "}\n"
 
     with open(file_path, 'w') as f:
         f.write(skeleton)
@@ -1214,43 +1194,19 @@ def main(args):
         remove_duplicate_methods(schema, class_to_methods, all_schema_classes)
 
     # Phase 2: Generate Skeletons (using Phase 1 schema data — no reload from disk)
-    has_main = False
-
     for schema_fname, schema_path, schema in all_schemas:
         if 'package-info' in schema_fname or 'module-info' in schema_fname:
             continue
 
-        has_main_from_file = generate_one_file_skeleton(
+        generate_one_file_skeleton(
             schema, schema_fname, schema_path, cjpm_name, type_map,
             class_to_package, all_schema_classes, class_to_methods,
             dependencies, custom_types, skeletons_dir, translations_skeleton_dir,
             std_type_imports
         )
-        has_main = has_main or has_main_from_file
 
     # Phase 3: Generate cjpm.toml
-    # If any sub-package imports from root, root must be compiled as a lib
-    # ("static"), because "executable" output cannot be imported by sub-packages.
-    # Otherwise, use "executable" if the project has a main() function.
-    sub_imports_root = False
-    src_dir = os.path.join(skeletons_dir, 'src')
-    if os.path.isdir(src_dir):
-        for entry in os.listdir(src_dir):
-            sub_dir = os.path.join(src_dir, entry)
-            if not os.path.isdir(sub_dir):
-                continue
-            for fname in os.listdir(sub_dir):
-                if fname.endswith('.cj'):
-                    with open(os.path.join(sub_dir, fname)) as f:
-                        for line in f:
-                            if line.startswith(f'import {cjpm_name}.'):
-                                sub_imports_root = True
-                                break
-                    if sub_imports_root:
-                        break
-            if sub_imports_root:
-                break
-    output_type = "executable" if (has_main and not sub_imports_root) else "static"
+    output_type = "static"
 
     cjpm_content = f"""[package]
   cjc-version = "1.0.5"
