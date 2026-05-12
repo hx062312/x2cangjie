@@ -37,7 +37,7 @@ RUN tar xzvf apache-maven-3.9.9-bin.tar.gz
 ENV PATH="/home/apache-maven-3.9.9/bin:${PATH}"
 RUN rm apache-maven-3.9.9-bin.tar.gz
 
-RUN git clone https://github.com/hx062312/x2cangjie.git /home/x2cangjie
+RUN git clone https://github.com/sskacc/x2cangjie.git /home/x2cangjie
 
 WORKDIR /home/x2cangjie
 
@@ -50,6 +50,8 @@ RUN echo "source /root/.bashrc && conda activate x2cangjie" > /etc/profile.d/con
 
 RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
     conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
+RUN conda install conda-forge::rank-bm25
 
 RUN conda env create -f environment.yaml
 
@@ -67,9 +69,9 @@ RUN git clone https://github.com/tree-sitter/tree-sitter-python.git /home/x2cang
 RUN mkdir -p /home/x2cangjie/misc/java-callgraph
 RUN git clone https://github.com/gousiosg/java-callgraph.git /home/x2cangjie/misc/java-callgraph
 WORKDIR /home/x2cangjie/misc/java-callgraph
-RUN mvn clean install -DskipTests
+RUN source ~/.sdkman/bin/sdkman-init.sh && mvn clean install -DskipTests
 
-WORKDIR /home/x2cangjie
+WORKDIR /home/x2cangjiedocker run -it x2cangjie /bin/bash
 
 RUN wget https://github.com/github/codeql-action/releases/download/codeql-bundle-v2.20.0/codeql-bundle-linux64.tar.gz
 RUN tar -xvf codeql-bundle-linux64.tar.gz -C /home/x2cangjie/misc
