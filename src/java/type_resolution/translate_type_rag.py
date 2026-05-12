@@ -351,11 +351,19 @@ def main(args):
 
                                 continue
 
+                            # Skip LLM translation if use_llm is false — only fixed_type_map and custom types are used
+                            if args.use_llm == 'false':
+                                i += 1
+                                interaction_history = []
+                                feedback = ''
+                                budget = args.budget
+                                continue
+
                             source_type_description = get_source_type_description(source_type)
 
-                            # RAG context injection for type resolution
+                            # RAG context injection for type resolution (only when both use_llm and use_rag are true)
                             rag_context = ""
-                            if hasattr(args, 'use_rag') and args.use_rag == 'true':
+                            if args.use_rag == 'true' and args.use_llm == 'true':
                                 try:
                                     rag_engine = get_rag_engine()
                                     rag_ctx = rag_engine.inject_type_context(source_type)
@@ -467,6 +475,7 @@ if __name__ == '__main__':
     parser.add_argument('--source_language', type=str, dest='source_language', help='source language')
     parser.add_argument('--target_language', type=str, dest='target_language', help='target language')
     parser.add_argument('--budget', type=int, dest='budget', help='budget for each type translation')
-    parser.add_argument('--use_rag', type=str, default='false', help='Enable RAG context injection for type resolution (true/false)')
+    parser.add_argument('--use_llm', type=str, default='true', help='Enable LLM translation for unknown types (true/false). If false, only fixed_type_map and custom types are used.')
+    parser.add_argument('--use_rag', type=str, default='false', help='Enable RAG context injection for type resolution (true/false). Only takes effect when use_llm is also true.')
     args = parser.parse_args()
     main(args)
