@@ -175,11 +175,19 @@ def is_type_loadable(import_stmt, type_name, custom_classes=None):
     if import_stmt == '' and type_name == '':
         return False, 'no type translation has been provided'
 
+    # Generate stub class definitions for custom types so cjc can resolve them
+    custom_stubs = ''
+    for cls in custom_classes:
+        # Cangjie doesn't support nested classes; use only the simple name
+        simple_name = cls.split('.')[-1]
+        custom_stubs += f'class {simple_name} {{}}\n'
+
     # Generate Cangjie test program - simplified validation
     cangjie_program = f"""package test
 
 {import_stmt}
 
+{custom_stubs}
 main(): Int64 {{
     let _test_val: {type_name}
     0
