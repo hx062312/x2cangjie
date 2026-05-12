@@ -200,13 +200,13 @@ Schema 文件为 JSON 格式，包含：
 **命令：**
 
 ```bash
-python3 utils.py --project_name=<project> --function=parse_dependencies --suffix=<suffix>
+python3 src/java/utils/parse_dependencies.py --project_name=<project> --function=parse_dependencies --suffix=<suffix>
 ```
 
 - **作用：** 使用 `jdeps` 分析 Java 依赖关系，生成 `traversal.json` 文件
 - **输入：** 编译后的项目（`projects/java/cleaned_final_projects{suffix}/{project}/target/classes`）
 - **生成文件：** `data/java/dependencies{suffix}/{project}/traversal.json`
-- **Python 脚本：** `utils.py`
+- **Python 脚本：** `src/java/utils/parse_dependencies.py`
 
 **traversal.json 格式：**
 ```json
@@ -346,7 +346,7 @@ cjc --test src/test
 | 编译验证 | `src/java/translation/cangjie_compilation_validation.py` | cjpm build 验证 |
 | Prompt 生成 | `src/java/translation/prompt_generator.py` | Cangjie ICL 示例，含 RAG 注入 |
 | 依赖解析 | `src/java/translation/get_reverse_traversal.py` | 按 pre-generated 顺序翻译 |
-| 依赖生成 | `utils.py` | 使用 jdeps 生成 traversal.json |
+| 依赖生成 | `src/java/utils/parse_dependencies.py` | 使用 jdeps 生成 traversal.json |
 | RAG 引擎 | `src/java/rag/` | 混合检索（向量+BM25），CangjieCorpus 文档检索 |
 | 语料加载 | `src/java/rag/corpus_loader.py` | Markdown 分块、代码块保护、MinHash 去重 |
 | 查询构建 | `src/java/rag/query_builder.py` | Java→Cangjie 术语映射查询 |
@@ -401,7 +401,6 @@ x2cangjie/
 │   ├── create_skeleton.sh       # 创建骨架
 │   ├── translate_fragment.sh     # 增量翻译验证
 │   └── get_dependencies.sh      # 生成 traversal.json
-├── utils.py                     # 依赖解析工具（jdeps + topological sort）
 ├── src/java/
 │   ├── decomposition/
 │   │   └── create_schema.py     # Schema 生成（tree-sitter）
@@ -426,6 +425,13 @@ x2cangjie/
 │   │   ├── _shared.py                     # 共享工具（tree-sitter 解析等）
 │   │   ├── reduce_third_party_libs.py
 │   │   └── decompose_dev_test.py
+│   ├── utils/                     # 依赖解析工具
+│   │   ├── __init__.py
+│   │   ├── get_class_order.py
+│   │   ├── get_custom_types.py
+│   │   ├── get_dependencies.py
+│   │   ├── get_schema_file.py
+│   │   └── parse_dependencies.py  # jdeps + topological sort
 │   └── static_analysis/         # 复用 cangjie
 │       └── extract_source_tests.py
 ├── data/java/rag/                # RAG 索引数据（构建生成）

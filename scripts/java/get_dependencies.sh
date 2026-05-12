@@ -12,4 +12,4 @@ project=$1
 suffix=$2
 
 echo "extracting dependencies for $project"
-python3 utils.py --project=$project --function=parse_dependencies --suffix=$suffix
+python3 src/java/utils/parse_dependencies.py --project=$project --function=parse_dependencies --suffix=$suffix
