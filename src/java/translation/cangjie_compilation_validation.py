@@ -712,6 +712,22 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
 
     modified_skeleton = replace_fragment_in_skeleton(skeleton_content, fragment_sig, fragment_body, fragment_type)
 
+    # Inject AnyHashable import if the merged skeleton uses AnyHashable but lacks the import.
+    # This handles cases where AnyHashable only appears in LLM-translated method bodies,
+    # not in the original skeleton type declarations.
+    if 'AnyHashable' in modified_skeleton and 'import temp_test.runtime.AnyHashable' not in modified_skeleton:
+        import_line = 'import temp_test.runtime.AnyHashable\n'
+        # Insert after "// Imports Begin" marker if present
+        imports_begin = modified_skeleton.find('// Imports Begin')
+        if imports_begin != -1:
+            insert_pos = modified_skeleton.find('\n', imports_begin) + 1
+            modified_skeleton = modified_skeleton[:insert_pos] + import_line + modified_skeleton[insert_pos:]
+        else:
+            # Fallback: insert after the package declaration
+            package_end = modified_skeleton.find('\n', modified_skeleton.find('package '))
+            if package_end != -1:
+                modified_skeleton = modified_skeleton[:package_end + 1] + '\n' + import_line + modified_skeleton[package_end + 1:]
+
     with open(skeleton_file, 'w') as f:
         f.write(modified_skeleton)
 
