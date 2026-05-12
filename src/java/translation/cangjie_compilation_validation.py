@@ -95,10 +95,20 @@ def get_type_map():
     return _type_map
 
 
+# Hash containers whose key/element type must satisfy Hashable & Equatable constraints.
+# Cangjie's Any (top type) does NOT satisfy these, so we substitute AnyHashable.
+_HASH_KEY_CONTAINERS = frozenset({'HashMap', 'LinkedHashMap', 'TreeMap', 'ConcurrentHashMap'})
+_HASH_ELEMENT_CONTAINERS = frozenset({'HashSet', 'LinkedHashSet', 'TreeSet'})
+
+
 def get_cangjie_type(java_type, type_map):
     """
     Convert Java type to Cangjie type using type_map.
     Handles generic types like List<String> -> ArrayList<String>.
+
+    When Any appears as a key/element type of a hash-based container
+    (HashMap, HashSet, etc.), it is automatically replaced with AnyHashable
+    because Cangjie requires these positions to satisfy Hashable & Equatable.
     """
     if not java_type:
         return "Any"
@@ -127,15 +137,27 @@ def get_cangjie_type(java_type, type_map):
         if current.strip():
             generic_parts.append(current.strip())
 
-        generic_cangjie = ', '.join([get_cangjie_type(g, type_map) for g in generic_parts])
+        # Resolve each generic param individually
+        resolved_parts = [get_cangjie_type(g, type_map) for g in generic_parts]
 
         if base_type in type_map:
             base_cangjie = type_map[base_type]
             if '<' in base_cangjie:
                 base_cangjie = base_cangjie.split('<')[0]
-            return f"{base_cangjie}<{generic_cangjie}>"
         else:
-            return f"{base_type}<{generic_cangjie}>"
+            base_cangjie = base_type
+
+        # Apply AnyHashable constraint: hash containers require key/element
+        # types to satisfy Hashable & Equatable, but Any doesn't.
+        if base_cangjie in _HASH_KEY_CONTAINERS and resolved_parts:
+            if resolved_parts[0] == 'Any':
+                resolved_parts[0] = 'AnyHashable'
+        elif base_cangjie in _HASH_ELEMENT_CONTAINERS and resolved_parts:
+            if resolved_parts[0] == 'Any':
+                resolved_parts[0] = 'AnyHashable'
+
+        generic_cangjie = ', '.join(resolved_parts)
+        return f"{base_cangjie}<{generic_cangjie}>"
 
     # Simple type lookup
     if java_type in type_map:
