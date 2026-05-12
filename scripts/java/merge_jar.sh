@@ -8,7 +8,7 @@ if [ $# -ne 1 ]; then
 fi
 
 project="$1"
-project_dir="./projects/java/keyword_handled/$project"
+project_dir="./projects/java/name_handled/$project"
 
 if [ ! -d "$project_dir" ]; then
   echo "Error: Directory '$project_dir' does not exist."

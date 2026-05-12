@@ -1187,7 +1187,7 @@ def main(project):
 
     project_dir = (
         os.path.dirname(os.path.dirname(os.path.dirname(script_dir)))
-        + f"/projects/java/keyword_handled/{project}"
+        + f"/projects/java/name_handled/{project}"
     )
 
     if not os.path.isdir(project_dir):
