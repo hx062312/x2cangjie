@@ -2,7 +2,8 @@
 flowchart TD
     A1["original_projects/&lt;project&gt;"] -->|add_plugin.sh| A2["automated_reduced_projects/&lt;project&gt;"]
     A2 -->|handle_keyword_conflicts.sh| A3["keyword_handled/&lt;project&gt;<br/>(处理Cangjie关键字冲突)"]
-    A3 -->|merge_jar.sh| A4["keyword_handled/&lt;project&gt;/target/&lt;project&gt;-merged.jar"]
+    A3 -->|handle_name_conflicts.sh| A3b["name_handled/&lt;project&gt;<br/>(处理内部类命名冲突)"]
+    A3b -->|merge_jar.sh| A4["name_handled/&lt;project&gt;/target/&lt;project&gt;-merged.jar"]
     A4 -->|generate_cg.sh| A5["callgraph.txt<br/>data/java/call_graphs/&lt;project&gt;/"]
     A5 -->|reduce_third_party_libs.sh| A6["cleaned_final_projects/&lt;project&gt;<br/>(缩减第三方依赖)"]
     A6 -->|create_schema.sh| C1["data/java/schemas/&lt;project&gt;/*.json"]

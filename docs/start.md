@@ -98,6 +98,25 @@ bash scripts/java/handle_keyword_conflicts.sh <project>
 
 ------
 
+### 1.3.2 处理内部类命名冲突
+
+**命令：**
+
+```bash
+bash scripts/java/handle_name_conflicts.sh <project>
+```
+
+- **作用：** 将 Java 内部类重命名为 `OuterClass_InnerClass` 格式，避免后续提取到 Cangjie 顶层时的命名冲突。同时检测并解决不同外部类中同名内部类的冲突。
+- **输入：** `projects/java/keyword_handled/<project>/`
+- **输出：** `projects/java/name_handled/<project>/` (新建目录，非原地修改)
+- **重命名策略：**
+  - 定义文件中的裸引用 (`InnerClass` → `OuterClass_InnerClass`)
+  - 跨文件的限定引用 (`OuterClass.InnerClass` → `OuterClass.NewName`)
+  - 通过继承访问的子类中的裸引用（解析 `extends`/`implements` 关系）
+- **Python 脚本：** `src/java/preprocessing/handle_name_conflicts.py`
+
+------
+
 ### 1.4 构建项目并合并 JAR
 
 **命令：**
@@ -108,10 +127,11 @@ bash scripts/java/merge_jar.sh <project>
 
 - **作用：** 执行 `mvn clean install` 构建项目，将主代码和测试代码合并成单个 JAR。
 - **依赖：** 需要 Java 和 Maven 环境。
+- **输入：** `projects/java/name_handled/<project>/`
 - **生成文件：**
-  - `projects/java/keyword_handled/<project>/target/*.jar` (主 JAR)
-  - `projects/java/keyword_handled/<project>/target/*-tests.jar` (测试 JAR)
-  - `projects/java/keyword_handled/<project>/target/*-merged.jar` (合并后的 JAR)
+  - `projects/java/name_handled/<project>/target/*.jar` (主 JAR)
+  - `projects/java/name_handled/<project>/target/*-tests.jar` (测试 JAR)
+  - `projects/java/name_handled/<project>/target/*-merged.jar` (合并后的 JAR)
 
 ------
 
@@ -125,7 +145,7 @@ bash scripts/java/generate_cg.sh <project>
 
 - **作用：** 使用 `JavaCallgraph` 工具生成项目的调用图。
 - **依赖：** `misc/java-callgraph/target/javacg-0.1-SNAPSHOT-static.jar`
-- **生成文件：** `projects/java/keyword_handled/<project>/callgraph.txt`
+- **生成文件：** `projects/java/name_handled/<project>/callgraph.txt`
 
 ------
 
@@ -135,11 +155,11 @@ bash scripts/java/generate_cg.sh <project>
 
 ```bash
 bash scripts/java/reduce_third_party_libs.sh <project>
-cp -r projects/java/keyword_handled/<project> projects/java/cleaned_final_projects/<project>
+cp -r projects/java/name_handled/<project> projects/java/cleaned_final_projects/<project>
 ```
 
 - **作用：** 分析调用图，移除未使用的第三方依赖，只保留项目自身的代码。
-- **输入：** `callgraph.txt` 和 `keyword_handled/` 项目。
+- **输入：** `callgraph.txt` 和 `name_handled/` 项目。
 - **生成文件：** `projects/java/cleaned_final_projects/<project>/` (清理后的项目)。
 - **Python 脚本：** `src/java/preprocessing/reduce_third_party_libs.py`
 
@@ -370,6 +390,8 @@ x2cangjie/
 │   ├── download_original_projects.sh  # 下载原始 Java 项目
 │   ├── build_original_projects.sh    # 构建原始项目
 │   ├── add_plugin.sh            # 添加 JAR 插件
+│   ├── handle_keyword_conflicts.sh  # 处理 Cangjie 关键字冲突
+│   ├── handle_name_conflicts.sh    # 处理内部类命名冲突
 │   ├── merge_jar.sh             # 构建并合并 JAR
 │   ├── generate_cg.sh           # 生成调用图
 │   ├── reduce_third_party_libs.sh  # 缩减第三方依赖
@@ -398,7 +420,10 @@ x2cangjie/
 │   │   ├── retriever.py          # 混合检索（向量+BM25+RRF）
 │   │   ├── injector.py          # 文档块格式化注入
 │   │   └── indexer.py           # 离线索引构建
-│   ├── preprocessing/           # 复用 cangjie
+│   ├── preprocessing/           # 预处理脚本
+│   │   ├── handle_keyword_conflicts.py   # 关键字冲突处理
+│   │   ├── handle_name_conflicts.py      # 命名冲突处理（内部类重命名）
+│   │   ├── _shared.py                     # 共享工具（tree-sitter 解析等）
 │   │   ├── reduce_third_party_libs.py
 │   │   └── decompose_dev_test.py
 │   └── static_analysis/         # 复用 cangjie
