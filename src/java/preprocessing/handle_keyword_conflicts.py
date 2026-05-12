@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 """
 Handle Cangjie keyword conflicts in Java code using tree-sitter.
-When Java identifiers conflict with Cangjie keywords (type, init, in),
+When Java identifiers conflict with Cangjie keywords (type, init, in, is, func),
 append suffix to make them valid Cangjie identifiers.
 
-Non-method identifiers (fields, params, locals, field accesses) → '__' suffix
-Method-related identifiers (declarations, invocations)         → '_' suffix
-JDK built-in references (System.in) and inherited fields       → preserved unchanged
+Non-method identifiers (fields, params, locals, field accesses) -> '__' suffix
+Method-related identifiers (declarations, invocations)         -> '_' suffix
+JDK built-in references (System.in) and inherited fields       -> preserved unchanged
 """
 import argparse
 import os
 import shutil
 
-from tree_sitter import Language, Parser
+from src.java.preprocessing._shared import (
+    load_parser, extract_text_by_bytes, _skip_dir,
+    clean_target_dirs, pre_scan_project
+)
 
 
 # Cangjie keywords that can conflict with Java identifiers
@@ -34,120 +37,16 @@ SKIP_KEYWORDS = {
 }
 
 # The actual keywords that need renaming
-ACTIVE_KEYWORDS = CANGJIE_KEYWORDS - SKIP_KEYWORDS  # {'type', 'init', 'in'}
-
-
-def load_parser():
-    """Load tree-sitter parser for Java."""
-    if not os.path.exists('misc/parser/language.so'):
-        lib_dir = 'misc/sitter-libs'
-        libs = [os.path.join(lib_dir, d) for d in os.listdir(lib_dir)]
-        Language.build_library('misc/parser/language.so', libs)
-    LANGUAGE = Language('misc/parser/language.so', 'java')
-    parser = Parser()
-    parser.set_language(LANGUAGE)
-    return parser
-
-
-def extract_text_by_bytes(code, start_byte, end_byte):
-    """Extract text from code bytes."""
-    return code[start_byte:end_byte].decode('utf-8')
-
-
-def _skip_dir(root):
-    """Check if a directory should be skipped (target/)."""
-    parts = root.split(os.sep)
-    return 'target' in parts
+ACTIVE_KEYWORDS = CANGJIE_KEYWORDS - SKIP_KEYWORDS  # {'type', 'init', 'in', 'is', 'func'}
 
 
 # ---------------------------------------------------------------------------
-# Phase 1: Pre-scan
+# Phase 1: Pre-scan (delegates to _shared.pre_scan_project)
 # ---------------------------------------------------------------------------
 
-def pre_scan_project(output_dir):
-    """
-    Pre-scan all Java files to collect:
-    - user_classes: set of user-defined class names
-    - file_decls:   dict of file_path -> set of declared names (fields, params,
-                    locals) matching active keywords
-    """
-    parser = load_parser()
-    user_classes = set()
-    file_decls = {}
-
-    for root, dirs, files in os.walk(output_dir):
-        if _skip_dir(root):
-            continue
-        for fname in files:
-            if not fname.endswith('.java'):
-                continue
-            file_path = os.path.join(root, fname)
-            with open(file_path, 'rb') as f:
-                code = f.read()
-            tree = parser.parse(code)
-
-            classes = set()
-            decls = set()
-            _scan_node(tree.root_node, code, classes, decls)
-            user_classes.update(classes)
-            file_decls[file_path] = decls
-
-    return parser, user_classes, file_decls
-
-
-def _scan_node(node, code, user_classes, declarations):
-    """Recursively collect class names + declaration sites of active keywords."""
-    nt = node.type
-
-    # --- Collect class names ------------------------------------------------
-    if nt in ('class_declaration', 'interface_declaration',
-              'enum_declaration', 'record_declaration'):
-        name_node = node.child_by_field_name('name')
-        if name_node:
-            user_classes.add(extract_text_by_bytes(code,
-                                                   name_node.start_byte,
-                                                   name_node.end_byte))
-
-    # --- Collect declaration sites of active keywords -----------------------
-    # Field declaration: type name;  e.g. "int in;"
-    if nt == 'variable_declarator':
-        name_node = node.child_by_field_name('name')
-        if name_node:
-            text = extract_text_by_bytes(code, name_node.start_byte,
-                                         name_node.end_byte)
-            if text in ACTIVE_KEYWORDS:
-                declarations.add(text)
-
-    # Method/constructor name
-    if nt in ('method_declaration', 'constructor_declaration'):
-        name_node = node.child_by_field_name('name')
-        if name_node:
-            text = extract_text_by_bytes(code, name_node.start_byte,
-                                         name_node.end_byte)
-            if text in ACTIVE_KEYWORDS:
-                declarations.add(text)
-
-    # Formal parameter name
-    if nt == 'formal_parameter':
-        name_node = node.child_by_field_name('name')
-        if name_node:
-            text = extract_text_by_bytes(code, name_node.start_byte,
-                                         name_node.end_byte)
-            if text in ACTIVE_KEYWORDS:
-                declarations.add(text)
-
-    # Lambda parameter name
-    if nt == 'lambda_parameter':
-        for child in node.children:
-            if child.type in ('identifier', 'type_identifier'):
-                text = extract_text_by_bytes(code, child.start_byte,
-                                             child.end_byte)
-                if text in ACTIVE_KEYWORDS:
-                    declarations.add(text)
-
-    # Recurse
-    for child in node.children:
-        _scan_node(child, code, user_classes, declarations)
+def pre_scan_project_keywords(output_dir):
+    """Pre-scan collecting user classes and keyword declaration sites."""
+    return pre_scan_project(output_dir, active_keywords=ACTIVE_KEYWORDS)
 
 
 # ---------------------------------------------------------------------------
@@ -182,12 +81,12 @@ def _get_identifier_context(node, code, user_classes):
 
     pt = parent.type
 
-    # --- Method / constructor declaration name → '_' ------------------------
+    # --- Method / constructor declaration name -> '_' ------------------------
     if pt in ('method_declaration', 'constructor_declaration'):
         if parent.child_by_field_name('name') == node:
             return ('_', False)
 
-    # --- Method invocation (call site) → '_', with JDK-class guard ----------
+    # --- Method invocation (call site) -> '_', with JDK-class guard ----------
     if pt == 'method_invocation':
         if parent.child_by_field_name('name') == node:
             obj = parent.child_by_field_name('object')
@@ -195,21 +94,21 @@ def _get_identifier_context(node, code, user_classes):
                 return ('_', True)
             return ('_', False)
 
-    # --- Field access (obj.field) → '__', with JDK-class guard --------------
+    # --- Field access (obj.field) -> '__', with JDK-class guard --------------
     if pt == 'field_access':
         if parent.child_by_field_name('field') == node:
             obj = parent.child_by_field_name('object')
             if obj and _is_jdk_class_ref(obj, code, user_classes):
                 return ('__', True)
-            # 'this' / 'super' → defer to file_decls (inherited JDK field?)
+            # 'this' / 'super' -> defer to file_decls (inherited JDK field?)
             if obj and obj.type in ('this', 'super'):
                 return ('__', None)
             return ('__', False)
 
-    # --- Everything else (params, locals, standalones, etc.) → handled
+    # --- Everything else (params, locals, standalones, etc.) -> handled
     #     at the call site via file_decls check.  We return a neutral default
     #     and the caller makes the final decision.
-    return ('__', None)   # 'None' should_skip → caller checks file_decls
+    return ('__', None)   # 'None' should_skip -> caller checks file_decls
 
 
 def _is_jdk_class_ref(obj_node, code, user_classes):
@@ -243,7 +142,7 @@ def _is_jdk_class_ref(obj_node, code, user_classes):
         inner = obj.child_by_field_name('object')
         return _is_jdk_class_ref(inner, code, user_classes) if inner else False
 
-    # 'this', 'super', variable → not (necessarily) a JDK class
+    # 'this', 'super', variable -> not (necessarily) a JDK class
     return False
 
 
@@ -260,7 +159,7 @@ def find_identifier_conflicts(node, code, conflicts, user_classes, file_decls):
         if name in ACTIVE_KEYWORDS:
             suffix, should_skip = _get_identifier_context(node, code,
                                                          user_classes)
-            # 'None' → undecided; check if 'name' is declared in this file.
+            # 'None' -> undecided; check if 'name' is declared in this file.
             # If not, it's an inherited/external ref (e.g. FilterInputStream.in).
             if should_skip is None:
                 should_skip = name not in file_decls
@@ -315,17 +214,6 @@ def process_java_file(file_path, parser, user_classes, file_decls):
     return True
 
 
-def clean_target_dirs(output_dir):
-    """Remove all target/ directories."""
-    removed = []
-    for root, dirs, files in os.walk(output_dir):
-        if os.path.basename(root) == 'target':
-            shutil.rmtree(root)
-            removed.append(root)
-            dirs.clear()
-    return removed
-
-
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
@@ -345,7 +233,7 @@ def main(args):
 
     # Phase 1: Pre-scan
     print("Pre-scanning project...")
-    parser, user_classes, file_decls = pre_scan_project(output_dir)
+    parser, user_classes, file_decls = pre_scan_project_keywords(output_dir)
     print(f"  User-defined classes: {len(user_classes)}")
     print(f"  Files with keyword declarations: "
           f"{sum(1 for v in file_decls.values() if v)}")
