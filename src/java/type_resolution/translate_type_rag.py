@@ -10,6 +10,7 @@ from src.java.model.model import Model
 from jinja2 import Template
 
 from src.java.rag import get_rag_engine
+from src.java.utils.get_custom_types import get_custom_types, save_custom_types
 
 
 class TypePromptGenerator:
@@ -150,37 +151,6 @@ def update_universal_type_map(source_type, translated_type, map_file='data/java/
             json.dump(type_map, f, indent=4)
 
 
-def get_custom_types(schema_dir):
-    """
-    Extract custom types from schema files.
-    Custom types are classes defined in the project itself (not external libraries).
-
-    Args:
-        schema_dir (str): Directory containing schema JSON files
-
-    Returns:
-        list: List of custom type names
-    """
-    custom_types = []
-    for schema_file in os.listdir(schema_dir):
-        data = {}
-        with open(f'{schema_dir}/{schema_file}', 'r') as f:
-            data = json.load(f)
-
-        for class_ in data['classes']:
-            # Format is "{start}-{end}:{classname}"
-            class_name = class_.split(':')[1]
-            custom_types.append(class_name)
-
-            # Handle nested classes
-            if data['classes'][class_].get('nested_inside', ''):
-                nested_info = data['classes'][class_]['nested_inside']
-                outer_class = nested_info.split(':')[1]
-                custom_types.append(f'{outer_class}.{class_name}')
-
-    return custom_types
-
-
 def is_type_loadable(import_stmt, type_name, custom_classes=None):
     """
     Validates if a type can be loaded or used in the Cangjie type system
@@ -264,8 +234,9 @@ def main(args):
     args.schema_dir = f'data/java/schemas{args.suffix}/{args.model_name}/{args.temperature}/{args.project_name}'
     model = Model(model_info=model_info[args.model_name])
 
-    # Get custom types from schema files (project-defined classes)
+    # Get custom types from schema files and persist to JSON
     custom_types = get_custom_types(args.schema_dir)
+    save_custom_types(args.project_name, custom_types)
 
     for schema_file in os.listdir(args.schema_dir):
 

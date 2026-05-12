@@ -17,3 +17,12 @@ def get_custom_types(schema_dir):
                 custom_types.append(f'{outer_class}.{class_name}')
     
     return custom_types
+
+
+def save_custom_types(project_name, custom_types, base_dir='data/java/type_resolution'):
+    """Persist custom types to a project-specific JSON file."""
+    output_dir = os.path.join(base_dir, project_name)
+    os.makedirs(output_dir, exist_ok=True)
+    output_file = os.path.join(output_dir, 'custom_types.json')
+    with open(output_file, 'w') as f:
+        json.dump(custom_types, f, indent=4)
