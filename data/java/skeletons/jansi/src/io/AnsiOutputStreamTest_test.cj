@@ -2,7 +2,9 @@
 package jansi.io
 
 // Imports Begin
-
+import jansi.AnsiColors
+import jansi.AnsiMode
+import jansi.AnsiType
 // Imports End
 
 @Test
@@ -11,7 +13,7 @@ open class AnsiOutputStreamTest {
     // Fields End
 
     // Methods Begin
-    open func canHandleSgrsWithMultipleOptions(): Unit {
+    public open func canHandleSgrsWithMultipleOptions(): Unit {
         throw Exception('TODO')
     }
 

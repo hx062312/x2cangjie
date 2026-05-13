@@ -6,7 +6,7 @@ package jansi
 // Imports End
 
 @Test
-open class AnsiStringTest {
+public open class AnsiStringTest {
     // Fields Begin
     // Fields End
 

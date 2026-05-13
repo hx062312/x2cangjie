@@ -93,4 +93,4 @@ cd "$project_root" || exit
 
 echo "extracting test coverage for $project"
 export PYTHONPATH=$(pwd)
-python3 src/java/static_analysis/extract_source_tests.py --project=$project --suffix=$suffix
+python src/java/static_analysis/extract_source_tests.py --project=$project --suffix=$suffix

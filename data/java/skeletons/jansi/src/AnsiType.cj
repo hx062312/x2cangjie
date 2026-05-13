@@ -5,7 +5,7 @@ package jansi
 
 // Imports End
 
-open class AnsiType {
+public open class AnsiType {
     // Fields Begin
     var Native: Any = throw Exception('TODO')
     var Unsupported: Any = throw Exception('TODO')
@@ -20,10 +20,14 @@ open class AnsiType {
         throw Exception('TODO')
     }
 
-    open func getDescription(): String {
+    public open func getDescription(): String {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

@@ -5,7 +5,7 @@ package jansi
 
 // Imports End
 
-open class AnsiMode {
+public open class AnsiMode {
     // Fields Begin
     var Strip: Any = throw Exception('TODO')
     var Default: Any = throw Exception('TODO')
@@ -18,10 +18,14 @@ open class AnsiMode {
         throw Exception('TODO')
     }
 
-    open func getDescription(): String {
+    public open func getDescription(): String {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

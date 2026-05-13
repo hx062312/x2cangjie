@@ -2,10 +2,10 @@
 package jansi
 
 // Imports Begin
-import std.fs.*
+
 // Imports End
 
-open class AnsiMain {
+public open class AnsiMain {
     // Fields Begin
     // Fields End
 
@@ -41,6 +41,3 @@ open class AnsiMain {
     // Methods End
 }
 
-main(): Unit {
-    throw Exception('TODO')
-}

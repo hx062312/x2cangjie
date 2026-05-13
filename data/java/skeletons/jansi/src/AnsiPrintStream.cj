@@ -5,7 +5,7 @@ package jansi
 
 // Imports End
 
-open class AnsiPrintStream <: PrintStream {
+public open class AnsiPrintStream {
     // Fields Begin
     // Fields End
 
@@ -63,5 +63,9 @@ open class AnsiPrintStream <: PrintStream {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

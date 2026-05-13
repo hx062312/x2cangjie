@@ -2,11 +2,10 @@
 package jansi
 
 // Imports Begin
-// No specific import needed; StringBuilder is part of the standard library.
 import std.collection.ArrayList
 // Imports End
 
-open class Ansi <: Appendable {
+public open class Ansi {
     // Fields Begin
     static let DISABLE: String = throw Exception('TODO')
     static var detector: Callable<Bool> = throw Exception('TODO')
@@ -350,7 +349,7 @@ open class Ansi <: Appendable {
         throw Exception('TODO')
     }
 
-    public open func a(value: String): Ansi {
+    public open func a_1(value: String): Ansi {
         throw Exception('TODO')
     }
 
@@ -366,7 +365,7 @@ open class Ansi <: Appendable {
         throw Exception('TODO')
     }
 
-    public open func a(value: Int64): Ansi {
+    public open func a_1(value: Int64): Ansi {
         throw Exception('TODO')
     }
 
@@ -386,7 +385,7 @@ open class Ansi <: Appendable {
         throw Exception('TODO')
     }
 
-    public open func apply(fun: Consumer): Ansi {
+    public open func apply(fun: Ansi_Consumer): Ansi {
         throw Exception('TODO')
     }
 
@@ -394,7 +393,7 @@ open class Ansi <: Appendable {
         throw Exception('TODO')
     }
 
-    public open func render(text: String): Ansi {
+    public open func render_1(text: String): Ansi {
         throw Exception('TODO')
     }
 
@@ -410,7 +409,7 @@ open class Ansi <: Appendable {
         throw Exception('TODO')
     }
 
-    private func appendEscapeSequence(command: Rune): Ansi {
+    private func appendEscapeSequence_1(command: Rune): Ansi {
         throw Exception('TODO')
     }
 
@@ -437,7 +436,7 @@ open class Ansi <: Appendable {
     // Methods End
 }
 
-open class Color {
+public open class Color {
     // Fields Begin
     var BLACK: Any = throw Exception('TODO')
     var RED: Any = throw Exception('TODO')
@@ -461,7 +460,7 @@ open class Color {
         throw Exception('TODO')
     }
 
-    public open func value(): Int64 {
+    public open func value_method(): Int64 {
         throw Exception('TODO')
     }
 
@@ -482,9 +481,13 @@ open class Color {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
-open class Attribute {
+public open class Attribute {
     // Fields Begin
     var BLINK_OFF: Any = throw Exception('TODO')
     var NEGATIVE_OFF: Any = throw Exception('TODO')
@@ -517,14 +520,18 @@ open class Attribute {
         throw Exception('TODO')
     }
 
-    public open func value(): Int64 {
+    public open func value_method(): Int64 {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
-open class Erase {
+public open class Erase {
     // Fields Begin
     var FORWARD: Any = throw Exception('TODO')
     var BACKWARD: Any = throw Exception('TODO')
@@ -542,26 +549,27 @@ open class Erase {
         throw Exception('TODO')
     }
 
-    public open func value(): Int64 {
+    public open func value_method(): Int64 {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
-interface Consumer {
-    // Fields Begin
-    // Fields End
-
+public interface Ansi_Consumer {
     // Methods Begin
-    open func apply(ansi: Ansi): Unit {
+    func apply(ansi: Ansi): Unit {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class NoAnsi <: Ansi {
+private open class Ansi_NoAnsi <: Ansi {
     // Fields Begin
     // Fields End
 

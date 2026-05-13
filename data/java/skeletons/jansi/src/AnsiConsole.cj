@@ -2,10 +2,10 @@
 package jansi
 
 // Imports Begin
-import std.io.*
+
 // Imports End
 
-open class AnsiConsole {
+public open class AnsiConsole {
     // Fields Begin
     static let JANSI_OUT_COLORS: String = throw Exception('TODO')
     static let JANSI_ERR_COLORS: String = throw Exception('TODO')
@@ -69,7 +69,7 @@ open class AnsiConsole {
         throw Exception('TODO')
     }
 
-    public static func out(): AnsiPrintStream {
+    public static func out_method(): AnsiPrintStream {
         throw Exception('TODO')
     }
 
@@ -77,7 +77,7 @@ open class AnsiConsole {
         throw Exception('TODO')
     }
 
-    public static func err(): AnsiPrintStream {
+    public static func err_method(): AnsiPrintStream {
         throw Exception('TODO')
     }
 

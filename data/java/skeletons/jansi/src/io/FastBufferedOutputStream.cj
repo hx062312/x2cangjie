@@ -2,10 +2,10 @@
 package jansi.io
 
 // Imports Begin
-
+import std.io.OutputStream
 // Imports End
 
-open class FastBufferedOutputStream <: FilterOutputStream {
+public open class FastBufferedOutputStream {
     // Fields Begin
     let buf: Array<Byte> = throw Exception('TODO')
     var count: Int64 = throw Exception('TODO')
@@ -33,5 +33,9 @@ open class FastBufferedOutputStream <: FilterOutputStream {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

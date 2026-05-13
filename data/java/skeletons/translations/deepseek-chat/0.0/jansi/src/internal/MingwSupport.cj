@@ -2,14 +2,10 @@
 package jansi.internal
 
 // Imports Begin
-import std.collection.*
-import std.fs.*
-import std.io.*
-import std.process.*
-import std.regex.*
+import std.regex.Regex
 // Imports End
 
-open class MingwSupport {
+public open class MingwSupport {
     // Fields Begin
     let sttyCommand: String = throw Exception('TODO')
     let ttyCommand: String = throw Exception('TODO')

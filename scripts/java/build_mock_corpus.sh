@@ -39,7 +39,7 @@ mkdir -p "$STAGING"
 for f in modify_pom.py add_java_files.py clean_evosuite_tests.py; do
     [[ -f "$ISOL/$f" ]] && cp "$ISOL/$f" "$WORK/"
 done
-(cd "$WORK" && python3 modify_pom.py && python3 add_java_files.py)
+(cd "$WORK" && python modify_pom.py && python add_java_files.py)
 
 # 3. 拷贝 emitter 脚本与 cjpm.toml（让 detect_project_name 读到正确包名）
 for f in script.py mock_helper.py log_parser.py reflection.py add_macro.py; do
@@ -90,7 +90,7 @@ for TEST_FILE in "${TEST_FILES[@]}"; do
             for LOG in "$WORK"/*.log; do
                 [[ -f "$LOG" ]] || continue
                 echo "  Emitting: $(basename "$LOG")"
-                (cd "$WORK" && python3 script.py "$(basename "$LOG")" --output-dir "$STAGING") || true
+                (cd "$WORK" && python script.py "$(basename "$LOG")" --output-dir "$STAGING") || true
                 rm -f "$LOG"
             done
             TOTAL_OK=$((TOTAL_OK + 1))

@@ -30,7 +30,7 @@ import std.unittest.*
 import std.unittest.mock.*
 import std.unittest.mock.mockmacro.*
 import std.unittest.testmacro.*
-import simpleioc.*
+import <project>.runtime.*
 import std.reflect.*
 
 // runtime support 由生成器注入：
@@ -82,7 +82,7 @@ import std.unittest.*
 import std.unittest.mock.*
 import std.unittest.mock.mockmacro.*
 import std.unittest.testmacro.*
-import simpleioc.*
+import <project>.runtime.*
 import std.reflect.*
 
 // runtime support 由生成器自动注入：
@@ -140,7 +140,7 @@ class <MockedTestClassName> {
 - 目标项目类型
 - 集合 / IO 支持
 - unittest / mock 宏
-- `simpleioc`
+- `<project>.runtime.*`
 - `std.reflect`
 
 ### 2.2 runtime support
@@ -205,9 +205,9 @@ Ansi.__mockGetStaticDetector()
 package demo.test
 
 import demo.*
+import demo.runtime.*
 import std.unittest.*
 import std.unittest.testmacro.*
-import simpleioc.*
 import std.reflect.*
 
 private func __mockSelectConstructor<T>(): ConstructorInfo where T <: Object {
@@ -249,7 +249,7 @@ import std.unittest.*
 import std.unittest.mock.*
 import std.unittest.mock.mockmacro.*
 import std.unittest.testmacro.*
-import simpleioc.*
+import demo.runtime.*
 import std.reflect.*
 
 private func __mockSelectConstructor<T>(): ConstructorInfo where T <: Object {

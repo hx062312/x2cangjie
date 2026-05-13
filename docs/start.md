@@ -155,6 +155,8 @@ bash scripts/java/generate_cg.sh <project>
 
 ```bash
 bash scripts/java/reduce_third_party_libs.sh <project>
+rm -rf projects/java/cleaned_final_projects/<project>
+mkdir -p projects/java/cleaned_final_projects
 cp -r projects/java/name_handled/<project> projects/java/cleaned_final_projects/<project>
 ```
 
@@ -199,7 +201,7 @@ Schema 文件为 JSON 格式，包含：
 **命令：**
 
 ```bash
-python3 src/java/utils/parse_dependencies.py --project_name=<project> --function=parse_dependencies --suffix=<suffix>
+python src/java/utils/parse_dependencies.py --project_name=<project> --function=parse_dependencies --suffix=<suffix>
 ```
 
 - **作用：** 使用 `jdeps` 分析 Java 依赖关系，生成 `traversal.json` 文件
@@ -274,6 +276,7 @@ bash scripts/java/create_skeleton.sh <project> <model> <suffix> <temperature>
 
 - **作用：** 在 `data/java/skeletons/<project_name>` 下创建 Cangjie 骨架文件。
 - **骨架内容：** 包含类/方法签名的空实现，使用 `throw Exception('TODO')` 占位。
+- **运行时支持：** 如果骨架中出现 `AnyHashable`（例如 `HashMap<Object, V>` 被映射为 `HashMap<AnyHashable, V>`），脚本会自动把 `AnyHashable.cj` 渲染并注入到 `data/java/skeletons/<project>/src/runtime/AnyHashable.cj` 和 translations skeleton 的同名位置；包名按 `cjpm.toml` 的 `name` 生成为 `<project>.runtime`，引用形式为 `import <project>.runtime.AnyHashable`。
 - **参数说明：**
   - `<project>` - 项目名
   - `<model>` - 模型名（如 `gpt-4o-2024-11-20`）
@@ -305,7 +308,7 @@ bash scripts/java/build_mock_corpus.sh <project>
 **命令：**
 
 ```bash
-bash scripts/java/translate_fragment.sh <project> <model> <temperature>
+bash scripts/java/translate_fragment.sh <project> <model> <suffix> <temperature>
 ```
 
 - **作用：** 调用 LLM 翻译代码片段，按依赖顺序执行，每翻译一个片段即更新骨架、验证编译，并对普通方法自动跑 mock 测试。
@@ -318,13 +321,13 @@ bash scripts/java/translate_fragment.sh <project> <model> <temperature>
 
 ### 翻译流程
 
-1. **会话级初始化**：把 `helper.cj` 与 `simple_ioc.cj` 注入 `data/java/skeletons/<project>/src/`（按 `cjpm.toml` 中的 `name` 渲染包名）；翻译会话结束（含异常）时自动清理。
+1. **会话级初始化**：自动创建 `data/java/skeletons/<project>/src/runtime/`，把 `helper.cj` 与 `simple_ioc.cj` 注入其中（包名渲染为 `<project>.runtime`）；翻译会话结束（含异常）时自动清理这两个文件。
 2. **按依赖顺序获取片段**：使用反向调用图确定翻译顺序
 3. **RAG 检索**：从 CangjieCorpus 检索当前代码片段相关的文档上下文
 4. **生成 Prompt**：注入 RAG 上下文 + Cangjie ICL 示例（来自 configs/prompt_templates.yaml）
 5. **调用 LLM**：获取翻译结果
 6. **提取代码**：从 markdown 代码块中提取 Cangjie 代码
-7. **编译验证**：使用 `cjpm build` 验证代码正确性
+7. **编译验证**：使用 `cjpm build` 验证代码正确性；如果翻译结果首次引入 `AnyHashable`，编译验证会按当前 skeleton 的 `cjpm.toml` 包名自动补齐 `src/runtime/AnyHashable.cj` 和对应 import。
 8. **Mock 测试验证**：仅对**普通方法**（非 test 方法、非 constructor、非 field/static_initializer）触发：
    - 在 `/tmp/cangjie_mock/<project>/` 中按 `// focal call:` 注释匹配 simple class+method，找出该 fragment 对应的 `_test.cj`。
    - `change_mode apply` → 拷贝匹配测试到 `<skeleton>/src/test/` → `side_effect.instrument` → `cjpm test` → `side_effect.deinstrument` → `change_mode restore`。
@@ -336,6 +339,9 @@ bash scripts/java/translate_fragment.sh <project> <model> <temperature>
 
 - 翻译结果 JSON：`data/java/schemas_decomposed_tests/translations/<model>/<temperature>/<project>/`
 - 骨架文件：`data/java/skeletons/<project>/src/` (增量更新)
+- 运行时目录：`data/java/skeletons/<project>/src/runtime/`
+  - `helper.cj` / `simple_ioc.cj`：mock 翻译会话期间自动注入，测试通过 `import <project>.runtime.*` 使用
+  - `AnyHashable.cj`：仅在需要 `AnyHashable` 时按需生成
 - Schema 内 `test_execution` 字段：`{"outcome": "success" / "failure", "message": ...}` 或 `"not-exercised"` / `"pending"`
 
 ---
@@ -364,7 +370,7 @@ cjc --test src/test
 
 - Java 项目位于 `projects/java/original_projects/<project>/`，能用 `mvn` 单独构建
 - Cangjie 项目位于 `projects/cangjie/original_projects/<project>/`，含 `cjpm.toml` 与 `src/`
-- `src/java/isolation_validation/` 下的 `helper_template.cj.tmpl`、emitter 脚本以及 `simpleioc/src/simple_ioc.cj` 可访问
+- `src/java/isolation_validation/` 下的 `helper.cj`、`simple_ioc.cj` 与 emitter 脚本可访问
 - 安装：JDK 8/11、Maven、Python 3、Cangjie SDK（cjpm/cjc）
 - AspectJ + JUnit 4/5 依赖会被 `mock.sh` 自动注入到 Java 项目
 
@@ -387,9 +393,9 @@ cjc --test src/test
 ./runtime.sh inject <project>
 ```
 
-- 按 `cjpm.toml` 中的 `name` 字段将 `helper.cj` 与 `simple_ioc.cj` 渲染后写入 `projects/cangjie/original_projects/<project>/src/`
-- `helper.cj` 模板：`src/java/isolation_validation/helper_template.cj.tmpl`
-- `simple_ioc.cj` 来源：`<repo_parent>/cangjie/simpleioc/src/simple_ioc.cj`
+- 按 `cjpm.toml` 中的 `name` 字段将 `helper.cj` 与 `simple_ioc.cj` 渲染为 `<project>.runtime` 包后写入 `projects/cangjie/original_projects/<project>/src/runtime/`
+- `helper.cj` 模板：`src/java/isolation_validation/helper.cj`
+- `simple_ioc.cj` 模板：`src/java/isolation_validation/simple_ioc.cj`
 
 #### 3. 运行 mock 测试
 

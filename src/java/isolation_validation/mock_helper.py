@@ -84,6 +84,10 @@ def clear_stream_buffer_map() -> None:
 # 2. 容量/精度不安全的类型（如 BigInteger / BigDecimal）保守降级为 String snapshot。
 # 3. Java 输入输出流在仓颉里优先映射到 std.io 提供的真实流类型或字符串/字节快照。
 # 4. Optional 家族统一交给 Option 分支处理。
+# 5. HashMap/HashSet 的 key/element 类型在仓颉中必须满足 Hashable & Equatable，
+#    Any 不满足这些约束。当需要带泛型参数的 HashMap<AnyHashable, V> / HashSet<AnyHashable>
+#    时，请使用 <project>.runtime.AnyHashable（参见 AnyHashable.cj）。
+#    本映射表仅记录基类名（不含泛型），泛型约束在 get_cangjie_type() 中自动处理。
 type_map = {
     # 整数
     # Java int/Integer 在仓颉翻译端统一用 Int64（Cangjie 默认整数宽度），
@@ -1777,18 +1781,6 @@ def collect_required_imports(*json_values: Any, include_test_imports: bool = Tru
     for json_value in json_values:
         walk(json_value)
     return imports
-
-
-_HELPER_TEMPLATE_PATH = Path(__file__).parent / "helper_template.cj.tmpl"
-
-
-def write_helper_cj(target_dir: str | Path, package_name: str) -> Path:
-    """把 helper_template.cj.tmpl 用指定 package 渲染并写到 target_dir/helper.cj。"""
-    target = Path(target_dir) / "helper.cj"
-    content = _HELPER_TEMPLATE_PATH.read_text(encoding="utf-8").replace("__PACKAGE__", package_name)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(content, encoding="utf-8")
-    return target
 
 
 def _legacy_render_runtime_support() -> str:

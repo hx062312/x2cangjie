@@ -6,7 +6,7 @@ package jansi.internal
 // Imports End
 
 @Test
-open class JansiLoaderTest {
+public open class JansiLoaderTest {
     // Fields Begin
     // Fields End
 

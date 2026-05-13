@@ -5,7 +5,7 @@ package jansi
 
 // Imports End
 
-open class InstallUninstallTest {
+public open class InstallUninstallTest {
     // Fields Begin
     // Fields End
 
@@ -17,6 +17,3 @@ open class InstallUninstallTest {
     // Methods End
 }
 
-main(): Unit {
-    throw Exception('TODO')
-}

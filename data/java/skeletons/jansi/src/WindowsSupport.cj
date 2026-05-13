@@ -5,7 +5,7 @@ package jansi
 
 // Imports End
 
-open class WindowsSupport {
+public open class WindowsSupport {
     // Fields Begin
     // Fields End
 

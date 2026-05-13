@@ -5,7 +5,7 @@ package jansi
 
 // Imports End
 
-open class AnsiRenderer {
+public open class AnsiRenderer {
     // Fields Begin
     static let BEGIN_TOKEN: String = throw Exception('TODO')
     static let END_TOKEN: String = throw Exception('TODO')
@@ -24,7 +24,7 @@ open class AnsiRenderer {
         throw Exception('TODO')
     }
 
-    public static func render(text: String): String {
+    public static func render_1(text: String): String {
         throw Exception('TODO')
     }
 
@@ -51,7 +51,7 @@ open class AnsiRenderer {
     // Methods End
 }
 
-open class Code {
+public open class Code {
     // Fields Begin
     var BLACK: Any = throw Exception('TODO')
     var RED: Any = throw Exception('TODO')
@@ -130,5 +130,9 @@ open class Code {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

@@ -2,10 +2,10 @@
 package jansi.io
 
 // Imports Begin
-
+import std.io.OutputStream
 // Imports End
 
-class WindowsAnsiProcessor <: AnsiProcessor {
+public class WindowsAnsiProcessor <: AnsiProcessor {
     // Fields Begin
     let console: Int64 = throw Exception('TODO')
     static let FOREGROUND_BLACK: Int16 = throw Exception('TODO')
@@ -20,7 +20,7 @@ class WindowsAnsiProcessor <: AnsiProcessor {
     static let BACKGROUND_WHITE: Int16 = throw Exception('TODO')
     static let ANSI_FOREGROUND_COLOR_MAP: Array<Int16> = throw Exception('TODO')
     static let ANSI_BACKGROUND_COLOR_MAP: Array<Int16> = throw Exception('TODO')
-    let info: CONSOLE_SCREEN_BUFFER_INFO = throw Exception('TODO')
+    let info: Kernel32_CONSOLE_SCREEN_BUFFER_INFO = throw Exception('TODO')
     let originalColors: Int16 = throw Exception('TODO')
     var negative: Bool = throw Exception('TODO')
     var savedX: Int16 = throw Exception('TODO')
@@ -29,14 +29,17 @@ class WindowsAnsiProcessor <: AnsiProcessor {
 
     // Methods Begin
     public init(ps: OutputStream, console: Int64) {
+        super()
         throw Exception('TODO')
     }
 
     public init(ps: OutputStream, stdout: Bool) {
+        super()
         throw Exception('TODO')
     }
 
     public init(ps: OutputStream) {
+        super()
         throw Exception('TODO')
     }
 
@@ -157,5 +160,9 @@ class WindowsAnsiProcessor <: AnsiProcessor {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

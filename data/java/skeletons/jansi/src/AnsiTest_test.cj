@@ -2,12 +2,11 @@
 package jansi
 
 // Imports Begin
-import std.fs.*
-import std.process.*
+
 // Imports End
 
 @Test
-open class AnsiTest {
+public open class AnsiTest {
     // Fields Begin
     // Fields End
 

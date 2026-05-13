@@ -67,7 +67,7 @@ RUN git clone https://github.com/tree-sitter/tree-sitter-python.git /home/x2cang
 RUN mkdir -p /home/x2cangjie/misc/java-callgraph
 RUN git clone https://github.com/gousiosg/java-callgraph.git /home/x2cangjie/misc/java-callgraph
 WORKDIR /home/x2cangjie/misc/java-callgraph
-RUN bash -c "source /root/.sdkman/bin/sdkman-init.sh" && mvn clean install -DskipTests
+RUN source "$HOME/.sdkman/bin/sdkman-init.sh" && mvn clean install -DskipTests
 
 WORKDIR /home/x2cangjie
 

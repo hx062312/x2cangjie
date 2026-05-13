@@ -3,6 +3,10 @@ import argparse
 import re
 import json
 from collections import defaultdict, deque
+from pathlib import Path
+
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
 
 
 def detect_and_remove_cycles(graph):
@@ -40,14 +44,14 @@ def detect_and_remove_cycles(graph):
 
 
 def parse_dependencies(project_name, suffix):
-    dependencies_dir = f"data/java/dependencies{suffix}"
-    os.makedirs(f"{dependencies_dir}/{project_name}", exist_ok=True)
+    dependencies_dir = REPO_ROOT / f"data/java/dependencies{suffix}" / project_name
+    dependencies_dir.mkdir(parents=True, exist_ok=True)
 
-    project_dir = f"projects/java/cleaned_final_projects{suffix}"
+    project_dir = REPO_ROOT / f"projects/java/cleaned_final_projects{suffix}" / project_name
 
     class_dependencies = {}
     java_files = []
-    for root, dirs, files in os.walk(f"{project_dir}/{project_name}/src"):
+    for root, dirs, files in os.walk(project_dir / "src"):
         for file in files:
             if file.endswith(".java"):
                 java_files.append(os.path.join(root, file))
@@ -57,23 +61,20 @@ def parse_dependencies(project_name, suffix):
         class_dependencies.setdefault(class_name, [])
 
     os.system(
-        f"jdeps -verbose -dotoutput {dependencies_dir}/{project_name} {project_dir}/{project_name}/target/classes"
+        f"jdeps -verbose -dotoutput {dependencies_dir} {project_dir / 'target/classes'}"
     )
     os.system(
-        f"jdeps -verbose -dotoutput {dependencies_dir}/{project_name} {project_dir}/{project_name}/target/test-classes"
+        f"jdeps -verbose -dotoutput {dependencies_dir} {project_dir / 'target/test-classes'}"
     )
-    os.remove(f"{dependencies_dir}/{project_name}/summary.dot")
+    os.remove(dependencies_dir / "summary.dot")
 
-    dependencies_dir = os.path.join(
-        os.path.dirname(__file__), f"{dependencies_dir}/{project_name}"
-    )
     class_deps = os.listdir(dependencies_dir)
     for class_dep in class_deps:
 
         if not class_dep.endswith(".dot"):
             continue
 
-        with open(os.path.join(dependencies_dir, class_dep), "r") as f:
+        with open(dependencies_dir / class_dep, "r") as f:
             lines = f.readlines()
             for line in lines[2:-1]:
 
@@ -130,7 +131,7 @@ def parse_dependencies(project_name, suffix):
                     (class_name, class_name_path.split("$")[0])
                 )
 
-    with open(os.path.join(dependencies_dir, "dependencies.json"), "w") as f:
+    with open(dependencies_dir / "dependencies.json", "w") as f:
         json.dump(class_dependencies, f, indent=4)
 
     adjacency_list = defaultdict(list)
@@ -147,7 +148,7 @@ def parse_dependencies(project_name, suffix):
         and topological_order[i] in class_dependencies
     }
 
-    with open(os.path.join(dependencies_dir, "traversal.json"), "w") as f:
+    with open(dependencies_dir / "traversal.json", "w") as f:
         json.dump(traversal, f, indent=4)
 
 

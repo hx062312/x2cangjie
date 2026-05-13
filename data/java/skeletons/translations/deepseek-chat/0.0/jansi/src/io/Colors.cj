@@ -5,7 +5,7 @@ package jansi.io
 
 // Imports End
 
-open class Colors {
+public open class Colors {
     // Fields Begin
     static let epsilon: Float64 = throw Exception('TODO')
     static let kappa: Float64 = throw Exception('TODO')

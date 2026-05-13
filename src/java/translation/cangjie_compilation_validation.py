@@ -3,12 +3,41 @@ import os
 import re
 import subprocess
 import tempfile
+from pathlib import Path
+
+from src.java.isolation_validation import runtime_support
 
 # Status constants for compilation validation
 ERROR = "error"
 SUCCESS = "success"
 FAILURE = "failure"
 NOT_EXERCISED = "not-exercised"
+_PKG_NAME_RE = re.compile(r'^\s*name\s*=\s*"([^"]+)"', re.MULTILINE)
+
+
+def _read_package_name(project_root: Path) -> str:
+    cjpm_path = project_root / "cjpm.toml"
+    if cjpm_path.exists():
+        match = _PKG_NAME_RE.search(cjpm_path.read_text(encoding="utf-8"))
+        if match:
+            return match.group(1).strip()
+    return project_root.name
+
+
+def _insert_import(content: str, import_line: str) -> str:
+    if import_line in content:
+        return content
+
+    imports_begin = content.find('// Imports Begin')
+    if imports_begin != -1:
+        insert_pos = content.find('\n', imports_begin) + 1
+        return content[:insert_pos] + import_line + '\n' + content[insert_pos:]
+
+    package_end = content.find('\n', content.find('package '))
+    if package_end != -1:
+        return content[:package_end + 1] + '\n' + import_line + '\n' + content[package_end + 1:]
+
+    return import_line + '\n' + content
 
 
 def get_skeleton_path(fragment: dict, args) -> str:
@@ -95,10 +124,18 @@ def get_type_map():
     return _type_map
 
 
+# Hash containers whose key/element type must satisfy Hashable & Equatable.
+# Cangjie's Any does not satisfy these constraints, so use AnyHashable there.
+_HASH_KEY_CONTAINERS = frozenset({'HashMap', 'LinkedHashMap', 'TreeMap', 'ConcurrentHashMap'})
+_HASH_ELEMENT_CONTAINERS = frozenset({'HashSet', 'LinkedHashSet', 'TreeSet'})
+
+
 def get_cangjie_type(java_type, type_map):
     """
     Convert Java type to Cangjie type using type_map.
     Handles generic types like List<String> -> ArrayList<String>.
+
+    Replaces Any with AnyHashable in hash-container key/element positions.
     """
     if not java_type:
         return "Any"
@@ -127,15 +164,24 @@ def get_cangjie_type(java_type, type_map):
         if current.strip():
             generic_parts.append(current.strip())
 
-        generic_cangjie = ', '.join([get_cangjie_type(g, type_map) for g in generic_parts])
+        resolved_parts = [get_cangjie_type(g, type_map) for g in generic_parts]
 
         if base_type in type_map:
             base_cangjie = type_map[base_type]
             if '<' in base_cangjie:
                 base_cangjie = base_cangjie.split('<')[0]
-            return f"{base_cangjie}<{generic_cangjie}>"
         else:
-            return f"{base_type}<{generic_cangjie}>"
+            base_cangjie = base_type
+
+        if base_cangjie in _HASH_KEY_CONTAINERS and resolved_parts:
+            if resolved_parts[0] == 'Any':
+                resolved_parts[0] = 'AnyHashable'
+        elif base_cangjie in _HASH_ELEMENT_CONTAINERS and resolved_parts:
+            if resolved_parts[0] == 'Any':
+                resolved_parts[0] = 'AnyHashable'
+
+        generic_cangjie = ', '.join(resolved_parts)
+        return f"{base_cangjie}<{generic_cangjie}>"
 
     # Simple type lookup
     if java_type in type_map:
@@ -574,23 +620,20 @@ def reset_field_to_todo(skeleton_content: str, field_sig: str, args, fragment: d
         line_end = len(original_content)
     original_line = original_content[line_start:line_end]
 
-    # Replace in current skeleton
-    sig_start_in_skeleton = skeleton_content.find(field_sig)
-    if sig_start_in_skeleton == -1:
+    # The current skeleton may already contain the attempted field translation,
+    # so match the stable declaration prefix instead of the original TODO value.
+    field_prefix = field_sig.split('=', 1)[0].strip()
+    field_line_pattern = re.compile(
+        rf"^[ \t]*{re.escape(field_prefix)}\s*=.*$",
+        re.MULTILINE,
+    )
+    field_match = field_line_pattern.search(skeleton_content)
+    if field_match is None:
         raise ValueError(f"Field signature not found in current skeleton: {field_sig}")
-
-    throw_pos_in_skeleton = skeleton_content.find(throw_pattern, sig_start_in_skeleton)
-    if throw_pos_in_skeleton == -1:
-        raise ValueError(f"throw pattern not found in current skeleton for: {field_sig}")
-
-    line_start_in_skeleton = skeleton_content.rfind('\n', 0, throw_pos_in_skeleton) + 1
-    line_end_in_skeleton = skeleton_content.find('\n', throw_pos_in_skeleton)
-    if line_end_in_skeleton == -1:
-        line_end_in_skeleton = len(skeleton_content)
 
     # Add comment to mark as already translated
     new_line = original_line.rstrip() + "  // Already translated, compilation failed"
-    return skeleton_content[:line_start_in_skeleton] + new_line + skeleton_content[line_end_in_skeleton:]
+    return skeleton_content[:field_match.start()] + new_line + skeleton_content[field_match.end():]
 
 
 def reset_method_body_to_todo(skeleton_content: str, method_sig: str, args, fragment: dict) -> str:
@@ -690,13 +733,22 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
 
     modified_skeleton = replace_fragment_in_skeleton(skeleton_content, fragment_sig, fragment_body, fragment_type)
 
-    with open(skeleton_file, 'w') as f:
-        f.write(modified_skeleton)
-
     project_root = os.path.abspath(os.path.dirname(skeleton_file))
     if '/translations/' in skeleton_file:
         while project_root and not os.path.exists(os.path.join(project_root, 'cjpm.toml')):
             project_root = os.path.dirname(project_root)
+    project_root_path = Path(project_root)
+
+    if 'AnyHashable' in modified_skeleton:
+        package_name = _read_package_name(project_root_path)
+        modified_skeleton = _insert_import(
+            modified_skeleton,
+            runtime_support.any_hashable_import(package_name),
+        )
+        runtime_support.inject_any_hashable(project_root_path / "src", package_name)
+
+    with open(skeleton_file, 'w') as f:
+        f.write(modified_skeleton)
 
     try:
         cmd = ['cjpm', 'build']

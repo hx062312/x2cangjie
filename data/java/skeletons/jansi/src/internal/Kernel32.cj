@@ -2,10 +2,10 @@
 package jansi.internal
 
 // Imports Begin
-// No specific import needed for arrays in Cangjie
+
 // Imports End
 
-open class Kernel32 {
+public open class Kernel32 {
     // Fields Begin
     static var FOREGROUND_BLUE: Int16 = throw Exception('TODO')
     static var FOREGROUND_GREEN: Int16 = throw Exception('TODO')
@@ -37,7 +37,7 @@ open class Kernel32 {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
@@ -69,7 +69,7 @@ open class Kernel32 {
         throw Exception('TODO')
     }
 
-    public static func GetConsoleScreenBufferInfo(consoleOutput: Int64, consoleScreenBufferInfo: CONSOLE_SCREEN_BUFFER_INFO): Int64 {
+    public static func GetConsoleScreenBufferInfo(consoleOutput: Int64, consoleScreenBufferInfo: Kernel32_CONSOLE_SCREEN_BUFFER_INFO): Int64 {
         throw Exception('TODO')
     }
 
@@ -77,15 +77,15 @@ open class Kernel32 {
         throw Exception('TODO')
     }
 
-    public static func SetConsoleCursorPosition(consoleOutput: Int64, cursorPosition: COORD): Int64 {
+    public static func SetConsoleCursorPosition(consoleOutput: Int64, cursorPosition: Kernel32_COORD): Int64 {
         throw Exception('TODO')
     }
 
-    public static func FillConsoleOutputCharacterW(consoleOutput: Int64, character: Rune, length: Int64, writeCoord: COORD, numberOfCharsWritten: Array<Int64>): Int64 {
+    public static func FillConsoleOutputCharacterW(consoleOutput: Int64, character: Rune, length: Int64, writeCoord: Kernel32_COORD, numberOfCharsWritten: Array<Int64>): Int64 {
         throw Exception('TODO')
     }
 
-    public static func FillConsoleOutputAttribute(consoleOutput: Int64, attribute: Int16, length: Int64, writeCoord: COORD, numberOfAttrsWritten: Array<Int64>): Int64 {
+    public static func FillConsoleOutputAttribute(consoleOutput: Int64, attribute: Int16, length: Int64, writeCoord: Kernel32_COORD, numberOfAttrsWritten: Array<Int64>): Int64 {
         throw Exception('TODO')
     }
 
@@ -117,7 +117,7 @@ open class Kernel32 {
         throw Exception('TODO')
     }
 
-    public static func ScrollConsoleScreenBuffer(consoleOutput: Int64, scrollRectangle: SMALL_RECT, clipRectangle: SMALL_RECT, destinationOrigin: COORD, fill: CHAR_INFO): Int64 {
+    public static func ScrollConsoleScreenBuffer(consoleOutput: Int64, scrollRectangle: Kernel32_SMALL_RECT, clipRectangle: Kernel32_SMALL_RECT, destinationOrigin: Kernel32_COORD, fill: Kernel32_CHAR_INFO): Int64 {
         throw Exception('TODO')
     }
 
@@ -137,11 +137,11 @@ open class Kernel32 {
         throw Exception('TODO')
     }
 
-    public static func readConsoleInputHelper(handle: Int64, count: Int64, peek: Bool): Array<INPUT_RECORD> {
+    public static func readConsoleInputHelper(handle: Int64, count: Int64, peek: Bool): Array<Kernel32_INPUT_RECORD> {
         throw Exception('TODO')
     }
 
-    public static func readConsoleKeyInput(handle: Int64, count: Int64, peek: Bool): Array<INPUT_RECORD> {
+    public static func readConsoleKeyInput(handle: Int64, count: Int64, peek: Bool): Array<Kernel32_INPUT_RECORD> {
         throw Exception('TODO')
     }
 
@@ -156,7 +156,7 @@ open class Kernel32 {
     // Methods End
 }
 
-open class SMALL_RECT {
+public open class Kernel32_SMALL_RECT {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     var left: Int16 = throw Exception('TODO')
@@ -173,7 +173,7 @@ open class SMALL_RECT {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
@@ -185,14 +185,14 @@ open class SMALL_RECT {
         throw Exception('TODO')
     }
 
-    public open func copy(): SMALL_RECT {
+    public open func copy(): Kernel32_SMALL_RECT {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class COORD {
+public open class Kernel32_COORD {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     var x: Int16 = throw Exception('TODO')
@@ -207,25 +207,25 @@ open class COORD {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
-    public open func copy(): COORD {
+    public open func copy(): Kernel32_COORD {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class CONSOLE_SCREEN_BUFFER_INFO {
+public open class Kernel32_CONSOLE_SCREEN_BUFFER_INFO {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
-    var size: COORD = throw Exception('TODO')
-    var cursorPosition: COORD = throw Exception('TODO')
+    var size: Kernel32_COORD = throw Exception('TODO')
+    var cursorPosition: Kernel32_COORD = throw Exception('TODO')
     var attributes: Int16 = throw Exception('TODO')
-    var window: SMALL_RECT = throw Exception('TODO')
-    var maximumWindowSize: COORD = throw Exception('TODO')
+    var window: Kernel32_SMALL_RECT = throw Exception('TODO')
+    var maximumWindowSize: Kernel32_COORD = throw Exception('TODO')
     // Fields End
 
     // Static Initializer Begin
@@ -236,7 +236,7 @@ open class CONSOLE_SCREEN_BUFFER_INFO {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
@@ -251,7 +251,7 @@ open class CONSOLE_SCREEN_BUFFER_INFO {
     // Methods End
 }
 
-open class CHAR_INFO {
+public open class Kernel32_CHAR_INFO {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     var attributes: Int16 = throw Exception('TODO')
@@ -266,14 +266,14 @@ open class CHAR_INFO {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class KEY_EVENT_RECORD {
+public open class Kernel32_KEY_EVENT_RECORD {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     static var CAPSLOCK_ON: Int64 = throw Exception('TODO')
@@ -301,7 +301,7 @@ open class KEY_EVENT_RECORD {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
@@ -312,7 +312,7 @@ open class KEY_EVENT_RECORD {
     // Methods End
 }
 
-open class MOUSE_EVENT_RECORD {
+public open class Kernel32_MOUSE_EVENT_RECORD {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     static var FROM_LEFT_1ST_BUTTON_PRESSED: Int64 = throw Exception('TODO')
@@ -333,7 +333,7 @@ open class MOUSE_EVENT_RECORD {
     static var MOUSE_HWHEELED: Int64 = throw Exception('TODO')
     static var MOUSE_MOVED: Int64 = throw Exception('TODO')
     static var MOUSE_WHEELED: Int64 = throw Exception('TODO')
-    var mousePosition: COORD = throw Exception('TODO')
+    var mousePosition: Kernel32_COORD = throw Exception('TODO')
     var buttonState: Int64 = throw Exception('TODO')
     var controlKeyState: Int64 = throw Exception('TODO')
     var eventFlags: Int64 = throw Exception('TODO')
@@ -347,7 +347,7 @@ open class MOUSE_EVENT_RECORD {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
@@ -358,10 +358,10 @@ open class MOUSE_EVENT_RECORD {
     // Methods End
 }
 
-open class WINDOW_BUFFER_SIZE_RECORD {
+public open class Kernel32_WINDOW_BUFFER_SIZE_RECORD {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
-    var size: COORD = throw Exception('TODO')
+    var size: Kernel32_COORD = throw Exception('TODO')
     // Fields End
 
     // Static Initializer Begin
@@ -372,7 +372,7 @@ open class WINDOW_BUFFER_SIZE_RECORD {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
@@ -383,7 +383,7 @@ open class WINDOW_BUFFER_SIZE_RECORD {
     // Methods End
 }
 
-open class FOCUS_EVENT_RECORD {
+public open class Kernel32_FOCUS_EVENT_RECORD {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     var setFocus: Bool = throw Exception('TODO')
@@ -397,14 +397,14 @@ open class FOCUS_EVENT_RECORD {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class MENU_EVENT_RECORD {
+public open class Kernel32_MENU_EVENT_RECORD {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     var commandId: Int64 = throw Exception('TODO')
@@ -418,14 +418,14 @@ open class MENU_EVENT_RECORD {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class INPUT_RECORD {
+public open class Kernel32_INPUT_RECORD {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     static var KEY_EVENT: Int16 = throw Exception('TODO')
@@ -434,11 +434,11 @@ open class INPUT_RECORD {
     static var FOCUS_EVENT: Int16 = throw Exception('TODO')
     static var MENU_EVENT: Int16 = throw Exception('TODO')
     var eventType: Int16 = throw Exception('TODO')
-    var keyEvent: KEY_EVENT_RECORD = throw Exception('TODO')
-    var mouseEvent: MOUSE_EVENT_RECORD = throw Exception('TODO')
-    var windowBufferSizeEvent: WINDOW_BUFFER_SIZE_RECORD = throw Exception('TODO')
-    var menuEvent: MENU_EVENT_RECORD = throw Exception('TODO')
-    var focusEvent: FOCUS_EVENT_RECORD = throw Exception('TODO')
+    var keyEvent: Kernel32_KEY_EVENT_RECORD = throw Exception('TODO')
+    var mouseEvent: Kernel32_MOUSE_EVENT_RECORD = throw Exception('TODO')
+    var windowBufferSizeEvent: Kernel32_WINDOW_BUFFER_SIZE_RECORD = throw Exception('TODO')
+    var menuEvent: Kernel32_MENU_EVENT_RECORD = throw Exception('TODO')
+    var focusEvent: Kernel32_FOCUS_EVENT_RECORD = throw Exception('TODO')
     // Fields End
 
     // Static Initializer Begin
@@ -449,11 +449,11 @@ open class INPUT_RECORD {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
-    public static func memmove(dest: INPUT_RECORD, src: Int64, size: Int64): Unit {
+    public static func memmove(dest: Kernel32_INPUT_RECORD, src: Int64, size: Int64): Unit {
         throw Exception('TODO')
     }
 

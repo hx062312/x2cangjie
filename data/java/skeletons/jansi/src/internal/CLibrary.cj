@@ -5,7 +5,7 @@ package jansi.internal
 
 // Imports End
 
-open class CLibrary {
+public open class CLibrary {
     // Fields Begin
     static let LOADED: Bool = throw Exception('TODO')
     static var STDOUT_FILENO: Int64 = throw Exception('TODO')
@@ -31,7 +31,7 @@ open class CLibrary {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
@@ -43,15 +43,15 @@ open class CLibrary {
         throw Exception('TODO')
     }
 
-    public static func openpty(amaster: Array<Int64>, aslave: Array<Int64>, name: Array<Byte>, termios: Termios, winsize: WinSize): Int64 {
+    public static func openpty(amaster: Array<Int64>, aslave: Array<Int64>, name: Array<Byte>, termios: CLibrary_Termios, winsize: CLibrary_WinSize): Int64 {
         throw Exception('TODO')
     }
 
-    public static func tcgetattr(filedes: Int64, termios: Termios): Int64 {
+    public static func tcgetattr(filedes: Int64, termios: CLibrary_Termios): Int64 {
         throw Exception('TODO')
     }
 
-    public static func tcsetattr(filedes: Int64, optional_actions: Int64, termios: Termios): Int64 {
+    public static func tcsetattr(filedes: Int64, optional_actions: Int64, termios: CLibrary_Termios): Int64 {
         throw Exception('TODO')
     }
 
@@ -59,14 +59,14 @@ open class CLibrary {
         throw Exception('TODO')
     }
 
-    public static func ioctl(filedes: Int64, request: Int64, params: WinSize): Int64 {
+    public static func ioctl(filedes: Int64, request: Int64, params: CLibrary_WinSize): Int64 {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class WinSize {
+public open class CLibrary_WinSize {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     var ws_row: Int16 = throw Exception('TODO')
@@ -83,7 +83,7 @@ open class WinSize {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 
@@ -98,7 +98,7 @@ open class WinSize {
     // Methods End
 }
 
-open class Termios {
+public open class CLibrary_Termios {
     // Fields Begin
     static var SIZEOF: Int64 = throw Exception('TODO')
     var c_iflag: Int64 = throw Exception('TODO')
@@ -118,7 +118,7 @@ open class Termios {
     // Static Initializer End
 
     // Methods Begin
-    private static func init(): Unit {
+    private static func init_(): Unit {
         throw Exception('TODO')
     }
 

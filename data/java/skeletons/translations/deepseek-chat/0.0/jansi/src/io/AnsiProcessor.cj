@@ -3,9 +3,10 @@ package jansi.io
 
 // Imports Begin
 import std.collection.ArrayList
+import std.io.OutputStream
 // Imports End
 
-open class AnsiProcessor {
+public open class AnsiProcessor {
     // Fields Begin
     static let ERASE_SCREEN_TO_END: Int64 = throw Exception('TODO')
     static let ERASE_SCREEN_TO_BEGINING: Int64 = throw Exception('TODO')
@@ -204,5 +205,9 @@ open class AnsiProcessor {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

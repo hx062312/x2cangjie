@@ -5,7 +5,7 @@ script remains the one-shot prerequisite that emits *_test.cj / *.workflow.json
 into /tmp/cangjie_mock/<project>/.
 
 Per-translation-session lifecycle:
-  - session_inject(skeleton_dir): write helper.cj + simple_ioc.cj into skeleton src
+  - session_inject(skeleton_dir): write helper.cj + simple_ioc.cj into skeleton src/runtime
   - run_mock_tests_for_fragment(...): apply change_mode -> instrument -> cjpm test
                                       -> deinstrument -> restore change_mode
   - session_clean(skeleton_dir): remove helper.cj + simple_ioc.cj
@@ -35,7 +35,7 @@ def _read_package_name(cjpm_path: Path) -> str:
 
 
 def session_inject(skeleton_dir: Path) -> str:
-    """Render helper.cj + simple_ioc.cj into <skeleton>/src using cjpm.toml package name."""
+    """Render helper.cj + simple_ioc.cj into <skeleton>/src/runtime using cjpm.toml package name."""
     cjpm_path = skeleton_dir / "cjpm.toml"
     pkg = _read_package_name(cjpm_path)
     runtime_support.inject(skeleton_dir / "src", pkg)

@@ -3,15 +3,17 @@ package jansi.io
 
 // Imports Begin
 import std.collection.ArrayList
+import std.io.OutputStream
 // Imports End
 
-open class ColorsAnsiProcessor <: AnsiProcessor {
+public open class ColorsAnsiProcessor <: AnsiProcessor {
     // Fields Begin
     let colors: AnsiColors = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
     public init(os: OutputStream, colors: AnsiColors) {
+        super()
         throw Exception('TODO')
     }
 
@@ -28,5 +30,9 @@ open class ColorsAnsiProcessor <: AnsiProcessor {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

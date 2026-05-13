@@ -2,13 +2,10 @@
 package jansi.internal
 
 // Imports Begin
-// No additional imports needed for Thread in Cangjie
-import std.collection.ArrayList
-import std.fs.*
-import std.random.Random
+import std.io.InputStream
 // Imports End
 
-open class JansiLoader {
+public open class JansiLoader {
     // Fields Begin
     static var loaded: Bool = throw Exception('TODO')
     static var nativeLibraryPath: String = throw Exception('TODO')
@@ -36,7 +33,7 @@ open class JansiLoader {
         throw Exception('TODO')
     }
 
-    private static func readNBytes(in: InputStream, b: Array<Byte>): Int64 {
+    private static func readNBytes(in__: InputStream, b: Array<Byte>): Int64 {
         throw Exception('TODO')
     }
 

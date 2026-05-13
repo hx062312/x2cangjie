@@ -5,7 +5,7 @@ package jansi
 
 // Imports End
 
-open class AnsiConsoleExample {
+public open class AnsiConsoleExample {
     // Fields Begin
     // Fields End
 
@@ -17,6 +17,3 @@ open class AnsiConsoleExample {
     // Methods End
 }
 
-main(): Unit {
-    throw Exception('TODO')
-}

@@ -73,6 +73,15 @@ Java to Cangjie common mappings:
 - instanceof -> match (pattern matching)
 - Generics <T> -> <T>
 
+IMPORTANT: Cangjie HashMap/HashSet key and element types MUST satisfy Hashable & Equatable.
+The top type Any does NOT satisfy these constraints. Therefore:
+- HashMap<Object, V> -> HashMap<AnyHashable, V>  (NOT HashMap<Any, V>)
+- HashSet<Object> -> HashSet<AnyHashable>         (NOT HashSet<Any>)
+- Use AnyHashable (from import <project>.runtime.AnyHashable) whenever Any would
+  appear as a HashMap key or HashSet element type.
+- To create an AnyHashable from a value: AnyHashable(value) or AnyHashable.of<T>(value)
+- To extract the original value: anyHashableValue.unwrap()
+
 Notes:
 1. Keep the original Java code logic unchanged
 2. Use Cangjie idiomatic syntax

@@ -531,6 +531,7 @@ def process_test_log(
         import_block = render_import_block(*collect_snapshots(workflow))
         fixed_imports = [
             f"import {project_name}.*",
+            f"import {project_name}.runtime.*",
             "import std.io.*",
             "import std.collection.*",
         ]

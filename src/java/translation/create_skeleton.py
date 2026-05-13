@@ -7,8 +7,10 @@ import argparse
 import json
 import os
 import sys
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+from src.java.isolation_validation import runtime_support
 from src.java.utils.get_dependencies import get_dependencies
 from src.java.utils.get_class_order import get_class_order
 from src.java.utils.get_custom_types import get_custom_types
@@ -95,10 +97,18 @@ def remove_duplicate_methods(schema, class_to_methods=None, all_schema_classes=N
 # ============================================================
 
 
+# Hash containers whose key/element type must satisfy Hashable & Equatable.
+# Cangjie's Any does not satisfy these constraints, so use AnyHashable there.
+_HASH_KEY_CONTAINERS = frozenset({'HashMap', 'LinkedHashMap', 'TreeMap', 'ConcurrentHashMap'})
+_HASH_ELEMENT_CONTAINERS = frozenset({'HashSet', 'LinkedHashSet', 'TreeSet'})
+
+
 def get_cangjie_type(java_type, type_map):
     """
     Convert Java type to Cangjie type using type_map.
     Handles generic types like List<String> -> ArrayList<String>.
+
+    Replaces Any with AnyHashable in hash-container key/element positions.
     """
     if not java_type:
         return "Any"
@@ -128,7 +138,7 @@ def get_cangjie_type(java_type, type_map):
         if current.strip():
             generic_parts.append(current.strip())
 
-        generic_cangjie = ', '.join([get_cangjie_type(g, type_map) for g in generic_parts])
+        resolved_parts = [get_cangjie_type(g, type_map) for g in generic_parts]
 
         # Get base type translation
         if base_type in type_map:
@@ -136,10 +146,19 @@ def get_cangjie_type(java_type, type_map):
             # If base_cangjie already has generic params, replace them
             if '<' in base_cangjie:
                 base_cangjie = base_cangjie.split('<')[0]
-            return f"{base_cangjie}<{generic_cangjie}>"
         else:
             # Unknown base type, use as-is with Cangjie-style generics
-            return f"{base_type}<{generic_cangjie}>"
+            base_cangjie = base_type
+
+        if base_cangjie in _HASH_KEY_CONTAINERS and resolved_parts:
+            if resolved_parts[0] == 'Any':
+                resolved_parts[0] = 'AnyHashable'
+        elif base_cangjie in _HASH_ELEMENT_CONTAINERS and resolved_parts:
+            if resolved_parts[0] == 'Any':
+                resolved_parts[0] = 'AnyHashable'
+
+        generic_cangjie = ', '.join(resolved_parts)
+        return f"{base_cangjie}<{generic_cangjie}>"
 
     # Simple type lookup
     if java_type in type_map:
@@ -877,7 +896,7 @@ def _extract_type_names(cangjie_type_str):
 def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
                                cjpm_name, type_map, class_to_package,
                                dependencies, custom_types, processed_classes,
-                               std_type_imports):
+                               std_type_imports, skeleton=''):
     """Build the complete import section for a skeleton file.
 
     Returns the import string to replace __IMPORTS_PLACEHOLDER__.
@@ -888,7 +907,10 @@ def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
                          processed_classes, schema, class_order,
                          java_path, cjpm_name, class_to_package)
 
-    _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports)
+    _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports, cjpm_name)
+
+    if 'AnyHashable' in skeleton:
+        cangjie_imports.add(runtime_support.any_hashable_import(cjpm_name))
 
     # Filter out custom types (they're in the same project, no import needed)
     filtered_imports = set()
@@ -943,8 +965,10 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
             cangjie_imports.add(f"import {ref_pkg}.{ref_name}")
 
 
-def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports):
+def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports, cjpm_name):
     """Add imports for library types (std + type_translations)."""
+    uses_any_hashable = False
+
     # Scan all types for std imports
     for class_key in class_order:
         if class_key not in schema.get('classes', {}):
@@ -952,12 +976,18 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_im
         class_info = schema['classes'][class_key]
         for field_key, field_info in class_info.get('fields', {}).items():
             for t in field_info.get('types', []):
-                _add_std_import_for_type(get_cangjie_type(t, type_map), cangjie_imports, std_type_imports)
+                cangjie_type = get_cangjie_type(t, type_map)
+                uses_any_hashable = uses_any_hashable or 'AnyHashable' in cangjie_type
+                _add_std_import_for_type(cangjie_type, cangjie_imports, std_type_imports)
         for method_key, method_info in class_info.get('methods', {}).items():
             for rt in method_info.get('return_types', []):
-                _add_std_import_for_type(get_cangjie_type(rt, type_map), cangjie_imports, std_type_imports)
+                cangjie_type = get_cangjie_type(rt, type_map)
+                uses_any_hashable = uses_any_hashable or 'AnyHashable' in cangjie_type
+                _add_std_import_for_type(cangjie_type, cangjie_imports, std_type_imports)
             for p in method_info.get('parameters', []):
-                _add_std_import_for_type(get_cangjie_type(p.get('type', 'Any'), type_map), cangjie_imports, std_type_imports)
+                cangjie_type = get_cangjie_type(p.get('type', 'Any'), type_map)
+                uses_any_hashable = uses_any_hashable or 'AnyHashable' in cangjie_type
+                _add_std_import_for_type(cangjie_type, cangjie_imports, std_type_imports)
 
     # Collect std imports from type_translations
     for class_key in class_order:
@@ -974,6 +1004,16 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_im
                                 imp = imp.strip()
                                 if imp:
                                     cangjie_imports.add(imp)
+                        value = (
+                            tdata.get('translated_target_type')
+                            or tdata.get('translation')
+                            or tdata.get('type')
+                            or ''
+                        )
+                        uses_any_hashable = uses_any_hashable or 'AnyHashable' in str(value)
+
+    if uses_any_hashable:
+        cangjie_imports.add(runtime_support.any_hashable_import(cjpm_name))
 
 
 def _add_std_import_for_type(cangjie_type_name, cangjie_imports, std_type_imports):
@@ -1055,7 +1095,7 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
         schema, class_order, schema_fname, java_path,
         cjpm_name, type_map, class_to_package,
         dependencies, custom_types, processed_classes,
-        std_type_imports
+        std_type_imports, skeleton
     )
     skeleton = skeleton.replace('__IMPORTS_PLACEHOLDER__\n', imports_str)
 
@@ -1101,7 +1141,7 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
     with open(schema_path, 'w') as f:
         json.dump(target_schema, f, indent=4)
 
-    return has_main_from_file
+    return 'AnyHashable' in skeleton
 
 
 # ============================================================
@@ -1194,16 +1234,17 @@ def main(args):
         remove_duplicate_methods(schema, class_to_methods, all_schema_classes)
 
     # Phase 2: Generate Skeletons (using Phase 1 schema data — no reload from disk)
+    uses_any_hashable = False
     for schema_fname, schema_path, schema in all_schemas:
         if 'package-info' in schema_fname or 'module-info' in schema_fname:
             continue
 
-        generate_one_file_skeleton(
+        uses_any_hashable = generate_one_file_skeleton(
             schema, schema_fname, schema_path, cjpm_name, type_map,
             class_to_package, all_schema_classes, class_to_methods,
             dependencies, custom_types, skeletons_dir, translations_skeleton_dir,
             std_type_imports
-        )
+        ) or uses_any_hashable
 
     # Phase 3: Generate cjpm.toml
     output_type = "static"
@@ -1229,6 +1270,10 @@ def main(args):
     translations_cjpm_path = f"{translations_skeleton_dir}/cjpm.toml"
     with open(translations_cjpm_path, 'w') as f:
         f.write(cjpm_content)
+
+    if uses_any_hashable:
+        runtime_support.inject_any_hashable(Path(skeletons_dir) / "src", cjpm_name)
+        runtime_support.inject_any_hashable(Path(translations_skeleton_dir) / "src", cjpm_name)
 
     print(f"\nSkeleton generation complete: {skeletons_dir}")
 

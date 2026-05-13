@@ -6,7 +6,7 @@ package jansi.internal
 // Imports End
 
 @Test
-open class Kernel32Test {
+public open class Kernel32Test {
     // Fields Begin
     // Fields End
 

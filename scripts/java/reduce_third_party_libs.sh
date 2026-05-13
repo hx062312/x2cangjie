@@ -10,4 +10,4 @@ fi
 project="$1"
 
 export PYTHONPATH=$(pwd)
-python3 ./src/java/preprocessing/reduce_third_party_libs.py "$project"
+python ./src/java/preprocessing/reduce_third_party_libs.py "$project"

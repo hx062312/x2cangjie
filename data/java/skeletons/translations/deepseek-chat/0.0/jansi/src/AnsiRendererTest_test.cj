@@ -6,7 +6,7 @@ package jansi
 // Imports End
 
 @Test
-open class AnsiRendererTest {
+public open class AnsiRendererTest {
     // Fields Begin
     // Fields End
 

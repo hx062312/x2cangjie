@@ -12,4 +12,4 @@ project="$1"
 
 echo "Handling name conflicts for $project"
 export PYTHONPATH=$(pwd)
-python3 ./src/java/preprocessing/handle_name_conflicts.py --project "$project"
+python ./src/java/preprocessing/handle_name_conflicts.py --project "$project"

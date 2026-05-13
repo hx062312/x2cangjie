@@ -3,11 +3,10 @@ package jansi.internal
 
 // Imports Begin
 import std.collection.HashMap
-import std.io.*
-import std.process.*
+import std.io.InputStream
 // Imports End
 
-open class OSInfo {
+public open class OSInfo {
     // Fields Begin
     static let X86: String = throw Exception('TODO')
     static let X86_64: String = throw Exception('TODO')
@@ -47,7 +46,7 @@ open class OSInfo {
         throw Exception('TODO')
     }
 
-    private static func readFully(in: InputStream): String {
+    private static func readFully(in__: InputStream): String {
         throw Exception('TODO')
     }
 
@@ -70,6 +69,3 @@ open class OSInfo {
     // Methods End
 }
 
-main(): Unit {
-    throw Exception('TODO')
-}

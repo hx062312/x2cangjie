@@ -3,9 +3,10 @@ package jansi.io
 
 // Imports Begin
 import std.collection.ArrayList
+import std.io.OutputStream
 // Imports End
 
-open class AnsiOutputStream <: FilterOutputStream {
+public open class AnsiOutputStream {
     // Fields Begin
     static let RESET_CODE: Array<Byte> = throw Exception('TODO')
     static let LOOKING_FOR_FIRST_ESC_CHAR: Int64 = throw Exception('TODO')
@@ -33,18 +34,18 @@ open class AnsiOutputStream <: FilterOutputStream {
     let options: ArrayList<Any> = throw Exception('TODO')
     var state: Int64 = throw Exception('TODO')
     let cs: Any = throw Exception('TODO')
-    let width: WidthSupplier = throw Exception('TODO')
+    let width: AnsiOutputStream_WidthSupplier = throw Exception('TODO')
     let processor: AnsiProcessor = throw Exception('TODO')
-    let type: AnsiType = throw Exception('TODO')
+    let type__: AnsiType = throw Exception('TODO')
     let colors: AnsiColors = throw Exception('TODO')
-    let installer: IoRunnable = throw Exception('TODO')
-    let uninstaller: IoRunnable = throw Exception('TODO')
+    let installer: AnsiOutputStream_IoRunnable = throw Exception('TODO')
+    let uninstaller: AnsiOutputStream_IoRunnable = throw Exception('TODO')
     var mode: AnsiMode = throw Exception('TODO')
     var resetAtUninstall: Bool = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public init(os: OutputStream, width: WidthSupplier, mode: AnsiMode, processor: AnsiProcessor, type: AnsiType, colors: AnsiColors, cs: Any, installer: IoRunnable, uninstaller: IoRunnable, resetAtUninstall: Bool) {
+    public init(os: OutputStream, width: AnsiOutputStream_WidthSupplier, mode: AnsiMode, processor: AnsiProcessor, type__: AnsiType, colors: AnsiColors, cs: Any, installer: AnsiOutputStream_IoRunnable, uninstaller: AnsiOutputStream_IoRunnable, resetAtUninstall: Bool) {
         throw Exception('TODO')
     }
 
@@ -109,33 +110,31 @@ open class AnsiOutputStream <: FilterOutputStream {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
-interface IoRunnable {
-    // Fields Begin
-    // Fields End
-
+public interface AnsiOutputStream_IoRunnable {
     // Methods Begin
-    open func run(): Unit {
+    func run(): Unit {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-interface WidthSupplier {
-    // Fields Begin
-    // Fields End
-
+public interface AnsiOutputStream_WidthSupplier {
     // Methods Begin
-    open func getTerminalWidth(): Int64 {
+    func getTerminalWidth(): Int64 {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class ZeroWidthSupplier <: WidthSupplier {
+public open class AnsiOutputStream_ZeroWidthSupplier <: AnsiOutputStream_WidthSupplier {
     // Fields Begin
     // Fields End
 

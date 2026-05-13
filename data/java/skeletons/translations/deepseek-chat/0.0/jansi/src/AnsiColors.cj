@@ -5,7 +5,7 @@ package jansi
 
 // Imports End
 
-open class AnsiColors {
+public open class AnsiColors {
     // Fields Begin
     var Colors16: Any = throw Exception('TODO')
     var Colors256: Any = throw Exception('TODO')
@@ -18,10 +18,14 @@ open class AnsiColors {
         throw Exception('TODO')
     }
 
-    open func getDescription(): String {
+    public open func getDescription(): String {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
