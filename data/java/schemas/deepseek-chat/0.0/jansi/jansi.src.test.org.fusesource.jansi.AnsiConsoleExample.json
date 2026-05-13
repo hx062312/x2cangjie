@@ -1,0 +1,252 @@
+{
+    "path": "projects/java/cleaned_final_projects/jansi/src/test/java/org/fusesource/jansi/AnsiConsoleExample.java",
+    "imports": {
+        "18-18:import java.io.FileInputStream;": {
+            "start": 18,
+            "end": 18,
+            "body": "import java.io.FileInputStream;"
+        },
+        "19-19:import java.io.IOException;": {
+            "start": 19,
+            "end": 19,
+            "body": "import java.io.IOException;"
+        }
+    },
+    "classes": {
+        "24-44:AnsiConsoleExample": {
+            "start": 24,
+            "end": 44,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "26-26:AnsiConsoleExample": {
+                    "start": 26,
+                    "end": 26,
+                    "body": [
+                        "private AnsiConsoleExample() {}"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "AnsiConsoleExample()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "<init>()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private init() {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "28-43:main": {
+                    "start": 28,
+                    "end": 43,
+                    "body": [
+                        "public static void main(String[] args) throws IOException {",
+                        "        String file = \"src/test/resources/jansi.ans\";",
+                        "        if (args.length > 0) file = args[0];",
+                        "",
+                        "        // Allows us to disable ANSI processing.",
+                        "        if (\"true\".equals(System.getProperty(\"jansi\", \"true\"))) {",
+                        "            AnsiConsole.systemInstall();",
+                        "        }",
+                        "",
+                        "        FileInputStream f = new FileInputStream(file);",
+                        "        int c;",
+                        "        while ((c = f.read()) >= 0) {",
+                        "            System.out.write(c);",
+                        "        }",
+                        "        f.close();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String",
+                        "FileInputStream",
+                        "int"
+                    ],
+                    "signature": "main( String[] args)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String[]",
+                            "name": "args"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiConsole",
+                            "61-567:AnsiConsole",
+                            "515-528:systemInstall"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "read()"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "write(int)"
+                        ],
+                        [
+                            "library",
+                            "java.io.FileInputStream",
+                            "close()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:09:41",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:42",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileInputStream": {
+                                "identifier": "FileInputStream",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:51:20",
+                                "source_type": "FileInputStream",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.io.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nIn Cangjie, the standard library's `std.io.File` type provides file input/output operations, including reading bytes from a file. It serves as the equivalent of Java's `FileInputStream` for obtaining input bytes from a file. The previous error occurred because `File` was not recognized; this is resolved by importing `std.io.*`.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFileInputStream\n```\n\nJAVA TYPE DESCRIPTION:\nA FileInputStream obtains input bytes\n from a file in a file system. What files\n are  available depends on the host environment.\n\n\nJAVA CODE:\n```\n    public static void main(String[] args) throws IOException {\n        String file = \"src/test/resources/jansi.ans\";\n        if (args.length > 0) file = args[0];\n\n        // Allows us to disable ANSI processing.\n        if (\"true\".equals(System.getProperty(\"jansi\", \"true\"))) {\n            AnsiConsole.systemInstall();\n        }\n\n        FileInputStream f = new FileInputStream(file);\n        int c;\n        while ((c = f.read()) >= 0) {\n            System.out.write(c);\n        }\n        f.close();\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'File'\n \u001b[36m==>\u001b[0m /tmp/tmpfzrl81ty.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: File\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[33mwarning\u001b[0m: unused import 'std.io.*'\n \u001b[36m==>\u001b[0m /tmp/tmpfzrl81ty.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.io.*\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[33m^^^^^^^^^^^^^^^ unused import\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: this warning can be suppressed by setting the compiler option `-Woff unused`\n\n1 error generated, 1 error printed.\n1 warning generated, 1 warning printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:09:49",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String[]|args": {
+                                "identifier": "|String[]|args",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:09:41",
+                                "source_type": "String[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<String>\n```",
+                                "imports": "",
+                                "translated_target_type": "Array<String>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nString[]\n```\n\nJAVA TYPE DESCRIPTION:\nThe String class represents character strings. All\n string literals in Java programs, such as \"abc\", are\n implemented as instances of this class.\n \n\nJAVA CODE:\n```\n    public static void main(String[] args) throws IOException {\n        String file = \"src/test/resources/jansi.ans\";\n        if (args.length > 0) file = args[0];\n\n        // Allows us to disable ANSI processing.\n        if (\"true\".equals(System.getProperty(\"jansi\", \"true\"))) {\n            AnsiConsole.systemInstall();\n        }\n\n        FileInputStream f = new FileInputStream(file);\n        int c;\n        while ((c = f.read()) >= 0) {\n            System.out.write(c);\n        }\n        f.close();\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false
+                }
+            },
+            "fields": {},
+            "cangjie_class_declaration": "open class AnsiConsoleExample {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/AnsiConsoleExample_test.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiConsoleExample_test.cj",
+    "import_map": {
+        "FileInputStream": "java.io.FileInputStream",
+        "IOException": "java.io.IOException"
+    }
+}

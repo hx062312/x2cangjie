@@ -50,6 +50,7 @@ class PromptGenerator:
 
         self.meta_data = {
             "deepseek-coder-33b-instruct-persona": "You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.",
+            "deepseek-chat-persona": "",
             "gpt-4o-2024-11-20-persona": "",
             "llama-3-3-70b-instruct-persona": "",
             "Qwen2.5-Coder-32B-Instruct-persona": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant.",
@@ -90,7 +91,7 @@ Notes:
         self.construct_adaptive_icl()
 
         # RAG context injection
-        if getattr(self.args, 'use_rag', False):
+        if getattr(self.args, 'use_rag', 'false') == 'true':
             try:
                 rag = get_rag_engine()
                 context = rag.inject_fragment_context(self.source_fragment_body)

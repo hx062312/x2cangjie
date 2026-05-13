@@ -1,0 +1,1509 @@
+{
+    "path": "projects/java/cleaned_final_projects/jansi/src/main/java/org/fusesource/jansi/AnsiMain.java",
+    "imports": {
+        "18-18:import java.io.BufferedReader;": {
+            "start": 18,
+            "end": 18,
+            "body": "import java.io.BufferedReader;"
+        },
+        "19-19:import java.io.Closeable;": {
+            "start": 19,
+            "end": 19,
+            "body": "import java.io.Closeable;"
+        },
+        "20-20:import java.io.File;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.File;"
+        },
+        "21-21:import java.io.FileInputStream;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.io.FileInputStream;"
+        },
+        "22-22:import java.io.IOException;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.io.IOException;"
+        },
+        "23-23:import java.io.InputStream;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.io.InputStream;"
+        },
+        "24-24:import java.io.InputStreamReader;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.io.InputStreamReader;"
+        },
+        "25-25:import java.io.PrintStream;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.io.PrintStream;"
+        },
+        "26-26:import java.util.Properties;": {
+            "start": 26,
+            "end": 26,
+            "body": "import java.util.Properties;"
+        },
+        "28-28:import org.fusesource.jansi.Ansi.Attribute;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.fusesource.jansi.Ansi.Attribute;"
+        },
+        "29-29:import org.fusesource.jansi.internal.CLibrary;": {
+            "start": 29,
+            "end": 29,
+            "body": "import org.fusesource.jansi.internal.CLibrary;"
+        },
+        "30-30:import org.fusesource.jansi.internal.JansiLoader;": {
+            "start": 30,
+            "end": 30,
+            "body": "import org.fusesource.jansi.internal.JansiLoader;"
+        },
+        "31-31:import org.fusesource.jansi.internal.Kernel32;": {
+            "start": 31,
+            "end": 31,
+            "body": "import org.fusesource.jansi.internal.Kernel32;"
+        },
+        "32-32:import org.fusesource.jansi.internal.MingwSupport;": {
+            "start": 32,
+            "end": 32,
+            "body": "import org.fusesource.jansi.internal.MingwSupport;"
+        },
+        "34-34:import static java.nio.charset.StandardCharsets.UTF_8;": {
+            "start": 34,
+            "end": 34,
+            "body": "import static java.nio.charset.StandardCharsets.UTF_8;"
+        },
+        "35-35:import static org.fusesource.jansi.Ansi.ansi;": {
+            "start": 35,
+            "end": 35,
+            "body": "import static org.fusesource.jansi.Ansi.ansi;"
+        },
+        "36-36:import static org.fusesource.jansi.internal.Kernel32.GetConsoleScreenBufferInfo;": {
+            "start": 36,
+            "end": 36,
+            "body": "import static org.fusesource.jansi.internal.Kernel32.GetConsoleScreenBufferInfo;"
+        }
+    },
+    "classes": {
+        "55-344:AnsiMain": {
+            "start": 55,
+            "end": 344,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "56-192:main": {
+                    "start": 56,
+                    "end": 192,
+                    "body": [
+                        "public static void main(String... args) throws IOException {",
+                        "        System.out.println(\"Jansi \" + getJansiVersion());",
+                        "",
+                        "        System.out.println();",
+                        "",
+                        "        // info on native library",
+                        "        System.out.println(\"library.jansi.path= \" + System.getProperty(\"library.jansi.path\", \"\"));",
+                        "        System.out.println(\"library.jansi.version= \" + System.getProperty(\"library.jansi.version\", \"\"));",
+                        "        boolean loaded = JansiLoader.initialize();",
+                        "        if (loaded) {",
+                        "            System.out.println(\"Jansi native library loaded from \" + JansiLoader.getNativeLibraryPath());",
+                        "            if (JansiLoader.getNativeLibrarySourceUrl() != null) {",
+                        "                System.out.println(\"   which was auto-extracted from \" + JansiLoader.getNativeLibrarySourceUrl());",
+                        "            }",
+                        "        } else {",
+                        "            String prev = System.getProperty(AnsiConsole.JANSI_GRACEFUL);",
+                        "            try {",
+                        "                System.setProperty(AnsiConsole.JANSI_GRACEFUL, \"false\");",
+                        "                JansiLoader.initialize();",
+                        "            } catch (Throwable e) {",
+                        "                e.printStackTrace(System.out);",
+                        "            } finally {",
+                        "                if (prev != null) {",
+                        "                    System.setProperty(AnsiConsole.JANSI_GRACEFUL, prev);",
+                        "                } else {",
+                        "                    System.clearProperty(AnsiConsole.JANSI_GRACEFUL);",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "",
+                        "        System.out.println();",
+                        "",
+                        "        System.out.println(\"os.name= \" + System.getProperty(\"os.name\") + \", \"",
+                        "                + \"os.version= \" + System.getProperty(\"os.version\") + \", \"",
+                        "                + \"os.arch= \" + System.getProperty(\"os.arch\"));",
+                        "        System.out.println(\"file.encoding= \" + System.getProperty(\"file.encoding\"));",
+                        "        System.out.println(\"sun.stdout.encoding= \" + System.getProperty(\"sun.stdout.encoding\") + \", \"",
+                        "                + \"sun.stderr.encoding= \" + System.getProperty(\"sun.stderr.encoding\"));",
+                        "        System.out.println(\"stdout.encoding= \" + System.getProperty(\"stdout.encoding\") + \", \" + \"stderr.encoding= \"",
+                        "                + System.getProperty(\"stderr.encoding\"));",
+                        "        System.out.println(\"java.version= \" + System.getProperty(\"java.version\") + \", \"",
+                        "                + \"java.vendor= \" + System.getProperty(\"java.vendor\") + \",\"",
+                        "                + \" java.home= \" + System.getProperty(\"java.home\"));",
+                        "        System.out.println(\"Console: \" + System.console());",
+                        "",
+                        "        System.out.println();",
+                        "",
+                        "        System.out.println(AnsiConsole.JANSI_GRACEFUL + \"= \" + System.getProperty(AnsiConsole.JANSI_GRACEFUL, \"\"));",
+                        "        System.out.println(AnsiConsole.JANSI_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_MODE, \"\"));",
+                        "        System.out.println(AnsiConsole.JANSI_OUT_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_OUT_MODE, \"\"));",
+                        "        System.out.println(AnsiConsole.JANSI_ERR_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_ERR_MODE, \"\"));",
+                        "        System.out.println(AnsiConsole.JANSI_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_COLORS, \"\"));",
+                        "        System.out.println(AnsiConsole.JANSI_OUT_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_OUT_COLORS, \"\"));",
+                        "        System.out.println(AnsiConsole.JANSI_ERR_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_ERR_COLORS, \"\"));",
+                        "        System.out.println(",
+                        "                AnsiConsole.JANSI_PASSTHROUGH + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_PASSTHROUGH));",
+                        "        System.out.println(AnsiConsole.JANSI_STRIP + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_STRIP));",
+                        "        System.out.println(AnsiConsole.JANSI_FORCE + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_FORCE));",
+                        "        System.out.println(AnsiConsole.JANSI_NORESET + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_NORESET));",
+                        "        System.out.println(Ansi.DISABLE + \"= \" + AnsiConsole.getBoolean(Ansi.DISABLE));",
+                        "",
+                        "        System.out.println();",
+                        "",
+                        "        System.out.println(\"IS_WINDOWS: \" + AnsiConsole.IS_WINDOWS);",
+                        "        if (AnsiConsole.IS_WINDOWS) {",
+                        "            System.out.println(\"IS_CONEMU: \" + AnsiConsole.IS_CONEMU);",
+                        "            System.out.println(\"IS_CYGWIN: \" + AnsiConsole.IS_CYGWIN);",
+                        "            System.out.println(\"IS_MSYSTEM: \" + AnsiConsole.IS_MSYSTEM);",
+                        "        }",
+                        "",
+                        "        System.out.println();",
+                        "",
+                        "        diagnoseTty(false); // System.out",
+                        "        diagnoseTty(true); // System.err",
+                        "",
+                        "        AnsiConsole.systemInstall();",
+                        "",
+                        "        System.out.println();",
+                        "",
+                        "        System.out.println(\"Resulting Jansi modes for stout/stderr streams:\");",
+                        "        System.out.println(\"  - System.out: \" + AnsiConsole.out().toString());",
+                        "        System.out.println(\"  - System.err: \" + AnsiConsole.err().toString());",
+                        "        System.out.println(\"Processor types description:\");",
+                        "        for (AnsiType type : AnsiType.values()) {",
+                        "            System.out.println(\"  - \" + type + \": \" + type.getDescription());",
+                        "        }",
+                        "        System.out.println(\"Colors support description:\");",
+                        "        for (AnsiColors colors : AnsiColors.values()) {",
+                        "            System.out.println(\"  - \" + colors + \": \" + colors.getDescription());",
+                        "        }",
+                        "        System.out.println(\"Modes description:\");",
+                        "        for (AnsiMode mode : AnsiMode.values()) {",
+                        "            System.out.println(\"  - \" + mode + \": \" + mode.getDescription());",
+                        "        }",
+                        "",
+                        "        try {",
+                        "            System.out.println();",
+                        "",
+                        "            testAnsi(false);",
+                        "            testAnsi(true);",
+                        "",
+                        "            if (args.length == 0) {",
+                        "                printJansiLogoDemo();",
+                        "                return;",
+                        "            }",
+                        "",
+                        "            System.out.println();",
+                        "",
+                        "            if (args.length == 1) {",
+                        "                File f = new File(args[0]);",
+                        "                if (f.exists()) {",
+                        "                    // write file content",
+                        "                    System.out.println(",
+                        "                            ansi().bold().a(\"\\\"\" + args[0] + \"\\\" content:\").reset());",
+                        "                    writeFileContent(f);",
+                        "                    return;",
+                        "                }",
+                        "            }",
+                        "",
+                        "            // write args without Jansi then with Jansi AnsiConsole",
+                        "            System.out.println(ansi().bold().a(\"original args:\").reset());",
+                        "            int i = 1;",
+                        "            for (String arg : args) {",
+                        "                AnsiConsole.system_out.print(i++ + \": \");",
+                        "                AnsiConsole.system_out.println(arg);",
+                        "            }",
+                        "",
+                        "            System.out.println(ansi().bold().a(\"Jansi filtered args:\").reset());",
+                        "            i = 1;",
+                        "            for (String arg : args) {",
+                        "                System.out.print(i++ + \": \");",
+                        "                System.out.println(arg);",
+                        "            }",
+                        "        } finally {",
+                        "            AnsiConsole.systemUninstall();",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "boolean",
+                        "String",
+                        "Throwable",
+                        "AnsiType",
+                        "AnsiColors",
+                        "AnsiMode",
+                        "File",
+                        "int"
+                    ],
+                    "signature": "main()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:04:41",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:04:41",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:04:41",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Throwable": {
+                                "identifier": "Throwable",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:04:46",
+                                "source_type": "Throwable",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nException\n```\n\nREASONING:\nIn Cangjie, the root class for all errors and exceptions is `Exception`, which is part of the built-in core library and does not require any import. It serves the same role as Java's `Throwable` \u2014 it is the superclass of all exception types and can be caught in `catch` clauses. The previous errors occurred because `Throwable` is not a valid type name in Cangjie, and `std.exception` is not a valid package; the correct equivalent is simply `Exception`.",
+                                "imports": "",
+                                "translated_target_type": "Exception",
+                                "reasoning": "In Cangjie, the root class for all errors and exceptions is `Exception`, which is part of the built-in core library and does not require any import. It serves the same role as Java's `Throwable` \u2014 it is the superclass of all exception types and can be caught in `catch` clauses. The previous errors occurred because `Throwable` is not a valid type name in Cangjie, and `std.exception` is not a valid package; the correct equivalent is simply `Exception`.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nThrowable\n```\n\nJAVA TYPE DESCRIPTION:\nThe Throwable class is the superclass of all errors and\n exceptions in the Java language. Only objects that are instances of this\n class (or one of its subclasses) are thrown by the Java Virtual Machine or\n can be thrown by the Java throw statement. Similarly, only\n this class or one of its subclasses can be the argument type in a\n catch clause.\n\n\nJAVA CODE:\n```\n    public static void main(String... args) throws IOException {\n        System.out.println(\"Jansi \" + getJansiVersion());\n\n        System.out.println();\n\n        // info on native library\n        System.out.println(\"library.jansi.path= \" + System.getProperty(\"library.jansi.path\", \"\"));\n        System.out.println(\"library.jansi.version= \" + System.getProperty(\"library.jansi.version\", \"\"));\n        boolean loaded = JansiLoader.initialize();\n        if (loaded) {\n            System.out.println(\"Jansi native library loaded from \" + JansiLoader.getNativeLibraryPath());\n            if (JansiLoader.getNativeLibrarySourceUrl() != null) {\n                System.out.println(\"   which was auto-extracted from \" + JansiLoader.getNativeLibrarySourceUrl());\n            }\n        } else {\n            String prev = System.getProperty(AnsiConsole.JANSI_GRACEFUL);\n            try {\n                System.setProperty(AnsiConsole.JANSI_GRACEFUL, \"false\");\n                JansiLoader.initialize();\n            } catch (Throwable e) {\n                e.printStackTrace(System.out);\n            } finally {\n                if (prev != null) {\n                    System.setProperty(AnsiConsole.JANSI_GRACEFUL, prev);\n                } else {\n                    System.clearProperty(AnsiConsole.JANSI_GRACEFUL);\n                }\n            }\n        }\n\n        System.out.println();\n\n        System.out.println(\"os.name= \" + System.getProperty(\"os.name\") + \", \"\n                + \"os.version= \" + System.getProperty(\"os.version\") + \", \"\n                + \"os.arch= \" + System.getProperty(\"os.arch\"));\n        System.out.println(\"file.encoding= \" + System.getProperty(\"file.encoding\"));\n        System.out.println(\"sun.stdout.encoding= \" + System.getProperty(\"sun.stdout.encoding\") + \", \"\n                + \"sun.stderr.encoding= \" + System.getProperty(\"sun.stderr.encoding\"));\n        System.out.println(\"stdout.encoding= \" + System.getProperty(\"stdout.encoding\") + \", \" + \"stderr.encoding= \"\n                + System.getProperty(\"stderr.encoding\"));\n        System.out.println(\"java.version= \" + System.getProperty(\"java.version\") + \", \"\n                + \"java.vendor= \" + System.getProperty(\"java.vendor\") + \",\"\n                + \" java.home= \" + System.getProperty(\"java.home\"));\n        System.out.println(\"Console: \" + System.console());\n\n        System.out.println();\n\n        System.out.println(AnsiConsole.JANSI_GRACEFUL + \"= \" + System.getProperty(AnsiConsole.JANSI_GRACEFUL, \"\"));\n        System.out.println(AnsiConsole.JANSI_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_MODE, \"\"));\n        System.out.println(AnsiConsole.JANSI_OUT_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_OUT_MODE, \"\"));\n        System.out.println(AnsiConsole.JANSI_ERR_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_ERR_MODE, \"\"));\n        System.out.println(AnsiConsole.JANSI_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_COLORS, \"\"));\n        System.out.println(AnsiConsole.JANSI_OUT_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_OUT_COLORS, \"\"));\n        System.out.println(AnsiConsole.JANSI_ERR_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_ERR_COLORS, \"\"));\n        System.out.println(\n                AnsiConsole.JANSI_PASSTHROUGH + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_PASSTHROUGH));\n        System.out.println(AnsiConsole.JANSI_STRIP + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_STRIP));\n        System.out.println(AnsiConsole.JANSI_FORCE + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_FORCE));\n        System.out.println(AnsiConsole.JANSI_NORESET + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_NORESET));\n        System.out.println(Ansi.DISABLE + \"= \" + AnsiConsole.getBoolean(Ansi.DISABLE));\n\n        System.out.println();\n\n        System.out.println(\"IS_WINDOWS: \" + AnsiConsole.IS_WINDOWS);\n        if (AnsiConsole.IS_WINDOWS) {\n            System.out.println(\"IS_CONEMU: \" + AnsiConsole.IS_CONEMU);\n            System.out.println(\"IS_CYGWIN: \" + AnsiConsole.IS_CYGWIN);\n            System.out.println(\"IS_MSYSTEM: \" + AnsiConsole.IS_MSYSTEM);\n        }\n\n        System.out.println();\n\n        diagnoseTty(false); // System.out\n        diagnoseTty(true); // System.err\n\n        AnsiConsole.systemInstall();\n\n        System.out.println();\n\n        System.out.println(\"Resulting Jansi modes for stout/stderr streams:\");\n        System.out.println(\"  - System.out: \" + AnsiConsole.out().toString());\n        System.out.println(\"  - System.err: \" + AnsiConsole.err().toString());\n        System.out.println(\"Processor types description:\");\n        for (AnsiType type : AnsiType.values()) {\n            System.out.println(\"  - \" + type + \": \" + type.getDescription());\n        }\n        System.out.println(\"Colors support description:\");\n        for (AnsiColors colors : AnsiColors.values()) {\n            System.out.println(\"  - \" + colors + \": \" + colors.getDescription());\n        }\n        System.out.println(\"Modes description:\");\n        for (AnsiMode mode : AnsiMode.values()) {\n            System.out.println(\"  - \" + mode + \": \" + mode.getDescription());\n        }\n\n        try {\n            System.out.println();\n\n            testAnsi(false);\n            testAnsi(true);\n\n            if (args.length == 0) {\n                printJansiLogoDemo();\n                return;\n            }\n\n            System.out.println();\n\n            if (args.length == 1) {\n                File f = new File(args[0]);\n                if (f.exists()) {\n                    // write file content\n                    System.out.println(\n                            ansi().bold().a(\"\\\"\" + args[0] + \"\\\" content:\").reset());\n                    writeFileContent(f);\n                    return;\n                }\n            }\n\n            // write args without Jansi then with Jansi AnsiConsole\n            System.out.println(ansi().bold().a(\"original args:\").reset());\n            int i = 1;\n            for (String arg : args) {\n                AnsiConsole.system_out.print(i++ + \": \");\n                AnsiConsole.system_out.println(arg);\n            }\n\n            System.out.println(ansi().bold().a(\"Jansi filtered args:\").reset());\n            i = 1;\n            for (String arg : args) {\n                System.out.print(i++ + \": \");\n                System.out.println(arg);\n            }\n        } finally {\n            AnsiConsole.systemUninstall();\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: can not find package 'std.exception'\n \u001b[36m==>\u001b[0m /tmp/tmp3wkl8roi.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.exception.*\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mhelp\u001b[0m: check if the .cjo file of the package exists in CANGJIE_PATH or CANGJIE_HOME, or use '--import-path' to specify the .cjo file path\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "AnsiType": {
+                                "identifier": "AnsiType",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:04:49",
+                                "source_type": "AnsiType",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiType",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "AnsiColors": {
+                                "identifier": "AnsiColors",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:04:49",
+                                "source_type": "AnsiColors",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiColors",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "AnsiMode": {
+                                "identifier": "AnsiMode",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:04:49",
+                                "source_type": "AnsiMode",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMode",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "File": {
+                                "identifier": "File",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:47:54",
+                                "source_type": "File",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```\n\nREASONING:\nIn Cangjie, the equivalent type for Java's `java.io.File` is `File` from the `std.fs` package. This type provides similar functionality for representing file and directory pathnames, including methods like `exists()`. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`.",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": "In Cangjie, the equivalent type for Java's `java.io.File` is `File` from the `std.fs` package. This type provides similar functionality for representing file and directory pathnames, including methods like `exists()`. The previous error occurred because `std.file` is not a valid package; the correct package is `std.fs`.",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    public static void main(String... args) throws IOException {\n        System.out.println(\"Jansi \" + getJansiVersion());\n\n        System.out.println();\n\n        // info on native library\n        System.out.println(\"library.jansi.path= \" + System.getProperty(\"library.jansi.path\", \"\"));\n        System.out.println(\"library.jansi.version= \" + System.getProperty(\"library.jansi.version\", \"\"));\n        boolean loaded = JansiLoader.initialize();\n        if (loaded) {\n            System.out.println(\"Jansi native library loaded from \" + JansiLoader.getNativeLibraryPath());\n            if (JansiLoader.getNativeLibrarySourceUrl() != null) {\n                System.out.println(\"   which was auto-extracted from \" + JansiLoader.getNativeLibrarySourceUrl());\n            }\n        } else {\n            String prev = System.getProperty(AnsiConsole.JANSI_GRACEFUL);\n            try {\n                System.setProperty(AnsiConsole.JANSI_GRACEFUL, \"false\");\n                JansiLoader.initialize();\n            } catch (Throwable e) {\n                e.printStackTrace(System.out);\n            } finally {\n                if (prev != null) {\n                    System.setProperty(AnsiConsole.JANSI_GRACEFUL, prev);\n                } else {\n                    System.clearProperty(AnsiConsole.JANSI_GRACEFUL);\n                }\n            }\n        }\n\n        System.out.println();\n\n        System.out.println(\"os.name= \" + System.getProperty(\"os.name\") + \", \"\n                + \"os.version= \" + System.getProperty(\"os.version\") + \", \"\n                + \"os.arch= \" + System.getProperty(\"os.arch\"));\n        System.out.println(\"file.encoding= \" + System.getProperty(\"file.encoding\"));\n        System.out.println(\"sun.stdout.encoding= \" + System.getProperty(\"sun.stdout.encoding\") + \", \"\n                + \"sun.stderr.encoding= \" + System.getProperty(\"sun.stderr.encoding\"));\n        System.out.println(\"stdout.encoding= \" + System.getProperty(\"stdout.encoding\") + \", \" + \"stderr.encoding= \"\n                + System.getProperty(\"stderr.encoding\"));\n        System.out.println(\"java.version= \" + System.getProperty(\"java.version\") + \", \"\n                + \"java.vendor= \" + System.getProperty(\"java.vendor\") + \",\"\n                + \" java.home= \" + System.getProperty(\"java.home\"));\n        System.out.println(\"Console: \" + System.console());\n\n        System.out.println();\n\n        System.out.println(AnsiConsole.JANSI_GRACEFUL + \"= \" + System.getProperty(AnsiConsole.JANSI_GRACEFUL, \"\"));\n        System.out.println(AnsiConsole.JANSI_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_MODE, \"\"));\n        System.out.println(AnsiConsole.JANSI_OUT_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_OUT_MODE, \"\"));\n        System.out.println(AnsiConsole.JANSI_ERR_MODE + \"= \" + System.getProperty(AnsiConsole.JANSI_ERR_MODE, \"\"));\n        System.out.println(AnsiConsole.JANSI_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_COLORS, \"\"));\n        System.out.println(AnsiConsole.JANSI_OUT_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_OUT_COLORS, \"\"));\n        System.out.println(AnsiConsole.JANSI_ERR_COLORS + \"= \" + System.getProperty(AnsiConsole.JANSI_ERR_COLORS, \"\"));\n        System.out.println(\n                AnsiConsole.JANSI_PASSTHROUGH + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_PASSTHROUGH));\n        System.out.println(AnsiConsole.JANSI_STRIP + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_STRIP));\n        System.out.println(AnsiConsole.JANSI_FORCE + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_FORCE));\n        System.out.println(AnsiConsole.JANSI_NORESET + \"= \" + AnsiConsole.getBoolean(AnsiConsole.JANSI_NORESET));\n        System.out.println(Ansi.DISABLE + \"= \" + AnsiConsole.getBoolean(Ansi.DISABLE));\n\n        System.out.println();\n\n        System.out.println(\"IS_WINDOWS: \" + AnsiConsole.IS_WINDOWS);\n        if (AnsiConsole.IS_WINDOWS) {\n            System.out.println(\"IS_CONEMU: \" + AnsiConsole.IS_CONEMU);\n            System.out.println(\"IS_CYGWIN: \" + AnsiConsole.IS_CYGWIN);\n            System.out.println(\"IS_MSYSTEM: \" + AnsiConsole.IS_MSYSTEM);\n        }\n\n        System.out.println();\n\n        diagnoseTty(false); // System.out\n        diagnoseTty(true); // System.err\n\n        AnsiConsole.systemInstall();\n\n        System.out.println();\n\n        System.out.println(\"Resulting Jansi modes for stout/stderr streams:\");\n        System.out.println(\"  - System.out: \" + AnsiConsole.out().toString());\n        System.out.println(\"  - System.err: \" + AnsiConsole.err().toString());\n        System.out.println(\"Processor types description:\");\n        for (AnsiType type : AnsiType.values()) {\n            System.out.println(\"  - \" + type + \": \" + type.getDescription());\n        }\n        System.out.println(\"Colors support description:\");\n        for (AnsiColors colors : AnsiColors.values()) {\n            System.out.println(\"  - \" + colors + \": \" + colors.getDescription());\n        }\n        System.out.println(\"Modes description:\");\n        for (AnsiMode mode : AnsiMode.values()) {\n            System.out.println(\"  - \" + mode + \": \" + mode.getDescription());\n        }\n\n        try {\n            System.out.println();\n\n            testAnsi(false);\n            testAnsi(true);\n\n            if (args.length == 0) {\n                printJansiLogoDemo();\n                return;\n            }\n\n            System.out.println();\n\n            if (args.length == 1) {\n                File f = new File(args[0]);\n                if (f.exists()) {\n                    // write file content\n                    System.out.println(\n                            ansi().bold().a(\"\\\"\" + args[0] + \"\\\" content:\").reset());\n                    writeFileContent(f);\n                    return;\n                }\n            }\n\n            // write args without Jansi then with Jansi AnsiConsole\n            System.out.println(ansi().bold().a(\"original args:\").reset());\n            int i = 1;\n            for (String arg : args) {\n                AnsiConsole.system_out.print(i++ + \": \");\n                AnsiConsole.system_out.println(arg);\n            }\n\n            System.out.println(ansi().bold().a(\"Jansi filtered args:\").reset());\n            i = 1;\n            for (String arg : args) {\n                System.out.print(i++ + \": \");\n                System.out.println(arg);\n            }\n        } finally {\n            AnsiConsole.systemUninstall();\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'File'\n \u001b[36m==>\u001b[0m /tmp/tmplh5wogsr.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: File\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:04:57",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false
+                },
+                "194-197:getJansiVersion": {
+                    "start": 194,
+                    "end": 197,
+                    "body": [
+                        "private static String getJansiVersion() {",
+                        "        Package p = AnsiMain.class.getPackage();",
+                        "        return (p == null) ? null : p.getImplementationVersion();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "Package",
+                        "AnsiMain"
+                    ],
+                    "signature": "getJansiVersion()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:04:57",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Package": {
+                                "identifier": "Package",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:48:01",
+                                "source_type": "Package",
+                                "generation": "CANGJIE IMPORTS:\n```\nfrom std.ffi import Package\n```\n\nCANGJIE TRANSLATION:\n```\nPackage\n```\n\nREASONING:\nThe Java `Package` class corresponds to Cangjie's `std.ffi.Package`, which provides metadata about a package (e.g., version, title, vendor) associated with a class loader. The import statement must be placed at the top of the file, and the type name `Package` is then available for use. The previous error occurred because the import was placed incorrectly; the import should be in the imports section, not in the translation section. The translation section should only contain the type name.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nPackage\n```\n\nJAVA TYPE DESCRIPTION:\nRepresents metadata about a run-time package associated with a class loader.\n Metadata includes annotations, versioning, and sealing.\n \n\nJAVA CODE:\n```\n    private static String getJansiVersion() {\n        Package p = AnsiMain.class.getPackage();\n        return (p == null) ? null : p.getImplementationVersion();\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: expected declaration, found 'from'\n \u001b[36m==>\u001b[0m /tmp/tmp2h2phqx6.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mfrom std.ffi import Package\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n1 error generated, 1 error printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "AnsiMain": {
+                                "identifier": "AnsiMain",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:02",
+                                "source_type": "AnsiMain",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMain",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func getJansiVersion(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "199-232:diagnoseTty": {
+                    "start": 199,
+                    "end": 232,
+                    "body": [
+                        "private static void diagnoseTty(boolean stderr) {",
+                        "        int isatty;",
+                        "        int width;",
+                        "        if (AnsiConsole.IS_WINDOWS) {",
+                        "            long console = Kernel32.GetStdHandle(stderr ? Kernel32.STD_ERROR_HANDLE : Kernel32.STD_OUTPUT_HANDLE);",
+                        "            int[] mode = new int[1];",
+                        "            isatty = Kernel32.GetConsoleMode(console, mode);",
+                        "            if ((AnsiConsole.IS_CONEMU || AnsiConsole.IS_CYGWIN || AnsiConsole.IS_MSYSTEM) && isatty == 0) {",
+                        "                MingwSupport mingw = new MingwSupport();",
+                        "                String name = mingw.getConsoleName(!stderr);",
+                        "                if (name != null && !name.isEmpty()) {",
+                        "                    isatty = 1;",
+                        "                    width = mingw.getTerminalWidth(name);",
+                        "                } else {",
+                        "                    isatty = 0;",
+                        "                    width = 0;",
+                        "                }",
+                        "            } else {",
+                        "                Kernel32.CONSOLE_SCREEN_BUFFER_INFO info = new Kernel32.CONSOLE_SCREEN_BUFFER_INFO();",
+                        "                GetConsoleScreenBufferInfo(console, info);",
+                        "                width = info.windowWidth();",
+                        "            }",
+                        "        } else {",
+                        "            int fd = stderr ? CLibrary.STDERR_FILENO : CLibrary.STDOUT_FILENO;",
+                        "            isatty = CLibrary.LOADED ? CLibrary.isatty(fd) : 0;",
+                        "            CLibrary.WinSize ws = new CLibrary.WinSize();",
+                        "            CLibrary.ioctl(fd, CLibrary.TIOCGWINSZ, ws);",
+                        "            width = ws.ws_col;",
+                        "        }",
+                        "",
+                        "        System.out.println(\"isatty(STD\" + (stderr ? \"ERR\" : \"OUT\") + \"_FILENO): \" + isatty + \", System.\"",
+                        "                + (stderr ? \"err\" : \"out\") + \" \" + ((isatty == 0) ? \"is *NOT*\" : \"is\") + \" a terminal\");",
+                        "        System.out.println(\"width(STD\" + (stderr ? \"ERR\" : \"OUT\") + \"_FILENO): \" + width);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "int",
+                        "long",
+                        "int[]",
+                        "MingwSupport",
+                        "String",
+                        "Kernel32.CONSOLE_SCREEN_BUFFER_INFO",
+                        "Kernel32",
+                        "CONSOLE_SCREEN_BUFFER_INFO",
+                        "CLibrary.WinSize",
+                        "CLibrary",
+                        "WinSize"
+                    ],
+                    "signature": "diagnoseTty( boolean stderr)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "boolean",
+                            "name": "stderr"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:05:02",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:02",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "long": {
+                                "identifier": "long",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:02",
+                                "source_type": "long",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int[]": {
+                                "identifier": "int[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:02",
+                                "source_type": "int[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<Int64>\n```",
+                                "imports": "",
+                                "translated_target_type": "Array<Int64>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nint[]\n```\n\nJAVA TYPE DESCRIPTION:\n\n\nJAVA CODE:\n```\n    private static void diagnoseTty(boolean stderr) {\n        int isatty;\n        int width;\n        if (AnsiConsole.IS_WINDOWS) {\n            long console = Kernel32.GetStdHandle(stderr ? Kernel32.STD_ERROR_HANDLE : Kernel32.STD_OUTPUT_HANDLE);\n            int[] mode = new int[1];\n            isatty = Kernel32.GetConsoleMode(console, mode);\n            if ((AnsiConsole.IS_CONEMU || AnsiConsole.IS_CYGWIN || AnsiConsole.IS_MSYSTEM) && isatty == 0) {\n                MingwSupport mingw = new MingwSupport();\n                String name = mingw.getConsoleName(!stderr);\n                if (name != null && !name.isEmpty()) {\n                    isatty = 1;\n                    width = mingw.getTerminalWidth(name);\n                } else {\n                    isatty = 0;\n                    width = 0;\n                }\n            } else {\n                Kernel32.CONSOLE_SCREEN_BUFFER_INFO info = new Kernel32.CONSOLE_SCREEN_BUFFER_INFO();\n                GetConsoleScreenBufferInfo(console, info);\n                width = info.windowWidth();\n            }\n        } else {\n            int fd = stderr ? CLibrary.STDERR_FILENO : CLibrary.STDOUT_FILENO;\n            isatty = CLibrary.LOADED ? CLibrary.isatty(fd) : 0;\n            CLibrary.WinSize ws = new CLibrary.WinSize();\n            CLibrary.ioctl(fd, CLibrary.TIOCGWINSZ, ws);\n            width = ws.ws_col;\n        }\n\n        System.out.println(\"isatty(STD\" + (stderr ? \"ERR\" : \"OUT\") + \"_FILENO): \" + isatty + \", System.\"\n                + (stderr ? \"err\" : \"out\") + \" \" + ((isatty == 0) ? \"is *NOT*\" : \"is\") + \" a terminal\");\n        System.out.println(\"width(STD\" + (stderr ? \"ERR\" : \"OUT\") + \"_FILENO): \" + width);\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "MingwSupport": {
+                                "identifier": "MingwSupport",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "MingwSupport",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "MingwSupport",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Kernel32.CONSOLE_SCREEN_BUFFER_INFO": {
+                                "identifier": "Kernel32.CONSOLE_SCREEN_BUFFER_INFO",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "Kernel32.CONSOLE_SCREEN_BUFFER_INFO",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Kernel32.CONSOLE_SCREEN_BUFFER_INFO",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Kernel32": {
+                                "identifier": "Kernel32",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "Kernel32",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Kernel32",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CONSOLE_SCREEN_BUFFER_INFO": {
+                                "identifier": "CONSOLE_SCREEN_BUFFER_INFO",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "CONSOLE_SCREEN_BUFFER_INFO",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "CONSOLE_SCREEN_BUFFER_INFO",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CLibrary.WinSize": {
+                                "identifier": "CLibrary.WinSize",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "CLibrary.WinSize",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "CLibrary.WinSize",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CLibrary": {
+                                "identifier": "CLibrary",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "CLibrary",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "CLibrary",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "WinSize": {
+                                "identifier": "WinSize",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "WinSize",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "WinSize",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|boolean|stderr": {
+                                "identifier": "|boolean|stderr",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:05:02",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func diagnoseTty(stderr: Bool): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "234-295:testAnsi": {
+                    "start": 234,
+                    "end": 295,
+                    "body": [
+                        "private static void testAnsi(boolean stderr) {",
+                        "        @SuppressWarnings(\"resource\")",
+                        "        PrintStream s = stderr ? System.err : System.out;",
+                        "        s.print(\"test on System.\" + (stderr ? \"err\" : \"out\") + \":\");",
+                        "        for (Ansi.Color c : Ansi.Color.values()) {",
+                        "            s.print(\" \" + ansi().fg(c) + c + ansi().reset());",
+                        "        }",
+                        "        s.println();",
+                        "        s.print(\"            bright:\");",
+                        "        for (Ansi.Color c : Ansi.Color.values()) {",
+                        "            s.print(\" \" + ansi().fgBright(c) + c + ansi().reset());",
+                        "        }",
+                        "        s.println();",
+                        "        s.print(\"              bold:\");",
+                        "        for (Ansi.Color c : Ansi.Color.values()) {",
+                        "            s.print(\" \" + ansi().bold().fg(c) + c + ansi().reset());",
+                        "        }",
+                        "        s.println();",
+                        "        s.print(\"             faint:\");",
+                        "        for (Ansi.Color c : Ansi.Color.values()) {",
+                        "            s.print(\" \" + ansi().a(Attribute.INTENSITY_FAINT).fg(c) + c + ansi().reset());",
+                        "        }",
+                        "        s.println();",
+                        "        s.print(\"        bold+faint:\");",
+                        "        for (Ansi.Color c : Ansi.Color.values()) {",
+                        "            s.print(\" \" + ansi().bold().a(Attribute.INTENSITY_FAINT).fg(c) + c + ansi().reset());",
+                        "        }",
+                        "        s.println();",
+                        "        Ansi ansi = ansi();",
+                        "        ansi.a(\"        256 colors: \");",
+                        "        for (int i = 0; i < 6 * 6 * 6; i++) {",
+                        "            if (i > 0 && i % 36 == 0) {",
+                        "                ansi.reset();",
+                        "                ansi.newline();",
+                        "                ansi.a(\"                    \");",
+                        "            } else if (i > 0 && i % 6 == 0) {",
+                        "                ansi.reset();",
+                        "                ansi.a(\"  \");",
+                        "            }",
+                        "            int a0 = i % 6;",
+                        "            int a1 = (i / 6) % 6;",
+                        "            int a2 = i / 36;",
+                        "            ansi.bg(16 + a0 + a2 * 6 + a1 * 36).a(' ');",
+                        "        }",
+                        "        ansi.reset();",
+                        "        s.println(ansi);",
+                        "        ansi = ansi();",
+                        "        ansi.a(\"         truecolor: \");",
+                        "        for (int i = 0; i < 256; i++) {",
+                        "            if (i > 0 && i % 48 == 0) {",
+                        "                ansi.reset();",
+                        "                ansi.newline();",
+                        "                ansi.a(\"                    \");",
+                        "            }",
+                        "            int r = 255 - i;",
+                        "            int g = i * 2 > 255 ? 255 - 2 * i : 2 * i;",
+                        "            int b = i;",
+                        "            ansi.bgRgb(r, g, b).fgRgb(255 - r, 255 - g, 255 - b).a(i % 2 == 0 ? '/' : '\\\\');",
+                        "        }",
+                        "        ansi.reset();",
+                        "        s.println(ansi);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "PrintStream",
+                        "Ansi.Color",
+                        "Ansi",
+                        "Color",
+                        "int"
+                    ],
+                    "signature": "testAnsi( boolean stderr)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "boolean",
+                            "name": "stderr"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "PrintStream": {
+                                "identifier": "PrintStream",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:48:09",
+                                "source_type": "PrintStream",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.io.*\n```\n\nCANGJIE TRANSLATION:\n```\nPrintStream\n```\n\nREASONING:\nThe Java `PrintStream` type is directly available in Cangjie's standard library under the `std.io` module with the same name `PrintStream`. It provides the same functionality for formatted output, including `print` and `println` methods, and supports automatic flushing and error checking. The previous error occurred because the import was missing; adding `import std.io.*` resolves the undeclared type name error.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nPrintStream\n```\n\nJAVA TYPE DESCRIPTION:\nA PrintStream adds functionality to another output stream,\n namely the ability to print representations of various data values\n conveniently.  Two other features are provided as well.  Unlike other output\n streams, a PrintStream never throws an\n IOException; instead, exceptional situations merely set an\n internal flag that can be tested via the checkError method.\n Optionally, a PrintStream can be created so as to flush\n automatically; this means that the flush method of the underlying\n output stream is automatically invoked after a byte array is written, one\n of the println methods is invoked, or a newline character or byte\n ('\\n') is written.\n\n\nJAVA CODE:\n```\n    private static void testAnsi(boolean stderr) {\n        @SuppressWarnings(\"resource\")\n        PrintStream s = stderr ? System.err : System.out;\n        s.print(\"test on System.\" + (stderr ? \"err\" : \"out\") + \":\");\n        for (Ansi.Color c : Ansi.Color.values()) {\n            s.print(\" \" + ansi().fg(c) + c + ansi().reset());\n        }\n        s.println();\n        s.print(\"            bright:\");\n        for (Ansi.Color c : Ansi.Color.values()) {\n            s.print(\" \" + ansi().fgBright(c) + c + ansi().reset());\n        }\n        s.println();\n        s.print(\"              bold:\");\n        for (Ansi.Color c : Ansi.Color.values()) {\n            s.print(\" \" + ansi().bold().fg(c) + c + ansi().reset());\n        }\n        s.println();\n        s.print(\"             faint:\");\n        for (Ansi.Color c : Ansi.Color.values()) {\n            s.print(\" \" + ansi().a(Attribute.INTENSITY_FAINT).fg(c) + c + ansi().reset());\n        }\n        s.println();\n        s.print(\"        bold+faint:\");\n        for (Ansi.Color c : Ansi.Color.values()) {\n            s.print(\" \" + ansi().bold().a(Attribute.INTENSITY_FAINT).fg(c) + c + ansi().reset());\n        }\n        s.println();\n        Ansi ansi = ansi();\n        ansi.a(\"        256 colors: \");\n        for (int i = 0; i < 6 * 6 * 6; i++) {\n            if (i > 0 && i % 36 == 0) {\n                ansi.reset();\n                ansi.newline();\n                ansi.a(\"                    \");\n            } else if (i > 0 && i % 6 == 0) {\n                ansi.reset();\n                ansi.a(\"  \");\n            }\n            int a0 = i % 6;\n            int a1 = (i / 6) % 6;\n            int a2 = i / 36;\n            ansi.bg(16 + a0 + a2 * 6 + a1 * 36).a(' ');\n        }\n        ansi.reset();\n        s.println(ansi);\n        ansi = ansi();\n        ansi.a(\"         truecolor: \");\n        for (int i = 0; i < 256; i++) {\n            if (i > 0 && i % 48 == 0) {\n                ansi.reset();\n                ansi.newline();\n                ansi.a(\"                    \");\n            }\n            int r = 255 - i;\n            int g = i * 2 > 255 ? 255 - 2 * i : 2 * i;\n            int b = i;\n            ansi.bgRgb(r, g, b).fgRgb(255 - r, 255 - g, 255 - b).a(i % 2 == 0 ? '/' : '\\\\');\n        }\n        ansi.reset();\n        s.println(ansi);\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'PrintStream'\n \u001b[36m==>\u001b[0m /tmp/tmphw2kp6c_.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: PrintStream\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[33mwarning\u001b[0m: unused import 'std.io.*'\n \u001b[36m==>\u001b[0m /tmp/tmphw2kp6c_.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.io.*\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[33m^^^^^^^^^^^^^^^ unused import\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: this warning can be suppressed by setting the compiler option `-Woff unused`\n\n1 error generated, 1 error printed.\n1 warning generated, 1 warning printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "Ansi.Color": {
+                                "identifier": "Ansi.Color",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "Ansi.Color",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Ansi.Color",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Ansi": {
+                                "identifier": "Ansi",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "Ansi",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Ansi",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Color": {
+                                "identifier": "Color",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "Color",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Color",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|boolean|stderr": {
+                                "identifier": "|boolean|stderr",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:05:03",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func testAnsi(stderr: Bool): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "297-309:getPomPropertiesVersion": {
+                    "start": 297,
+                    "end": 309,
+                    "body": [
+                        "private static String getPomPropertiesVersion(String path) throws IOException {",
+                        "        InputStream in = AnsiMain.class.getResourceAsStream(\"/META-INF/maven/\" + path + \"/pom.properties\");",
+                        "        if (in == null) {",
+                        "            return null;",
+                        "        }",
+                        "        try {",
+                        "            Properties p = new Properties();",
+                        "            p.load(in);",
+                        "            return p.getProperty(\"version\");",
+                        "        } finally {",
+                        "            closeQuietly(in);",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "InputStream",
+                        "AnsiMain",
+                        "Properties"
+                    ],
+                    "signature": "getPomPropertiesVersion( String path)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "path"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "InputStream": {
+                                "identifier": "InputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "InputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "InputStream",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "AnsiMain": {
+                                "identifier": "AnsiMain",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "AnsiMain",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMain",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Properties": {
+                                "identifier": "Properties",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "Properties",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "HashMap<String, String>",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|path": {
+                                "identifier": "|String|path",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func getPomPropertiesVersion(path: String): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "311-322:printJansiLogoDemo": {
+                    "start": 311,
+                    "end": 322,
+                    "body": [
+                        "private static void printJansiLogoDemo() throws IOException {",
+                        "        BufferedReader in =",
+                        "                new BufferedReader(new InputStreamReader(AnsiMain.class.getResourceAsStream(\"jansi.txt\"), UTF_8));",
+                        "        try {",
+                        "            String l;",
+                        "            while ((l = in.readLine()) != null) {",
+                        "                System.out.println(l);",
+                        "            }",
+                        "        } finally {",
+                        "            closeQuietly(in);",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "BufferedReader",
+                        "InputStreamReader",
+                        "AnsiMain",
+                        "String"
+                    ],
+                    "signature": "printJansiLogoDemo()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:05:09",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "BufferedReader": {
+                                "identifier": "BufferedReader",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:48:17",
+                                "source_type": "BufferedReader",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.io.*\n```\n\nCANGJIE TRANSLATION:\n```\nBufferedReader\n```\n\nREASONING:\nThe Java `BufferedReader` type is used for efficient reading of characters, arrays, and lines from a character-input stream. In Cangjie, the equivalent type is also named `BufferedReader` and is provided by the `std.io` module. The import `std.io.*` is necessary to use this type. The previous error occurred because the import was present but the type name was not recognized; however, `BufferedReader` is the correct translation.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nBufferedReader\n```\n\nJAVA TYPE DESCRIPTION:\nReads text from a character-input stream, buffering characters so as to\n provide for the efficient reading of characters, arrays, and lines.\n\n\nJAVA CODE:\n```\n    private static void printJansiLogoDemo() throws IOException {\n        BufferedReader in =\n                new BufferedReader(new InputStreamReader(AnsiMain.class.getResourceAsStream(\"jansi.txt\"), UTF_8));\n        try {\n            String l;\n            while ((l = in.readLine()) != null) {\n                System.out.println(l);\n            }\n        } finally {\n            closeQuietly(in);\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'BufferedReader'\n \u001b[36m==>\u001b[0m /tmp/tmp5vvb21ph.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: BufferedReader\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[33mwarning\u001b[0m: unused import 'std.io.*'\n \u001b[36m==>\u001b[0m /tmp/tmp5vvb21ph.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.io.*\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[33m^^^^^^^^^^^^^^^ unused import\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: this warning can be suppressed by setting the compiler option `-Woff unused`\n\n1 error generated, 1 error printed.\n1 warning generated, 1 warning printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "InputStreamReader": {
+                                "identifier": "InputStreamReader",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:48:25",
+                                "source_type": "InputStreamReader",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.io.*\n```\n\nCANGJIE TRANSLATION:\n```\nInputStreamReader\n```\n\nREASONING:\nThe Java `InputStreamReader` type is directly available in Cangjie under the same name in the `std.io` package. The previous error was due to an incorrect import of `std.charset.*`, which does not exist. The correct import is `std.io.*`, which provides `InputStreamReader`. The type name itself remains unchanged.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nInputStreamReader\n```\n\nJAVA TYPE DESCRIPTION:\nAn InputStreamReader is a bridge from byte streams to character streams: It\n reads bytes and decodes them into characters using a specified charset.  The charset that it uses\n may be specified by name or may be given explicitly, or the\n default charset may be used.\n\n\nJAVA CODE:\n```\n    private static void printJansiLogoDemo() throws IOException {\n        BufferedReader in =\n                new BufferedReader(new InputStreamReader(AnsiMain.class.getResourceAsStream(\"jansi.txt\"), UTF_8));\n        try {\n            String l;\n            while ((l = in.readLine()) != null) {\n                System.out.println(l);\n            }\n        } finally {\n            closeQuietly(in);\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'InputStreamReader'\n \u001b[36m==>\u001b[0m /tmp/tmpbcp21hms.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: InputStreamReader\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[33mwarning\u001b[0m: unused import 'std.io.*'\n \u001b[36m==>\u001b[0m /tmp/tmpbcp21hms.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.io.*\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[33m^^^^^^^^^^^^^^^ unused import\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: this warning can be suppressed by setting the compiler option `-Woff unused`\n\n1 error generated, 1 error printed.\n1 warning generated, 1 warning printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "AnsiMain": {
+                                "identifier": "AnsiMain",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:21",
+                                "source_type": "AnsiMain",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMain",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:21",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func printJansiLogoDemo(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "324-335:writeFileContent": {
+                    "start": 324,
+                    "end": 335,
+                    "body": [
+                        "private static void writeFileContent(File f) throws IOException {",
+                        "        InputStream in = new FileInputStream(f);",
+                        "        try {",
+                        "            byte[] buf = new byte[1024];",
+                        "            int l = 0;",
+                        "            while ((l = in.read(buf)) >= 0) {",
+                        "                System.out.write(buf, 0, l);",
+                        "            }",
+                        "        } finally {",
+                        "            closeQuietly(in);",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "InputStream",
+                        "FileInputStream",
+                        "byte[]",
+                        "byte",
+                        "int"
+                    ],
+                    "signature": "writeFileContent( File f)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "File",
+                            "name": "f"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:05:21",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "InputStream": {
+                                "identifier": "InputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:23",
+                                "source_type": "InputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "InputStream",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "FileInputStream": {
+                                "identifier": "FileInputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:23",
+                                "source_type": "FileInputStream",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFileInputStream\n```\n\nJAVA TYPE DESCRIPTION:\nA FileInputStream obtains input bytes\n from a file in a file system. What files\n are  available depends on the host environment.\n\n\nJAVA CODE:\n```\n    private static void writeFileContent(File f) throws IOException {\n        InputStream in = new FileInputStream(f);\n        try {\n            byte[] buf = new byte[1024];\n            int l = 0;\n            while ((l = in.read(buf)) >= 0) {\n                System.out.write(buf, 0, l);\n            }\n        } finally {\n            closeQuietly(in);\n        }\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "byte[]": {
+                                "identifier": "byte[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:25",
+                                "source_type": "byte[]",
+                                "generation": "CANGJIE IMPORTS:\n```\n```\n\nCANGJIE TRANSLATION:\n```\nArray<Byte>\n```",
+                                "imports": "",
+                                "translated_target_type": "Array<Byte>",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nbyte[]\n```\n\nJAVA TYPE DESCRIPTION:\n\n\nJAVA CODE:\n```\n    private static void writeFileContent(File f) throws IOException {\n        InputStream in = new FileInputStream(f);\n        try {\n            byte[] buf = new byte[1024];\n            int l = 0;\n            while ((l = in.read(buf)) >= 0) {\n                System.out.write(buf, 0, l);\n            }\n        } finally {\n            closeQuietly(in);\n        }\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            },
+                            "byte": {
+                                "identifier": "byte",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:26",
+                                "source_type": "byte",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int8",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:26",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|File|f": {
+                                "identifier": "|File|f",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:05:21",
+                                "source_type": "File",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.fs.*\n```\n\nCANGJIE TRANSLATION:\n```\nFile\n```",
+                                "imports": "import std.fs.*",
+                                "translated_target_type": "File",
+                                "reasoning": null,
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nFile\n```\n\nJAVA TYPE DESCRIPTION:\nAn abstract representation of file and directory pathnames.\n\n\nJAVA CODE:\n```\n    private static void writeFileContent(File f) throws IOException {\n        InputStream in = new FileInputStream(f);\n        try {\n            byte[] buf = new byte[1024];\n            int l = 0;\n            while ((l = in.read(buf)) >= 0) {\n                System.out.write(buf, 0, l);\n            }\n        } finally {\n            closeQuietly(in);\n        }\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func writeFileContent(f: File): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "337-343:closeQuietly": {
+                    "start": 337,
+                    "end": 343,
+                    "body": [
+                        "private static void closeQuietly(Closeable c) {",
+                        "        try {",
+                        "            c.close();",
+                        "        } catch (IOException ioe) {",
+                        "            ioe.printStackTrace(System.err);",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "IOException"
+                    ],
+                    "signature": "closeQuietly( Closeable c)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "Closeable",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-06 19:05:26",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "IOException": {
+                                "identifier": "IOException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-06 19:05:32",
+                                "source_type": "IOException",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "IOException",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|Closeable|c": {
+                                "identifier": "|Closeable|c",
+                                "translated": false,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-06 19:48:32",
+                                "source_type": "Closeable",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.io.*\n```\n\nCANGJIE TRANSLATION:\n```\nClosable\n```\n\nREASONING:\nThe Java `Closeable` interface corresponds to the Cangjie `Closable` interface (note the spelling difference: \"Closable\" instead of \"Closeable\") in the `std.io` module. It provides the same `close()` method for releasing resources. The import `std.io.*` is already provided and includes this type.",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": "Use your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nCloseable\n```\n\nJAVA TYPE DESCRIPTION:\nA Closeable is a source or destination of data that can be closed.\n The close method is invoked to release resources that the object is\n holding (such as open files).\n\nJAVA CODE:\n```\n    private static void closeQuietly(Closeable c) {\n        try {\n            c.close();\n        } catch (IOException ioe) {\n            ioe.printStackTrace(System.err);\n        }\n    }\n```\n\nFEEDBACK: Your previous translation was incorrect and it caused the following error. Make sure you only include the type translation in the response and no other code.\nCangjie compilation error: \u001b[31merror\u001b[0m: undeclared type name 'Closable'\n \u001b[36m==>\u001b[0m /tmp/tmp8afuvm_n.cj:6:20:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0m    let _test_val: Closable\u001b[0m\n  \u001b[36m| \u001b[0m                   \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[33mwarning\u001b[0m: unused import 'std.io.*'\n \u001b[36m==>\u001b[0m /tmp/tmp8afuvm_n.cj:3:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.io.*\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[33m^^^^^^^^^^^^^^^ unused import\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: this warning can be suppressed by setting the compiler option `-Woff unused`\n\n1 error generated, 1 error printed.\n1 warning generated, 1 warning printed.\n\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions).\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>"
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func closeQuietly(c: Any): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                }
+            },
+            "fields": {},
+            "cangjie_class_declaration": "open class AnsiMain {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/AnsiMain.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj",
+    "import_map": {
+        "BufferedReader": "java.io.BufferedReader",
+        "Closeable": "java.io.Closeable",
+        "File": "java.io.File",
+        "FileInputStream": "java.io.FileInputStream",
+        "IOException": "java.io.IOException",
+        "InputStream": "java.io.InputStream",
+        "InputStreamReader": "java.io.InputStreamReader",
+        "PrintStream": "java.io.PrintStream",
+        "Properties": "java.util.Properties",
+        "Attribute": "org.fusesource.jansi.Ansi.Attribute",
+        "CLibrary": "org.fusesource.jansi.internal.CLibrary",
+        "JansiLoader": "org.fusesource.jansi.internal.JansiLoader",
+        "Kernel32": "org.fusesource.jansi.internal.Kernel32",
+        "MingwSupport": "org.fusesource.jansi.internal.MingwSupport",
+        "UTF_8": "static java.nio.charset.StandardCharsets.UTF_8",
+        "ansi": "static org.fusesource.jansi.Ansi.ansi",
+        "GetConsoleScreenBufferInfo": "static org.fusesource.jansi.internal.Kernel32.GetConsoleScreenBufferInfo"
+    }
+}

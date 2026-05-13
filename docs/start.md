@@ -80,7 +80,7 @@ bash scripts/java/add_plugin.sh <project>
 - **作用：** 将 `<project>-jar-plugin` 添加到项目的 `pom.xml`，用于生成测试 JAR。
 - **生成文件：** `projects/java/automated_reduced_projects/<project>/` 目录（从 `original_projects` 复制并添加插件）。
 
-------
+---
 
 ### 1.3 处理 Cangjie 关键字冲突
 
@@ -96,7 +96,7 @@ bash scripts/java/handle_keyword_conflicts.sh <project>
 - **处理规则：** 将 Cangjie 关键字（如 `type`、`init`、`in`）作为标识符时添加 `__` 或 `_` 后缀
 - **Python 脚本：** `src/java/preprocessing/handle_keyword_conflicts.py`
 
-------
+---
 
 ### 1.3.2 处理内部类命名冲突
 
@@ -115,7 +115,7 @@ bash scripts/java/handle_name_conflicts.sh <project>
   - 通过继承访问的子类中的裸引用（解析 `extends`/`implements` 关系）
 - **Python 脚本：** `src/java/preprocessing/handle_name_conflicts.py`
 
-------
+---
 
 ### 1.4 构建项目并合并 JAR
 
@@ -133,7 +133,7 @@ bash scripts/java/merge_jar.sh <project>
   - `projects/java/name_handled/<project>/target/*-tests.jar` (测试 JAR)
   - `projects/java/name_handled/<project>/target/*-merged.jar` (合并后的 JAR)
 
-------
+---
 
 ### 1.5 生成调用图
 
@@ -147,7 +147,7 @@ bash scripts/java/generate_cg.sh <project>
 - **依赖：** `misc/java-callgraph/target/javacg-0.1-SNAPSHOT-static.jar`
 - **生成文件：** `projects/java/name_handled/<project>/callgraph.txt`
 
-------
+---
 
 ### 1.6 缩减第三方依赖
 
@@ -162,8 +162,6 @@ cp -r projects/java/name_handled/<project> projects/java/cleaned_final_projects/
 - **输入：** `callgraph.txt` 和 `name_handled/` 项目。
 - **生成文件：** `projects/java/cleaned_final_projects/<project>/` (清理后的项目)。
 - **Python 脚本：** `src/java/preprocessing/reduce_third_party_libs.py`
-
-------
 
 ## 阶段二：Schema 生成与翻译
 
@@ -189,11 +187,12 @@ bash scripts/java/create_schema.sh <project> <model_name> <temperature> <suffix>
 **输出格式**
 
 Schema 文件为 JSON 格式，包含：
+
 - `classes`: 类信息（方法、字段、继承关系）
 - `cangjie_imports`: Cangjie 导入语句
 - Schema key 格式：`{start}-{end}:{classname}`（TRAM 格式）
 
-------
+---
 
 ### 2.2 生成翻译顺序
 
@@ -209,11 +208,12 @@ python3 src/java/utils/parse_dependencies.py --project_name=<project> --function
 - **Python 脚本：** `src/java/utils/parse_dependencies.py`
 
 **traversal.json 格式：**
+
 ```json
 {
-    "0": "Animal",
-    "1": "Dog",
-    "2": "Main"
+  "0": "Animal",
+  "1": "Dog",
+  "2": "Main"
 }
 ```
 
@@ -221,7 +221,7 @@ python3 src/java/utils/parse_dependencies.py --project_name=<project> --function
 
 **前提条件：** 项目必须已完成编译（阶段一 1.3）
 
-------
+---
 
 ### 2.3 类型翻译
 
@@ -240,7 +240,7 @@ bash scripts/java/crawl_java_base.sh
 **第二步：构建 RAG 知识库索引（首次使用）**
 
 ```bash
-export OPENAI_API_KEY="your-api-key"
+export OPENAI_API_KEY=""
 export OPENAI_BASE_URL="https://openrouter.ai/api/v1"
 python -m src.java.rag.indexer
 ```
@@ -262,7 +262,7 @@ bash scripts/java/translate_types.sh <project> <model_name> <temperature> <suffi
 - **RAG 注入：** 对每个待翻译的 Java 类型，从 CangjieCorpus 检索相关文档上下文并注入到 LLM Prompt 中（`--use_rag` 默认启用）。
 - **Python 脚本：** `src/java/type_resolution/translate_type_rag.py`
 
-------
+---
 
 ### 2.4 生成骨架结构
 
@@ -281,9 +281,26 @@ bash scripts/java/create_skeleton.sh <project> <model> <suffix> <temperature>
   - `<temperature>` - 采样温度
 - **Python 脚本：** `src/java/translation/create_skeleton.py`
 
-------
+---
 
-### 2.5 执行翻译（增量翻译验证）
+### 2.4.5 构建 mock 测试语料（前置）
+
+**命令：**
+
+```bash
+bash scripts/java/build_mock_corpus.sh <project>
+```
+
+- **作用：** 把 Java 项目改造为可生成方法级日志的工作副本，对所有 `*Test.java` / `*Tests.java` 中的 `@Test` 方法逐个 `mvn -Dtest=<FQCN>#<method>` 执行，把日志解析成 `_test.cj` + `.workflow.json` emit 到 `/tmp/cangjie_mock/<project>/`。
+- **耗时：** 与项目测试方法数成正比，可能需要数分钟到数十分钟。
+- **前置：** Java 项目位于 `projects/java/original_projects/<project>/` 且能用 `mvn` 构建。
+- **生成文件：** `/tmp/cangjie_mock/<project>/<stem>_test.cj` 与同名 `.workflow.json`（`stem` 即 Java 测试方法名，可能含 numbered suffix）。
+
+> ⚠️ §2.5 的 `translate_fragment.sh` 启动时若发现 `/tmp/cangjie_mock/<project>/` 不存在会直接报错。必须先跑本步骤。
+
+---
+
+### 2.5 执行翻译（增量翻译验证 + mock 测试）
 
 **命令：**
 
@@ -291,7 +308,7 @@ bash scripts/java/create_skeleton.sh <project> <model> <suffix> <temperature>
 bash scripts/java/translate_fragment.sh <project> <model> <temperature>
 ```
 
-- **作用：** 调用 LLM 翻译代码片段，按依赖顺序执行，每翻译一个片段即更新骨架并验证。
+- **作用：** 调用 LLM 翻译代码片段，按依赖顺序执行，每翻译一个片段即更新骨架、验证编译，并对普通方法自动跑 mock 测试。
 - **参数：**
   - `<project>` - 项目名
   - `<model>` - 模型名（如 `gpt-4o-2024-11-20`）
@@ -301,21 +318,27 @@ bash scripts/java/translate_fragment.sh <project> <model> <temperature>
 
 ### 翻译流程
 
-1. **按依赖顺序获取片段**：使用反向调用图确定翻译顺序
-2. **RAG 检索**：从 CangjieCorpus 检索当前代码片段相关的文档上下文
-3. **生成 Prompt**：注入 RAG 上下文 + Cangjie ICL 示例（来自 configs/prompt_templates.yaml）
-4. **调用 LLM**：获取翻译结果
-5. **提取代码**：从 markdown 代码块中提取 Cangjie 代码
-6. **编译验证**：使用 `cjpm build` 验证代码正确性
-7. **更新骨架**：验证通过后，替换骨架中的 `throw Exception('TODO')`
-8. **递归重试**：验证失败时触发 RAG 错误修复上下文检索，递归翻译（最多 2 次）
+1. **会话级初始化**：把 `helper.cj` 与 `simple_ioc.cj` 注入 `data/java/skeletons/<project>/src/`（按 `cjpm.toml` 中的 `name` 渲染包名）；翻译会话结束（含异常）时自动清理。
+2. **按依赖顺序获取片段**：使用反向调用图确定翻译顺序
+3. **RAG 检索**：从 CangjieCorpus 检索当前代码片段相关的文档上下文
+4. **生成 Prompt**：注入 RAG 上下文 + Cangjie ICL 示例（来自 configs/prompt_templates.yaml）
+5. **调用 LLM**：获取翻译结果
+6. **提取代码**：从 markdown 代码块中提取 Cangjie 代码
+7. **编译验证**：使用 `cjpm build` 验证代码正确性
+8. **Mock 测试验证**：仅对**普通方法**（非 test 方法、非 constructor、非 field/static_initializer）触发：
+   - 在 `/tmp/cangjie_mock/<project>/` 中按 `// focal call:` 注释匹配 simple class+method，找出该 fragment 对应的 `_test.cj`。
+   - `change_mode apply` → 拷贝匹配测试到 `<skeleton>/src/test/` → `side_effect.instrument` → `cjpm test` → `side_effect.deinstrument` → `change_mode restore`。
+   - 没有匹配测试时跳过（`test_execution: not-exercised`）。
+9. **更新骨架**：验证通过后，替换骨架中的 `throw Exception('TODO')`
+10. **递归重试**：编译失败和 mock 测试失败**共享 4 次预算**（普通方法）；失败时把上一次输出（mock 失败时取 `cjpm test` 末尾 50 行）注入下一轮 prompt 作为 feedback。预算耗尽后即定格。
 
 ### 生成文件
 
 - 翻译结果 JSON：`data/java/schemas_decomposed_tests/translations/<model>/<temperature>/<project>/`
 - 骨架文件：`data/java/skeletons/<project>/src/` (增量更新)
+- Schema 内 `test_execution` 字段：`{"outcome": "success" / "failure", "message": ...}` 或 `"not-exercised"` / `"pending"`
 
-------
+---
 
 ## 阶段三：验证与测试
 
@@ -331,36 +354,122 @@ cjc --test src/test
 
 翻译模块使用 `cjpm build` 进行编译验证，确保生成的 Cangjie 代码语法正确。
 
-------
+---
+
+### Mock 测试验证（手动调试流程）
+
+> 自动按 fragment 触发的 mock 测试已并入 §2.5 主流程。本节脚本保留作为**手动调试工具**：当主流程在某个 fragment 反复失败、需要单独复现/排查时使用。
+
+#### 前置条件
+
+- Java 项目位于 `projects/java/original_projects/<project>/`，能用 `mvn` 单独构建
+- Cangjie 项目位于 `projects/cangjie/original_projects/<project>/`，含 `cjpm.toml` 与 `src/`
+- `src/java/isolation_validation/` 下的 `helper_template.cj.tmpl`、emitter 脚本以及 `simpleioc/src/simple_ioc.cj` 可访问
+- 安装：JDK 8/11、Maven、Python 3、Cangjie SDK（cjpm/cjc）
+- AspectJ + JUnit 4/5 依赖会被 `mock.sh` 自动注入到 Java 项目
+
+#### 1. 生成 mock 测试样本
+
+```bash
+./mock.sh <project>
+```
+
+- 复制 Java 项目到 `src/java/isolation_validation/<project>/` 工作副本（不污染原始目录）
+- 注入 AspectJ 依赖（`modify_pom.py`），向每个 Java 包补 `LoggingAspect.java` / `CustomToStringConverter.java`（`add_java_files.py`）
+- 枚举 `src/test/java/**/*Test.java` 内的 `@Test` 方法，逐个 `mvn clean install -Dtest=<FQCN>#<method>`
+- 解析方法级日志（`log_parser.py` + `script.py`），将 `<stem>_test.cj` 与 `<stem>.workflow.json` emit 到 `/tmp/cangjie_mock/<project>/`
+
+> ⚠️ 当前 `mock.sh` 中 `TEST_CLASS` **硬编码为 `com.example.minimal.AppTest`**，仅适用于 minimal 示例。运行其他项目前需先在 `mock.sh` 中替换该常量；自动枚举将随主流程接入完成。
+
+#### 2. 注入 mock 运行时辅助
+
+```bash
+./runtime.sh inject <project>
+```
+
+- 按 `cjpm.toml` 中的 `name` 字段将 `helper.cj` 与 `simple_ioc.cj` 渲染后写入 `projects/cangjie/original_projects/<project>/src/`
+- `helper.cj` 模板：`src/java/isolation_validation/helper_template.cj.tmpl`
+- `simple_ioc.cj` 来源：`<repo_parent>/cangjie/simpleioc/src/simple_ioc.cj`
+
+#### 3. 运行 mock 测试
+
+##### 选项 A：批量执行（最简）
+
+```bash
+./run.sh <project> [METHOD]
+```
+
+- 全局 `change_mode apply`（把 `private` / `protected` 字段与零参 init 临时改成 `public`，记录 `// CHANGE_MODE:` 桩注释以便还原）
+- 对 staging 中匹配的每条测试：拷贝到 `$CJ_SRC/test/` → `side_effect.py instrument` 在 focal method 调用点注入副作用回放 → `cjpm test` → `side_effect.py deinstrument` → 清除测试副本
+- 退出（含 Ctrl-C）时 trap 自动 `change_mode restore`
+
+`METHOD` 为可选子串过滤 `_test.cj` 文件名，留空则跑全部。
+
+##### 选项 B：批量执行并记录日志（推荐调试）
+
+```bash
+./log_tests.sh <project> [METHOD]
+```
+
+- 与 `run.sh` 行为一致，但把每条 `cjpm test` 的 stdout/stderr `tee` 到 `logs/cjpm_test_<project>_<timestamp>.log`
+- 每条测试单独写入 `>>> PASS: <name> (rc=0)` / `>>> FAIL: <name> (rc=N)` 摘要
+- 末尾追加 SUMMARY，列出全部通过 / 失败的测试名
+
+##### 选项 C：单步调试（手动 cjpm test）
+
+```bash
+./instrument.sh apply <project> [METHOD]   # 应用 change_mode 与 side_effect，不跑测试
+# 在 projects/cangjie/original_projects/<project>/ 下手动 cjpm test，可反复
+./instrument.sh restore <project>          # 还原源代码（去桩 + 修饰符还原）
+```
+
+#### 4. 清理
+
+```bash
+./runtime.sh clean <project>                  # 删除 helper.cj / simple_ioc.cj
+rm -rf /tmp/cangjie_mock/<project>            # 重新采集 Java 端日志前清空 staging
+```
+
+#### 调试脚本一览
+
+| 脚本            | 位置        | 用途                                         |
+| --------------- | ----------- | -------------------------------------------- |
+| `mock.sh`       | repo 父目录 | Java → `_test.cj` 一次性生成（耗时）         |
+| `runtime.sh`    | repo 父目录 | 注入 / 清理 `helper.cj` 与 `simple_ioc.cj`   |
+| `run.sh`        | repo 父目录 | 批量跑 mock 测试，仅终端输出                 |
+| `log_tests.sh`  | repo 父目录 | 同 `run.sh`，并把 `cjpm test` 输出落 `logs/` |
+| `instrument.sh` | repo 父目录 | 手动 apply / restore，便于反复跑 cjpm test   |
+
+---
 
 ## 核心模块说明
 
 ### x2cangjie 独有模块
 
-| 模块 | 路径 | 功能 |
-|------|------|------|
-| Schema 生成 | `src/java/decomposition/create_schema.py` | tree-sitter 解析 Java AST |
-| 类型翻译 | `src/java/type_resolution/translate_type_rag.py` | RAG-based 类型映射 |
-| 骨架生成 | `src/java/translation/create_skeleton.py` | 生成 Cangjie 骨架文件 |
-| 片段翻译 | `src/java/translation/compositional_translation_validation.py` | LLM 翻译与增量验证 |
-| 编译验证 | `src/java/translation/cangjie_compilation_validation.py` | cjpm build 验证 |
-| Prompt 生成 | `src/java/translation/prompt_generator.py` | Cangjie ICL 示例，含 RAG 注入 |
-| 依赖解析 | `src/java/translation/get_reverse_traversal.py` | 按 pre-generated 顺序翻译 |
-| 依赖生成 | `src/java/utils/parse_dependencies.py` | 使用 jdeps 生成 traversal.json |
-| RAG 引擎 | `src/java/rag/` | 混合检索（向量+BM25），CangjieCorpus 文档检索 |
-| 语料加载 | `src/java/rag/corpus_loader.py` | Markdown 分块、代码块保护、MinHash 去重 |
-| 查询构建 | `src/java/rag/query_builder.py` | Java→Cangjie 术语映射查询 |
-| 混合检索 | `src/java/rag/retriever.py` | ChromaDB 向量 + BM25 + RRF 融合 |
-| 索引构建 | `src/java/rag/indexer.py` | 离线索引：文本分块 → 向量化 → 存储 |
-| 上下文注入 | `src/java/rag/injector.py` | 文档块格式化与 Prompt 注入 |
+| 模块        | 路径                                                           | 功能                                          |
+| ----------- | -------------------------------------------------------------- | --------------------------------------------- |
+| Schema 生成 | `src/java/decomposition/create_schema.py`                      | tree-sitter 解析 Java AST                     |
+| 类型翻译    | `src/java/type_resolution/translate_type_rag.py`               | RAG-based 类型映射                            |
+| 骨架生成    | `src/java/translation/create_skeleton.py`                      | 生成 Cangjie 骨架文件                         |
+| 片段翻译    | `src/java/translation/compositional_translation_validation.py` | LLM 翻译与增量验证                            |
+| 编译验证    | `src/java/translation/cangjie_compilation_validation.py`       | cjpm build 验证                               |
+| Prompt 生成 | `src/java/translation/prompt_generator.py`                     | Cangjie ICL 示例，含 RAG 注入                 |
+| 依赖解析    | `src/java/translation/get_reverse_traversal.py`                | 按 pre-generated 顺序翻译                     |
+| 依赖生成    | `utils.py`                                                     | 使用 jdeps 生成 traversal.json                |
+| RAG 引擎    | `src/java/rag/`                                                | 混合检索（向量+BM25），CangjieCorpus 文档检索 |
+| 语料加载    | `src/java/rag/corpus_loader.py`                                | Markdown 分块、代码块保护、MinHash 去重       |
+| 查询构建    | `src/java/rag/query_builder.py`                                | Java→Cangjie 术语映射查询                     |
+| 混合检索    | `src/java/rag/retriever.py`                                    | ChromaDB 向量 + BM25 + RRF 融合               |
+| 索引构建    | `src/java/rag/indexer.py`                                      | 离线索引：文本分块 → 向量化 → 存储            |
+| 上下文注入  | `src/java/rag/injector.py`                                     | 文档块格式化与 Prompt 注入                    |
 
 ### 复用 cangjie 的模块
 
-| 模块 | 路径 | 功能 |
-|------|------|------|
+| 模块           | 路径                                                | 功能                   |
+| -------------- | --------------------------------------------------- | ---------------------- |
 | 缩减第三方依赖 | `src/java/preprocessing/reduce_third_party_libs.py` | 移除未使用的第三方依赖 |
-| 分解测试 | `src/java/preprocessing/decompose_dev_test.py` | 将测试分解为独立片段 |
-| 提取测试 | `src/java/static_analysis/extract_source_tests.py` | 提取测试覆盖率信息 |
+| 分解测试       | `src/java/preprocessing/decompose_dev_test.py`      | 将测试分解为独立片段   |
+| 提取测试       | `src/java/static_analysis/extract_source_tests.py`  | 提取测试覆盖率信息     |
 
 ## 配置文件
 
@@ -370,13 +479,13 @@ cjc --test src/test
 
 ## 与 TRAM/cangjie 的区别
 
-| 特性 | TRAM | cangjie | x2cangjie |
-|------|------|---------|-----------|
-| 翻译方向 | Java→Python | Java→Python | Java→Cangjie |
-| AST 解析 | tree-sitter | CodeQL | tree-sitter |
-| 类型分析 | CodeQL | CodeQL | RAG + cjpm |
-| 编译验证 | Python exec | GraalVM | cjpm build |
-| ICL 示例 | Python | Python | Cangjie |
+| 特性     | TRAM           | cangjie        | x2cangjie    |
+| -------- | -------------- | -------------- | ------------ |
+| 翻译方向 | Java→Python    | Java→Python    | Java→Cangjie |
+| AST 解析 | tree-sitter    | CodeQL         | tree-sitter  |
+| 类型分析 | CodeQL         | CodeQL         | RAG + cjpm   |
+| 编译验证 | Python exec    | GraalVM        | cjpm build   |
+| ICL 示例 | Python         | Python         | Cangjie      |
 | 翻译方式 | 全量翻译后重组 | 全量翻译后重组 | 增量翻译验证 |
 
 ## 目录结构
@@ -399,7 +508,8 @@ x2cangjie/
 │   ├── decompose_test.sh        # 分解测试
 │   ├── create_schema.sh         # 创建 Schema（tree-sitter）
 │   ├── create_skeleton.sh       # 创建骨架
-│   ├── translate_fragment.sh     # 增量翻译验证
+│   ├── build_mock_corpus.sh     # 生成 mock 测试语料（前置一次性）
+│   ├── translate_fragment.sh     # 增量翻译验证（含 mock 测试）
 │   └── get_dependencies.sh      # 生成 traversal.json
 ├── src/java/
 │   ├── decomposition/
@@ -425,13 +535,6 @@ x2cangjie/
 │   │   ├── _shared.py                     # 共享工具（tree-sitter 解析等）
 │   │   ├── reduce_third_party_libs.py
 │   │   └── decompose_dev_test.py
-│   ├── utils/                     # 依赖解析工具
-│   │   ├── __init__.py
-│   │   ├── get_class_order.py
-│   │   ├── get_custom_types.py
-│   │   ├── get_dependencies.py
-│   │   ├── get_schema_file.py
-│   │   └── parse_dependencies.py  # jdeps + topological sort
 │   └── static_analysis/         # 复用 cangjie
 │       └── extract_source_tests.py
 ├── data/java/rag/                # RAG 索引数据（构建生成）
@@ -440,4 +543,11 @@ x2cangjie/
 │   └── chunks.json              # 文档块元数据
 └── docs/
     └── start.md                 # 本文档
+
+# repo 父目录下的 mock 测试调试脚本（暂未并入主流程）
+mock.sh           # Java → /tmp/cangjie_mock/<P>/*_test.cj 一次性生成
+runtime.sh        # 注入 / 清理 helper.cj 与 simple_ioc.cj
+run.sh            # 批量跑 mock 测试
+log_tests.sh      # 同 run.sh，并把 cjpm test 输出落 logs/
+instrument.sh     # 单步调试（apply / restore，便于反复跑 cjpm test）
 ```

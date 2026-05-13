@@ -271,7 +271,7 @@ def extract_param_types_list(signature: str) -> list:
 
 def find_field_in_skeleton(skeleton_content: str, field_name: str) -> tuple:
     """Find field pattern in skeleton. Returns (field_pattern, start, end) or (None, None, None)."""
-    pattern = rf"(var|let)\s+{re.escape(field_name)}\s*:\s*[^\=]*=\s*throw Exception\('TODO'\)"
+    pattern = rf"(?:static\s+)?(?:var|let)\s+{re.escape(field_name)}\s*:\s*[^\=]*=\s*throw Exception\('TODO'\)"
     match = re.search(pattern, skeleton_content)
     if match:
         return (match.group(), match.start(), match.end())
@@ -776,7 +776,7 @@ def extract_method_body(cangjie_code: str, fragment: dict) -> str:
                 result.append(param.split(':')[-1].strip())
         return result
 
-    modifier_for_sig = r"(?:open\s+)?(?:public|private|protected)(?:\s+open)?"
+    modifier_for_sig = r"(?:open\s+)?(?:public|private|protected)(?:\s+(?:static|open))*"
 
     if is_static_initializer:
         # Cangjie static init: static init() { body }

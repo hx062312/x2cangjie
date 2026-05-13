@@ -5,4 +5,4 @@
 
 echo "Crawling java.base module documentation..."
 export PYTHONPATH=$(pwd)
-python3 src/java/crawler/crawl_java_package.py --module_name java.base
+python src/java/crawler/crawl_java_package.py --module_name java.base
