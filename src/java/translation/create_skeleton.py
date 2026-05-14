@@ -22,8 +22,8 @@ from src.java.utils.get_custom_types import get_custom_types
 # ============================================================
 
 
-def remove_duplicate_methods(schema, class_to_methods=None, all_schema_classes=None):
-    """Mark duplicate methods (overloaded) as not overload, and detect overriding.
+def annotate_method_flags(schema, class_to_methods=None, all_schema_classes=None):
+    """Annotate methods with is_overload, is_override, and needs_open flags.
 
     Also marks parent class methods as needing 'open' when they are overridden.
     """
@@ -1396,11 +1396,11 @@ def main(args):
         with open(std_type_imports_path, 'r') as f:
             std_type_imports = json.load(f)
 
-    # Phase 1b: Run remove_duplicate_methods on all schemas to populate needs_open flags
+    # Phase 1b: Run annotate_method_flags on all schemas to populate needs_open flags
     for schema_fname, schema_path, schema in all_schemas:
         if 'package-info' in schema_fname or 'module-info' in schema_fname:
             continue
-        remove_duplicate_methods(schema, class_to_methods, all_schema_classes)
+        annotate_method_flags(schema, class_to_methods, all_schema_classes)
 
     # Phase 2: Generate Skeletons (using Phase 1 schema data — no reload from disk)
     uses_any_hashable = False
