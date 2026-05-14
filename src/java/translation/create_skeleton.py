@@ -1426,7 +1426,7 @@ def main(args):
   src-dir = "src"
   target-dir = ""
   output-type = "{output_type}"
-  compile-option = "-Woff unused"
+  compile-option = "-Woff unused --error-count-limit all"
   override-compile-option = ""
   link-option = ""
   package-configuration = {{}}
