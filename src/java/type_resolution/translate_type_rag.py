@@ -1,4 +1,5 @@
 import argparse
+import contextlib
 import json
 import os
 import re
@@ -10,7 +11,7 @@ from src.java.model.model import Model
 from jinja2 import Template
 
 from src.java.rag import get_rag_engine
-from src.java.utils.get_custom_types import get_custom_types, save_custom_types
+from src.java.utils.get_custom_types import dedupe_preserve_order, get_custom_types, save_custom_types
 
 
 class TypePromptGenerator:
@@ -69,6 +70,7 @@ class Result:
         self.translated_target_type = ''
         self.reasoning = ''
         self.prompt = ''
+        self.feedback = ''
 
 
 class Parser:
@@ -122,6 +124,64 @@ def save_results(data, schema_dir, schema_file):
         json.dump(data, f, indent=4)
 
 
+def init_type_resolution_log(args):
+    log_dir = os.path.join('logs', 'type_resolution')
+    os.makedirs(log_dir, exist_ok=True)
+    log_path = os.path.join(
+        log_dir,
+        f'{args.project_name}_{args.model_name}_{args.temperature}_type_resolution.log',
+    )
+    with open(log_path, 'a') as f:
+        f.write('\n' + '=' * 80 + '\n')
+        f.write(f'Type resolution run started at {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}\n')
+        f.write(f'project={args.project_name}, model={args.model_name}, temperature={args.temperature}\n')
+        f.write('=' * 80 + '\n')
+    return log_path
+
+
+def log_detail(log_path, title, content=''):
+    with open(log_path, 'a') as f:
+        f.write(f'\n{"=" * 24} {title} {"=" * 24}\n')
+        if content is not None:
+            f.write(str(content))
+            if not str(content).endswith('\n'):
+                f.write('\n')
+
+
+def count_pending_type_translations(schema_dir):
+    total = 0
+    type_variations = ['types', 'return_types', 'parameters', 'body_types']
+    for schema_file in os.listdir(schema_dir):
+        with open(f'{schema_dir}/{schema_file}', 'r') as f:
+            data = json.load(f)
+        for class_ in data['classes']:
+            for fragment_type in ['field', 'method']:
+                for fragment in data['classes'][class_][f'{fragment_type}s']:
+                    for type_variation in type_variations:
+                        if fragment_type == 'field' and type_variation != 'types':
+                            continue
+                        if fragment_type == 'method' and type_variation == 'types':
+                            continue
+                        for type_ in data['classes'][class_][f'{fragment_type}s'][fragment][type_variation]:
+                            type_identifier = type_ if type_variation in ['types', 'return_types', 'body_types'] else f'{type_["modifier"]}|{type_["type"]}|{type_["name"]}'
+                            if not data['classes'][class_][f'{fragment_type}s'][fragment]['type_translations'][type_variation][type_identifier]['translated']:
+                                total += 1
+    return total
+
+
+def terminal_type_status(index, total, source_type, target_type, passed, reason):
+    icon = '✅' if passed else '❌'
+    target = target_type if target_type else '<not written>'
+    width = max(3, len(str(total)))
+    print(f'[type {index:0{width}d}/{total:0{width}d}] {icon} {source_type} -> {target} | {reason}', flush=True)
+
+
+def fallback_type_for(source_type):
+    if source_type and source_type.endswith('[]'):
+        return 'Array<Any>'
+    return 'Any'
+
+
 def update_universal_type_map(source_type, translated_type, map_file='data/java/type_resolution/universal_type_map_final.json'):
     """
     Update the universal type map with successful translations.
@@ -149,6 +209,7 @@ def update_universal_type_map(source_type, translated_type, map_file='data/java/
         # Save updated map
         with open(map_file, 'w') as f:
             json.dump(type_map, f, indent=4)
+    return type_map.get(source_type, translated_type)
 
 
 def is_type_loadable(import_stmt, type_name, custom_classes=None):
@@ -177,9 +238,10 @@ def is_type_loadable(import_stmt, type_name, custom_classes=None):
 
     # Generate stub class definitions for custom types so cjc can resolve them
     custom_stubs = ''
-    for cls in custom_classes:
-        # Cangjie doesn't support nested classes; use only the simple name
-        simple_name = cls.split('.')[-1]
+    for simple_name in dedupe_preserve_order(
+        (cls.split('.')[-1] for cls in custom_classes),
+    ):
+        # Cangjie doesn't support nested classes; use only the simple name.
         custom_stubs += f'class {simple_name} {{}}\n'
 
     # Generate Cangjie test program - simplified validation
@@ -228,6 +290,7 @@ main(): Int64 {{
 
 
 def main(args):
+    log_path = init_type_resolution_log(args)
 
     # Load fixed type map from JSON (more accurate than old hardcoded JAVA_TO_CANGJIE_PRIMITIVES)
     FIXED_TYPE_MAP = {}
@@ -235,16 +298,18 @@ def main(args):
     if os.path.exists(fixed_map_path):
         with open(fixed_map_path, 'r') as f:
             FIXED_TYPE_MAP = json.load(f)
-    if args.debug:
-        print(f"[DEBUG] Loaded {len(FIXED_TYPE_MAP)} entries from fixed_type_map.json", flush=True)
+    log_detail(log_path, 'CONFIG', f'Loaded {len(FIXED_TYPE_MAP)} entries from fixed_type_map.json')
 
     model_info = yaml.safe_load(open('configs/model_configs.yaml', 'r'))['models']
     args.schema_dir = f'data/java/schemas{args.suffix}/{args.model_name}/{args.temperature}/{args.project_name}'
     model = Model(model_info=model_info[args.model_name])
+    total_types = count_pending_type_translations(args.schema_dir)
+    processed_types = 0
 
     # Get custom types from schema files and persist to JSON
     custom_types = get_custom_types(args.schema_dir)
     save_custom_types(args.project_name, custom_types)
+    log_detail(log_path, 'CUSTOM TYPES', f'Loaded {len(custom_types)} custom types')
 
     for schema_file in os.listdir(args.schema_dir):
 
@@ -282,7 +347,26 @@ def main(args):
                                 budget = args.budget
                                 continue
 
+                            source_type = type_ if type_variation in ['types', 'return_types', 'body_types'] else type_["type"]
+
                             if budget == 0:
+                                fallback_type = fallback_type_for(source_type)
+                                result = Result()
+                                result.attempted = True
+                                result.identifier = type_identifier
+                                result.translated = True
+                                result.type_variation = type_variation
+                                result.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                                result.source_type = source_type
+                                result.translated_target_type = fallback_type
+                                result.feedback = feedback
+                                fallback_type = update_universal_type_map(source_type, fallback_type)
+                                result.translated_target_type = fallback_type
+                                append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
+                                save_results(data, args.schema_dir, schema_file)
+                                processed_types += 1
+                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:budget_exhausted')
+                                log_detail(log_path, f'FALLBACK budget_exhausted {source_type}', feedback)
                                 i += 1
                                 interaction_history = []
                                 feedback = ''
@@ -292,8 +376,6 @@ def main(args):
                             if interaction_history == []:
                                 initial_interaction = Interaction(role='system', content='You are a helpful assistant.')
                                 interaction_history.append(initial_interaction)
-
-                            source_type = type_ if type_variation in ['types', 'return_types', 'body_types'] else type_["type"]
 
                             result = Result()
                             result.attempted = True
@@ -311,7 +393,7 @@ def main(args):
                                 else:
                                     result.translated_target_type = source_type
                                 # Record successful translation
-                                update_universal_type_map(source_type, result.translated_target_type)
+                                result.translated_target_type = update_universal_type_map(source_type, result.translated_target_type)
                                 append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                                 i += 1
                                 interaction_history = []
@@ -319,19 +401,26 @@ def main(args):
                                 budget = args.budget
 
                                 save_results(data, args.schema_dir, schema_file)
-
-                                if args.debug:
-                                    if source_type in FIXED_TYPE_MAP:
-                                        message = 'FIXED TYPE DETECTED (fixed_type_map)'
-                                    else:
-                                        message = 'CUSTOM TYPE DETECTED'
-                                    print('=' * 50 + message + '=' * 50, flush=True)
-                                    print(source_type, flush=True)
+                                processed_types += 1
+                                reason = 'fixed_map' if source_type in FIXED_TYPE_MAP else 'custom_type'
+                                terminal_type_status(processed_types, total_types, source_type, result.translated_target_type, True, reason)
+                                log_detail(log_path, f'PASS {reason} {source_type}', f'{source_type} -> {result.translated_target_type}')
 
                                 continue
 
                             # Skip LLM translation if use_llm is false — only fixed_type_map and custom types are used
                             if args.use_llm == 'false':
+                                fallback_type = fallback_type_for(source_type)
+                                result.translated = True
+                                result.translated_target_type = fallback_type
+                                result.feedback = 'LLM translation disabled and no fixed/custom mapping was found'
+                                fallback_type = update_universal_type_map(source_type, fallback_type)
+                                result.translated_target_type = fallback_type
+                                append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
+                                save_results(data, args.schema_dir, schema_file)
+                                processed_types += 1
+                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:llm_disabled')
+                                log_detail(log_path, f'FALLBACK llm_disabled {source_type}', result.feedback)
                                 i += 1
                                 interaction_history = []
                                 feedback = ''
@@ -344,12 +433,13 @@ def main(args):
                             rag_context = ""
                             if args.use_rag == 'true' and args.use_llm == 'true':
                                 try:
-                                    rag_engine = get_rag_engine()
-                                    rag_ctx = rag_engine.inject_type_context(source_type)
+                                    with open(log_path, 'a') as log_file, contextlib.redirect_stdout(log_file):
+                                        rag_engine = get_rag_engine()
+                                        rag_ctx = rag_engine.inject_type_context(source_type)
                                     if rag_ctx:
                                         rag_context = rag_ctx
                                 except Exception as e:
-                                    print(f"[RAG] Warning: Type RAG injection failed: {e}")
+                                    log_detail(log_path, f'RAG WARNING {source_type}', f'Type RAG injection failed: {e}')
 
                             prompt_generator = TypePromptGenerator(
                                 fragment_body,
@@ -369,12 +459,11 @@ def main(args):
                             interaction = Interaction(role='user', content=prompt)
                             interaction_history.append(interaction)
 
-                            if args.debug:
-                                print('=' * 50 + 'PROMPT' + '=' * 50, flush=True)
-                                print(prompt, flush=True)
+                            log_detail(log_path, f'PROMPT {source_type}', prompt)
 
                             messages = model.get_messages(interaction_history)
-                            status, generation = model.prompt_model(messages)
+                            with open(log_path, 'a') as log_file, contextlib.redirect_stdout(log_file):
+                                status, generation = model.prompt_model(messages)
 
                             result.generation = generation
                             result.prompt = prompt
@@ -382,6 +471,17 @@ def main(args):
                             save_results(data, args.schema_dir, schema_file)
 
                             if not status:
+                                fallback_type = fallback_type_for(source_type)
+                                result.translated = True
+                                result.translated_target_type = fallback_type
+                                result.feedback = generation
+                                fallback_type = update_universal_type_map(source_type, fallback_type)
+                                result.translated_target_type = fallback_type
+                                append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
+                                save_results(data, args.schema_dir, schema_file)
+                                processed_types += 1
+                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:model_error')
+                                log_detail(log_path, f'FALLBACK model_error {source_type}', generation)
                                 i += 1
                                 interaction_history = []
                                 feedback = ''
@@ -390,20 +490,19 @@ def main(args):
 
                             interaction = Interaction(role='system', content=generation)
                             interaction_history.append(interaction)
-
-                            if args.debug:
-                                print('=' * 50 + 'GENERATION' + '=' * 50, flush=True)
-                                print(generation, flush=True)
+                            log_detail(log_path, f'GENERATION {source_type}', generation)
 
                             try:
                                 imports, translation, reasoning = Parser().parse_response(generation)
                             except BaseException:
                                 feedback = 'Your response did not follow the RESPONSE FORMAT guidelines. Make sure you follow the RESPONSE FORMAT in your new response.'
+                                log_detail(log_path, f'PARSE ERROR {source_type}', feedback)
                                 budget -= 1
                                 continue
 
                             if imports is None and translation is None and reasoning is None:
                                 feedback = 'Your response did not follow the RESPONSE FORMAT guidelines. Make sure you follow the RESPONSE FORMAT in your new response.'
+                                log_detail(log_path, f'PARSE ERROR {source_type}', feedback)
                                 budget -= 1
                                 continue
 
@@ -414,6 +513,7 @@ def main(args):
                             # Validate type using Cangjie compilation
                             validation_result, feedback = is_type_loadable(imports or '', translation, custom_classes=custom_types)
                             if not validation_result:
+                                log_detail(log_path, f'CJC VALIDATION FAILED {source_type}', feedback)
                                 budget -= 1
                                 continue
 
@@ -424,15 +524,13 @@ def main(args):
                             result.reasoning = reasoning
 
                             # Record successful translation
-                            update_universal_type_map(source_type, translation)
-
-                            if args.debug:
-                                print('=' * 50 + 'IMPORTS' + '=' * 50, flush=True)
-                                print(imports, flush=True)
-                                print('=' * 50 + 'TRANSLATION' + '=' * 50, flush=True)
-                                print(translation, flush=True)
-                                print('=' * 50 + 'REASONING' + '=' * 50, flush=True)
-                                print(reasoning, flush=True)
+                            translation = update_universal_type_map(source_type, translation)
+                            result.translated_target_type = translation
+                            log_detail(
+                                log_path,
+                                f'PASS llm {source_type}',
+                                f'IMPORTS:\n{imports}\n\nTRANSLATION:\n{translation}\n\nREASONING:\n{reasoning}',
+                            )
 
                             append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                             i += 1
@@ -441,6 +539,8 @@ def main(args):
                             budget = args.budget
 
                             save_results(data, args.schema_dir, schema_file)
+                            processed_types += 1
+                            terminal_type_status(processed_types, total_types, source_type, translation, True, 'llm')
 
 
 if __name__ == '__main__':

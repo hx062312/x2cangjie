@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-
+import std.io.*
 // Imports End
 
 public open class AnsiRenderer {
@@ -96,16 +96,16 @@ public open class Code {
     var UNDERLINE_OFF: Any = throw Exception('TODO')
     var BOLD: Any = throw Exception('TODO')
     var FAINT: Any = throw Exception('TODO')
-    let n: Enum<Any> = throw Exception('TODO')
+    let n: Any = throw Exception('TODO')
     let background: Bool = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    init(n: Enum<Any>, background: Bool) {
+    init(n: Any, background: Bool) {
         throw Exception('TODO')
     }
 
-    init(n: Enum<Any>) {
+    init(n: Any) {
         throw Exception('TODO')
     }
 
@@ -113,7 +113,7 @@ public open class Code {
         throw Exception('TODO')
     }
 
-    public open func getColor(): Ansi.Color {
+    public open func getColor(): Color {
         throw Exception('TODO')
     }
 

@@ -1,158 +1,582 @@
-我已经把 start.md、mock.sh / runtime.sh / run.sh / log_tests.sh / instrument.sh 以及 compositional_translation_validation.py 都过了一遍。整合之前有一堆决策点没拍板，我罗列出来逐个确认（按重要性排序），你逐条回我即可。
+[type 001/581] ❌ long[] -> Array<Int64> | fallback:budget_exhausted
+[type 002/581] ✅ int[] -> Array<Int64> | llm
+[type 003/581] ❌ Kernel32_INPUT_RECORD[] -> Array<Any> | fallback:budget_exhausted
+[type 004/581] ✅ int[] -> Array<Int64> | llm
+[type 005/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 006/581] ❌ Kernel32_INPUT_RECORD[] -> Array<Any> | fallback:budget_exhausted
+[type 007/581] ✅ Kernel32_INPUT_RECORD[] -> Array<Any> | llm
+[type 008/581] ✅ Kernel32_INPUT_RECORD[] -> Array<Any> | llm
+[type 009/581] ❌ UnsupportedEncodingException -> Any | fallback:budget_exhausted
+[type 010/581] ✅ IllegalStateException -> IllegalStateException | llm
+[type 011/581] ✅ byte[] -> Array<Byte> | llm
+[type 012/581] ✅ String[] -> Array<String> | llm
+[type 013/581] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 014/581] ✅ short[] -> Array<Int16> | llm
+[type 015/581] ✅ short[] -> Array<Int16> | llm
+[type 016/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 017/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 018/581] ✅ IOException -> IOException | llm
+[type 019/581] ✅ int[] -> Array<Int64> | llm
+[type 020/581] ✅ int[] -> Array<Int64> | llm
+[type 021/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 022/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 023/581] ✅ Callable<Boolean> -> () -> Bool | llm
+[type 024/581] ✅ InheritableThreadLocal<Boolean> -> Any | llm
+[type 025/581] ✅ StringBuilder -> StringBuilder | llm
+[type 026/581] ✅ ArrayList<Integer> -> ArrayList<Int64> | llm
+[type 027/581] ✅ Callable<Boolean> -> () -> Bool | llm
+[type 028/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 029/581] ✅ Exception -> Exception | llm
+[type 030/581] ✅ StringBuilder -> StringBuilder | llm
+[type 031/581] ✅ StringBuilder -> StringBuilder | llm
+[type 032/581] ✅ StringBuilder -> StringBuilder | llm
+[type 033/581] ✅ StringBuilder -> StringBuilder | llm
+[type 034/581] ✅ StringBuilder -> StringBuilder | llm
+[type 035/581] ❌ char[] -> Array<UInt16> | fallback:budget_exhausted
+[type 036/581] ❌ char[] -> Array<UInt16> | fallback:budget_exhausted
+[type 037/581] ✅ CharSequence -> String | llm
+[type 038/581] ✅ CharSequence -> String | llm
+[type 039/581] ✅ StringBuffer -> StringBuilder | llm
+[type 040/581] ✅ CharSequence -> String | llm
+[type 041/581] ✅ CharSequence -> String | llm
+[type 042/581] ✅ StringBuilder -> StringBuilder | llm
+[type 043/581] ✅ int[] -> Array<Int64> | llm
+[type 044/581] ✅ int[] -> Array<Int64> | llm
+[type 045/581] ✅ byte[] -> Array<Byte> | llm
+[type 046/581] ✅ int[] -> Array<Int64> | llm
+[type 047/581] ✅ byte[] -> Array<Byte> | llm
+[type 048/581] ✅ HashMap<String, String> -> HashMap<String, String> | llm
+[type 049/581] ✅ String[] -> Array<String> | llm
+[type 050/581] ✅ Throwable -> Exception | llm
+[type 051/581] ✅ Process -> Any | llm
+[type 052/581] ✅ Throwable -> Exception | llm
+[type 053/581] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 054/581] ✅ byte[] -> Array<Byte> | llm
+[type 055/581] ✅ Callable<Boolean> -> () -> Bool | llm
+[type 056/581] ✅ InheritableThreadLocal<Boolean> -> Any | llm
+[type 057/581] ✅ StringBuilder -> StringBuilder | llm
+[type 058/581] ✅ ArrayList<Integer> -> ArrayList<Int64> | llm
+[type 059/581] ✅ Callable<Boolean> -> () -> Bool | llm
+[type 060/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 061/581] ✅ Exception -> Exception | llm
+[type 062/581] ✅ StringBuilder -> StringBuilder | llm
+[type 063/581] ✅ StringBuilder -> StringBuilder | llm
+[type 064/581] ✅ StringBuilder -> StringBuilder | llm
+[type 065/581] ✅ StringBuilder -> StringBuilder | llm
+[type 066/581] ✅ StringBuilder -> StringBuilder | llm
+[type 067/581] ❌ char[] -> Array<UInt16> | fallback:budget_exhausted
+[type 068/581] ❌ char[] -> Array<UInt16> | fallback:budget_exhausted
+[type 069/581] ✅ CharSequence -> String | llm
+[type 070/581] ✅ CharSequence -> String | llm
+[type 071/581] ✅ StringBuffer -> StringBuilder | llm
+[type 072/581] ✅ CharSequence -> String | llm
+[type 073/581] ✅ CharSequence -> String | llm
+[type 074/581] ✅ StringBuilder -> StringBuilder | llm
+[type 075/581] ✅ Throwable -> Exception | llm
+[type 076/581] ❌ File -> Any | fallback:budget_exhausted
+[type 077/581] ❌ Package -> Any | fallback:budget_exhausted
+[type 078/581] ✅ int[] -> Array<Int64> | llm
+[type 079/581] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 080/581] ❌ BufferedReader -> Any | fallback:budget_exhausted
+[type 081/581] ❌ InputStreamReader -> Any | fallback:budget_exhausted
+[type 082/581] ❌ File -> Any | fallback:budget_exhausted
+[type 083/581] ❌ FileInputStream -> Any | fallback:budget_exhausted
+[type 084/581] ✅ byte[] -> Array<Byte> | llm
+[type 085/581] ❌ Closeable -> Any | fallback:budget_exhausted
+[type 086/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 087/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 088/581] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 089/581] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 090/581] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 091/581] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 092/581] ✅ FileDescriptor -> FileDescriptor | llm
+[type 093/581] ❌ FileOutputStream -> Any | fallback:budget_exhausted
+[type 094/581] ❌ Throwable -> Exception | fallback:budget_exhausted
+[type 095/581] ✅ int[] -> Array<Int64> | llm
+[type 096/581] ❌ Charset -> Any | fallback:budget_exhausted
+[type 097/581] ❌ UnsupportedCharsetException -> Any | fallback:budget_exhausted
+[type 098/581] ❌ UnsupportedEncodingException -> Any | fallback:budget_exhausted
+[type 099/581] ✅ IllegalArgumentException | NullPointerException -> Exception | llm
+[type 100/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 101/581] ❌ NullPointerException -> Any | fallback:budget_exhausted
+[type 102/581] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 103/581] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 104/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 105/581] ❌ IOError -> Error | fallback:budget_exhausted
+[type 106/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 107/581] ❌ IOError -> Error | fallback:budget_exhausted
+[type 108/581] ✅ Iterator<Object> -> Iterator<Object> | llm
+[type 109/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 110/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 111/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 112/581] ❌ Iterator<Object> -> Iterator<Object> | fallback:budget_exhausted
+[type 113/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 114/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 115/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 116/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 117/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 118/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 119/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 120/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 121/581] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 122/581] ✅ StringBuilder -> StringBuilder | llm
+[type 123/581] ✅ Iterator<Object> -> Iterator<Object> | llm
+[type 124/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 125/581] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 126/581] ✅ String[] -> Array<String> | llm
+[type 127/581] ❌ File -> Any | fallback:budget_exhausted
+[type 128/581] ✅ Process -> Any | llm
+[type 129/581] ❌ ProcessBuilder -> Any | fallback:budget_exhausted
+[type 130/581] ✅ Throwable -> Exception | llm
+[type 131/581] ❌ Process -> Any | fallback:budget_exhausted
+[type 132/581] ✅ ProcessBuilder -> Any | llm
+[type 133/581] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 134/581] ✅ Matcher -> Regex | llm
+[type 135/581] ✅ Exception -> Exception | llm
 
-1. 翻译目标目录与 mock 测试目录的脱节（最关键）
-   主流程把骨架和翻译写到 data/java/skeletons/<project>/src/，而 mock 流程的 cjpm test 跑在 projects/cangjie/original_projects/<project>/。两者不是同一个 cangjie 工程：
-
-选项 A：mock 测试改跑 data/java/skeletons/<project>/（需要那里也有 cjpm.toml + helper/simple_ioc 注入），翻译刚 emit 的代码就能立刻被验证。
-选项 B：每个 fragment 编译通过后，把骨架对应的 .cj 同步拷到 projects/cangjie/original_projects/<project>/src/ 再跑 mock。
-选项 C：把 projects/cangjie/original_projects/<project> symlink/视作翻译产物目录，统一一处。
-→ 选哪个？你之前手动跑 mock 时，被测的 cangjie 代码是从哪儿来的？
-
-2. 触发粒度与时机
-   translate() 现在每个 fragment 编译通过后就 break（test 方法直接 return）。mock 测试要插在哪一层：
-
-(a) 每个非 test-method fragment 编译通过后立刻跑 —— 每改一行就跑测试，反馈最即时但开销爆炸（mock test 和 fragment 一对多，可能跑几十次 cjpm test）。
-(b) 每个 fragment 翻译完，只跑 focal method 命中此 fragment 的那部分 \_test.cj —— 需要从 .workflow.json 抽 focal 信息建索引，按 class.method 过滤。
-(c) 只在 is_test_method=True 的 fragment（即整段测试翻完）那一步跑 —— 接近现状但仍是子集。
-(d) 整个 project 翻译完后一次性跑全量 —— 等价于现在手工执行 run.sh，并不算"按 fragment 自动触发"。
-→ 你说的"按 fragment 自动触发"具体指 (a) / (b) / (c) 中的哪个？我倾向 (b)，但 focal mapping 还没有现成代码。
-
-3. mock.sh 的一次性预备工作放在哪里
-   mock.sh 跑 mvn 枚举所有 @Test 方法、生成全部 \_test.cj 到 /tmp/cangjie_mock/<project>/，跑一次就要几分钟到几十分钟：
-
-(a) 每次 translate_fragment.sh 启动时检查 staging 是否存在，缺了就调 mock.sh，存在就复用。
-(b) 把 mock.sh 拆成"阶段 2.x"放进 start.md 主流程，做成独立的 bash scripts/java/build_mock_corpus.sh <project>，由用户在跑翻译之前显式执行。
-(c) compositional_translation 完全不管，约定用户必须先手动跑过 mock.sh。
-→ 选哪个？另外 staging 的失效条件是什么（Java 源动了？）？
-
-4. mock.sh 的硬编码 TEST_CLASS
-   start.md 已经说了硬编码 com.example.minimal.AppTest。整合时是否就地修复成自动枚举 src/test/java/\**/*Test.java？还是继续接受单 TEST_CLASS 参数？我倾向自动枚举（方法已经在内层枚举了，只差类）。
-
-5. runtime.sh inject 的生命周期
-   helper.cj + simple_ioc.cj 必须在 cjpm test 前已注入。整合后：
-
-(a) 进入 translate() 第一个 fragment 之前自动 inject，整个翻译会话结束（含异常）后 clean。
-(b) 每个 fragment 跑测试前 inject、跑完 clean —— 太频繁，没必要。
-(c) 仍由用户手动 runtime.sh inject 提前做好。
-→ 推荐 (a)，确认？另外 helper.cj/simple_ioc.cj 注入到的目录受问题 1 的答案影响。
-
-6. change_mode 与翻译写文件的并发
-   change_mode.py apply 会就地把 cangjie 源里的 private/protected 字段、零参 init 改成 public，并埋 // CHANGE_MODE: 桩注释；restore 时按桩反向。问题：
-
-翻译 pipeline 在编译 fragment 时也在持续往同一份源码追加/替换内容；如果 change_mode 已经 apply，新写入的代码不会被 apply（漏改字段）；如果每个 fragment 跑测试前临时 apply / 跑完 restore，restore 又要保证把上一次 apply 期间新增的 private 字段也覆盖到——这是双向风险。
-→ 想清楚的方案是什么：
-
-(i) 每个 fragment 测试前 apply、测试后 restore（每次 apply 重新扫描全部源码，restore 时按当前桩注释还原）。
-(ii) 整个翻译会话开始时 apply 一次，结束 restore 一次；翻译期间新写入的代码我们另行注入"public 化"逻辑（成本最高）。
-(iii) 要求骨架在生成阶段就直接是 public（彻底绕开 change_mode）。
-我倾向 (i)，但需要确认 change_mode.py apply 在已经 apply 过的源上重复 apply 是幂等的（可能要先 grep 验证）。
-
-7. 失败语义和反馈循环
-   mock 测试失败时怎么办：
-
-(a) 仅记 test_execution: {outcome: failure, message: ...} 到 schema，不影响翻译流向。
-(b) 触发递归重译（类似编译失败），把 cjpm test 的 stderr 注入下一轮 prompt 作为 feedback；如果 fragment 是非 test-method，等于把 mock-test 失败当编译错误对待。
-(c) (b) + 通过 RAG 检索测试错误相关文档。
-→ 哪种？对应预算多少（编译预算现在是 5/2/2）？
-
-8. 测试结果如何写入 schema
-   现在 test_execution 字段被写成 pending / not-exercised / success / dict。mock 测试一个 fragment 可能有多个相关 \_test.cj，要存：
-
-(a) 聚合 {"pass": N, "fail": M, "failed_tests": [...]}。
-(b) 每个测试单独条目，map 形式：{"<test_name>": {outcome, message}}。
-(c) 仅成功/失败 + 末次输出。
-→ 哪个？
-
-9. 整合形态
-   选项 A：保留 shell 脚本，在 compositional_translation_validation.py 里 subprocess.run(["bash", "run.sh", ...]) 外壳调用。改动最小，但日志/错误处理割裂。
-   选项 B：把 run.sh 内核（change_mode → instrument → cjpm test → deinstrument 循环）端口到 Python 模块（如 src/java/isolation_validation/test_runner.py），主流程直接 import。mock.sh 仍保留为一次性预备脚本。
-   选项 C：全部移到 Python，shell 脚本删除。
-   → 我推荐 B（核心循环 Python 化便于错误传播给 LLM，预备阶段脚本仍可手动跑）。同意？
-
-10. shell 脚本去留
-    整合完成后，mock.sh / run.sh / log_tests.sh / instrument.sh / runtime.sh 是否：
-
-(a) 全部删除。
-(b) 保留作为调试工具（更新文档说明不再是临时方案，是 debug 工具）。
-(c) 仅保留 instrument.sh（单步调试用）。11. start.md 文档怎么改
-整合完成后，start.md 当前的 "Mock 测试验证（手动流程，临时）" 章节是：
-
-(a) 整段删除，仅在 §2.5 里加一小节"自动 mock 测试验证"。
-(b) 改名为"调试用：手动复现 mock 测试"，作为故障排查手段保留。12. CLI 接口
-translate_fragment.sh 现在的参数是 <project> <model> <temperature>。整合 mock 测试后，是否：
-
-加 --enable_mock_test（默认 false，先小步推进）？
-还是默认开启，加 --no_mock_test 来跳过？
-mock 测试失败时是否影响 fragment 整体 status？
-这些问题里 1、2、5、6、9 是必须先拍板的（影响整体架构），其他可以先按你的偏好默认值往下走。请逐条回我（或直接说"按你建议"我也会按倾向选）。
-
-1.A 2. 每个fragment翻译完先编译，编译通过后开始mock测试，跑focal method即为待测试method的测试 3. b 4. 自动枚举 5. b 6. (i) 7. (b) 8. (c) 9. B 10. 先放着不用管 11. 默认开启，--no_mock_test控制跳过
-
-收到。在动手前还有一批衍生疑问需要确认（你的答案带出了一些隐含问题）：
-
-A. 关于 #5 的复核（怀疑笔误）
-我列的选项是：
-
-(a) 整个翻译会话开始 inject，结束 clean
-(b) 每个 fragment 跑测试前 inject、跑完 clean（我自己标注"太频繁、没必要"）
-(c) 用户手动 runtime.sh inject
-你回 (b)，但 helper.cj/simple_ioc.cj 是固定内容（仅按包名渲染一次就够），每个 fragment 都重写文件没收益，反而每次都触发增量编译重新热到这两个文件。确认你确实要 (b) 吗？还是想选 (a)？
-
-B. 关于 #1（mock 跑 skeletons 目录）
-skeletons 目录目前只有 src/：
-
-data/java/skeletons/<project>/cjpm.toml 存在吗？还是要新增？我没在 create_skeleton.py 里看到生成 cjpm.toml 的逻辑。
-如果需要新增：包名怎么定？沿用 projects/cangjie/original_projects/<project>/cjpm.toml 的 name 字段？还是固定为 <project>？
-cjpm test 必须能跑通（依赖、target 配置等），目前 skeletons 是否具备？需要我先在 minimal 上手验证一次吗？
-C. 关于 #2（focal method 匹配的精度）
-mock pipeline 产物：每个 \_test.cj 配一个 .workflow.json。workflow 里记录了 focal class+method（Java 侧 FQCN，例如 com.example.minimal.App.foo）。
-
-主流程 fragment 携带：
-
-schema_name（文件级，如 App）
-class_name（TRAM 格式 15-30:App，冒号后是 simple name）
-fragment_name（带签名形式，如 25-28:foo）
-匹配方案要哪种？
-
-(i) 按 simple_class.simple_method_name（忽略签名重载）—— 简单粗暴，重载会导致一对多。
-(ii) 按 simple_class.method_name + 参数 arity —— 精度更好，但要从 workflow 拿到参数 arity。
-(iii) 按完整签名匹配 —— 最严格，但 workflow 是否携带完整签名我得现场确认。
-我倾向先 (i)，重载冲突时把所有命中的 \_test.cj 都跑一遍。可以吗？
-
-D. 关于 #2 衍生：什么算"翻译完"
-每个 fragment 现在的"翻译完"状态：
-
-(1) field / static_initializer：编译通过后 break，不进 test 阶段。
-(2) test method (is_test_method=True)：编译通过直接 return，不进 test 阶段。
-(3) 普通 method：编译通过后进入 TEST EXECUTION 块（当前是占位），然后 break。
-mock 测试只对 (3) 跑？还是 (1)(2) 也跑（比如 field 翻完会改变状态，可能需要回归测试）？我倾向只对 (3) 跑，确认？
-
-E. 关于 #7（mock 失败递归重译）
-重译的预算给多少？（编译失败给 5，syntactic 给 2）。我倾向 mock 失败给 2（mock 错误往往是逻辑错，多次重试边际收益低）。同意？
-
-cjpm test 失败输出可能上千行，注入 prompt 时如何截断？
-
-(i) 取末尾 N 行（默认 50）。
-(ii) 提取 expected: ... actual: ... 这类断言关键行。
-(iii) 全量原样塞进去，靠模型自己截。
-我倾向 (i)。同意？
-
-mock 失败时是否同时调用 RAG inject_error_context（像编译失败那样）？我倾向不调，因为 mock 失败是逻辑错而非语法/API 错，CangjieCorpus 命中价值低。同意？
-
-F. 关于 #3（拆出 build_mock_corpus.sh）
-路径定为 scripts/java/build_mock_corpus.sh，参数 <project>。是否还需要 <model> / <temperature> 这种？我看 mock.sh 里没用到，所以只 <project> 一个参数。确认？
-翻译启动时如果 staging 不存在 → 报错并提示用户先跑 build_mock_corpus.sh（不自动调用，因为耗时长）。同意？
-staging 失效检测：不做，由用户负责（Java 源动了就手动重跑）。同意？
-G. 关于 #6（change_mode 幂等）
-change_mode.py apply 在已经 apply 过的源上重复运行，行为如何？我得先 grep 确认。如果不幂等，实施 (i) 就要先 restore 再 apply，或者引入"已 apply"标记文件。允许我在动手前先做一次小验证（读 change_mode.py + 在 minimal 上空跑测试），再回来给你最终方案吗？
-
-H. 关于 #11 + CLI
-旗标名定为 --no_mock_test（默认 mock 开启）。translate_fragment.sh 透传该参数。同意？
-
-mock 失败但仍按 (b) 重译耗尽预算后，fragment 的最终 translation_status 是？
-
-(i) attempted（保持当前编译失败的语义，不是 completed）—— 这等于把 mock 失败当编译失败。
-(ii) completed（编译通过就算翻译完成），仅 test_execution 字段记 failure。
-按 (b) 的字面意思应该是 (i)，但 (ii) 更符合"编译已通过"的现状。你想要哪个？
-
-A、B、C、E、G、H 必须确认；D、F 是提倡选项的复核，没异议就按我倾向走。回我后我开始动手。
+[type 001/446] ✅ RuntimeException -> Exception | llm
+[type 002/446] ✅ Process -> Any | llm
+[type 003/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 004/446] ❌ ProcessBuilder.Redirect -> Any | fallback:budget_exhausted
+[type 005/446] ✅ FileDescriptor -> FileDescriptor | llm
+[type 006/446] ✅ Class<?> -> TypeInfo | llm
+[type 007/446] ✅ Constructor<?> -> Constructor | llm
+[type 008/446] ❌ ProcessBuilder.Redirect -> Any | fallback:budget_exhausted
+[type 009/446] ❌ ProcessBuilder -> Any | fallback:budget_exhausted
+[type 010/446] ❌ Redirect -> Any | fallback:budget_exhausted
+[type 011/446] ✅ Thread -> Thread | llm
+[type 012/446] ✅ Path -> Path | llm
+[type 013/446] ❌ Process -> Any | fallback:budget_exhausted
+[type 014/446] ❌ ProcessBuilder -> Any | fallback:budget_exhausted
+[type 015/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 016/446] ✅ byte[] -> Array<Byte> | llm
+[type 017/446] ❌ Iterator<Object> -> Iterator<Object> | fallback:budget_exhausted
+[type 018/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 019/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 020/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 021/446] ❌ Iterator<Object> -> Iterator<Object> | fallback:budget_exhausted
+[type 022/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 023/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 024/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 025/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 026/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 027/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 028/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 029/446] ✅ Thread -> Thread | llm
+[type 030/446] ✅ Exception -> Exception | llm
+[type 031/446] ✅ RuntimeException -> Exception | llm
+[type 032/446] ✅ File -> Any | llm
+[type 033/446] ✅ File -> Any | llm
+[type 034/446] ❌ File -> Any | fallback:budget_exhausted
+[type 035/446] ✅ File[] -> Array<Any> | llm
+[type 036/446] ❌ FilenameFilter -> Any | fallback:budget_exhausted
+[type 037/446] ❌ SecurityException -> Any | fallback:budget_exhausted
+[type 038/446] ✅ byte[] -> Array<Byte> | llm
+[type 039/446] ✅ byte[] -> Array<Byte> | llm
+[type 040/446] ❌ File -> Any | fallback:budget_exhausted
+[type 041/446] ❌ FileOutputStream -> Any | fallback:budget_exhausted
+[type 042/446] ❌ FileInputStream -> Any | fallback:budget_exhausted
+[type 043/446] ✅ RuntimeException -> Exception | llm
+[type 044/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 045/446] ✅ Random -> Random | llm
+[type 046/446] ❌ File -> Any | fallback:budget_exhausted
+[type 047/446] ❌ UnsatisfiedLinkError -> Any | fallback:budget_exhausted
+[type 048/446] ✅ List<String> -> ArrayList<String> | llm
+[type 049/446] ❌ LinkedList<String> -> ArrayList<String> | fallback:budget_exhausted
+[type 050/446] ❌ File -> Any | fallback:budget_exhausted
+[type 051/446] ✅ Exception -> Exception | llm
+[type 052/446] ✅ String[] -> Array<String> | llm
+[type 053/446] ✅ String[] -> Array<String> | llm
+[type 054/446] ❌ URL -> Any | fallback:budget_exhausted
+[type 055/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 056/446] ✅ Throwable -> Exception | llm
+[type 057/446] ❌ File -> Any | fallback:budget_exhausted
+[type 058/446] ❌ Package -> Any | fallback:budget_exhausted
+[type 059/446] ✅ int[] -> Array<Int64> | llm
+[type 060/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 061/446] ❌ BufferedReader -> Any | fallback:budget_exhausted
+[type 062/446] ❌ InputStreamReader -> Any | fallback:budget_exhausted
+[type 063/446] ❌ File -> Any | fallback:budget_exhausted
+[type 064/446] ❌ FileInputStream -> Any | fallback:budget_exhausted
+[type 065/446] ✅ byte[] -> Array<Byte> | llm
+[type 066/446] ❌ Closeable -> Any | fallback:budget_exhausted
+[type 067/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 068/446] ✅ StringBuilder -> StringBuilder | llm
+[type 069/446] ✅ IOException -> IOException | llm
+[type 070/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 071/446] ❌ Appendable -> Any | fallback:budget_exhausted
+[type 072/446] ❌ Appendable -> Any | fallback:budget_exhausted
+[type 073/446] ❌ IllegalArgumentException -> IllegalArgumentException | fallback:budget_exhausted
+[type 074/446] ✅ String[] -> Array<String> | llm
+[type 075/446] ✅ Enum<?> -> Any | llm
+[type 076/446] ❌ Enum<?> -> Any | fallback:budget_exhausted
+[type 077/446] ❌ Enum<?> -> Any | fallback:budget_exhausted
+[type 078/446] ✅ String[] -> Array<String> | llm
+[type 079/446] ✅ FileInputStream -> Any | llm
+[type 080/446] ✅ String[] -> Array<String> | llm
+[type 081/446] ❌ File -> Any | fallback:budget_exhausted
+[type 082/446] ❌ Process -> Any | fallback:budget_exhausted
+[type 083/446] ❌ ProcessBuilder -> Any | fallback:budget_exhausted
+[type 084/446] ✅ Throwable -> Exception | llm
+[type 085/446] ❌ Process -> Any | fallback:budget_exhausted
+[type 086/446] ✅ ProcessBuilder -> Any | llm
+[type 087/446] ✅ IOException -> IOException | llm
+[type 088/446] ✅ Matcher -> Regex | llm
+[type 089/446] ✅ Exception -> Exception | llm
+[type 090/446] ✅ RuntimeException -> Exception | llm
+[type 091/446] ✅ Process -> Any | llm
+[type 092/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 093/446] ❌ ProcessBuilder.Redirect -> Any | fallback:budget_exhausted
+[type 094/446] ✅ FileDescriptor -> FileDescriptor | llm
+[type 095/446] ✅ Class<?> -> TypeInfo | llm
+[type 096/446] ✅ Constructor<?> -> Constructor | llm
+[type 097/446] ❌ ProcessBuilder.Redirect -> Any | fallback:budget_exhausted
+[type 098/446] ❌ ProcessBuilder -> Any | fallback:budget_exhausted
+[type 099/446] ❌ Redirect -> Any | fallback:budget_exhausted
+[type 100/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 101/446] ✅ short[] -> Array<Int16> | llm
+[type 102/446] ✅ short[] -> Array<Int16> | llm
+[type 103/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 104/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 105/446] ✅ IOException -> IOException | llm
+[type 106/446] ✅ int[] -> Array<Int64> | llm
+[type 107/446] ✅ int[] -> Array<Int64> | llm
+[type 108/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 109/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 110/446] ✅ byte[] -> Array<Byte> | llm
+[type 111/446] ✅ byte[] -> Array<Byte> | llm
+[type 112/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 113/446] ❌ Charset -> Any | fallback:budget_exhausted
+[type 114/446] ❌ Charset -> Any | fallback:budget_exhausted
+[type 115/446] ✅ RuntimeException -> Exception | llm
+[type 116/446] ✅ RuntimeException -> Exception | llm
+[type 117/446] ✅ RuntimeException -> Exception | llm
+[type 118/446] ✅ Thread -> Thread | llm
+[type 119/446] ✅ Path -> Path | llm
+[type 120/446] ❌ Process -> Any | fallback:budget_exhausted
+[type 121/446] ❌ ProcessBuilder -> Any | fallback:budget_exhausted
+[type 122/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 123/446] ✅ byte[] -> Array<Byte> | llm
+[type 124/446] ✅ byte[] -> Array<Byte> | llm
+[type 125/446] ❌ long[] -> Array<Int64> | fallback:budget_exhausted
+[type 126/446] ✅ int[] -> Array<Int64> | llm
+[type 127/446] ✅ int[] -> Array<Int64> | llm
+[type 128/446] ❌ char[] -> Array<UInt16> | fallback:budget_exhausted
+[type 129/446] ✅ int[] -> Array<Int64> | llm
+[type 130/446] ✅ int[] -> Array<Int64> | llm
+[type 131/446] ✅ int[] -> Array<Int64> | llm
+[type 132/446] ✅ int[] -> Array<Int64> | llm
+[type 133/446] ✅ int[] -> Array<Int64> | llm
+[type 134/446] ❌ Kernel32_INPUT_RECORD[] -> Array<Any> | fallback:budget_exhausted
+[type 135/446] ✅ int[] -> Array<Int64> | llm
+[type 136/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 137/446] ❌ Kernel32_INPUT_RECORD[] -> Array<Any> | fallback:budget_exhausted
+[type 138/446] ✅ Kernel32_INPUT_RECORD[] -> Array<Any> | llm
+[type 139/446] ✅ Kernel32_INPUT_RECORD[] -> Array<Any> | llm
+[type 140/446] ❌ UnsupportedEncodingException -> Any | fallback:budget_exhausted
+[type 141/446] ✅ IllegalStateException -> IllegalStateException | llm
+[type 142/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 143/446] ✅ HashMap<String, String> -> HashMap<String, String> | llm
+[type 144/446] ✅ String[] -> Array<String> | llm
+[type 145/446] ✅ Throwable -> Exception | llm
+[type 146/446] ✅ Process -> Any | llm
+[type 147/446] ✅ Throwable -> Exception | llm
+[type 148/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 149/446] ✅ byte[] -> Array<Byte> | llm
+[type 150/446] ✅ int[] -> Array<Int64> | llm
+[type 151/446] ✅ int[] -> Array<Int64> | llm
+[type 152/446] ✅ byte[] -> Array<Byte> | llm
+[type 153/446] ✅ int[] -> Array<Int64> | llm
+[type 154/446] ✅ byte[] -> Array<Byte> | llm
+[type 155/446] ✅ ByteArrayOutputStream -> Any | llm
+[type 156/446] ❌ AtomicReference<String> -> Any | fallback:budget_exhausted
+[type 157/446] ❌ AtomicReference<> -> Any | fallback:budget_exhausted
+[type 158/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 159/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 160/446] ❌ AtomicReference<String> -> Any | fallback:budget_exhausted
+[type 161/446] ❌ AtomicReference<> -> Any | fallback:budget_exhausted
+[type 162/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 163/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 164/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 165/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 166/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 167/446] ✅ FileDescriptor -> FileDescriptor | llm
+[type 168/446] ❌ FileOutputStream -> Any | fallback:budget_exhausted
+[type 169/446] ❌ Throwable -> Exception | fallback:budget_exhausted
+[type 170/446] ✅ int[] -> Array<Int64> | llm
+[type 171/446] ❌ Charset -> Any | fallback:budget_exhausted
+[type 172/446] ❌ UnsupportedCharsetException -> Any | fallback:budget_exhausted
+[type 173/446] ❌ UnsupportedEncodingException -> Any | fallback:budget_exhausted
+[type 174/446] ✅ IllegalArgumentException | NullPointerException -> Exception | llm
+[type 175/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 176/446] ❌ NullPointerException -> Any | fallback:budget_exhausted
+[type 177/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 178/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 179/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 180/446] ❌ IOError -> Error | fallback:budget_exhausted
+[type 181/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 182/446] ❌ IOError -> Error | fallback:budget_exhausted
+[type 183/446] ✅ boolean -> Bool | fixed_map
+[type 184/446] ✅ String -> String | fixed_map
+[type 185/446] ✅ String -> String | fixed_map
+[type 186/446] ✅ boolean -> Bool | fixed_map
+[type 187/446] ✅ Thread -> Thread | llm
+[type 188/446] ✅ Exception -> Exception | llm
+[type 189/446] ✅ RuntimeException -> Exception | llm
+[type 190/446] ✅ String -> String | fixed_map
+[type 191/446] ✅ String -> String | fixed_map
+[type 192/446] ✅ File -> Any | llm
+[type 193/446] ✅ File -> Any | llm
+[type 194/446] ✅ void -> Unit | fixed_map
+[type 195/446] ✅ String -> String | fixed_map
+[type 196/446] ❌ File -> Any | fallback:budget_exhausted
+[type 197/446] ✅ File[] -> Array<Any> | llm
+[type 198/446] ❌ FilenameFilter -> Any | fallback:budget_exhausted
+[type 199/446] ✅ boolean -> Bool | fixed_map
+[type 200/446] ❌ SecurityException -> Any | fallback:budget_exhausted
+[type 201/446] ✅ int -> Int64 | fixed_map
+[type 202/446] ✅ InputStream -> InputStream | fixed_map
+[type 203/446] ✅ byte[] -> Array<Byte> | llm
+[type 204/446] ✅ int -> Int64 | fixed_map
+[type 205/446] ✅ String -> String | fixed_map
+[type 206/446] ✅ InputStream -> InputStream | fixed_map
+[type 207/446] ✅ InputStream -> InputStream | fixed_map
+[type 208/446] ✅ byte[] -> Array<Byte> | llm
+[type 209/446] ✅ byte -> Int8 | fixed_map
+[type 210/446] ✅ int -> Int64 | fixed_map
+[type 211/446] ✅ boolean -> Bool | fixed_map
+[type 212/446] ✅ String -> String | fixed_map
+[type 213/446] ✅ String -> String | fixed_map
+[type 214/446] ✅ String -> String | fixed_map
+[type 215/446] ✅ String -> String | fixed_map
+[type 216/446] ❌ File -> Any | fallback:budget_exhausted
+[type 217/446] ✅ InputStream -> InputStream | fixed_map
+[type 218/446] ✅ JansiLoader -> JansiLoader | custom_type
+[type 219/446] ❌ FileOutputStream -> Any | fallback:budget_exhausted
+[type 220/446] ❌ FileInputStream -> Any | fallback:budget_exhausted
+[type 221/446] ✅ RuntimeException -> Exception | llm
+[type 222/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 223/446] ✅ String -> String | fixed_map
+[type 224/446] ✅ Random -> Random | llm
+[type 225/446] ✅ boolean -> Bool | fixed_map
+[type 226/446] ❌ File -> Any | fallback:budget_exhausted
+[type 227/446] ✅ String -> String | fixed_map
+[type 228/446] ✅ UnsatisfiedLinkError -> Any | llm
+[type 229/446] ✅ void -> Unit | fixed_map
+[type 230/446] ✅ List<String> -> ArrayList<String> | llm
+[type 231/446] ❌ LinkedList<String> -> ArrayList<String> | fallback:budget_exhausted
+[type 232/446] ✅ String -> String | fixed_map
+[type 233/446] ❌ File -> Any | fallback:budget_exhausted
+[type 234/446] ✅ JansiLoader -> JansiLoader | custom_type
+[type 235/446] ✅ boolean -> Bool | fixed_map
+[type 236/446] ✅ Exception -> Exception | llm
+[type 237/446] ✅ boolean -> Bool | fixed_map
+[type 238/446] ✅ String -> String | fixed_map
+[type 239/446] ✅ JansiLoader -> JansiLoader | custom_type
+[type 240/446] ✅ int -> Int64 | fixed_map
+[type 241/446] ✅ String[] -> Array<String> | llm
+[type 242/446] ✅ int -> Int64 | fixed_map
+[type 243/446] ✅ String[] -> Array<String> | llm
+[type 244/446] ✅ String -> String | fixed_map
+[type 245/446] ❌ URL -> Any | fallback:budget_exhausted
+[type 246/446] ✅ JansiLoader -> JansiLoader | custom_type
+[type 247/446] ✅ String -> String | fixed_map
+[type 248/446] ✅ Properties -> HashMap<String, String> | fixed_map
+[type 249/446] ❌ IOException -> IOException | fallback:budget_exhausted
+[type 250/446] ✅ String -> String | fixed_map
+[type 251/446] ✅ String -> String | fixed_map
+[type 252/446] ✅ int -> Int64 | fixed_map
+[type 253/446] ✅ void -> Unit | fixed_map
+[type 254/446] ✅ String[] -> Array<String> | llm
+[type 255/446] ✅ String -> String | fixed_map
+[type 256/446] ✅ FileInputStream -> Any | llm
+[type 257/446] ✅ int -> Int64 | fixed_map
+[type 258/446] ✅ int[] -> Array<Int64> | llm
+[type 259/446] ✅ double -> Float64 | fixed_map
+[type 260/446] ✅ double -> Float64 | fixed_map
+[type 261/446] ✅ int -> Int64 | fixed_map
+[type 262/446] ✅ int -> Int64 | fixed_map
+[type 263/446] ✅ int -> Int64 | fixed_map
+[type 264/446] ✅ int -> Int64 | fixed_map
+[type 265/446] ✅ int -> Int64 | fixed_map
+[type 266/446] ✅ int -> Int64 | fixed_map
+[type 267/446] ✅ int -> Int64 | fixed_map
+[type 268/446] ✅ int -> Int64 | fixed_map
+[type 269/446] ✅ int -> Int64 | fixed_map
+[type 270/446] ✅ int -> Int64 | fixed_map
+[type 271/446] ✅ int -> Int64 | fixed_map
+[type 272/446] ✅ int[] -> Array<Int64> | llm
+[type 273/446] ✅ int -> Int64 | fixed_map
+[type 274/446] ✅ double -> Float64 | fixed_map
+[type 275/446] ✅ int -> Int64 | fixed_map
+[type 276/446] ✅ double -> Float64 | fixed_map
+[type 277/446] ✅ int -> Int64 | fixed_map
+[type 278/446] ✅ int -> Int64 | fixed_map
+[type 279/446] ✅ double -> Float64 | fixed_map
+[type 280/446] ✅ double[] -> Array<Float64> | llm
+[type 281/446] ✅ double[] -> Array<Float64> | llm
+[type 282/446] ✅ double[] -> Array<Float64> | llm
+[type 283/446] ✅ int -> Int64 | fixed_map
+[type 284/446] ✅ int -> Int64 | fixed_map
+[type 285/446] ✅ double -> Float64 | fixed_map
+[type 286/446] ✅ double[] -> Array<Float64> | llm
+[type 287/446] ✅ int -> Int64 | fixed_map
+[type 288/446] ✅ double[] -> Array<Float64> | llm
+[type 289/446] ✅ double[] -> Array<Float64> | llm
+[type 290/446] ✅ double[] -> Array<Float64> | llm
+[type 291/446] ✅ double[] -> Array<Float64> | llm
+[type 292/446] ✅ double -> Float64 | fixed_map
+[type 293/446] ✅ double -> Float64 | fixed_map
+[type 294/446] ✅ double -> Float64 | fixed_map
+[type 295/446] ✅ double[] -> Array<Float64> | llm
+[type 296/446] ✅ double[] -> Array<Float64> | llm
+[type 297/446] ✅ double -> Float64 | fixed_map
+[type 298/446] ✅ double -> Float64 | fixed_map
+[type 299/446] ✅ double -> Float64 | fixed_map
+[type 300/446] ✅ double -> Float64 | fixed_map
+[type 301/446] ✅ double -> Float64 | fixed_map
+[type 302/446] ✅ byte[] -> Array<Byte> | llm
+[type 303/446] ✅ int -> Int64 | fixed_map
+[type 304/446] ✅ int -> Int64 | fixed_map
+[type 305/446] ✅ int -> Int64 | fixed_map
+[type 306/446] ✅ int -> Int64 | fixed_map
+[type 307/446] ✅ int -> Int64 | fixed_map
+[type 308/446] ✅ int -> Int64 | fixed_map
+[type 309/446] ✅ int -> Int64 | fixed_map
+[type 310/446] ✅ int -> Int64 | fixed_map
+[type 311/446] ✅ int -> Int64 | fixed_map
+[type 312/446] ✅ int -> Int64 | fixed_map
+[type 313/446] ✅ int -> Int64 | fixed_map
+[type 314/446] ✅ int -> Int64 | fixed_map
+[type 315/446] ✅ int -> Int64 | fixed_map
+[type 316/446] ✅ int -> Int64 | fixed_map
+[type 317/446] ✅ int -> Int64 | fixed_map
+[type 318/446] ✅ int -> Int64 | fixed_map
+[type 319/446] ✅ int -> Int64 | fixed_map
+[type 320/446] ✅ AnsiProcessor -> AnsiProcessor | custom_type
+[type 321/446] ✅ int -> Int64 | fixed_map
+[type 322/446] ✅ byte[] -> Array<Byte> | llm
+[type 323/446] ✅ int -> Int64 | fixed_map
+[type 324/446] ✅ int -> Int64 | fixed_map
+[type 325/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 326/446] ✅ int -> Int64 | fixed_map
+[type 327/446] ❌ Charset -> Any | fallback:budget_exhausted
+[type 328/446] ✅ AnsiOutputStream_WidthSupplier -> AnsiOutputStream_WidthSupplier | custom_type
+[type 329/446] ✅ AnsiProcessor -> AnsiProcessor | custom_type
+[type 330/446] ✅ AnsiType -> AnsiType | custom_type
+[type 331/446] ✅ AnsiColors -> AnsiColors | custom_type
+[type 332/446] ✅ AnsiOutputStream_IoRunnable -> AnsiOutputStream_IoRunnable | custom_type
+[type 333/446] ✅ AnsiOutputStream_IoRunnable -> AnsiOutputStream_IoRunnable | custom_type
+[type 334/446] ✅ AnsiMode -> AnsiMode | custom_type
+[type 335/446] ✅ boolean -> Bool | fixed_map
+[type 336/446] ✅ OutputStream -> OutputStream | fixed_map
+[type 337/446] ✅ AnsiOutputStream_WidthSupplier -> AnsiOutputStream_WidthSupplier | custom_type
+[type 338/446] ✅ AnsiMode -> AnsiMode | custom_type
+[type 339/446] ✅ AnsiProcessor -> AnsiProcessor | custom_type
+[type 340/446] ✅ AnsiType -> AnsiType | custom_type
+[type 341/446] ✅ AnsiColors -> AnsiColors | custom_type
+[type 342/446] ❌ Charset -> Any | fallback:budget_exhausted
+[type 343/446] ✅ AnsiOutputStream_IoRunnable -> AnsiOutputStream_IoRunnable | custom_type
+[type 344/446] ✅ AnsiOutputStream_IoRunnable -> AnsiOutputStream_IoRunnable | custom_type
+[type 345/446] ✅ boolean -> Bool | fixed_map
+[type 346/446] ✅ int -> Int64 | fixed_map
+[type 347/446] ✅ AnsiType -> AnsiType | custom_type
+[type 348/446] ✅ AnsiColors -> AnsiColors | custom_type
+[type 349/446] ✅ AnsiMode -> AnsiMode | custom_type
+[type 350/446] ✅ void -> Unit | fixed_map
+[type 351/446] ✅ AnsiMode -> AnsiMode | custom_type
+[type 352/446] ✅ AnsiProcessor -> AnsiProcessor | custom_type
+[type 353/446] ✅ ColorsAnsiProcessor -> ColorsAnsiProcessor | custom_type
+[type 354/446] ✅ boolean -> Bool | fixed_map
+[type 355/446] ✅ void -> Unit | fixed_map
+[type 356/446] ✅ boolean -> Bool | fixed_map
+[type 357/446] ✅ void -> Unit | fixed_map
+[type 358/446] ✅ int -> Int64 | fixed_map
+[type 359/446] ✅ byte -> Int8 | fixed_map
+[type 360/446] ✅ String -> String | fixed_map
+[type 361/446] ✅ Integer -> Int64 | fixed_map
+[type 362/446] ✅ char -> Rune | fixed_map
+[type 363/446] ✅ void -> Unit | fixed_map
+[type 364/446] ✅ RuntimeException -> Exception | llm
+[type 365/446] ✅ void -> Unit | fixed_map
+[type 366/446] ✅ RuntimeException -> Exception | llm
+[type 367/446] ✅ void -> Unit | fixed_map
+[type 368/446] ✅ int -> Int64 | fixed_map
+[type 369/446] ✅ RuntimeException -> Exception | llm
+[type 370/446] ✅ void -> Unit | fixed_map
+[type 371/446] ✅ boolean -> Bool | fixed_map
+[type 372/446] ✅ void -> Unit | fixed_map
+[type 373/446] ✅ void -> Unit | fixed_map
+[type 374/446] ✅ void -> Unit | fixed_map
+[type 375/446] ✅ void -> Unit | fixed_map
+[type 376/446] ✅ int -> Int64 | fixed_map
+[type 377/446] ✅ int -> Int64 | fixed_map
+[type 378/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 379/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 380/446] ✅ StringBuilder -> StringBuilder | llm
+[type 381/446] ✅ Iterator<Object> -> Iterator<Object> | llm
+[type 382/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 383/446] ✅ ArrayList<Object> -> ArrayList<Object> | llm
+[type 384/446] ✅ void -> Unit | fixed_map
+[type 385/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 386/446] ❌ AtomicReference<String> -> Any | fallback:budget_exhausted
+[type 387/446] ❌ AtomicReference<> -> Any | fallback:budget_exhausted
+[type 388/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 389/446] ✅ AnsiPrintStream -> AnsiPrintStream | custom_type
+[type 390/446] ✅ AnsiOutputStream -> AnsiOutputStream | custom_type
+[type 391/446] ✅ AnsiProcessor -> AnsiProcessor | custom_type
+[type 392/446] ✅ void -> Unit | fixed_map
+[type 393/446] ✅ String -> String | fixed_map
+[type 394/446] ✅ void -> Unit | fixed_map
+[type 395/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 396/446] ❌ AtomicReference<String> -> Any | fallback:budget_exhausted
+[type 397/446] ❌ AtomicReference<> -> Any | fallback:budget_exhausted
+[type 398/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 399/446] ✅ AnsiOutputStream -> AnsiOutputStream | custom_type
+[type 400/446] ✅ AnsiProcessor -> AnsiProcessor | custom_type
+[type 401/446] ✅ void -> Unit | fixed_map
+[type 402/446] ✅ String -> String | fixed_map
+[type 403/446] ❌ ByteArrayOutputStream -> Any | fallback:budget_exhausted
+[type 404/446] ✅ StringBuilder -> StringBuilder | llm
+[type 405/446] ✅ IOException -> IOException | llm
+[type 406/446] ✅ IllegalArgumentException -> IllegalArgumentException | llm
+[type 407/446] ❌ Appendable -> Any | fallback:budget_exhausted
+[type 408/446] ❌ Appendable -> Any | fallback:budget_exhausted
+[type 409/446] ❌ IllegalArgumentException -> IllegalArgumentException | fallback:budget_exhausted
+[type 410/446] ✅ String[] -> Array<String> | llm
+[type 411/446] ❌ Enum<?> -> Any | fallback:budget_exhausted
+[type 412/446] ❌ Enum<?> -> Any | fallback:budget_exhausted
+[type 413/446] ❌ Enum<?> -> Any | fallback:budget_exhausted
+[type 414/446] ✅ int[] -> Array<Int64> | llm
+[type 415/446] ✅ int[] -> Array<Int64> | llm
+[type 416/446] ✅ double[] -> Array<Float64> | llm
+[type 417/446] ✅ double[] -> Array<Float64> | llm
+[type 418/446] ✅ double[] -> Array<Float64> | llm
+[type 419/446] ✅ double[] -> Array<Float64> | llm
+[type 420/446] ✅ double[] -> Array<Float64> | llm
+[type 421/446] ✅ double[] -> Array<Float64> | llm
+[type 422/446] ✅ double[] -> Array<Float64> | llm
+[type 423/446] ✅ double[] -> Array<Float64> | llm
+[type 424/446] ✅ double[] -> Array<Float64> | llm
+[type 425/446] ✅ double[] -> Array<Float64> | llm
+[type 426/446] ✅ String[] -> Array<String> | llm
+[type 427/446] ✅ FileInputStream -> Any | llm
+[type 428/446] ✅ byte[] -> Array<Byte> | llm
+[type 429/446] ✅ int -> Int64 | fixed_map
+[type 430/446] ✅ OutputStream -> OutputStream | fixed_map
+[type 431/446] ✅ void -> Unit | fixed_map
+[type 432/446] ✅ int -> Int64 | fixed_map
+[type 433/446] ✅ byte -> Int8 | fixed_map
+[type 434/446] ✅ void -> Unit | fixed_map
+[type 435/446] ✅ byte -> Int8 | fixed_map
+[type 436/446] ✅ int -> Int64 | fixed_map
+[type 437/446] ✅ int -> Int64 | fixed_map
+[type 438/446] ✅ void -> Unit | fixed_map
+[type 439/446] ✅ void -> Unit | fixed_map
+[type 440/446] ✅ String[] -> Array<String> | llm
+[type 441/446] ❌ PrintStream -> Any | fallback:budget_exhausted
+[type 442/446] ✅ String -> String | fixed_map
+[type 443/446] ✅ String -> String | fixed_map
+[type 444/446] ✅ String -> String | fixed_map
+[type 445/446] ✅ String[] -> Array<String> | llm
+[type 446/446] ❌ FileInputStream -> Any | fallback:budget_exhausted

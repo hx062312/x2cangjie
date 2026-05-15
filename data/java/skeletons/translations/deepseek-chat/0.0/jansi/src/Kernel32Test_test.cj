@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-import jansi.internal.Kernel32
+
 // Imports End
 
 @Test

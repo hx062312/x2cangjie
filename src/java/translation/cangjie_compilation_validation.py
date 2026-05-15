@@ -128,6 +128,7 @@ def get_type_map():
 # Cangjie's Any does not satisfy these constraints, so use AnyHashable there.
 _HASH_KEY_CONTAINERS = frozenset({'HashMap', 'LinkedHashMap', 'TreeMap', 'ConcurrentHashMap'})
 _HASH_ELEMENT_CONTAINERS = frozenset({'HashSet', 'LinkedHashSet', 'TreeSet'})
+_ERASED_GENERIC_TYPES = frozenset({'Any', 'Nothing'})
 
 
 def get_cangjie_type(java_type, type_map):
@@ -141,6 +142,11 @@ def get_cangjie_type(java_type, type_map):
         return "Any"
 
     java_type = java_type.strip()
+
+    # Prefer exact mappings before decomposing generics. Some Java library types
+    # are intentionally mapped as a whole, e.g. Callable<Boolean> -> () -> Bool.
+    if java_type in type_map:
+        return type_map[java_type]
 
     # Handle generics like ArrayList<String>
     if '<' in java_type and java_type.endswith('>'):
@@ -168,6 +174,8 @@ def get_cangjie_type(java_type, type_map):
 
         if base_type in type_map:
             base_cangjie = type_map[base_type]
+            if base_cangjie in _ERASED_GENERIC_TYPES:
+                return base_cangjie
             if '<' in base_cangjie:
                 base_cangjie = base_cangjie.split('<')[0]
         else:
@@ -182,13 +190,6 @@ def get_cangjie_type(java_type, type_map):
 
         generic_cangjie = ', '.join(resolved_parts)
         return f"{base_cangjie}<{generic_cangjie}>"
-
-    # Simple type lookup
-    if java_type in type_map:
-        result = type_map[java_type]
-        if '<' in result:
-            return result
-        return result
 
     # Handle primitive arrays like int[] -> Array<Int64>
     if java_type.endswith('[]'):
@@ -369,11 +370,11 @@ def find_method_in_skeleton(skeleton_content: str, method_name: str, signature: 
     # so we use flexible param matching [^)]* instead of exact type matching
     # 如果是构造函数，搜索 "init(" 而不是 "func {method_name}("
     # 注意：构造函数必须是 public|private|protected init，不能是 static init
-    modifier_opt = r"((open\s+)?(public|private|protected)(\s+open)?\s+)?"
+    modifier_opt = r"((open\s+)?(public|private|protected)(\s+(static|open|override))*\s+)?"
     # Use non-capturing groups so group 1 is always the params
-    modifier_for_sig = r"(?:open\s+)?(?:public|private|protected)(?:\s+open)?"
+    modifier_for_sig = r"(?:open\s+)?(?:public|private|protected)(?:\s+(?:static|open|override))*"
     if is_constructor:
-        modifier_required = r"((open\s+)?(public|private|protected)(\s+open)?\s+)"
+        modifier_required = r"((open\s+)?(public|private|protected)(\s+(static|open|override))*\s+)"
         pattern = rf"{modifier_required}init\s*\([^)]*\)\s*\{{[\s\S]*?throw Exception\('TODO'\)[\s\S]*?\}}"
 
         # If signature has parameters, use re.finditer to find all matches and select correct overload
@@ -766,26 +767,20 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
 
         error_info = parse_cjpm_error(result.stderr, result.stdout)
 
-        # Reset from current skeleton (which contains previous successful translations)
-        with open(skeleton_file, 'r') as f:
-            current_skeleton = f.read()
-        reset_skeleton = reset_fragment_to_todo(current_skeleton, fragment_sig, fragment_type, args, fragment)
+        # Reset from the pre-attempt snapshot, then mark this fragment as failed.
+        reset_skeleton = reset_fragment_to_todo(skeleton_content, fragment_sig, fragment_type, args, fragment)
         with open(skeleton_file, 'w') as f:
             f.write(reset_skeleton)
 
         return (ERROR, error_info, f"Compilation failed: {error_info}")
 
     except subprocess.TimeoutExpired:
-        with open(skeleton_file, 'r') as f:
-            current_skeleton = f.read()
-        reset_skeleton = reset_fragment_to_todo(current_skeleton, fragment_sig, fragment_type, args, fragment)
+        reset_skeleton = reset_fragment_to_todo(skeleton_content, fragment_sig, fragment_type, args, fragment)
         with open(skeleton_file, 'w') as f:
             f.write(reset_skeleton)
         return (ERROR, "Compilation timeout", "Timeout after 60 seconds")
     except Exception as e:
-        with open(skeleton_file, 'r') as f:
-            current_skeleton = f.read()
-        reset_skeleton = reset_fragment_to_todo(current_skeleton, fragment_sig, fragment_type, args, fragment)
+        reset_skeleton = reset_fragment_to_todo(skeleton_content, fragment_sig, fragment_type, args, fragment)
         with open(skeleton_file, 'w') as f:
             f.write(reset_skeleton)
         return (ERROR, str(e), str(e))
@@ -828,7 +823,7 @@ def extract_method_body(cangjie_code: str, fragment: dict) -> str:
                 result.append(param.split(':')[-1].strip())
         return result
 
-    modifier_for_sig = r"(?:open\s+)?(?:public|private|protected)(?:\s+(?:static|open))*"
+    modifier_for_sig = r"(?:open\s+)?(?:public|private|protected)(?:\s+(?:static|open|override))*"
 
     if is_static_initializer:
         # Cangjie static init: static init() { body }
@@ -884,7 +879,7 @@ def extract_method_body(cangjie_code: str, fragment: dict) -> str:
         if not sig_match:
             return cangjie_code.strip()
     else:
-        sig_match = re.search(rf"func\s+{method_name}\s*\([^)]*\)\s*:\s*[^\{{]*", cangjie_code)
+        sig_match = re.search(rf"(?:@Test\s+)?{modifier_for_sig}\s+func\s+{re.escape(method_name)}\s*\([^)]*\)\s*:\s*[^\{{]*", cangjie_code)
         if not sig_match:
             return cangjie_code.strip()
 
@@ -1060,13 +1055,59 @@ def parse_cjpm_error(stderr: str, stdout: str) -> str:
     except Exception:
         pass
 
+    def strip_ansi(text: str) -> str:
+        return re.sub(r'\x1b\[[0-9;]*m', '', text)
+
+    def is_summary_line(text: str) -> bool:
+        lower = strip_ansi(text).strip().lower()
+        return (
+            lower.startswith('error: failed to compile package') or
+            lower.startswith('error: cjpm build failed') or
+            re.match(r'^\d+\s+errors?\s+generated', lower) is not None or
+            re.match(r'^\d+\s+errors?\s+printed', lower) is not None
+        )
+
+    def is_error_start(text: str) -> bool:
+        clean = strip_ansi(text).strip()
+        lower = clean.lower()
+        if not clean or 'warning' in lower or is_summary_line(clean):
+            return False
+        return lower.startswith('error:') or re.search(r'\berror\b', lower) is not None
+
     error_lines = []
-    for line in combined_output.split('\n'):
-        if 'error' in line.lower() or ': error' in line.lower():
-            error_lines.append(line.strip())
+    lines = combined_output.split('\n')
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        stripped = strip_ansi(line).strip()
+        lower = stripped.lower()
+        if 'warning' in lower or is_summary_line(stripped):
+            i += 1
+            continue
+        if is_error_start(stripped):
+            block = [stripped]
+            j = i + 1
+            while j < len(lines):
+                next_line = strip_ansi(lines[j].rstrip())
+                next_stripped = next_line.strip()
+                next_lower = next_stripped.lower()
+                if 'warning' in next_lower or is_summary_line(next_stripped):
+                    break
+                if is_error_start(next_stripped):
+                    break
+                if not next_stripped and len(block) > 1:
+                    break
+                block.append(next_line)
+                if j - i >= 8:
+                    break
+                j += 1
+            error_lines.append('\n'.join(block).strip())
+            i = max(j, i + 1)
+            continue
+        i += 1
 
     if error_lines:
-        return '\n'.join(error_lines[:10])
+        return '\n'.join(error_lines[:5])
 
     return f"--- cjpm stderr ---\n{stderr}\n--- cjpm stdout ---\n{stdout}"
 

@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-
+import std.fs.*
 // Imports End
 
 public open class AnsiConsole {

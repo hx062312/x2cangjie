@@ -2,7 +2,6 @@
 package jansi
 
 // Imports Begin
-import jansi.io.AnsiOutputStream_WidthSupplier
 import std.collection.ArrayList
 import std.io.OutputStream
 // Imports End
@@ -32,7 +31,7 @@ public open class AnsiOutputStream {
     let buffer: Array<Byte> = throw Exception('TODO')
     var pos: Int64 = throw Exception('TODO')
     var startOfValue: Int64 = throw Exception('TODO')
-    let options: ArrayList<Any> = throw Exception('TODO')
+    let options: ArrayList<Object> = throw Exception('TODO')
     var state: Int64 = throw Exception('TODO')
     let cs: Any = throw Exception('TODO')
     let width: AnsiOutputStream_WidthSupplier = throw Exception('TODO')

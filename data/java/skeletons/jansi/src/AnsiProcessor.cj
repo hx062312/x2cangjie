@@ -44,27 +44,27 @@ public open class AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected open func getNextOptionInt(optionsIterator: Iterator<Any>): Int64 {
+    protected open func getNextOptionInt(optionsIterator: Iterator<Object>): Int64 {
         throw Exception('TODO')
     }
 
-    protected open func processEscapeCommand(options: ArrayList<Any>, command: Int64): Bool {
+    protected open func processEscapeCommand(options: ArrayList<Object>, command: Int64): Bool {
         throw Exception('TODO')
     }
 
-    protected open func processOperatingSystemCommand(options: ArrayList<Any>): Bool {
+    protected open func processOperatingSystemCommand(options: ArrayList<Object>): Bool {
         throw Exception('TODO')
     }
 
-    protected open func processCharsetSelect(options: ArrayList<Any>): Bool {
+    protected open func processCharsetSelect(options: ArrayList<Object>): Bool {
         throw Exception('TODO')
     }
 
-    private func optionInt(options: ArrayList<Any>, index: Int64): Int64 {
+    private func optionInt(options: ArrayList<Object>, index: Int64): Int64 {
         throw Exception('TODO')
     }
 
-    private func optionInt(options: ArrayList<Any>, index: Int64, defaultValue: Int64): Int64 {
+    private func optionInt(options: ArrayList<Object>, index: Int64, defaultValue: Int64): Int64 {
         throw Exception('TODO')
     }
 
@@ -180,7 +180,7 @@ public open class AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected open func processUnknownExtension(options: ArrayList<Any>, command: Int64): Unit {
+    protected open func processUnknownExtension(options: ArrayList<Object>, command: Int64): Unit {
         throw Exception('TODO')
     }
 

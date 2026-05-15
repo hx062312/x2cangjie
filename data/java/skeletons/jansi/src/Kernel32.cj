@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-
+// No specific imports needed for array type
 // Imports End
 
 public open class Kernel32 {
@@ -137,11 +137,11 @@ public open class Kernel32 {
         throw Exception('TODO')
     }
 
-    public static func readConsoleInputHelper(handle: Int64, count: Int64, peek: Bool): Array<Kernel32_INPUT_RECORD> {
+    public static func readConsoleInputHelper(handle: Int64, count: Int64, peek: Bool): Array<Any> {
         throw Exception('TODO')
     }
 
-    public static func readConsoleKeyInput(handle: Int64, count: Int64, peek: Bool): Array<Kernel32_INPUT_RECORD> {
+    public static func readConsoleKeyInput(handle: Int64, count: Int64, peek: Bool): Array<Any> {
         throw Exception('TODO')
     }
 
