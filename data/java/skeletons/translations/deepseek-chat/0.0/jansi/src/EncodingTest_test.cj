@@ -2,10 +2,7 @@
 package jansi
 
 // Imports Begin
-import jansi.io.AnsiOutputStream
-import jansi.io.AnsiOutputStream_IoRunnable
-import jansi.io.AnsiOutputStream_WidthSupplier
-import jansi.io.AnsiProcessor
+
 // Imports End
 
 @Test

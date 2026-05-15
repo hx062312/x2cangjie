@@ -2,14 +2,17 @@
 package jansi
 
 // Imports Begin
+// No specific import needed for StringBuilder
+// No specific import needed; StringBuilder is part of the standard library
+// No specific imports needed for this translation
 import std.collection.ArrayList
 // Imports End
 
 public open class Ansi {
     // Fields Begin
     static let DISABLE: String = throw Exception('TODO')
-    static var detector: Callable<Bool> = throw Exception('TODO')
-    static let holder: InheritableThreadLocal<Bool> = throw Exception('TODO')
+    static var detector: () -> Bool = throw Exception('TODO')
+    static let holder: Any = throw Exception('TODO')
     static let FIRST_ESC_CHAR: Rune = throw Exception('TODO')
     static let SECOND_ESC_CHAR: Rune = throw Exception('TODO')
     let builder: StringBuilder = throw Exception('TODO')
@@ -17,7 +20,7 @@ public open class Ansi {
     // Fields End
 
     // Methods Begin
-    public static func setDetector(detector: Callable<Bool>): Unit {
+    public static func setDetector(detector: () -> Bool): Unit {
         throw Exception('TODO')
     }
 

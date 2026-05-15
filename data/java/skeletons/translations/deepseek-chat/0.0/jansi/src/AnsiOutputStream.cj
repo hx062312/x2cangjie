@@ -2,19 +2,18 @@
 package jansi
 
 // Imports Begin
-import jansi.io.AnsiOutputStream_WidthSupplier
 import std.collection.ArrayList
 import std.io.OutputStream
 // Imports End
 
 public open class AnsiOutputStream {
     // Fields Begin
-    static let RESET_CODE: Array<Byte> = throw Exception('TODO')
-    static let LOOKING_FOR_FIRST_ESC_CHAR: Int64 = throw Exception('TODO')
-    static let LOOKING_FOR_SECOND_ESC_CHAR: Int64 = throw Exception('TODO')
-    static let LOOKING_FOR_NEXT_ARG: Int64 = throw Exception('TODO')
-    static let LOOKING_FOR_STR_ARG_END: Int64 = throw Exception('TODO')
-    static let LOOKING_FOR_INT_ARG_END: Int64 = throw Exception('TODO')
+    static let RESET_CODE: Array<Byte> = throw Exception('TODO')  // Already translated, compilation failed
+    static let LOOKING_FOR_FIRST_ESC_CHAR: Int64 = 0
+    static let LOOKING_FOR_SECOND_ESC_CHAR: Int64 = 1
+    static let LOOKING_FOR_NEXT_ARG: Int64 = 2
+    static let LOOKING_FOR_STR_ARG_END: Int64 = 3
+    static let LOOKING_FOR_INT_ARG_END: Int64 = 4
     static let LOOKING_FOR_OSC_COMMAND: Int64 = throw Exception('TODO')
     static let LOOKING_FOR_OSC_COMMAND_END: Int64 = throw Exception('TODO')
     static let LOOKING_FOR_OSC_PARAM: Int64 = throw Exception('TODO')
@@ -32,7 +31,7 @@ public open class AnsiOutputStream {
     let buffer: Array<Byte> = throw Exception('TODO')
     var pos: Int64 = throw Exception('TODO')
     var startOfValue: Int64 = throw Exception('TODO')
-    let options: ArrayList<Any> = throw Exception('TODO')
+    let options: ArrayList<Object> = throw Exception('TODO')
     var state: Int64 = throw Exception('TODO')
     let cs: Any = throw Exception('TODO')
     let width: AnsiOutputStream_WidthSupplier = throw Exception('TODO')

@@ -30,7 +30,7 @@ public open class AnsiMain {
         throw Exception('TODO')
     }
 
-    private static func writeFileContent(f: File): Unit {
+    private static func writeFileContent(f: Any): Unit {
         throw Exception('TODO')
     }
 

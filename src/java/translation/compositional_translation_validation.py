@@ -1,4 +1,5 @@
 import argparse
+import contextlib
 import datetime
 import json
 import math
@@ -9,7 +10,6 @@ import time
 from pathlib import Path
 
 import tiktoken
-import tqdm
 import yaml
 from openai import OpenAI
 from src.java.translation.cangjie_compilation_validation import cangjie_compilation_validation
@@ -32,6 +32,107 @@ ERROR = "error"
 SUCCESS = "success"
 FAILURE = "failure"
 NOT_EXERCISED = "not-exercised"
+
+
+def init_body_log(args):
+    log_path = f"{args.project}_{args.model}_{args.prompt_type}.log"
+    with open(log_path, "w") as f:
+        f.write("=" * 80 + "\n")
+        f.write(f"Body translation run started at {datetime.datetime.now().isoformat()}\n")
+        f.write(f"project={args.project}, model={args.model}, temperature={args.temperature}\n")
+        f.write("=" * 80 + "\n")
+    return log_path
+
+
+def log_detail(args, title, content=""):
+    log_path = getattr(args, "body_log_path", None)
+    if not log_path:
+        return
+    with open(log_path, "a") as f:
+        f.write(f"\n{'=' * 24} {title} {'=' * 24}\n")
+        if content is not None:
+            f.write(str(content))
+            if not str(content).endswith("\n"):
+                f.write("\n")
+
+
+@contextlib.contextmanager
+def redirect_stdout_to_body_log(args):
+    log_path = getattr(args, "body_log_path", None)
+    if not log_path:
+        yield
+        return
+    with open(log_path, "a") as log_file, contextlib.redirect_stdout(log_file):
+        yield
+
+
+def strip_ansi(text):
+    return re.sub(r"\x1b\[[0-9;]*m", "", str(text or ""))
+
+
+def summarize_feedback(feedback):
+    text = strip_ansi(feedback)
+    for line in text.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            continue
+        lower = stripped.lower()
+        if lower.startswith("error: failed to compile package") or lower.startswith("error: cjpm build failed"):
+            continue
+        return stripped[:140]
+    return "no details"
+
+
+def simple_name(name):
+    return str(name or "").split(":")[-1]
+
+
+def fragment_display_name(fragment):
+    return f"{simple_name(fragment.get('class_name'))}.{simple_name(fragment.get('fragment_name'))}"
+
+
+def terminal_fragment_header(index, total, fragment):
+    width = max(3, len(str(total)))
+    print(
+        f"[{index:0{width}d}/{total:0{width}d}] "
+        f"{fragment_display_name(fragment)} | {fragment.get('fragment_type')}",
+        flush=True,
+    )
+
+
+def terminal_attempt(stage, attempt, total, passed, detail=""):
+    icon = "✅" if passed else "❌"
+    suffix = f" {summarize_feedback(detail)}" if detail else ""
+    print(f"  {stage:<7} {attempt}/{total} {icon}{suffix}", flush=True)
+
+
+def terminal_result(passed, reason):
+    icon = "✅" if passed else "❌"
+    print(f"  result  {icon} {reason}", flush=True)
+
+
+def get_fragment_schema_data(fragment, args):
+    with open(f"{args.translation_dir}/{fragment['schema_name']}.json", "r") as f:
+        return json.load(f)
+
+
+def get_fragment_file_info(fragment, args):
+    try:
+        schema_data = get_fragment_schema_data(fragment, args)
+    except Exception:
+        return ("<unknown>", simple_name(fragment.get("class_name")))
+
+    path = (
+        schema_data.get("cangjie_translations_skeleton_path")
+        or schema_data.get("cangjie_skeleton_path")
+        or "<unknown>"
+    )
+    project_marker = f"/{args.project}/src/"
+    if project_marker in path:
+        display_path = f"{args.project}/src/{path.split(project_marker, 1)[1]}"
+    else:
+        display_path = path
+    return (display_path, simple_name(fragment.get("class_name")))
 
 
 def find_class_key(classes_dict, class_name):
@@ -143,7 +244,7 @@ def update_labels(
             translation_str = "\n".join(translation) if isinstance(translation, list) else str(translation)
             # Skip if translation contains class declaration (indicates AI outputted full class instead of method)
             if "class " in translation_str and "{" in translation_str and "}" in translation_str:
-                print(f"[WARN] Skipping partial_translation update for {fragment['fragment_name']}: contains full class declaration")
+                log_detail(args, "WARN", f"Skipping partial_translation update for {fragment['fragment_name']}: contains full class declaration")
             else:
                 frag_dict["partial_translation"] = translation
 
@@ -194,9 +295,10 @@ def is_field_already_translated(fragment, args):
     """
     Check if a field is already deterministically translated
     """
-    prompt_generator = PromptGenerator(
-        is_feedback=False, args=args, fragment_details=fragment
-    )
+    with redirect_stdout_to_body_log(args):
+        prompt_generator = PromptGenerator(
+            is_feedback=False, args=args, fragment_details=fragment
+        )
 
     if (
         fragment["fragment_type"] == "field"
@@ -317,7 +419,7 @@ def extract_json_translation(generation: str, fragment: dict, args) -> tuple:
 
     imports = response.get("imports", "")
     if imports and imports.strip():
-        print(f"[JSON] Additional imports requested: {imports}")
+        log_detail(args, "JSON IMPORTS", imports)
 
     fragment_type = fragment.get("fragment_type", "method")
     if fragment_type in ("method", "static_initializer"):
@@ -337,16 +439,16 @@ def translate(
     if recursion_depth == 0:
         return
 
-    # >>> DEBUG_LOG_BEGIN
-    print(
-        f"\n[DEBUG_LOG] >>>>> fragment "
-        f"{fragment.get('schema_name')}|{fragment.get('class_name')}|{fragment.get('fragment_name')} "
-        f"(type={fragment.get('fragment_type')}, "
-        f"test={fragment.get('is_test_method')}, "
-        f"ctor={fragment.get('is_constructor')})",
-        flush=True,
+    log_detail(
+        args,
+        "FRAGMENT",
+        (
+            f"{fragment.get('schema_name')}|{fragment.get('class_name')}|{fragment.get('fragment_name')} "
+            f"(type={fragment.get('fragment_type')}, "
+            f"test={fragment.get('is_test_method')}, "
+            f"ctor={fragment.get('is_constructor')})"
+        ),
     )
-    # <<< DEBUG_LOG_END
 
     model_info = yaml.safe_load(open("configs/model_configs.yaml", "r"))["models"]
 
@@ -375,24 +477,22 @@ def translate(
         update_budget(fragment, args, budget, type_="original")
 
     current_budget = "cangjie_compilation"
+    shared_budget_total = budget.get("cangjie_compilation", get_adaptive_budget(fragment, args))
     start_time = time.time()
 
     while budget[current_budget] > 0:
+        shared_attempt = shared_budget_total - budget.get("cangjie_compilation", shared_budget_total) + 1
         ############################ <TRANSLATION> ############################
-        prompt_gen = PromptGenerator(
-            is_feedback=True if feedback else False,
-            args=args,
-            fragment_details=fragment,
-            feedback=feedback,
-        )
-        prompt = prompt_gen.generate_prompt()
-
-        if args.debug:
-            print("=======================PROMPT=======================", flush=True)
-            print(prompt, flush=True)
-            print(
-                "=======================GENERATING=======================", flush=True
+        with redirect_stdout_to_body_log(args):
+            prompt_gen = PromptGenerator(
+                is_feedback=True if feedback else False,
+                args=args,
+                fragment_details=fragment,
+                feedback=feedback,
             )
+            prompt = prompt_gen.generate_prompt()
+
+        log_detail(args, "PROMPT", prompt)
 
         total_input_tokens = get_total_input_tokens(prompt, args, model_info)
 
@@ -407,16 +507,16 @@ def translate(
                 elapsed_time=0,
             )
             update_budget(fragment, args, budget, type_="final")
+            terminal_result(False, "fallback:out_of_context")
             break
 
-        generation = prompt_model(
-            model_info, client, prompt, total_input_tokens, args,
-            response_format=JSON_OUTPUT_SCHEMA,
-        )
+        with redirect_stdout_to_body_log(args):
+            generation = prompt_model(
+                model_info, client, prompt, total_input_tokens, args,
+                response_format=JSON_OUTPUT_SCHEMA,
+            )
 
-        if args.debug:
-            print(generation, flush=True)
-            print("---" * 50, flush=True)
+        log_detail(args, "GENERATION", generation)
         ############################ </TRANSLATION> ############################
 
         ############################ <EXTRACT CODE> ############################
@@ -439,15 +539,13 @@ def translate(
                     elapsed_time=time.time() - start_time,
                 )
                 update_budget(fragment, args, budget, type_="final")
+                terminal_attempt("compile", shared_attempt, shared_budget_total, False, syntactic_feedback)
+                terminal_result(False, "fallback:syntactic")
                 break
 
             budget["syntactic"] -= 1
-            if args.debug:
-                print(
-                    "=======================CODE EXTRACTION FAILED - REPROMPTING=======================",
-                    f"Feedback: {syntactic_feedback}",
-                    flush=True,
-                )
+            terminal_attempt("compile", shared_attempt, shared_budget_total, False, syntactic_feedback)
+            log_detail(args, "CODE EXTRACTION FAILED - REPROMPTING", syntactic_feedback)
             # Update feedback for next iteration
             if not feedback:
                 feedback = f"The output must be valid JSON with 'code' and 'reasoning' fields: {syntactic_feedback}"
@@ -485,6 +583,7 @@ def translate(
         status, compilation_feedback, message = cangjie_compilation_validation(generation, fragment, args)
 
         if status != SUCCESS:
+            terminal_attempt("compile", shared_attempt, shared_budget_total, False, compilation_feedback)
             if budget[current_budget] - 1 == 0:
                 update_labels(
                     args=args,
@@ -496,25 +595,22 @@ def translate(
                     elapsed_time=time.time() - start_time,
                 )
                 update_budget(fragment, args, budget, type_="final")
+                terminal_result(False, "fallback:compile_validation")
                 break
 
-            if args.debug:
-                print(
-                    "=======================CANGJIE COMPILATION FAILED - REPROMPTING=======================",
-                    f"Feedback: {compilation_feedback}",
-                    flush=True,
-                )
+            log_detail(args, "CANGJIE COMPILATION FAILED - REPROMPTING", compilation_feedback)
 
             budget[current_budget] -= 1
             # RAG error context injection on compilation failure
             if hasattr(args, 'use_rag') and args.use_rag == 'true':
                 try:
-                    rag_engine = get_rag_engine()
-                    error_ctx = rag_engine.inject_error_context(compilation_feedback)
+                    with redirect_stdout_to_body_log(args):
+                        rag_engine = get_rag_engine()
+                        error_ctx = rag_engine.inject_error_context(compilation_feedback)
                     if error_ctx:
                         compilation_feedback = error_ctx + "\n\n" + compilation_feedback
                 except Exception as e:
-                    print(f"[RAG] Warning: Compilation error RAG injection failed: {e}")
+                    log_detail(args, "RAG WARNING", f"Compilation error RAG injection failed: {e}")
             # Update feedback for next iteration - append to existing feedback
             if not feedback:
                 feedback = compilation_feedback
@@ -523,6 +619,7 @@ def translate(
             continue
 
         cangjie_compilation_status = "success"
+        terminal_attempt("compile", shared_attempt, shared_budget_total, True)
         # Intermediate state: compile passed, mock test pending. Final
         # translation_status flips to "completed" only after mock-test resolves
         # (or is skipped for non-normal-method fragments).
@@ -558,17 +655,27 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            terminal_attempt("test", shared_attempt, shared_budget_total, True, "skipped")
+            terminal_result(True, "llm")
             if fragment["is_test_method"]:
                 return
             break
 
-        mock_status, mock_message = run_mock_tests_for_fragment(
-            fragment=fragment,
-            skeleton_dir=args.skeleton_dir,
-            staging_dir=args.staging_dir,
-        )
+        with redirect_stdout_to_body_log(args):
+            mock_status, mock_message = run_mock_tests_for_fragment(
+                fragment=fragment,
+                skeleton_dir=args.skeleton_dir,
+                staging_dir=args.staging_dir,
+            )
 
         if mock_status in ("no-tests", "success"):
+            terminal_attempt(
+                "test",
+                shared_attempt,
+                shared_budget_total,
+                True,
+                "no-tests" if mock_status == "no-tests" else "",
+            )
             update_labels(
                 args=args,
                 fragment=fragment,
@@ -583,9 +690,11 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            terminal_result(True, "llm")
             break
 
         # mock_status == "failure": share the cangjie_compilation budget pool.
+        terminal_attempt("test", shared_attempt, shared_budget_total, False, mock_message)
         if budget["cangjie_compilation"] - 1 == 0:
             # Exhausted. Per spec H(ii): compile succeeded → status=completed,
             # only test_execution carries the failure.
@@ -599,15 +708,11 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            terminal_result(False, "fallback:test_validation")
             break
 
         budget["cangjie_compilation"] -= 1
-        if args.debug:
-            print(
-                "=======================MOCK TEST FAILED - REPROMPTING=======================",
-                f"Feedback: {mock_message}",
-                flush=True,
-            )
+        log_detail(args, "MOCK TEST FAILED - REPROMPTING", mock_message)
         # Mark intermediate retry state so the schema reflects the rollback.
         update_labels(
             args=args,
@@ -630,6 +735,7 @@ def main(args):
 
     args.prompt_type = "body" if args.include_implementation else "signature"
     args.translation_dir = f"data/java/schemas{args.suffix}/{args.model}/{args.temperature}/{args.project}"
+    args.body_log_path = init_body_log(args)
 
     args.skeleton_dir = Path(f"data/java/skeletons/{args.project}")
     args.staging_dir = Path(f"/tmp/cangjie_mock/{args.project}")
@@ -658,14 +764,37 @@ def main(args):
 
     session_inject(args.skeleton_dir)
     try:
-        for fragment in tqdm.tqdm(pending_fragments):
+        current_file = None
+        total_fragments = len(pending_fragments)
+        file_info_cache = {}
+
+        def cached_file_info(fragment):
+            key = f"{fragment['schema_name']}|{fragment['class_name']}"
+            if key not in file_info_cache:
+                file_info_cache[key] = get_fragment_file_info(fragment, args)
+            return file_info_cache[key]
+
+        for fragment_index, fragment in enumerate(pending_fragments, start=1):
             frag_key = f"{fragment['schema_name']}|{fragment['class_name']}|{fragment['fragment_name']}"
             if frag_key in processed_fragments:
                 continue
 
+            file_info = cached_file_info(fragment)
+            if file_info != current_file:
+                current_file = file_info
+                file_path, class_name = file_info
+                fragment_count = sum(
+                    1 for pending in pending_fragments
+                    if cached_file_info(pending) == current_file
+                )
+                print(f"\n[file] {file_path} | class {class_name} | {fragment_count} fragments", flush=True)
+
+            terminal_fragment_header(fragment_index, total_fragments, fragment)
+
             if fragment["fragment_type"] == "field":
                 if is_field_already_translated(fragment, args):
                     processed_fragments.append(frag_key)
+                    terminal_result(True, "fixed")
                     continue
 
             translate(

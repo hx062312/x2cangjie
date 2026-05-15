@@ -6,10 +6,11 @@ Adapted from TRAM but targeting Cangjie instead of Python.
 import argparse
 import json
 import os
+import shutil
 import sys
 from pathlib import Path
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 from src.java.isolation_validation import runtime_support
 from src.java.utils.get_dependencies import get_dependencies
 from src.java.utils.get_class_order import get_class_order
@@ -101,6 +102,7 @@ def remove_duplicate_methods(schema, class_to_methods=None, all_schema_classes=N
 # Cangjie's Any does not satisfy these constraints, so use AnyHashable there.
 _HASH_KEY_CONTAINERS = frozenset({'HashMap', 'LinkedHashMap', 'TreeMap', 'ConcurrentHashMap'})
 _HASH_ELEMENT_CONTAINERS = frozenset({'HashSet', 'LinkedHashSet', 'TreeSet'})
+_ERASED_GENERIC_TYPES = frozenset({'Any', 'Nothing'})
 
 
 def get_cangjie_type(java_type, type_map):
@@ -114,6 +116,11 @@ def get_cangjie_type(java_type, type_map):
         return "Any"
 
     java_type = java_type.strip()
+
+    # Prefer exact mappings before decomposing generics. Some Java library types
+    # are intentionally mapped as a whole, e.g. Callable<Boolean> -> () -> Bool.
+    if java_type in type_map:
+        return type_map[java_type]
 
     # Handle generics like ArrayList<String>
     if '<' in java_type and java_type.endswith('>'):
@@ -143,6 +150,8 @@ def get_cangjie_type(java_type, type_map):
         # Get base type translation
         if base_type in type_map:
             base_cangjie = type_map[base_type]
+            if base_cangjie in _ERASED_GENERIC_TYPES:
+                return base_cangjie
             # If base_cangjie already has generic params, replace them
             if '<' in base_cangjie:
                 base_cangjie = base_cangjie.split('<')[0]
@@ -159,14 +168,6 @@ def get_cangjie_type(java_type, type_map):
 
         generic_cangjie = ', '.join(resolved_parts)
         return f"{base_cangjie}<{generic_cangjie}>"
-
-    # Simple type lookup
-    if java_type in type_map:
-        result = type_map[java_type]
-        # If result already has generics, return as-is
-        if '<' in result:
-            return result
-        return result
 
     # Handle primitive arrays like int[] -> Array<Int64>
     if java_type.endswith('[]'):
@@ -788,12 +789,19 @@ def _parse_java_path(java_path):
     return None
 
 
-def _get_cangjie_package(java_path, cjpm_package_name):
+def _get_cangjie_package(java_path, cjpm_package_name, collapsed_subpaths=None):
     """Compute Cangjie package name from a Java source file path."""
-    sub_path = _compute_skeleton_sub_path(java_path)
+    sub_path = _get_effective_skeleton_sub_path(java_path, collapsed_subpaths)
     if sub_path:
         return f"{cjpm_package_name}.{sub_path.replace('/', '.')}"
     return cjpm_package_name
+
+
+def _get_effective_skeleton_sub_path(java_path, collapsed_subpaths=None):
+    sub_path = _compute_skeleton_sub_path(java_path)
+    if collapsed_subpaths and sub_path in collapsed_subpaths:
+        return None
+    return sub_path
 
 
 def _compute_skeleton_sub_path(java_path):
@@ -851,6 +859,150 @@ def _compute_skeleton_sub_path(java_path):
         return None
 
 
+def _should_update_class_subpath(existing_subpath, candidate_subpath):
+    if existing_subpath is None:
+        return True
+    if candidate_subpath is not None and existing_subpath != candidate_subpath:
+        return True
+    return False
+
+
+def _iter_schema_type_expressions(schema, class_info):
+    for imported_type in schema.get('import_map', {}).values():
+        yield imported_type
+    for ref_type in class_info.get('extends', []) + class_info.get('implements', []):
+        yield ref_type
+    for field_info in class_info.get('fields', {}).values():
+        for type_expr in field_info.get('types', []):
+            yield type_expr
+    for method_info in class_info.get('methods', {}).values():
+        for type_expr in method_info.get('return_types', []):
+            yield type_expr
+        for param in method_info.get('parameters', []):
+            yield param.get('type', 'Any')
+
+
+def _build_class_to_raw_subpath(all_schemas):
+    class_to_subpath = {}
+    for _schema_fname, _schema_path, schema in all_schemas:
+        raw_subpath = _compute_skeleton_sub_path(schema.get('path', ''))
+        for class_key in schema.get('classes', {}):
+            class_name = class_key.split(':')[-1]
+            if _should_update_class_subpath(class_to_subpath.get(class_name), raw_subpath):
+                class_to_subpath[class_name] = raw_subpath
+    return class_to_subpath
+
+
+def _find_dependency_key_for_schema(dependencies, schema_fname):
+    schema_stem = schema_fname[:-5] if schema_fname.endswith('.json') else schema_fname
+    matches = [
+        key for key in dependencies
+        if schema_stem == key or schema_stem.endswith(f".{key}")
+    ]
+    if not matches:
+        return None
+    return max(matches, key=len)
+
+
+def _add_package_edge(graph, src_subpath, dst_subpath):
+    graph.setdefault(src_subpath, set())
+    graph.setdefault(dst_subpath, set())
+    if dst_subpath != src_subpath:
+        graph[src_subpath].add(dst_subpath)
+
+
+def _build_package_dependency_graph(all_schemas, class_to_subpath, type_map, dependencies=None):
+    graph = {}
+    dependencies = dependencies or {}
+    for schema_fname, _schema_path, schema in all_schemas:
+        src_subpath = _compute_skeleton_sub_path(schema.get('path', ''))
+        graph.setdefault(src_subpath, set())
+        dependency_key = _find_dependency_key_for_schema(dependencies, schema_fname)
+        if dependency_key and dependency_key in dependencies:
+            for dependent_class in dependencies[dependency_key]:
+                dep_class_name = dependent_class[0]
+                if dep_class_name in class_to_subpath:
+                    _add_package_edge(graph, src_subpath, class_to_subpath[dep_class_name])
+
+        for class_info in schema.get('classes', {}).values():
+            for type_expr in _iter_schema_type_expressions(schema, class_info):
+                if not type_expr:
+                    continue
+                translated_type = get_cangjie_type(str(type_expr), type_map)
+                type_names = _extract_type_names(str(type_expr)) | _extract_type_names(translated_type)
+                for type_name in type_names:
+                    short_name = type_name.strip().replace('$', '_').split('.')[-1]
+                    if short_name not in class_to_subpath:
+                        continue
+                    dst_subpath = class_to_subpath[short_name]
+                    _add_package_edge(graph, src_subpath, dst_subpath)
+    return graph
+
+
+def _find_cyclic_subpaths(graph):
+    index = 0
+    stack = []
+    indices = {}
+    lowlinks = {}
+    on_stack = set()
+    cyclic = set()
+
+    def strongconnect(node):
+        nonlocal index
+        indices[node] = index
+        lowlinks[node] = index
+        index += 1
+        stack.append(node)
+        on_stack.add(node)
+
+        for neighbor in graph.get(node, set()):
+            if neighbor not in indices:
+                strongconnect(neighbor)
+                lowlinks[node] = min(lowlinks[node], lowlinks[neighbor])
+            elif neighbor in on_stack:
+                lowlinks[node] = min(lowlinks[node], indices[neighbor])
+
+        if lowlinks[node] == indices[node]:
+            component = []
+            while True:
+                item = stack.pop()
+                on_stack.remove(item)
+                component.append(item)
+                if item == node:
+                    break
+            if len(component) > 1:
+                cyclic.update(component)
+
+    for node in list(graph):
+        if node not in indices:
+            strongconnect(node)
+    return cyclic
+
+
+def _compute_collapsed_subpaths(all_schemas, type_map, dependencies=None):
+    class_to_subpath = _build_class_to_raw_subpath(all_schemas)
+    graph = _build_package_dependency_graph(all_schemas, class_to_subpath, type_map, dependencies)
+    cyclic = _find_cyclic_subpaths(graph)
+    collapsed = {subpath for subpath in cyclic if subpath is not None}
+
+    # Java subpackages that reference the root package cannot stay as Cangjie
+    # subpackages when the root may also reference them.
+    for subpath, targets in graph.items():
+        if subpath is not None and None in targets:
+            collapsed.add(subpath)
+    return collapsed
+
+
+def _remove_collapsed_output_dirs(project_dir, collapsed_subpaths):
+    if not collapsed_subpaths:
+        return
+    src_dir = Path(project_dir) / "src"
+    for subpath in collapsed_subpaths:
+        target = src_dir / subpath
+        if target.is_dir():
+            shutil.rmtree(target)
+
+
 # ============================================================
 # Import Helpers
 # ============================================================
@@ -896,7 +1048,8 @@ def _extract_type_names(cangjie_type_str):
 def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
                                cjpm_name, type_map, class_to_package,
                                dependencies, custom_types, processed_classes,
-                               std_type_imports, skeleton=''):
+                               std_type_imports, skeleton='',
+                               collapsed_subpaths=None):
     """Build the complete import section for a skeleton file.
 
     Returns the import string to replace __IMPORTS_PLACEHOLDER__.
@@ -905,7 +1058,8 @@ def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
 
     _add_project_imports(cangjie_imports, dependencies, schema_fname,
                          processed_classes, schema, class_order,
-                         java_path, cjpm_name, class_to_package)
+                         java_path, cjpm_name, class_to_package,
+                         collapsed_subpaths)
 
     _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports, cjpm_name)
 
@@ -928,9 +1082,10 @@ def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
 
 def _add_project_imports(cangjie_imports, dependencies, schema_fname,
                          processed_classes, schema, class_order,
-                         java_path, cjpm_name, class_to_package):
+                         java_path, cjpm_name, class_to_package,
+                         collapsed_subpaths=None):
     """Add imports for project types (dependencies + cross-package extends/implements)."""
-    cur_pkg = _get_cangjie_package(java_path, cjpm_name)
+    cur_pkg = _get_cangjie_package(java_path, cjpm_name, collapsed_subpaths)
 
     # Process dependencies for imports
     dependency_key = None
@@ -1031,7 +1186,8 @@ def _add_std_import_for_type(cangjie_type_name, cangjie_imports, std_type_import
 def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, type_map,
                                 class_to_package, all_schema_classes, class_to_methods,
                                 dependencies, custom_types, skeletons_dir,
-                                translations_skeleton_dir, std_type_imports):
+                                translations_skeleton_dir, std_type_imports,
+                                collapsed_subpaths=None):
     """
     Generate Cangjie skeleton for one schema file.
 
@@ -1042,7 +1198,7 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
     """
     # Package header
     java_path = schema.get('path', '')
-    sub_path = _compute_skeleton_sub_path(java_path)
+    sub_path = _get_effective_skeleton_sub_path(java_path, collapsed_subpaths)
     skeleton = generate_package_header(cjpm_name, sub_path)
 
     # Imports placeholder
@@ -1095,7 +1251,7 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
         schema, class_order, schema_fname, java_path,
         cjpm_name, type_map, class_to_package,
         dependencies, custom_types, processed_classes,
-        std_type_imports, skeleton
+        std_type_imports, skeleton, collapsed_subpaths
     )
     skeleton = skeleton.replace('__IMPORTS_PLACEHOLDER__\n', imports_str)
 
@@ -1200,6 +1356,9 @@ def main(args):
     class_to_package = {}
     all_schemas = []
 
+    # Load schemas first. Package layout is decided after all class references
+    # are known, because Cangjie package cycles require collapsing some Java
+    # subpackages back into the project root package.
     for schema_fname in os.listdir(schema_dir):
         if not schema_fname.endswith('.json'):
             continue
@@ -1208,7 +1367,18 @@ def main(args):
         schema_path = f"{schema_dir}/{schema_fname}"
         with open(schema_path, 'r') as f:
             schema = json.load(f)
-        cangjie_pkg = _get_cangjie_package(schema.get('path', ''), cjpm_name)
+        all_schemas.append((schema_fname, schema_path, schema))
+
+    collapsed_subpaths = _compute_collapsed_subpaths(all_schemas, type_map, dependencies)
+    if collapsed_subpaths:
+        collapsed_text = ', '.join(sorted(collapsed_subpaths))
+        print(f"Collapsing cyclic Java subpackages into root package: {collapsed_text}")
+        _remove_collapsed_output_dirs(skeletons_dir, collapsed_subpaths)
+        _remove_collapsed_output_dirs(translations_skeleton_dir, collapsed_subpaths)
+
+    for schema_fname, schema_path, schema in all_schemas:
+        cangjie_pkg = _get_cangjie_package(schema.get('path', ''), cjpm_name,
+                                           collapsed_subpaths)
         for class_key, class_info in schema.get('classes', {}).items():
             class_name = class_key.split(':')[-1]
             extends = class_info.get('extends', [])
@@ -1218,7 +1388,6 @@ def main(args):
             class_to_methods[class_name] = {'parent': parent, 'methods': method_names}
             all_schema_classes[class_name] = {'extends': extends, 'methods': class_info.get('methods', {})}
             class_to_package[class_name] = cangjie_pkg
-        all_schemas.append((schema_fname, schema_path, schema))
 
     # Load std_type_imports.json
     std_type_imports = {}
@@ -1243,7 +1412,7 @@ def main(args):
             schema, schema_fname, schema_path, cjpm_name, type_map,
             class_to_package, all_schema_classes, class_to_methods,
             dependencies, custom_types, skeletons_dir, translations_skeleton_dir,
-            std_type_imports
+            std_type_imports, collapsed_subpaths
         ) or uses_any_hashable
 
     # Phase 3: Generate cjpm.toml

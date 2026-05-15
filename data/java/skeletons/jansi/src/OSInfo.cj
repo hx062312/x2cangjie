@@ -2,8 +2,10 @@
 package jansi
 
 // Imports Begin
+import std.collection.*
 import std.collection.HashMap
 import std.io.InputStream
+import std.process.*
 // Imports End
 
 public open class OSInfo {

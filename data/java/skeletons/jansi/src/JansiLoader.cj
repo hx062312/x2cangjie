@@ -2,7 +2,11 @@
 package jansi
 
 // Imports Begin
+import std.collection.ArrayList
+import std.fs.*
 import std.io.InputStream
+import std.random.Random
+import std.sync.*
 // Imports End
 
 public open class JansiLoader {
@@ -25,7 +29,7 @@ public open class JansiLoader {
         throw Exception('TODO')
     }
 
-    private static func getTempDir(): File {
+    private static func getTempDir(): Any {
         throw Exception('TODO')
     }
 
@@ -49,7 +53,7 @@ public open class JansiLoader {
         throw Exception('TODO')
     }
 
-    private static func loadNativeLibrary(libPath: File): Bool {
+    private static func loadNativeLibrary(libPath: Any): Bool {
         throw Exception('TODO')
     }
 

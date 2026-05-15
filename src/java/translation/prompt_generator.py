@@ -33,6 +33,25 @@ def extract_actual_name(fragment_name: str) -> str:
     return fragment_name
 
 
+def render_lines(value, *, partial=False):
+    """Render schema translation fields without splitting strings into characters."""
+    if value is None:
+        return ""
+    if isinstance(value, str):
+        text = value
+    elif isinstance(value, list):
+        text = ("" if partial else "\n").join(str(item) for item in value)
+    else:
+        text = str(value)
+    return text.replace("<placeholder>", "None" if partial else "")
+
+
+def render_translation_or_partial(translation, partial_translation):
+    if translation:
+        return render_lines(translation)
+    return render_lines(partial_translation, partial=True)
+
+
 class PromptGenerator:
 
     def __init__(
@@ -345,13 +364,10 @@ Notes:
                         "fields"
                     ][field]["translation"]
                     inner_outer_classes_py.append(
-                        "\n".join(field_translation)
-                        if field_translation
-                        else "".join(
-                            self.schema_data["classes"][inner_outer_class]["fields"][
-                                field
-                            ]["partial_translation"]
-                        ).replace("<placeholder>", "None")
+                        render_translation_or_partial(
+                            field_translation,
+                            self.schema_data["classes"][inner_outer_class]["fields"][field]["partial_translation"],
+                        )
                     )
                     inner_outer_classes_py.append("\n")
 
@@ -428,16 +444,12 @@ Notes:
                     field_translation = imported_class_data["classes"][
                         imported_class_key
                     ]["fields"][field]["translation"]
-                    if field_translation:
-                        imported_classes.append("\n".join(field_translation))
-                    else:
-                        imported_classes.append(
-                            "\n".join(
-                                imported_class_data["classes"][dependenct_class_name][
-                                    "fields"
-                                ][field]["partial_translation"]
-                            ).replace("<placeholder>", "None")
+                    imported_classes.append(
+                        render_translation_or_partial(
+                            field_translation,
+                            imported_class_data["classes"][imported_class_key]["fields"][field]["partial_translation"],
                         )
+                    )
 
             if len(imported_classes) > 0:
                 self.partial_translation += "\n".join(imported_classes) + "\n"
@@ -478,13 +490,10 @@ Notes:
                         "fields"
                     ][field]["translation"]
                     super_class_declaration.append(
-                        "\n".join(field_translation)
-                        if field_translation
-                        else "".join(
-                            super_class_data["classes"][super_class_key]["fields"][field][
-                                "partial_translation"
-                            ]
-                        ).replace("<placeholder>", "None")
+                        render_translation_or_partial(
+                            field_translation,
+                            super_class_data["classes"][super_class_key]["fields"][field]["partial_translation"],
+                        )
                     )
                     super_class_declaration.append("\n")
 
@@ -520,14 +529,9 @@ Notes:
                 field_translation = self.class_dict[
                     "fields"
                 ][field]["translation"]
-                main_class_partial_translation += (
-                    "\n".join(field_translation)
-                    if field_translation
-                    else "".join(
-                        self.class_dict["fields"][field][
-                            "partial_translation"
-                        ]
-                    ).replace("<placeholder>", "None")
+                main_class_partial_translation += render_translation_or_partial(
+                    field_translation,
+                    self.class_dict["fields"][field]["partial_translation"],
                 )
                 main_class_partial_translation += "\n\n"
 
@@ -576,15 +580,10 @@ Notes:
                         method_translation = callee_schema_data["classes"][
                             callee_class
                         ]["methods"][callee_method]["translation"]
-                        callee_partial_translation = (
-                            "\n".join(method_translation).rstrip()
-                            if method_translation
-                            else "".join(
-                                callee_schema_data["classes"][callee_class]["methods"][
-                                    callee_method
-                                ]["partial_translation"]
-                            ).rstrip()
-                        )
+                        callee_partial_translation = render_translation_or_partial(
+                            method_translation,
+                            callee_schema_data["classes"][callee_class]["methods"][callee_method]["partial_translation"],
+                        ).rstrip()
                     else:
                         callee_partial_translation = "".join(
                             callee_schema_data["classes"][callee_class]["methods"][
@@ -643,14 +642,9 @@ Notes:
                                     field_translation = callee_schema_data["classes"][
                                         callee_class
                                     ]["fields"][field]["translation"]
-                                    self.partial_translation += (
-                                        "\n".join(field_translation)
-                                        if field_translation
-                                        else "".join(
-                                            callee_schema_data["classes"][callee_class][
-                                                "fields"
-                                            ][field]["partial_translation"]
-                                        ).replace("<placeholder>", "None")
+                                    self.partial_translation += render_translation_or_partial(
+                                        field_translation,
+                                        callee_schema_data["classes"][callee_class]["fields"][field]["partial_translation"],
                                     )
                                     self.partial_translation += "\n"
 
@@ -660,15 +654,10 @@ Notes:
                                 callee_method_translation = callee_schema_data[
                                     "classes"
                                 ][callee_class]["methods"][callee_method]["translation"]
-                                self.partial_translation += (
-                                    "\n".join(callee_method_translation).rstrip()
-                                    if callee_method_translation
-                                    else "".join(
-                                        callee_schema_data["classes"][callee_class][
-                                            "methods"
-                                        ][callee_method]["partial_translation"]
-                                    ).rstrip()
-                                )
+                                self.partial_translation += render_translation_or_partial(
+                                    callee_method_translation,
+                                    callee_schema_data["classes"][callee_class]["methods"][callee_method]["partial_translation"],
+                                ).rstrip()
                             else:
                                 self.partial_translation += "".join(
                                     callee_schema_data["classes"][callee_class][
@@ -712,13 +701,10 @@ Notes:
                                     callee_class
                                 ]["fields"][field]["translation"]
                                 self.partial_translation += (
-                                    "\n".join(field_translation) + "\n"
-                                    if field_translation
-                                    else "".join(
-                                        callee_schema_data["classes"][callee_class][
-                                            "fields"
-                                        ][field]["partial_translation"]
-                                    ).replace("<placeholder>", "None")
+                                    render_translation_or_partial(
+                                        field_translation,
+                                        callee_schema_data["classes"][callee_class]["fields"][field]["partial_translation"],
+                                    )
                                     + "\n"
                                 )
 
@@ -726,14 +712,9 @@ Notes:
                                 callee_method_translation = callee_schema_data[
                                     "classes"
                                 ][callee_class]["methods"][callee_method]["translation"]
-                                self.partial_translation += (
-                                    "\n".join(callee_method_translation)
-                                    if callee_method_translation
-                                    else "".join(
-                                        callee_schema_data["classes"][callee_class][
-                                            "methods"
-                                        ][callee_method]["partial_translation"]
-                                    )
+                                self.partial_translation += render_translation_or_partial(
+                                    callee_method_translation,
+                                    callee_schema_data["classes"][callee_class]["methods"][callee_method]["partial_translation"],
                                 )
                             else:
                                 self.partial_translation += "".join(
@@ -770,14 +751,9 @@ Notes:
                         "methods"
                     ][method]["translation"]
                     if self.args.include_implementation:
-                        main_class_partial_translation += (
-                            "\n".join(method_translation)
-                            if method_translation
-                            else "".join(
-                                self.class_dict["methods"][
-                                    method
-                                ]["partial_translation"]
-                            ).replace("<placeholder>", "None")
+                        main_class_partial_translation += render_translation_or_partial(
+                            method_translation,
+                            self.class_dict["methods"][method]["partial_translation"],
                         )
                     else:
                         main_class_partial_translation += "".join(

@@ -7,11 +7,11 @@ package jansi
 
 public open class AnsiType {
     // Fields Begin
-    var Native: Any = throw Exception('TODO')
-    var Unsupported: Any = throw Exception('TODO')
-    var VirtualTerminal: Any = throw Exception('TODO')
+    var Native: Any = throw Exception("TODO")
+    var Unsupported: Any = throw Exception('Ansi sequences are stripped out')
+    var VirtualTerminal: Any = throw Exception("Supported through windows virtual terminal")
     var Emulation: Any = throw Exception('TODO')
-    var Redirected: Any = throw Exception('TODO')
+    var Redirected: Any = throw Exception("The stream is redirected to a file or a pipe")
     let description: String = throw Exception('TODO')
     // Fields End
 
@@ -21,13 +21,13 @@ public open class AnsiType {
     }
 
     public open func getDescription(): String {
-        throw Exception('TODO')
+                return this.description
     }
 
     // Methods End
 
     protected init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 }
 

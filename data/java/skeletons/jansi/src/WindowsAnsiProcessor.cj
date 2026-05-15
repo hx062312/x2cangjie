@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-import jansi.io.AnsiProcessor
+import std.io.*
 import std.io.OutputStream
 // Imports End
 

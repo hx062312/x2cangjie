@@ -33,4 +33,4 @@ python src/java/translation/compositional_translation_validation.py \
     --validate_by_cangjie \
     --use_rag=$use_rag \
     --recursion_depth=2 \
-    --include_implementation | tee ${project}_${model}_body.log
+    --include_implementation
