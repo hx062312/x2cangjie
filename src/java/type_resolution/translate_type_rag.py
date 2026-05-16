@@ -261,11 +261,12 @@ main(): Int64 {{
         temp_file = f.name
 
     try:
-        # Compile check using cjc
+        # Compile check using cjc (run in /tmp so main/test.cjo don't pollute project root)
         result = subprocess.run(
             ["cjc", temp_file],
             capture_output=True,
             timeout=60,
+            cwd="/tmp",
         )
 
         if result.returncode != 0:
@@ -299,6 +300,14 @@ def main(args):
         with open(fixed_map_path, 'r') as f:
             FIXED_TYPE_MAP = json.load(f)
     log_detail(log_path, 'CONFIG', f'Loaded {len(FIXED_TYPE_MAP)} entries from fixed_type_map.json')
+
+    # Load universal type map as cache to avoid re-translating already-seen types
+    UNIVERSAL_TYPE_MAP = {}
+    universal_map_path = "data/java/type_resolution/universal_type_map_final.json"
+    if os.path.exists(universal_map_path):
+        with open(universal_map_path, 'r') as f:
+            UNIVERSAL_TYPE_MAP = json.load(f)
+    log_detail(log_path, 'CONFIG', f'Loaded {len(UNIVERSAL_TYPE_MAP)} entries from universal_type_map_final.json as cache')
 
     model_info = yaml.safe_load(open('configs/model_configs.yaml', 'r'))['models']
     args.schema_dir = f'data/java/schemas{args.suffix}/{args.model_name}/{args.temperature}/{args.project_name}'
@@ -385,10 +394,12 @@ def main(args):
                             result.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                             result.source_type = source_type
 
-                            # Check if it's a known fixed type or custom type
-                            if source_type in custom_types or source_type in FIXED_TYPE_MAP:
+                            # Check if it's a known fixed type, custom type, or already cached in universal map
+                            if source_type in custom_types or source_type in FIXED_TYPE_MAP or source_type in UNIVERSAL_TYPE_MAP:
                                 result.translated = True
-                                if source_type in FIXED_TYPE_MAP:
+                                if source_type in UNIVERSAL_TYPE_MAP:
+                                    result.translated_target_type = UNIVERSAL_TYPE_MAP[source_type]
+                                elif source_type in FIXED_TYPE_MAP:
                                     result.translated_target_type = FIXED_TYPE_MAP.get(source_type)
                                 else:
                                     result.translated_target_type = source_type
@@ -402,7 +413,12 @@ def main(args):
 
                                 save_results(data, args.schema_dir, schema_file)
                                 processed_types += 1
-                                reason = 'fixed_map' if source_type in FIXED_TYPE_MAP else 'custom_type'
+                                if source_type in UNIVERSAL_TYPE_MAP:
+                                    reason = 'cached'
+                                elif source_type in FIXED_TYPE_MAP:
+                                    reason = 'fixed_map'
+                                else:
+                                    reason = 'custom_type'
                                 terminal_type_status(processed_types, total_types, source_type, result.translated_target_type, True, reason)
                                 log_detail(log_path, f'PASS {reason} {source_type}', f'{source_type} -> {result.translated_target_type}')
 
