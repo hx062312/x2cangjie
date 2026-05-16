@@ -20,7 +20,7 @@ from src.java.preprocessing._shared import (
 
 # Cangjie keywords that can conflict with Java identifiers
 CANGJIE_KEYWORDS = {
-    'type', 'init', 'in', 'is', 'func', 'class', 'interface', 'struct',
+    'type', 'init', 'in', 'is','match', 'func', 'class', 'interface', 'struct',
     'enum', 'public', 'private', 'protected', 'internal', 'static', 'var',
     'let', 'import', 'package', 'return', 'if', 'else', 'for', 'while', 'match',
     'where', 'throws', 'try', 'catch', 'finally', 'override', 'abstract',
@@ -44,9 +44,10 @@ ACTIVE_KEYWORDS = CANGJIE_KEYWORDS - SKIP_KEYWORDS  # {'type', 'init', 'in', 'is
 # Phase 1: Pre-scan (delegates to _shared.pre_scan_project)
 # ---------------------------------------------------------------------------
 
-def pre_scan_project_keywords(output_dir):
+def pre_scan_project_keywords(output_dir, collect_methods=False):
     """Pre-scan collecting user classes and keyword declaration sites."""
-    return pre_scan_project(output_dir, active_keywords=ACTIVE_KEYWORDS)
+    return pre_scan_project(output_dir, active_keywords=ACTIVE_KEYWORDS,
+                            collect_method_decls=collect_methods)
 
 
 # ---------------------------------------------------------------------------
@@ -67,7 +68,7 @@ def _get_enclosing_class_name(node, code):
     return None
 
 
-def _get_identifier_context(node, code, user_classes):
+def _get_identifier_context(node, code, user_classes, project_method_decls=None):
     """
     Determine the rename context for an identifier node.
 
@@ -87,11 +88,31 @@ def _get_identifier_context(node, code, user_classes):
             return ('_', False)
 
     # --- Method invocation (call site) -> '_', with JDK-class guard ----------
+    #     Also guards against external-library calls on lowercase variables
+    #     (e.g. mac.init() where mac is javax.crypto.Mac, not project code)
+    #     and static imports (e.g. is() from Hamcrest) by checking whether the
+    #     method name is declared anywhere in the project.
     if pt == 'method_invocation':
         if parent.child_by_field_name('name') == node:
             obj = parent.child_by_field_name('object')
             if obj and _is_jdk_class_ref(obj, code, user_classes):
                 return ('_', True)
+            # No receiver (implicit this / static import): only rename if the
+            # method is declared in the project (e.g. is() from Hamcrest
+            # should not be renamed if no project class declares is()).
+            if obj is None and project_method_decls is not None:
+                name = extract_text_by_bytes(code, node.start_byte, node.end_byte)
+                if name not in project_method_decls:
+                    return ('_', True)
+                return ('_', False)
+            # Lowercase variable as receiver: likely an external library instance.
+            # Only rename if the method is declared in the project.
+            if (obj and obj.type == 'identifier'
+                    and obj != parent.child_by_field_name('name')
+                    and project_method_decls is not None):
+                name = extract_text_by_bytes(code, node.start_byte, node.end_byte)
+                if name not in project_method_decls:
+                    return ('_', True)
             return ('_', False)
 
     # --- Field access (obj.field) -> '__', with JDK-class guard --------------
@@ -146,7 +167,8 @@ def _is_jdk_class_ref(obj_node, code, user_classes):
     return False
 
 
-def find_identifier_conflicts(node, code, conflicts, user_classes, file_decls):
+def find_identifier_conflicts(node, code, conflicts, user_classes, file_decls,
+                              project_method_decls=None):
     """
     Recursively find all identifier nodes that need renaming.
 
@@ -158,7 +180,8 @@ def find_identifier_conflicts(node, code, conflicts, user_classes, file_decls):
         name = extract_text_by_bytes(code, node.start_byte, node.end_byte)
         if name in ACTIVE_KEYWORDS:
             suffix, should_skip = _get_identifier_context(node, code,
-                                                         user_classes)
+                                                         user_classes,
+                                                         project_method_decls)
             # 'None' -> undecided; check if 'name' is declared in this file.
             # If not, it's an inherited/external ref (e.g. FilterInputStream.in).
             if should_skip is None:
@@ -170,10 +193,11 @@ def find_identifier_conflicts(node, code, conflicts, user_classes, file_decls):
 
     for child in node.children:
         find_identifier_conflicts(child, code, conflicts, user_classes,
-                                  file_decls)
+                                  file_decls, project_method_decls)
 
 
-def process_java_file(file_path, parser, user_classes, file_decls):
+def process_java_file(file_path, parser, user_classes, file_decls,
+                      project_method_decls=None):
     """
     Parse one Java file, rename conflicting identifiers, write back.
 
@@ -186,7 +210,8 @@ def process_java_file(file_path, parser, user_classes, file_decls):
 
     conflicts = []
     find_identifier_conflicts(tree.root_node, code, conflicts,
-                              user_classes, file_decls.get(file_path, set()))
+                              user_classes, file_decls.get(file_path, set()),
+                              project_method_decls)
 
     if not conflicts:
         return False
@@ -231,12 +256,17 @@ def main(args):
         shutil.rmtree(output_dir)
     shutil.copytree(input_dir, output_dir)
 
-    # Phase 1: Pre-scan
+    # Phase 1: Pre-scan (also collect project-wide method declarations for
+    # active keywords, to avoid renaming external-library method calls like
+    # mac.init() where mac is a JDK type instance)
     print("Pre-scanning project...")
-    parser, user_classes, file_decls = pre_scan_project_keywords(output_dir)
+    parser, user_classes, file_decls, project_method_decls = \
+        pre_scan_project_keywords(output_dir, collect_methods=True)
     print(f"  User-defined classes: {len(user_classes)}")
     print(f"  Files with keyword declarations: "
           f"{sum(1 for v in file_decls.values() if v)}")
+    print(f"  Project methods matching active keywords: "
+          f"{sorted(project_method_decls) if project_method_decls else '(none)'}")
 
     # Phase 2: Process all Java files
     java_files = []
@@ -252,7 +282,8 @@ def main(args):
     total_modified = 0
     for java_file in java_files:
         rel_path = os.path.relpath(java_file, output_dir)
-        if process_java_file(java_file, parser, user_classes, file_decls):
+        if process_java_file(java_file, parser, user_classes, file_decls,
+                             project_method_decls):
             total_modified += 1
             print(f"  Modified: {rel_path}")
 
