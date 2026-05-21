@@ -22,7 +22,7 @@ public open class OSInfo {
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     // Static Initializer End
@@ -33,11 +33,11 @@ public open class OSInfo {
     }
 
     public static func getOSName(): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func isAndroid(): Bool {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func isAlpine(): Bool {

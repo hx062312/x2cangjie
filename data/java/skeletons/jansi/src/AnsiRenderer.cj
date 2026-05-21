@@ -2,6 +2,7 @@
 package jansi
 
 // Imports Begin
+import std.core.*
 import std.io.*
 // Imports End
 
@@ -113,7 +114,7 @@ public open class Code {
         throw Exception('TODO')
     }
 
-    public open func getColor(): Color {
+    public open func getColor(): Ansi.Color {
         throw Exception('TODO')
     }
 

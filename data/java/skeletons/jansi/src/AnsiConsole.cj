@@ -2,7 +2,9 @@
 package jansi
 
 // Imports Begin
+import std.core.IllegalArgumentException
 import std.fs.*
+import std.io.*
 // Imports End
 
 public open class AnsiConsole {

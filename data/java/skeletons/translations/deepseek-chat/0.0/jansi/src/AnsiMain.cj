@@ -2,7 +2,8 @@
 package jansi
 
 // Imports Begin
-
+import std.fs.*
+import std.io.*
 // Imports End
 
 public open class AnsiMain {
@@ -30,7 +31,7 @@ public open class AnsiMain {
         throw Exception('TODO')
     }
 
-    private static func writeFileContent(f: Any): Unit {
+    private static func writeFileContent(f: File): Unit {
         throw Exception('TODO')
     }
 

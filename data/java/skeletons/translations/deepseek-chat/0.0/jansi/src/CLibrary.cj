@@ -43,7 +43,7 @@ public open class CLibrary {
         throw Exception('TODO')
     }
 
-    public static func openpty(amaster: Array<Int64>, aslave: Array<Int64>, name: Array<Byte>, termios: CLibrary_Termios, winsize: CLibrary_WinSize): Int64 {
+    public static func openpty(amaster: Array<Int32>, aslave: Array<Int32>, name: Array<Byte>, termios: CLibrary_Termios, winsize: CLibrary_WinSize): Int64 {
         throw Exception('TODO')
     }
 
@@ -55,7 +55,7 @@ public open class CLibrary {
         throw Exception('TODO')
     }
 
-    public static func ioctl(filedes: Int64, request: Int64, params: Array<Int64>): Int64 {
+    public static func ioctl(filedes: Int64, request: Int64, params: Array<Int32>): Int64 {
         throw Exception('TODO')
     }
 

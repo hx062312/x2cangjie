@@ -11,7 +11,12 @@ from src.java.model.model import Model
 from jinja2 import Template
 
 from src.java.rag import get_rag_engine
-from src.java.utils.get_custom_types import dedupe_preserve_order, get_custom_types, save_custom_types
+from src.java.utils.get_custom_types import (
+    dedupe_preserve_order,
+    get_custom_type_translation_map,
+    get_custom_types,
+    save_custom_types,
+)
 
 
 class TypePromptGenerator:
@@ -308,6 +313,7 @@ def main(args):
 
     # Get custom types from schema files and persist to JSON
     custom_types = get_custom_types(args.schema_dir)
+    custom_type_map = get_custom_type_translation_map(args.schema_dir)
     save_custom_types(args.project_name, custom_types)
     log_detail(log_path, 'CUSTOM TYPES', f'Loaded {len(custom_types)} custom types')
 
@@ -391,7 +397,7 @@ def main(args):
                                 if source_type in FIXED_TYPE_MAP:
                                     result.translated_target_type = FIXED_TYPE_MAP.get(source_type)
                                 else:
-                                    result.translated_target_type = source_type
+                                    result.translated_target_type = custom_type_map.get(source_type, source_type)
                                 # Record successful translation
                                 result.translated_target_type = update_universal_type_map(source_type, result.translated_target_type)
                                 append_result(data, class_, fragment_type, fragment, type_variation, type_, result)

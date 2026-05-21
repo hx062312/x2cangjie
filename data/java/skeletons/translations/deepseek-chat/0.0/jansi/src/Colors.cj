@@ -9,7 +9,7 @@ public open class Colors {
     // Fields Begin
     static let epsilon: Float64 = throw Exception('TODO')
     static let kappa: Float64 = throw Exception('TODO')
-    static let DEFAULT_COLORS_256: Array<Int64> = throw Exception('TODO')
+    static let DEFAULT_COLORS_256: Array<Int32> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
@@ -21,7 +21,7 @@ public open class Colors {
         throw Exception('TODO')
     }
 
-    private static func roundColor(color: Int64, colors: Array<Int64>, max: Int64): Int64 {
+    private static func roundColor(color: Int64, colors: Array<Int32>, max: Int64): Int64 {
         throw Exception('TODO')
     }
 

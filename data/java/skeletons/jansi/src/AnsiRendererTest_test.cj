@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-
+import std.core.*
 // Imports End
 
 @Test

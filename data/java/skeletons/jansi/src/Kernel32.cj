@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-// No specific imports needed for array type
+import std.core.*
 // Imports End
 
 public open class Kernel32 {
@@ -65,7 +65,7 @@ public open class Kernel32 {
         throw Exception('TODO')
     }
 
-    public static func FormatMessageW(flags: Int64, source: Int64, messageId: Int64, languageId: Int64, buffer: Array<Byte>, size: Int64, args: Array<Int64>): Int64 {
+    public static func FormatMessageW(flags: Int64, source: Int64, messageId: Int64, languageId: Int64, buffer: Array<Byte>, size: Int64, args: Array<Any>): Int64 {
         throw Exception('TODO')
     }
 
@@ -81,19 +81,19 @@ public open class Kernel32 {
         throw Exception('TODO')
     }
 
-    public static func FillConsoleOutputCharacterW(consoleOutput: Int64, character: Rune, length: Int64, writeCoord: Kernel32_COORD, numberOfCharsWritten: Array<Int64>): Int64 {
+    public static func FillConsoleOutputCharacterW(consoleOutput: Int64, character: Rune, length: Int64, writeCoord: Kernel32_COORD, numberOfCharsWritten: Array<Int32>): Int64 {
         throw Exception('TODO')
     }
 
-    public static func FillConsoleOutputAttribute(consoleOutput: Int64, attribute: Int16, length: Int64, writeCoord: Kernel32_COORD, numberOfAttrsWritten: Array<Int64>): Int64 {
+    public static func FillConsoleOutputAttribute(consoleOutput: Int64, attribute: Int16, length: Int64, writeCoord: Kernel32_COORD, numberOfAttrsWritten: Array<Int32>): Int64 {
         throw Exception('TODO')
     }
 
-    public static func WriteConsoleW(consoleOutput: Int64, buffer: Array<UInt16>, numberOfCharsToWrite: Int64, numberOfCharsWritten: Array<Int64>, reserved: Int64): Int64 {
+    public static func WriteConsoleW(consoleOutput: Int64, buffer: Array<Rune>, numberOfCharsToWrite: Int64, numberOfCharsWritten: Array<Int32>, reserved: Int64): Int64 {
         throw Exception('TODO')
     }
 
-    public static func GetConsoleMode(handle: Int64, mode: Array<Int64>): Int64 {
+    public static func GetConsoleMode(handle: Int64, mode: Array<Int32>): Int64 {
         throw Exception('TODO')
     }
 
@@ -121,15 +121,15 @@ public open class Kernel32 {
         throw Exception('TODO')
     }
 
-    private static func ReadConsoleInputW(handle: Int64, inputRecord: Int64, length: Int64, eventsCount: Array<Int64>): Int64 {
+    private static func ReadConsoleInputW(handle: Int64, inputRecord: Int64, length: Int64, eventsCount: Array<Int32>): Int64 {
         throw Exception('TODO')
     }
 
-    private static func PeekConsoleInputW(handle: Int64, inputRecord: Int64, length: Int64, eventsCount: Array<Int64>): Int64 {
+    private static func PeekConsoleInputW(handle: Int64, inputRecord: Int64, length: Int64, eventsCount: Array<Int32>): Int64 {
         throw Exception('TODO')
     }
 
-    public static func GetNumberOfConsoleInputEvents(handle: Int64, numberOfEvents: Array<Int64>): Int64 {
+    public static func GetNumberOfConsoleInputEvents(handle: Int64, numberOfEvents: Array<Int32>): Int64 {
         throw Exception('TODO')
     }
 
@@ -137,11 +137,11 @@ public open class Kernel32 {
         throw Exception('TODO')
     }
 
-    public static func readConsoleInputHelper(handle: Int64, count: Int64, peek: Bool): Array<Any> {
+    public static func readConsoleInputHelper(handle: Int64, count: Int64, peek: Bool): Array<Kernel32_INPUT_RECORD> {
         throw Exception('TODO')
     }
 
-    public static func readConsoleKeyInput(handle: Int64, count: Int64, peek: Bool): Array<Any> {
+    public static func readConsoleKeyInput(handle: Int64, count: Int64, peek: Bool): Array<Kernel32_INPUT_RECORD> {
         throw Exception('TODO')
     }
 

@@ -2,7 +2,6 @@
 package jansi
 
 // Imports Begin
-// No specific import needed for Iterator in Cangjie standard library
 import std.collection.ArrayList
 import std.io.OutputStream
 // Imports End

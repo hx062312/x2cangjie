@@ -3,6 +3,7 @@ package jansi
 
 // Imports Begin
 import std.collection.ArrayList
+import std.core.*
 import std.io.OutputStream
 // Imports End
 

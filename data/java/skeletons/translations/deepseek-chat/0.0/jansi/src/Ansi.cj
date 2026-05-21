@@ -2,25 +2,25 @@
 package jansi
 
 // Imports Begin
-// No specific import needed for StringBuilder
-// No specific import needed; StringBuilder is part of the standard library
-// No specific imports needed for this translation
 import std.collection.ArrayList
+import std.core.*
+import std.core.String
+import std.core.StringBuilder
 // Imports End
 
 public open class Ansi {
     // Fields Begin
     static let DISABLE: String = throw Exception('TODO')
-    static var detector: () -> Bool = throw Exception('TODO')
-    static let holder: Any = throw Exception('TODO')
+    static var detector: Any = throw Exception('TODO')
+    static let holder: ThreadLocal<Bool> = throw Exception('TODO')
     static let FIRST_ESC_CHAR: Rune = throw Exception('TODO')
     static let SECOND_ESC_CHAR: Rune = throw Exception('TODO')
-    let builder: StringBuilder = throw Exception('TODO')
+    let builder: Any = throw Exception('TODO')
     let attributeOptions: ArrayList<Int64> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public static func setDetector(detector: () -> Bool): Unit {
+    public static func setDetector(detector: Any): Unit {
         throw Exception('TODO')
     }
 
@@ -40,7 +40,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public static func ansi(builder: StringBuilder): Ansi {
+    public static func ansi(builder: Any): Ansi {
         throw Exception('TODO')
     }
 
@@ -60,7 +60,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public init(builder: StringBuilder) {
+    public init(builder: Any) {
         throw Exception('TODO')
     }
 
@@ -340,11 +340,11 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func a(value: Array<UInt16>, offset: Int64, len: Int64): Ansi {
+    public open func a(value: Array<Rune>, offset: Int64, len: Int64): Ansi {
         throw Exception('TODO')
     }
 
-    public open func a(value: Array<UInt16>): Ansi {
+    public open func a(value: Array<Rune>): Ansi {
         throw Exception('TODO')
     }
 
@@ -585,7 +585,7 @@ private open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    public init(builder: StringBuilder) {
+    public init(builder: Any) {
         throw Exception('TODO')
     }
 

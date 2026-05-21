@@ -19,6 +19,15 @@ import shutil
 from src.java.preprocessing._shared import (
     load_parser, extract_text_by_bytes, _skip_dir, clean_target_dirs
 )
+from src.java.utils.package_collapse import (
+    add_package_edge, compute_effective_subpath_map, compute_skeleton_sub_path
+)
+
+
+TOP_LEVEL_TYPES = (
+    'class_declaration', 'interface_declaration',
+    'enum_declaration', 'record_declaration'
+)
 
 
 def _find_inner_classes(code, tree):
@@ -77,6 +86,395 @@ def _resolve_names(all_inner_classes, all_top_level_names):
     return name_map
 
 
+def _iter_java_files(project_dir):
+    for root, dirs, files in os.walk(project_dir):
+        if _skip_dir(root):
+            continue
+        for fname in sorted(files):
+            if fname.endswith('.java'):
+                yield os.path.join(root, fname)
+
+
+def _read_bytes(file_path):
+    with open(file_path, 'rb') as f:
+        return f.read()
+
+
+def _extract_package_name(code_text):
+    match = re.search(r'^\s*package\s+([A-Za-z_][\w.]*)\s*;',
+                      code_text, re.MULTILINE)
+    return match.group(1) if match else ''
+
+
+def _extract_imports(code_text):
+    imports = {}
+    for match in re.finditer(
+            r'^\s*import\s+(?:static\s+)?([A-Za-z_][\w.]*)(?:\.\*)?\s*;',
+            code_text, re.MULTILINE):
+        fqcn = match.group(1)
+        imports[fqcn.rsplit('.', 1)[-1]] = fqcn
+    return imports
+
+
+def _dir_has_java_files(dir_path):
+    if not os.path.isdir(dir_path):
+        return False
+    return any(name.endswith('.java') for name in os.listdir(dir_path))
+
+
+def _full_source_subpath(java_path):
+    """
+    Return the complete Java source subpackage path relative to the root
+    directory that first contains Java files.
+    """
+    normalized = java_path.replace(os.sep, '/')
+    marker = None
+    for candidate in ('src/main/java/', 'src/test/java/'):
+        if candidate in normalized:
+            marker = candidate
+            break
+    if marker is None:
+        return None
+
+    src_root = normalized.split(marker, 1)[0] + marker.rstrip('/')
+    parent_dir = os.path.dirname(normalized)
+    if not parent_dir.startswith(src_root):
+        return None
+
+    rel_parent = parent_dir[len(src_root):].strip('/')
+    parts = rel_parent.split('/') if rel_parent else []
+    java_ancestors = []
+    for i in range(len(parts)):
+        candidate = os.path.join(src_root, *parts[:i + 1])
+        if _dir_has_java_files(candidate):
+            java_ancestors.append('/'.join(parts[:i + 1]))
+    if not java_ancestors:
+        return None
+    root_source_dir = java_ancestors[0]
+    if rel_parent == root_source_dir:
+        return None
+    return rel_parent[len(root_source_dir):].strip('/') or None
+
+
+def _sanitize_subpath(subpath):
+    return re.sub(r'[^0-9A-Za-z_]+', '_', subpath).strip('_')
+
+
+def _collect_type_refs(node, code, refs):
+    if node.type in ('type_identifier', 'scoped_type_identifier',
+                     'scoped_identifier'):
+        refs.add(extract_text_by_bytes(code, node.start_byte, node.end_byte))
+    for child in node.children:
+        _collect_type_refs(child, code, refs)
+
+
+def _collect_top_level_classes(node, code, records, file_info, depth=0):
+    if node.type in TOP_LEVEL_TYPES:
+        name_node = node.child_by_field_name('name')
+        if name_node and depth == 0:
+            class_name = extract_text_by_bytes(code, name_node.start_byte,
+                                               name_node.end_byte)
+            package_name = file_info['package']
+            fqcn = f"{package_name}.{class_name}" if package_name else class_name
+            records.append({
+                'file_path': file_info['file_path'],
+                'name': class_name,
+                'package': package_name,
+                'fqcn': fqcn,
+                'raw_subpath': file_info['raw_subpath'],
+                'full_subpath': file_info['full_subpath'],
+            })
+
+        body = node.child_by_field_name('body')
+        if body:
+            for child in body.children:
+                _collect_top_level_classes(child, code, records, file_info,
+                                           depth + 1)
+        return
+
+    for child in node.children:
+        _collect_top_level_classes(child, code, records, file_info, depth)
+
+
+def _collect_project_source_info(output_dir, parser):
+    file_infos = {}
+    class_records = []
+
+    for java_file in _iter_java_files(output_dir):
+        code = _read_bytes(java_file)
+        code_text = code.decode('utf-8')
+        tree = parser.parse(code)
+        refs = set()
+        _collect_type_refs(tree.root_node, code, refs)
+
+        file_info = {
+            'file_path': java_file,
+            'package': _extract_package_name(code_text),
+            'imports': _extract_imports(code_text),
+            'raw_subpath': compute_skeleton_sub_path(java_file),
+            'full_subpath': _full_source_subpath(java_file),
+            'type_refs': refs,
+        }
+        file_infos[java_file] = file_info
+        _collect_top_level_classes(tree.root_node, code, class_records,
+                                   file_info)
+
+    return file_infos, class_records
+
+
+def _build_java_package_graph(file_infos, class_records):
+    graph = {}
+    fqcn_to_record = {record['fqcn']: record for record in class_records}
+    simple_to_fqcns = {}
+    package_simple_to_fqcn = {}
+
+    for record in class_records:
+        graph.setdefault(record['raw_subpath'], set())
+        simple_to_fqcns.setdefault(record['name'], set()).add(record['fqcn'])
+        package_simple_to_fqcn[(record['package'], record['name'])] = record['fqcn']
+
+    for file_path, info in file_infos.items():
+        src_subpath = info['raw_subpath']
+        graph.setdefault(src_subpath, set())
+
+        for imported_fqcn in info['imports'].values():
+            if imported_fqcn in fqcn_to_record:
+                add_package_edge(graph, src_subpath,
+                                 fqcn_to_record[imported_fqcn]['raw_subpath'])
+
+        for ref in info['type_refs']:
+            ref = ref.strip()
+            if not ref:
+                continue
+
+            target_fqcn = None
+            if '.' in ref and ref in fqcn_to_record:
+                target_fqcn = ref
+            else:
+                short = ref.replace('$', '_').split('.')[-1]
+                if short in info['imports']:
+                    target_fqcn = info['imports'][short]
+                elif (info['package'], short) in package_simple_to_fqcn:
+                    target_fqcn = package_simple_to_fqcn[(info['package'], short)]
+                elif len(simple_to_fqcns.get(short, ())) == 1:
+                    target_fqcn = next(iter(simple_to_fqcns[short]))
+
+            if target_fqcn in fqcn_to_record:
+                add_package_edge(graph, src_subpath,
+                                 fqcn_to_record[target_fqcn]['raw_subpath'])
+
+    return graph
+
+
+def _resolve_flattened_class_renames(class_records, effective_subpaths):
+    by_effective_name = {}
+    for record in class_records:
+        record['effective_subpath'] = effective_subpaths.get(
+            record['raw_subpath'], record['raw_subpath'])
+        key = (record['effective_subpath'], record['name'])
+        by_effective_name.setdefault(key, []).append(record)
+
+    names_by_effective = {}
+    for record in class_records:
+        names_by_effective.setdefault(record['effective_subpath'], set()).add(
+            record['name'])
+
+    renames = {}
+    def _sort_conflict_group(item):
+        (effective, name), _records = item
+        return (effective or '', name)
+
+    for (_effective, _name), records in sorted(
+            by_effective_name.items(), key=_sort_conflict_group):
+        if len(records) <= 1:
+            continue
+
+        has_root_record = any(record['full_subpath'] is None for record in records)
+        if has_root_record:
+            records_to_rename = [
+                record for record in records if record['full_subpath'] is not None
+            ]
+        else:
+            records_to_rename = list(records)
+
+        used_names = set(names_by_effective.get(_effective, set()))
+        for record in records_to_rename:
+            used_names.discard(record['name'])
+
+        for record in sorted(records_to_rename,
+                             key=lambda item: item['file_path']):
+            prefix = _sanitize_subpath(
+                record['full_subpath'] or record['raw_subpath'] or 'root')
+            candidate_base = f"{prefix}_{record['name']}"
+            candidate = candidate_base
+            suffix = 2
+            while candidate in used_names:
+                candidate = f"{candidate_base}_{suffix}"
+                suffix += 1
+            used_names.add(candidate)
+            renames[record['fqcn']] = {
+                'old_name': record['name'],
+                'new_name': candidate,
+                'package': record['package'],
+                'file_path': record['file_path'],
+                'raw_subpath': record['raw_subpath'],
+                'full_subpath': record['full_subpath'],
+                'effective_subpath': record['effective_subpath'],
+            }
+    return renames
+
+
+def _node_is_class_like_simple_reference(node):
+    parent = node.parent
+    if parent is None:
+        return node.type == 'type_identifier'
+
+    if parent.type in ('scoped_identifier', 'scoped_type_identifier'):
+        return False
+
+    if node.type == 'type_identifier':
+        return True
+
+    if parent.type in TOP_LEVEL_TYPES + ('constructor_declaration',):
+        return parent.child_by_field_name('name') == node
+
+    if parent.type in ('method_invocation', 'field_access'):
+        return parent.child_by_field_name('object') == node
+
+    return False
+
+
+def _collect_reference_edits(node, code, file_info, renames_by_fqcn,
+                             simple_to_renamed, edits):
+    node_text = None
+    if node.type in ('scoped_identifier', 'scoped_type_identifier'):
+        node_text = extract_text_by_bytes(code, node.start_byte, node.end_byte)
+        if node_text in renames_by_fqcn:
+            name_node = node.child_by_field_name('name')
+            if name_node is None:
+                for child in reversed(node.children):
+                    if child.type in ('identifier', 'type_identifier'):
+                        name_node = child
+                        break
+            if name_node:
+                edits.append((name_node.start_byte, name_node.end_byte,
+                              renames_by_fqcn[node_text]['new_name']))
+
+    if node.type in ('identifier', 'type_identifier'):
+        old_name = extract_text_by_bytes(code, node.start_byte, node.end_byte)
+        if old_name in simple_to_renamed and _node_is_class_like_simple_reference(node):
+            parent = node.parent
+            if parent and parent.type in TOP_LEVEL_TYPES + ('constructor_declaration',):
+                for rename_fqcn in simple_to_renamed[old_name]:
+                    rename = renames_by_fqcn[rename_fqcn]
+                    if rename['file_path'] == file_info.get('file_path'):
+                        edits.append((node.start_byte, node.end_byte,
+                                      rename['new_name']))
+                        break
+                return
+
+            target_fqcn = None
+            imported_fqcn = file_info['imports'].get(old_name)
+            same_package_fqcn = (
+                f"{file_info['package']}.{old_name}"
+                if file_info['package'] else old_name
+            )
+            if imported_fqcn in renames_by_fqcn:
+                target_fqcn = imported_fqcn
+            elif imported_fqcn is None and same_package_fqcn in renames_by_fqcn:
+                target_fqcn = same_package_fqcn
+
+            if target_fqcn:
+                edits.append((node.start_byte, node.end_byte,
+                              renames_by_fqcn[target_fqcn]['new_name']))
+
+    for child in node.children:
+        _collect_reference_edits(child, code, file_info, renames_by_fqcn,
+                                 simple_to_renamed, edits)
+
+
+def _apply_byte_edits(file_path, edits):
+    if not edits:
+        return False
+    code = bytearray(_read_bytes(file_path))
+    unique = {}
+    for start, end, replacement in edits:
+        unique[(start, end)] = replacement
+    for (start, end), replacement in sorted(unique.items(), reverse=True):
+        code[start:end] = replacement.encode('utf-8')
+    with open(file_path, 'wb') as f:
+        f.write(code)
+    return True
+
+
+def _rename_java_files(renames_by_fqcn):
+    moved = {}
+    for rename in renames_by_fqcn.values():
+        old_path = rename['file_path']
+        dirname = os.path.dirname(old_path)
+        new_path = os.path.join(dirname, f"{rename['new_name']}.java")
+        if old_path == new_path:
+            continue
+        if os.path.exists(new_path):
+            raise RuntimeError(f"Cannot rename {old_path}: {new_path} exists")
+        os.rename(old_path, new_path)
+        moved[old_path] = new_path
+        rename['file_path'] = new_path
+    return moved
+
+
+def _handle_flattened_subpackage_conflicts(output_dir, parser):
+    print("Step 4/4: Detecting flattened subpackage class conflicts...")
+    file_infos, class_records = _collect_project_source_info(output_dir, parser)
+    graph = _build_java_package_graph(file_infos, class_records)
+    effective_subpaths = compute_effective_subpath_map(graph)
+    renames_by_fqcn = _resolve_flattened_class_renames(
+        class_records, effective_subpaths)
+
+    changed_subpaths = {
+        raw: effective for raw, effective in effective_subpaths.items()
+        if raw is not None and raw != effective
+    }
+    if changed_subpaths:
+        collapsed_text = ', '.join(
+            f"{raw}->{effective or '<root>'}"
+            for raw, effective in sorted(changed_subpaths.items())
+        )
+        print(f"  Effective collapsed packages: {collapsed_text}")
+
+    if not renames_by_fqcn:
+        print("  No flattened subpackage class conflicts found.")
+        return 0
+
+    simple_to_renamed = {}
+    for fqcn, rename in renames_by_fqcn.items():
+        simple_to_renamed.setdefault(rename['old_name'], set()).add(fqcn)
+
+    modified_files = 0
+    for java_file in list(_iter_java_files(output_dir)):
+        code = _read_bytes(java_file)
+        code_text = code.decode('utf-8')
+        file_info = {
+            'file_path': java_file,
+            'package': _extract_package_name(code_text),
+            'imports': _extract_imports(code_text),
+        }
+        tree = parser.parse(code)
+        edits = []
+        _collect_reference_edits(tree.root_node, code, file_info,
+                                 renames_by_fqcn, simple_to_renamed, edits)
+        if _apply_byte_edits(java_file, edits):
+            modified_files += 1
+
+    _rename_java_files(renames_by_fqcn)
+
+    for fqcn, rename in sorted(renames_by_fqcn.items()):
+        rel = os.path.relpath(rename['file_path'], output_dir)
+        print(f"  {fqcn} -> {rename['new_name']} ({rel})")
+    print(f"  Modified {modified_files} file(s)")
+    return len(renames_by_fqcn)
+
+
 def main(args):
     input_dir = f"projects/java/keyword_handled/{args.project}"
     output_dir = f"projects/java/name_handled/{args.project}"
@@ -91,7 +489,7 @@ def main(args):
 
     # Step 1: Collect all top-level class names (for conflict detection)
     # and extends relationships (for inner class bare-name replacement in subclasses).
-    print("Step 1/3: Collecting class names...")
+    print("Step 1/4: Collecting class names...")
     parser = load_parser()
     all_names = set()
     # file_path -> set of simple parent class names (from extends/implements)
@@ -149,7 +547,7 @@ def main(args):
           f"{len(file_extends)} files with extends/implements")
 
     # Step 2: Find all inner classes
-    print("Step 2/3: Detecting inner classes...")
+    print("Step 2/4: Detecting inner classes...")
     all_inner_classes = {}
 
     for root, dirs, files in os.walk(output_dir):
@@ -166,71 +564,76 @@ def main(args):
             if ics:
                 all_inner_classes[file_path] = ics
 
+    total = sum(len(v) for v in all_inner_classes.values())
     if not all_inner_classes:
         print("  No inner classes found.")
-        print(f"Output: {output_dir}")
-        return
-
-    total = sum(len(v) for v in all_inner_classes.values())
-    print(f"  Found {total} inner classes in {len(all_inner_classes)} files")
+    else:
+        print(f"  Found {total} inner classes in {len(all_inner_classes)} files")
 
     # Step 3: Resolve names and rename
-    print("Step 3/3: Resolving names and renaming...")
-    name_map = _resolve_names(all_inner_classes, all_names)
+    print("Step 3/4: Resolving inner class names and renaming...")
+    if all_inner_classes:
+        name_map = _resolve_names(all_inner_classes, all_names)
 
-    for file_path, ic_list in all_inner_classes.items():
-        rel = os.path.relpath(file_path, output_dir)
+        for file_path, ic_list in all_inner_classes.items():
+            rel = os.path.relpath(file_path, output_dir)
 
-        for ic in ic_list:
-            old_name = ic['name']
-            new_name = name_map[(file_path, ic['outer_class_name'], old_name)]
-            if old_name == new_name:
-                continue
-
-            outer = ic['outer_class_name']
-            qualified_pattern = rf'({re.escape(outer)})\.{re.escape(old_name)}\b'
-            qualified_replacement = rf'\1.{new_name}'
-            dot_new_pattern = rf'\.new\s+{re.escape(old_name)}\b'
-            bare_pattern = rf'\b{re.escape(old_name)}\b'
-
-            for root2, dirs2, files2 in os.walk(output_dir):
-                if _skip_dir(root2):
+            for ic in ic_list:
+                old_name = ic['name']
+                new_name = name_map[(file_path, ic['outer_class_name'], old_name)]
+                if old_name == new_name:
                     continue
-                for fname2 in files2:
-                    if not fname2.endswith('.java'):
+
+                outer = ic['outer_class_name']
+                qualified_pattern = rf'({re.escape(outer)})\.{re.escape(old_name)}\b'
+                qualified_replacement = rf'\1.{new_name}'
+                dot_new_pattern = rf'\.new\s+{re.escape(old_name)}\b'
+                bare_pattern = rf'\b{re.escape(old_name)}\b'
+
+                for root2, dirs2, files2 in os.walk(output_dir):
+                    if _skip_dir(root2):
                         continue
-                    fp2 = os.path.join(root2, fname2)
-                    with open(fp2, 'r') as f:
-                        fc = f.read()
+                    for fname2 in files2:
+                        if not fname2.endswith('.java'):
+                            continue
+                        fp2 = os.path.join(root2, fname2)
+                        with open(fp2, 'r') as f:
+                            fc = f.read()
 
-                    had_qualified = False
-                    if re.search(qualified_pattern, fc):
-                        fc = re.sub(qualified_pattern, qualified_replacement, fc)
-                        had_qualified = True
-                    if re.search(dot_new_pattern, fc):
-                        fc = re.sub(dot_new_pattern, f'.new {new_name}', fc)
-                        had_qualified = True
+                        had_qualified = False
+                        if re.search(qualified_pattern, fc):
+                            fc = re.sub(qualified_pattern, qualified_replacement, fc)
+                            had_qualified = True
+                        if re.search(dot_new_pattern, fc):
+                            fc = re.sub(dot_new_pattern, f'.new {new_name}', fc)
+                            had_qualified = True
 
-                    # Rename bare references in:
-                    # - the defining file, or
-                    # - files with qualified references (imports / usages), or
-                    # - subclasses that inherit the inner class via extends
-                    subclasses_outer = outer in file_extends.get(fp2, set())
-                    if fp2 == file_path or had_qualified or subclasses_outer:
-                        if re.search(bare_pattern, fc):
-                            fc = re.sub(bare_pattern, new_name, fc)
+                        # Rename bare references in:
+                        # - the defining file, or
+                        # - files with qualified references (imports / usages), or
+                        # - subclasses that inherit the inner class via extends
+                        subclasses_outer = outer in file_extends.get(fp2, set())
+                        if fp2 == file_path or had_qualified or subclasses_outer:
+                            if re.search(bare_pattern, fc):
+                                fc = re.sub(bare_pattern, new_name, fc)
 
-                    if fp2 == file_path or had_qualified or subclasses_outer:
-                        with open(fp2, 'w') as f:
-                            f.write(fc)
+                        if fp2 == file_path or had_qualified or subclasses_outer:
+                            with open(fp2, 'w') as f:
+                                f.write(fc)
 
-            print(f"  {rel}: {outer}.{old_name} → {new_name}")
+                print(f"  {rel}: {outer}.{old_name} → {new_name}")
+    else:
+        print("  Skipped.")
+
+    flattened_renames = _handle_flattened_subpackage_conflicts(output_dir,
+                                                               parser)
 
     removed = clean_target_dirs(output_dir)
     if removed:
         print(f"\nCleaned {len(removed)} target director(ies)")
 
-    print(f"\nDone: {total} inner classes renamed")
+    print(f"\nDone: {total} inner classes found, "
+          f"{flattened_renames} flattened class conflict(s) renamed")
     print(f"Output: {output_dir}")
 
 

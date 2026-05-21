@@ -644,7 +644,7 @@ def translate(
             and not fragment.get("is_constructor")
         )
 
-        if not is_normal_method:
+        if not is_normal_method or getattr(args, "skip_mock", "false") == "true":
             update_labels(
                 args=args,
                 fragment=fragment,
@@ -748,7 +748,7 @@ def main(args):
         )
         sys.exit(1)
 
-    if not args.staging_dir.is_dir():
+    if getattr(args, "skip_mock", "false") != "true" and not args.staging_dir.is_dir():
         print(
             f"[mock] staging dir not found: {args.staging_dir}. "
             f"Run scripts/java/build_mock_corpus.sh {args.project} first.",
@@ -868,6 +868,12 @@ if __name__ == "__main__":
         type=str,
         default="false",
         help="Enable RAG context on compilation errors (true/false)",
+    )
+    parser_.add_argument(
+        "--skip_mock",
+        type=str,
+        default="false",
+        help="Skip mock-test validation after successful Cangjie compilation (true/false)",
     )
     args = parser_.parse_args()
     main(args)

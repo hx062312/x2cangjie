@@ -495,7 +495,11 @@
                     "is_overload": false,
                     "is_override": false,
                     "needs_open": false,
-                    "partial_translation": "os.flush()\nif (Kernel32.GetConsoleScreenBufferInfo(console, info) == 0) {\nthrow IOException(\"Could not get the screen info: \" + Kernel32.getLastErrorMessage())\n}\nif (negative) {\ninfo.attributes = invertAttributeColors(info.attributes)\n}",
+                    "partial_translation": [
+                        "    private func getConsoleInfo(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -729,7 +733,11 @@
                     "is_overload": false,
                     "is_override": false,
                     "needs_open": false,
-                    "partial_translation": "var fg: Int64 = Int64(0x000F & attributes)\nfg <<= 4\nvar bg: Int64 = Int64(0x00F0 & attributes)\nbg >>= 4\nvar result: Int16 = Int16((Int64(attributes) & 0xFF00) | fg | bg)\nreturn result",
+                    "partial_translation": [
+                        "    private func invertAttributeColors(attributes: Int16): Int16 {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -814,7 +822,11 @@
                     "is_overload": false,
                     "is_override": false,
                     "needs_open": false,
-                    "partial_translation": "if (Kernel32.SetConsoleCursorPosition(console, info.cursorPosition.copy()) == 0) {\nthrow IOException(Kernel32.getLastErrorMessage())\n}",
+                    "partial_translation": [
+                        "    private func applyCursorPosition(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -1255,7 +1267,11 @@
                     "is_overload": false,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "getConsoleInfo()\nlet newX: Int16 = max(0, Int16(info.cursorPosition.x - Int16(count)))\ninfo.cursorPosition.x = newX\napplyCursorPosition()",
+                    "partial_translation": [
+                        "    protected override func processCursorLeft(count: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -1362,7 +1378,11 @@
                     "is_overload": false,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "getConsoleInfo()\nlet sum = Int16(info.cursorPosition.x + Int16(count))\ninfo.cursorPosition.x = if (info.window.width() < sum) { info.window.width() } else { sum }\napplyCursorPosition()",
+                    "partial_translation": [
+                        "    protected override func processCursorRight(count: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -1584,7 +1604,11 @@
                     "is_overload": false,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "getConsoleInfo()\nlet top: Int16 = info.window.top\nlet newY: Int16 = (info.cursorPosition.y - Int16(count))\nif (newY < top) {\ninfo.cursorPosition.y = top\n} else {\ninfo.cursorPosition.y = newY\n}\napplyCursorPosition()",
+                    "partial_translation": [
+                        "    protected override func processCursorUp(count: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -2306,7 +2330,11 @@
                     "is_overload": true,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "let round = Colors.roundColor(paletteIndex, 16)\nif (round >= 8) {\nprocessSetForegroundColor(round - 8, true)\n} else {\nprocessSetForegroundColor(round, false)\n}",
+                    "partial_translation": [
+                        "    protected override func processSetForegroundColorExt(paletteIndex: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -2448,7 +2476,11 @@
                     "is_overload": true,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "let round = Colors.roundRgbColor(r, g, b, 16)\nif (round >= 8) {\nprocessSetForegroundColor(round - 8, true)\n} else {\nprocessSetForegroundColor(round, false)\n}",
+                    "partial_translation": [
+                        "    protected override func processSetForegroundColorExt(r: Int64, g: Int64, b: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -2689,7 +2721,11 @@
                     "is_overload": true,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "let round = Colors.roundColor(paletteIndex, 16)\nprocessSetBackgroundColor(if (round >= 8) { round - 8 } else { round }, round >= 8)",
+                    "partial_translation": [
+                        "    protected override func processSetBackgroundColorExt(paletteIndex: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -2831,7 +2867,11 @@
                     "is_overload": true,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "let round = Colors.roundRgbColor(r, g, b, 16)\nif (round >= 8) {\nprocessSetBackgroundColor(round - 8, true)\n} else {\nprocessSetBackgroundColor(round, false)\n}",
+                    "partial_translation": [
+                        "    protected override func processSetBackgroundColorExt(r: Int64, g: Int64, b: Int64): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -3331,7 +3371,11 @@
                     "is_overload": false,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "getConsoleInfo()\nsavedX = info.cursorPosition.x\nsavedY = info.cursorPosition.y",
+                    "partial_translation": [
+                        "    protected override func processSaveCursorPosition(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -3406,7 +3450,11 @@
                     "is_overload": false,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "if (savedX != -1 && savedY != -1) {\nos.flush()\ninfo.cursorPosition.x = savedX\ninfo.cursorPosition.y = savedY\napplyCursorPosition()\n}",
+                    "partial_translation": [
+                        "    protected override func processRestoreCursorPosition(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -3857,7 +3905,11 @@
                     "is_overload": false,
                     "is_override": true,
                     "needs_open": false,
-                    "partial_translation": "// SetConsoleTitle is a native Windows API, not available in Cangjie.\n// Use a placeholder or throw an exception.\nthrow Exception(\"SetConsoleTitle not implemented\")",
+                    "partial_translation": [
+                        "    protected override func processChangeWindowTitle(label: String): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -3916,7 +3968,9 @@
                     "elapsed_time": 2.419203519821167,
                     "generation_timestamp": "2026-05-14T20:28:17.128500",
                     "model_name": "",
-                    "partial_translation": "let console: Int64 = throw Exception('TODO')",
+                    "partial_translation": [
+                        "    let console: Int64 = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -3974,7 +4028,9 @@
                     "elapsed_time": 2.091275930404663,
                     "generation_timestamp": "2026-05-14T20:28:19.251147",
                     "model_name": "",
-                    "partial_translation": "static let FOREGROUND_BLACK: Int16 = 0",
+                    "partial_translation": [
+                        "    static let FOREGROUND_BLACK: Int16 = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -4280,7 +4336,9 @@
                     "elapsed_time": 1.8480682373046875,
                     "generation_timestamp": "2026-05-14T20:28:34.870922",
                     "model_name": "",
-                    "partial_translation": "static let BACKGROUND_BLACK: Int16 = 0",
+                    "partial_translation": [
+                        "    static let BACKGROUND_BLACK: Int16 = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -4729,7 +4787,9 @@
                     "elapsed_time": 2.135370969772339,
                     "generation_timestamp": "2026-05-14T20:28:58.853325",
                     "model_name": "",
-                    "partial_translation": "let info: Kernel32_CONSOLE_SCREEN_BUFFER_INFO = Kernel32_CONSOLE_SCREEN_BUFFER_INFO()",
+                    "partial_translation": [
+                        "    let info: Kernel32_CONSOLE_SCREEN_BUFFER_INFO = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -4786,7 +4846,9 @@
                     "elapsed_time": 2.117227792739868,
                     "generation_timestamp": "2026-05-14T20:29:01.002028",
                     "model_name": "",
-                    "partial_translation": "let originalColors: Int16 = throw Exception('TODO')",
+                    "partial_translation": [
+                        "    let originalColors: Int16 = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -4842,7 +4904,9 @@
                     "elapsed_time": 2.2902731895446777,
                     "generation_timestamp": "2026-05-14T20:29:03.327374",
                     "model_name": "",
-                    "partial_translation": "var negative: Bool = false",
+                    "partial_translation": [
+                        "    var negative: Bool = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -4898,7 +4962,9 @@
                     "elapsed_time": 2.5580992698669434,
                     "generation_timestamp": "2026-05-14T20:29:05.914336",
                     "model_name": "",
-                    "partial_translation": "var savedX: Int16 = -1",
+                    "partial_translation": [
+                        "    var savedX: Int16 = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -4954,7 +5020,9 @@
                     "elapsed_time": 2.1136651039123535,
                     "generation_timestamp": "2026-05-14T20:29:08.063215",
                     "model_name": "",
-                    "partial_translation": "var savedY: Int16 = -1",
+                    "partial_translation": [
+                        "    var savedY: Int16 = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,

@@ -6,7 +6,6 @@ Adapted from TRAM but targeting Cangjie instead of Python.
 import argparse
 import json
 import os
-import shutil
 import sys
 from pathlib import Path
 
@@ -15,6 +14,13 @@ from src.java.isolation_validation import runtime_support
 from src.java.utils.get_dependencies import get_dependencies
 from src.java.utils.get_class_order import get_class_order
 from src.java.utils.get_custom_types import get_custom_types
+from src.java.utils.package_collapse import (
+    compute_schema_effective_subpath_map as _compute_schema_effective_subpath_map,
+    extract_type_names as _extract_type_names,
+    get_cangjie_package as _get_cangjie_package,
+    get_effective_skeleton_sub_path as _get_effective_skeleton_sub_path,
+    remove_collapsed_output_dirs as _remove_collapsed_output_dirs,
+)
 
 
 # ============================================================
@@ -789,220 +795,6 @@ def _parse_java_path(java_path):
     return None
 
 
-def _get_cangjie_package(java_path, cjpm_package_name, collapsed_subpaths=None):
-    """Compute Cangjie package name from a Java source file path."""
-    sub_path = _get_effective_skeleton_sub_path(java_path, collapsed_subpaths)
-    if sub_path:
-        return f"{cjpm_package_name}.{sub_path.replace('/', '.')}"
-    return cjpm_package_name
-
-
-def _get_effective_skeleton_sub_path(java_path, collapsed_subpaths=None):
-    sub_path = _compute_skeleton_sub_path(java_path)
-    if collapsed_subpaths and sub_path in collapsed_subpaths:
-        return None
-    return sub_path
-
-
-def _compute_skeleton_sub_path(java_path):
-    """
-    Compute the skeleton sub_path by walking up the Java directory tree.
-
-    Finds the first directory (going upward from the file) that contains .java
-    files, then finds the parent of that directory that also has .java files.
-    The difference between them is the meaningful sub_path.
-
-    e.g. .../codec/net/URLCodec.java -> 'net'
-         .../codec/language/bm/Rule.java -> 'bm'
-         .../codec/BinaryDecoder.java -> None (root package)
-    """
-    path_parts = java_path.split('/')[:-1]
-    java_parent_dir = '/'.join(path_parts)
-
-    # Find first directory (going upward) that has .java files
-    first_java_dir_full_path = None
-    for i in range(len(path_parts) - 1, -1, -1):
-        current_dir = path_parts[i]
-        if current_dir == 'src':
-            break
-        check_dir = '/'.join(path_parts[:i + 1])
-        if os.path.isdir(check_dir):
-            java_files = [f for f in os.listdir(check_dir) if f.endswith('.java')]
-            if java_files:
-                first_java_dir_full_path = check_dir
-                break
-
-    if not first_java_dir_full_path:
-        return None
-
-    # Find parent of first_java_dir that also has .java files
-    base_java_dir_full_path = None
-    first_name = first_java_dir_full_path.split('/')[-1]
-    if first_name in path_parts:
-        first_index = path_parts.index(first_name)
-        for i in range(first_index - 1, -1, -1):
-            current_dir = path_parts[i]
-            if current_dir == 'src':
-                break
-            check_dir = '/'.join(path_parts[:i + 1])
-            if os.path.isdir(check_dir):
-                java_files = [f for f in os.listdir(check_dir) if f.endswith('.java')]
-                if java_files:
-                    base_java_dir_full_path = check_dir
-                    break
-
-    if base_java_dir_full_path:
-        return first_java_dir_full_path[len(base_java_dir_full_path) + 1:]
-    elif java_parent_dir != first_java_dir_full_path:
-        return first_java_dir_full_path.split('/')[-1]
-    else:
-        return None
-
-
-def _should_update_class_subpath(existing_subpath, candidate_subpath):
-    if existing_subpath is None:
-        return True
-    if candidate_subpath is not None and existing_subpath != candidate_subpath:
-        return True
-    return False
-
-
-def _iter_schema_type_expressions(schema, class_info):
-    for imported_type in schema.get('import_map', {}).values():
-        yield imported_type
-    for ref_type in class_info.get('extends', []) + class_info.get('implements', []):
-        yield ref_type
-    for field_info in class_info.get('fields', {}).values():
-        for type_expr in field_info.get('types', []):
-            yield type_expr
-    for method_info in class_info.get('methods', {}).values():
-        for type_expr in method_info.get('return_types', []):
-            yield type_expr
-        for param in method_info.get('parameters', []):
-            yield param.get('type', 'Any')
-
-
-def _build_class_to_raw_subpath(all_schemas):
-    class_to_subpath = {}
-    for _schema_fname, _schema_path, schema in all_schemas:
-        raw_subpath = _compute_skeleton_sub_path(schema.get('path', ''))
-        for class_key in schema.get('classes', {}):
-            class_name = class_key.split(':')[-1]
-            if _should_update_class_subpath(class_to_subpath.get(class_name), raw_subpath):
-                class_to_subpath[class_name] = raw_subpath
-    return class_to_subpath
-
-
-def _find_dependency_key_for_schema(dependencies, schema_fname):
-    schema_stem = schema_fname[:-5] if schema_fname.endswith('.json') else schema_fname
-    matches = [
-        key for key in dependencies
-        if schema_stem == key or schema_stem.endswith(f".{key}")
-    ]
-    if not matches:
-        return None
-    return max(matches, key=len)
-
-
-def _add_package_edge(graph, src_subpath, dst_subpath):
-    graph.setdefault(src_subpath, set())
-    graph.setdefault(dst_subpath, set())
-    if dst_subpath != src_subpath:
-        graph[src_subpath].add(dst_subpath)
-
-
-def _build_package_dependency_graph(all_schemas, class_to_subpath, type_map, dependencies=None):
-    graph = {}
-    dependencies = dependencies or {}
-    for schema_fname, _schema_path, schema in all_schemas:
-        src_subpath = _compute_skeleton_sub_path(schema.get('path', ''))
-        graph.setdefault(src_subpath, set())
-        dependency_key = _find_dependency_key_for_schema(dependencies, schema_fname)
-        if dependency_key and dependency_key in dependencies:
-            for dependent_class in dependencies[dependency_key]:
-                dep_class_name = dependent_class[0]
-                if dep_class_name in class_to_subpath:
-                    _add_package_edge(graph, src_subpath, class_to_subpath[dep_class_name])
-
-        for class_info in schema.get('classes', {}).values():
-            for type_expr in _iter_schema_type_expressions(schema, class_info):
-                if not type_expr:
-                    continue
-                translated_type = get_cangjie_type(str(type_expr), type_map)
-                type_names = _extract_type_names(str(type_expr)) | _extract_type_names(translated_type)
-                for type_name in type_names:
-                    short_name = type_name.strip().replace('$', '_').split('.')[-1]
-                    if short_name not in class_to_subpath:
-                        continue
-                    dst_subpath = class_to_subpath[short_name]
-                    _add_package_edge(graph, src_subpath, dst_subpath)
-    return graph
-
-
-def _find_cyclic_subpaths(graph):
-    index = 0
-    stack = []
-    indices = {}
-    lowlinks = {}
-    on_stack = set()
-    cyclic = set()
-
-    def strongconnect(node):
-        nonlocal index
-        indices[node] = index
-        lowlinks[node] = index
-        index += 1
-        stack.append(node)
-        on_stack.add(node)
-
-        for neighbor in graph.get(node, set()):
-            if neighbor not in indices:
-                strongconnect(neighbor)
-                lowlinks[node] = min(lowlinks[node], lowlinks[neighbor])
-            elif neighbor in on_stack:
-                lowlinks[node] = min(lowlinks[node], indices[neighbor])
-
-        if lowlinks[node] == indices[node]:
-            component = []
-            while True:
-                item = stack.pop()
-                on_stack.remove(item)
-                component.append(item)
-                if item == node:
-                    break
-            if len(component) > 1:
-                cyclic.update(component)
-
-    for node in list(graph):
-        if node not in indices:
-            strongconnect(node)
-    return cyclic
-
-
-def _compute_collapsed_subpaths(all_schemas, type_map, dependencies=None):
-    class_to_subpath = _build_class_to_raw_subpath(all_schemas)
-    graph = _build_package_dependency_graph(all_schemas, class_to_subpath, type_map, dependencies)
-    cyclic = _find_cyclic_subpaths(graph)
-    collapsed = {subpath for subpath in cyclic if subpath is not None}
-
-    # Java subpackages that reference the root package cannot stay as Cangjie
-    # subpackages when the root may also reference them.
-    for subpath, targets in graph.items():
-        if subpath is not None and None in targets:
-            collapsed.add(subpath)
-    return collapsed
-
-
-def _remove_collapsed_output_dirs(project_dir, collapsed_subpaths):
-    if not collapsed_subpaths:
-        return
-    src_dir = Path(project_dir) / "src"
-    for subpath in collapsed_subpaths:
-        target = src_dir / subpath
-        if target.is_dir():
-            shutil.rmtree(target)
-
-
 # ============================================================
 # Import Helpers
 # ============================================================
@@ -1014,35 +806,6 @@ def _remove_collapsed_output_dirs(project_dir, collapsed_subpaths):
 # Array, etc.) are auto-imported and must NOT appear in this mapping.
 # The mapping is loaded from data/java/type_resolution/std_type_imports.json
 # in main() and passed through the call chain.
-
-
-def _extract_type_names(cangjie_type_str):
-    """Extract all base type names from a Cangjie type string, including nested generics."""
-    names = set()
-    depth = 0
-    current = ""
-    for c in cangjie_type_str:
-        if c == '<':
-            depth += 1
-            if current.strip():
-                names.add(current.strip())
-            current = ""
-        elif c == '>':
-            depth -= 1
-            if current.strip():
-                names.add(current.strip())
-            current = ""
-        elif c == ',' and depth > 0:
-            if current.strip():
-                names.add(current.strip())
-            current = ""
-        elif c == ' ':
-            continue
-        else:
-            current += c
-    if current.strip():
-        names.add(current.strip())
-    return names
 
 
 def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
@@ -1369,16 +1132,24 @@ def main(args):
             schema = json.load(f)
         all_schemas.append((schema_fname, schema_path, schema))
 
-    collapsed_subpaths = _compute_collapsed_subpaths(all_schemas, type_map, dependencies)
-    if collapsed_subpaths:
-        collapsed_text = ', '.join(sorted(collapsed_subpaths))
-        print(f"Collapsing cyclic Java subpackages into root package: {collapsed_text}")
-        _remove_collapsed_output_dirs(skeletons_dir, collapsed_subpaths)
-        _remove_collapsed_output_dirs(translations_skeleton_dir, collapsed_subpaths)
+    effective_subpaths = _compute_schema_effective_subpath_map(
+        all_schemas, type_map, dependencies, get_cangjie_type)
+    changed_subpaths = {
+        raw: effective for raw, effective in effective_subpaths.items()
+        if raw is not None and raw != effective
+    }
+    if changed_subpaths:
+        collapsed_text = ', '.join(
+            f"{raw}->{effective or '<root>'}"
+            for raw, effective in sorted(changed_subpaths.items())
+        )
+        print(f"Collapsing cyclic Java subpackages: {collapsed_text}")
+        _remove_collapsed_output_dirs(skeletons_dir, effective_subpaths)
+        _remove_collapsed_output_dirs(translations_skeleton_dir, effective_subpaths)
 
     for schema_fname, schema_path, schema in all_schemas:
         cangjie_pkg = _get_cangjie_package(schema.get('path', ''), cjpm_name,
-                                           collapsed_subpaths)
+                                           effective_subpaths)
         for class_key, class_info in schema.get('classes', {}).items():
             class_name = class_key.split(':')[-1]
             extends = class_info.get('extends', [])
@@ -1412,7 +1183,7 @@ def main(args):
             schema, schema_fname, schema_path, cjpm_name, type_map,
             class_to_package, all_schema_classes, class_to_methods,
             dependencies, custom_types, skeletons_dir, translations_skeleton_dir,
-            std_type_imports, collapsed_subpaths
+            std_type_imports, effective_subpaths
         ) or uses_any_hashable
 
     # Phase 3: Generate cjpm.toml

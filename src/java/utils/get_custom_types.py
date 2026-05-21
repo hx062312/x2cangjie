@@ -31,6 +31,21 @@ def get_custom_types(schema_dir):
     return dedupe_preserve_order(custom_types)
 
 
+def get_custom_type_translation_map(schema_dir):
+    """Map Java custom type spellings to Cangjie flattened class names."""
+    custom_types = get_custom_types(schema_dir)
+    simple_types = set(t for t in custom_types if '.' not in t)
+    type_map = {}
+    for type_name in custom_types:
+        if '.' not in type_name:
+            type_map[type_name] = type_name
+            continue
+        flattened_name = type_name.split('.')[-1]
+        if flattened_name in simple_types:
+            type_map[type_name] = flattened_name
+    return type_map
+
+
 def save_custom_types(project_name, custom_types, base_dir='data/java/type_resolution'):
     """Persist custom types to a project-specific JSON file."""
     custom_types = dedupe_preserve_order(custom_types)

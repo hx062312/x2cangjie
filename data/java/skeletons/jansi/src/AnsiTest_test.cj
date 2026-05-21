@@ -2,6 +2,8 @@
 package jansi
 
 // Imports Begin
+import std.fs.*
+import std.process.*
 import std.sync.*
 // Imports End
 

@@ -82,7 +82,7 @@ bash scripts/java/add_plugin.sh <project>
 
 ---
 
-### 1.3 处理 Cangjie 关键字冲突
+### 1.3 处理 Cangjie 关键字与命名冲突
 
 **命令：**
 
@@ -98,7 +98,7 @@ bash scripts/java/handle_keyword_conflicts.sh <project>
 
 ---
 
-### 1.3.2 处理内部类命名冲突
+### 1.3.2 处理 Cangjie 展平后的命名冲突
 
 **命令：**
 
@@ -106,13 +106,15 @@ bash scripts/java/handle_keyword_conflicts.sh <project>
 bash scripts/java/handle_name_conflicts.sh <project>
 ```
 
-- **作用：** 将 Java 内部类重命名为 `OuterClass_InnerClass` 格式，避免后续提取到 Cangjie 顶层时的命名冲突。同时检测并解决不同外部类中同名内部类的冲突。
+- **作用：** 处理 Cangjie 不支持嵌套类、以及为避免包循环而展平 Java 子包后带来的同名类冲突。
 - **输入：** `projects/java/keyword_handled/<project>/`
 - **输出：** `projects/java/name_handled/<project>/` (新建目录，非原地修改)
 - **重命名策略：**
   - 定义文件中的裸引用 (`InnerClass` → `OuterClass_InnerClass`)
   - 跨文件的限定引用 (`OuterClass.InnerClass` → `OuterClass.NewName`)
   - 通过继承访问的子类中的裸引用（解析 `extends`/`implements` 关系）
+  - 被展平到同一 Cangjie 包的子包同名顶级类 (`sub/package/Foo` → `sub_package_Foo`)
+  - 子包展平采用最小必要展平：父子包被合并到根包时，孙子包仍可保留为根包下的子包
 - **Python 脚本：** `src/java/preprocessing/handle_name_conflicts.py`
 
 ---

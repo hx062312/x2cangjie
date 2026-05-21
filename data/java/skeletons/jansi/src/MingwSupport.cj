@@ -3,10 +3,10 @@ package jansi
 
 // Imports Begin
 import std.ast.*
+import std.core.*
 import std.fs.*
 import std.io.*
 import std.process.*
-import std.reflect.*
 import std.regex.*
 import std.regex.Regex
 // Imports End
@@ -31,7 +31,7 @@ public open class MingwSupport {
         throw Exception('TODO')
     }
 
-    private static func waitAndCapture(p: Any): String {
+    private static func waitAndCapture(p: Process): String {
         throw Exception('TODO')
     }
 
