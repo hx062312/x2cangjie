@@ -66,8 +66,8 @@ def _is_framework_ignored_field(field_key, field_info=None):
 # ============================================================
 
 
-def remove_duplicate_methods(schema, class_to_methods=None, all_schema_classes=None):
-    """Mark duplicate methods (overloaded) as not overload, and detect overriding.
+def annotate_method_flags(schema, class_to_methods=None, all_schema_classes=None):
+    """Annotate methods with is_overload, is_override, and needs_open flags.
 
     Also marks parent class methods as needing 'open' when they are overridden.
     """
@@ -350,12 +350,18 @@ def get_method_modifiers(modifiers, is_override=False, is_interface=False,
     return access_mod
 
 
-def get_class_modifiers(java_modifiers, is_abstract):
+def get_class_modifiers(java_modifiers, is_abstract, was_nested=False):
     """Build Cangjie class modifier prefix string.
 
     Returns e.g. 'public abstract ', 'public open ', 'public ', ''.
+
+    If the class was a Java nested/inner class extracted to top-level,
+    strip 'private' since Cangjie's file-level 'private' is stricter
+    than Java's 'private to enclosing class'.
     """
     access_mod = get_access_modifier(java_modifiers)
+    if was_nested and access_mod == 'private ':
+        access_mod = ''
     if is_abstract:
         return f"{access_mod}abstract "
     if class_needs_open(java_modifiers, is_abstract):
@@ -523,7 +529,8 @@ def generate_static_initializer_skeleton(static_init_info, static_init_key):
 
 
 def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
-                             class_to_package, all_schema_classes):
+                             class_to_package, all_schema_classes,
+                             was_nested=False):
     """
     Generate class declaration + fields + static initializers + methods.
     Modifies class_info in-place with partial_translations.
@@ -531,7 +538,7 @@ def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
     """
     is_abstract_class = class_info.get('is_abstract', False)
     java_modifiers = class_info.get('modifiers', [])
-    class_mod = get_class_modifiers(java_modifiers, is_abstract_class)
+    class_mod = get_class_modifiers(java_modifiers, is_abstract_class, was_nested)
 
     extends = class_info.get('extends', [])
     implements = class_info.get('implements', [])
@@ -1043,7 +1050,8 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
         else:
             class_skeleton, has_main_from_class = generate_class_skeleton(
                 class_info, class_name, type_map, schema_fname,
-                class_to_package, all_schema_classes
+                class_to_package, all_schema_classes,
+                was_nested=bool(class_info.get('nested_inside'))
             )
             skeleton += class_skeleton
             # if has_main_from_class:
@@ -1066,13 +1074,20 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
     if is_test and not class_name.endswith('_test'):
         class_name = class_name + '_test'
 
+    # Detect collapsed subpath for filename prefix to avoid collisions
+    original_sub_path = _compute_skeleton_sub_path(java_path)
+    if original_sub_path and collapsed_subpaths and original_sub_path in collapsed_subpaths:
+        collapse_prefix = original_sub_path.replace('/', '_') + '_'
+    else:
+        collapse_prefix = ''
+
     src_dir = f"{skeletons_dir}/src"
     if sub_path:
         os.makedirs(f"{src_dir}/{sub_path}", exist_ok=True)
         file_path = f"{src_dir}/{sub_path}/{class_name}.cj"
     else:
         os.makedirs(src_dir, exist_ok=True)
-        file_path = f"{src_dir}/{class_name}.cj"
+        file_path = f"{src_dir}/{collapse_prefix}{class_name}.cj"
 
     # # Append main at package level if any class had one
     # if has_main_from_file:
@@ -1217,11 +1232,11 @@ def main(args):
         with open(std_type_imports_path, 'r') as f:
             std_type_imports = json.load(f)
 
-    # Phase 1b: Run remove_duplicate_methods on all schemas to populate needs_open flags
+    # Phase 1b: Run annotate_method_flags on all schemas to populate needs_open flags
     for schema_fname, schema_path, schema in all_schemas:
         if 'package-info' in schema_fname or 'module-info' in schema_fname:
             continue
-        remove_duplicate_methods(schema, class_to_methods, all_schema_classes)
+        annotate_method_flags(schema, class_to_methods, all_schema_classes)
 
     # Phase 2: Generate Skeletons (using Phase 1 schema data — no reload from disk)
     uses_any_hashable = False
@@ -1245,9 +1260,9 @@ def main(args):
   description = "nothing here"
   version = "1.0.0"
   src-dir = "src"
-  target-dir = ""
+  target-dir = "target"
   output-type = "{output_type}"
-  compile-option = "-Woff unused"
+  compile-option = "-Woff unused --error-count-limit all"
   override-compile-option = ""
   link-option = ""
   package-configuration = {{}}
