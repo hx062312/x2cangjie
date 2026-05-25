@@ -2,83 +2,84 @@
 package commons_cli
 
 // Imports Begin
+import std.collection.ArrayList
+import std.collection.HashMap
 // Imports End
 
-open class Options <: Serializable {
+public open class Options {
     // Fields Begin
-    static let serialVersionUID: Int64 = throw Exception('TODO')
     let shortOpts: HashMap<String, Option> = throw Exception('TODO')
     let longOpts: HashMap<String, Option> = throw Exception('TODO')
-    let requiredOpts: ArrayList<Any> = throw Exception('TODO')
+    let requiredOpts: ArrayList<Object> = throw Exception('TODO')
     let optionGroups: HashMap<String, OptionGroup> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public open func addOption(opt: Option): Options {
+    public open func addOption0(opt: Option): Options {
         throw Exception('TODO')
     }
 
-    public open func addOption(opt: String, hasArg: Bool, description: String): Options {
+    public open func addOption1(opt: String, hasArg: Bool, description: String): Options {
         throw Exception('TODO')
     }
 
-    public open func addOption(opt: String, description: String): Options {
+    public open func addOption2(opt: String, description: String): Options {
         throw Exception('TODO')
     }
 
-    public open func addOption(opt: String, longOpt: String, hasArg: Bool, description: String): Options {
+    public open func addOption3(opt: String, longOpt: String, hasArg: Bool, description: String): Options {
         throw Exception('TODO')
     }
 
-    public func addOptionGroup(group: OptionGroup): Options {
+    public open func addOptionGroup(group: OptionGroup): Options {
         throw Exception('TODO')
     }
 
-    public func addRequiredOption(opt: String, longOpt: String, hasArg: Bool, description: String): Options {
+    public open func addRequiredOption(opt: String, longOpt: String, hasArg: Bool, description: String): Options {
         throw Exception('TODO')
     }
 
-    public func getMatchingOptions(opt: String): ArrayList<String> {
+    public open func getMatchingOptions(opt: String): ArrayList<String> {
         throw Exception('TODO')
     }
 
-    public func getOption(opt: String): Option {
+    public open func getOption(opt: String): Option {
         throw Exception('TODO')
     }
 
-    public func getOptionGroup(opt: Option): OptionGroup {
+    public open func getOptionGroup(opt: Option): OptionGroup {
         throw Exception('TODO')
     }
 
-    func getOptionGroups(): Collection<OptionGroup> {
+    public open func getOptionGroups(): ArrayList<OptionGroup> {
         throw Exception('TODO')
     }
 
-    public func getOptions(): Collection<Option> {
+    public open func getOptions(): Collection<Option> {
         throw Exception('TODO')
     }
 
-    public func getRequiredOptions(): ArrayList<Any> {
+    public open func getRequiredOptions(): ArrayList<Any> {
         throw Exception('TODO')
     }
 
-    public func hasLongOption(opt: String): Bool {
+    public open func hasLongOption(opt: String): Bool {
         throw Exception('TODO')
     }
 
-    public func hasOption(opt: String): Bool {
+    public open func hasOption(opt: String): Bool {
         throw Exception('TODO')
     }
 
-    public func hasShortOption(opt: String): Bool {
+    public open func hasShortOption(opt: String): Bool {
         throw Exception('TODO')
     }
 
-    func helpOptions(): ArrayList<Option> {
+    public open func helpOptions(): ArrayList<Option> {
         throw Exception('TODO')
     }
 
-    public func toString(): String {
+    public open func toString(): String {
         throw Exception('TODO')
     }
 

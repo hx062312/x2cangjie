@@ -7,13 +7,21 @@ from tree_sitter import Language, Parser
 
 def load_parser():
     """Load tree-sitter parser for Java."""
-    if not os.path.exists('misc/parser/language.so'):
-        lib_dir = 'misc/sitter-libs'
-        libs = [os.path.join(lib_dir, d) for d in os.listdir(lib_dir)]
-        Language.build_library('misc/parser/language.so', libs)
-    LANGUAGE = Language('misc/parser/language.so', 'java')
     parser = Parser()
-    parser.set_language(LANGUAGE)
+    try:
+        import tree_sitter_java
+
+        language = Language(tree_sitter_java.language())
+    except Exception:
+        if not os.path.exists('misc/parser/language.so'):
+            lib_dir = 'misc/sitter-libs'
+            libs = [os.path.join(lib_dir, d) for d in os.listdir(lib_dir)]
+            Language.build_library('misc/parser/language.so', libs)
+        language = Language('misc/parser/language.so', 'java')
+    if hasattr(parser, 'set_language'):
+        parser.set_language(language)
+    else:
+        parser.language = language
     return parser
 
 

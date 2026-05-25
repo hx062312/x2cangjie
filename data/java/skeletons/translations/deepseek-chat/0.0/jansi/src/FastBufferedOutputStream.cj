@@ -7,29 +7,30 @@ import std.io.OutputStream
 
 public open class FastBufferedOutputStream {
     // Fields Begin
-    let buf: Array<Byte> = throw Exception('TODO')
-    var count: Int64 = throw Exception('TODO')
+    let buf: Array<Byte> = throw Exception('TODO')  // Already translated, compilation failed
+    var count: Int64 = 0
     // Fields End
 
     // Methods Begin
     public init(out: OutputStream) {
-        throw Exception('TODO')
+                super()
     }
 
-    public open func write(b: Int64): Unit {
-        throw Exception('TODO')
+    public open func write0(b: Int64): Unit {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func write(b: Int8, off: Int64, len: Int64): Unit {
-        throw Exception('TODO')
+    public open func write1(b: Int8, off: Int64, len: Int64): Unit {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     private func flushBuffer(): Unit {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func flush(): Unit {
-        throw Exception('TODO')
+                flushBuffer()
+        // out.flush() // out is not defined in this class; assuming it's a field, but not present
     }
 
     // Methods End

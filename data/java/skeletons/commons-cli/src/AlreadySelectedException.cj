@@ -2,36 +2,41 @@
 package commons_cli
 
 // Imports Begin
+
 // Imports End
 
-open class AlreadySelectedException <: ParseException {
+public open class AlreadySelectedException <: ParseException {
     // Fields Begin
-    static let serialVersionUID: Int64 = throw Exception('TODO')
     let group: OptionGroup = throw Exception('TODO')
     let option: Option = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public init(group: OptionGroup, option: Option) {
+    public init(message: String, group_param: OptionGroup, option_param: Option) {
+        super()
         throw Exception('TODO')
     }
 
-    public init(message: String) {
+    public static func AlreadySelectedException0(message: String): AlreadySelectedException {
         throw Exception('TODO')
     }
 
-    private init(message: String, group: OptionGroup, option: Option) {
+    public static func AlreadySelectedException1(group_param: OptionGroup, option_param: Option): AlreadySelectedException {
         throw Exception('TODO')
     }
 
-    public func getOption(): Option {
+    public open func getOption(): Option {
         throw Exception('TODO')
     }
 
-    public func getOptionGroup(): OptionGroup {
+    public open func getOptionGroup(): OptionGroup {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

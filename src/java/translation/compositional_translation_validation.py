@@ -16,6 +16,7 @@ from src.java.translation.cangjie_compilation_validation import cangjie_compilat
 from src.java.translation.get_reverse_traversal import get_reverse_traversal
 from src.java.translation.prompt_generator import PromptGenerator
 from src.java.rag import get_rag_engine
+from src.java.utils.get_custom_types import get_custom_type_translation_map
 from src.java.isolation_validation.test_runner import (
     run_mock_tests_for_fragment,
     session_clean,
@@ -32,6 +33,26 @@ ERROR = "error"
 SUCCESS = "success"
 FAILURE = "failure"
 NOT_EXERCISED = "not-exercised"
+
+
+def _as_bool(value, default=False):
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() == "true"
+
+
+def _remove_generated_test_skeletons(project: str, model: str, temperature) -> None:
+    roots = [
+        Path(f"data/java/skeletons/{project}/src"),
+        Path(f"data/java/skeletons/translations/{model}/{temperature}/{project}/src"),
+    ]
+    for root in roots:
+        if not root.is_dir():
+            continue
+        for test_file in root.rglob("*_test.cj"):
+            test_file.unlink()
 
 
 def init_body_log(args):
@@ -424,12 +445,115 @@ def extract_json_translation(generation: str, fragment: dict, args) -> tuple:
     fragment_type = fragment.get("fragment_type", "method")
     if fragment_type in ("method", "static_initializer"):
         from src.java.translation.cangjie_compilation_validation import extract_method_body
-        body = extract_method_body(content, fragment)
+        body = extract_method_body(content, fragment, getattr(args, "translation_dir", None))
         if not body or not body.strip():
             return False, None, "extracted method body is empty"
         return True, body.split("\n"), None
     else:
         return True, content.split("\n"), None
+
+
+_flatten_type_map_cache = {}
+_static_import_map_cache = {}
+
+
+def rewrite_flattened_custom_type_access(code: str, args) -> str:
+    """
+    Rewrite Java nested custom type spellings to the flattened Cangjie names.
+
+    The skeleton generator flattens nested classes/enums such as Ansi.Color to
+    Color. LLM output can still preserve Java spellings in expressions, e.g.
+    Ansi.Color.GREEN. This pass keeps the rewrite deterministic and schema-
+    scoped by reusing the same custom type map as skeleton/type resolution.
+    """
+    translation_dir = getattr(args, "translation_dir", None)
+    if not translation_dir:
+        return code
+
+    if translation_dir not in _flatten_type_map_cache:
+        try:
+            flatten_map = get_custom_type_translation_map(translation_dir)
+        except Exception as exc:
+            log_detail(args, "FLATTENED TYPE REWRITE WARNING", str(exc))
+            flatten_map = {}
+        _flatten_type_map_cache[translation_dir] = {
+            source: target
+            for source, target in flatten_map.items()
+            if "." in source and source != target
+        }
+
+    flatten_map = _flatten_type_map_cache.get(translation_dir, {})
+    if not flatten_map or not code:
+        return code
+
+    rewritten = code
+    for source, target in sorted(flatten_map.items(), key=lambda item: len(item[0]), reverse=True):
+        pattern = re.compile(rf"(?<![A-Za-z0-9_]){re.escape(source)}(?![A-Za-z0-9_])")
+        rewritten = pattern.sub(target, rewritten)
+    return rewritten
+
+
+def _load_static_import_map(fragment: dict, args) -> dict[str, str]:
+    """Return bare static-imported member -> owner class for this schema."""
+    translation_dir = getattr(args, "translation_dir", None)
+    schema_name = fragment.get("schema_name")
+    if not translation_dir or not schema_name:
+        return {}
+
+    cache_key = (translation_dir, schema_name)
+    if cache_key in _static_import_map_cache:
+        return _static_import_map_cache[cache_key]
+
+    schema_path = Path(translation_dir) / f"{schema_name}.json"
+    static_imports = {}
+    try:
+        with schema_path.open("r", encoding="utf-8") as f:
+            schema_data = json.load(f)
+    except Exception:
+        _static_import_map_cache[cache_key] = static_imports
+        return static_imports
+
+    for import_data in schema_data.get("imports", {}).values():
+        body = import_data.get("body", "") if isinstance(import_data, dict) else str(import_data)
+        match = re.match(r"\s*import\s+static\s+([A-Za-z_][\w$.]*(?:\.[A-Za-z_][\w$]*)*)\s*;\s*$", body)
+        if not match:
+            continue
+
+        qualified_name = match.group(1)
+        if qualified_name.endswith(".*"):
+            continue
+
+        parts = qualified_name.split(".")
+        if len(parts) < 2:
+            continue
+
+        member_name = parts[-1]
+        owner_name = parts[-2].split("$")[-1]
+        if member_name and owner_name:
+            static_imports[member_name] = owner_name
+
+    _static_import_map_cache[cache_key] = static_imports
+    return static_imports
+
+
+def rewrite_static_import_member_access(code: str, fragment: dict, args) -> str:
+    """
+    Rewrite Java static-imported bare member references to Cangjie qualified access.
+
+    Java allows `import static pkg.Kernel32.FOREGROUND_RED` and then bare
+    `FOREGROUND_RED`. Cangjie skeletons expose that project member as
+    `Kernel32.FOREGROUND_RED`, so generated fragments need deterministic
+    qualification before compilation validation.
+    """
+    static_imports = _load_static_import_map(fragment, args)
+    if not static_imports or not code:
+        return code
+
+    rewritten = code
+    for member_name, owner_name in sorted(static_imports.items(), key=lambda item: len(item[0]), reverse=True):
+        pattern = re.compile(rf"(?<![A-Za-z0-9_.]){re.escape(member_name)}(?![A-Za-z0-9_])")
+        rewritten = pattern.sub(f"{owner_name}.{member_name}", rewritten)
+    return rewritten
 
 
 def translate(
@@ -559,6 +683,25 @@ def translate(
             generation_lines = extracted_code
 
         generation = "\n".join(generation_lines)
+        rewritten_generation = rewrite_flattened_custom_type_access(generation, args)
+        if rewritten_generation != generation:
+            log_detail(
+                args,
+                "FLATTENED TYPE ACCESS REWRITE",
+                f"Before:\n{generation}\n\nAfter:\n{rewritten_generation}",
+            )
+            generation = rewritten_generation
+            generation_lines = generation.split("\n")
+
+        rewritten_generation = rewrite_static_import_member_access(generation, fragment, args)
+        if rewritten_generation != generation:
+            log_detail(
+                args,
+                "STATIC IMPORT MEMBER ACCESS REWRITE",
+                f"Before:\n{generation}\n\nAfter:\n{rewritten_generation}",
+            )
+            generation = rewritten_generation
+            generation_lines = generation.split("\n")
 
         if "syntactic" not in budget:
             budget["syntactic"] = 2
@@ -668,6 +811,21 @@ def translate(
                 staging_dir=args.staging_dir,
             )
 
+        if mock_status == "not-independent":
+            terminal_attempt("test", shared_attempt, shared_budget_total, True, "not-independent")
+            update_labels(
+                args=args,
+                fragment=fragment,
+                translation=generation,
+                translation_status="completed",
+                cangjie_compilation={"outcome": "success", "message": message},
+                test_execution={"outcome": "not-independent", "message": mock_message},
+                elapsed_time=time.time() - start_time,
+            )
+            update_budget(fragment, args, budget, type_="final")
+            terminal_result(True, "llm")
+            break
+
         if mock_status in ("no-tests", "success"):
             terminal_attempt(
                 "test",
@@ -739,6 +897,8 @@ def main(args):
 
     args.skeleton_dir = Path(f"data/java/skeletons/{args.project}")
     args.staging_dir = Path(f"/tmp/cangjie_mock/{args.project}")
+    if not _as_bool(getattr(args, "translate_tests", "false")):
+        _remove_generated_test_skeletons(args.project, args.model, args.temperature)
 
     if not args.skeleton_dir.is_dir() or not (args.skeleton_dir / "cjpm.toml").is_file():
         print(
@@ -846,6 +1006,12 @@ if __name__ == "__main__":
         "--translate_evosuite",
         action="store_true",
         help="translate evosuite generated tests",
+    )
+    parser_.add_argument(
+        "--translate_tests",
+        type=str,
+        default="false",
+        help="Include src/test Java fragments in fragment translation (true/false)",
     )
     parser_.add_argument("--debug", action="store_true", help="debug mode")
     parser_.add_argument(

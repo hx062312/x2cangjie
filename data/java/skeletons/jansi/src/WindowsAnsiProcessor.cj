@@ -34,13 +34,11 @@ public class WindowsAnsiProcessor <: AnsiProcessor {
         throw Exception('TODO')
     }
 
-    public init(ps: OutputStream, stdout: Bool) {
-        super()
+    public open func WindowsAnsiProcessor0(ps: OutputStream, stdout: Bool): WindowsAnsiProcessor {
         throw Exception('TODO')
     }
 
-    public init(ps: OutputStream) {
-        super()
+    public open func WindowsAnsiProcessor1(ps: OutputStream): WindowsAnsiProcessor {
         throw Exception('TODO')
     }
 
@@ -100,27 +98,27 @@ public class WindowsAnsiProcessor <: AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected override func processSetForegroundColor(color: Int64, bright: Bool): Unit {
+    protected override func processSetForegroundColor1(color: Int64, bright: Bool): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetForegroundColorExt(paletteIndex: Int64): Unit {
+    protected override func processSetForegroundColorExt0(paletteIndex: Int64): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetForegroundColorExt(r: Int64, g: Int64, b: Int64): Unit {
+    protected override func processSetForegroundColorExt1(r: Int64, g: Int64, b: Int64): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetBackgroundColor(color: Int64, bright: Bool): Unit {
+    protected override func processSetBackgroundColor1(color: Int64, bright: Bool): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetBackgroundColorExt(paletteIndex: Int64): Unit {
+    protected override func processSetBackgroundColorExt0(paletteIndex: Int64): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetBackgroundColorExt(r: Int64, g: Int64, b: Int64): Unit {
+    protected override func processSetBackgroundColorExt1(r: Int64, g: Int64, b: Int64): Unit {
         throw Exception('TODO')
     }
 

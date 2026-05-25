@@ -2,27 +2,32 @@
 package commons_cli
 
 // Imports Begin
+
 // Imports End
 
-open class UnrecognizedOptionException <: ParseException {
+public open class UnrecognizedOptionException <: ParseException {
     // Fields Begin
-    static let serialVersionUID: Int64 = throw Exception('TODO')
     let option: String = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public init(message: String) {
+    public init(message: String, option_param: String) {
+        super()
         throw Exception('TODO')
     }
 
-    public init(message: String, option: String) {
+    public static func UnrecognizedOptionException1(message: String): UnrecognizedOptionException {
         throw Exception('TODO')
     }
 
-    public func getOption(): String {
+    public open func getOption(): String {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

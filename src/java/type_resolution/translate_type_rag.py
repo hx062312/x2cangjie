@@ -19,6 +19,26 @@ from src.java.utils.get_custom_types import (
 )
 
 
+def _as_bool(value, default=False):
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() == "true"
+
+
+def _should_include_test_sources(args):
+    return _as_bool(getattr(args, 'translate_tests', 'false'))
+
+
+def _is_test_schema_name(schema_file):
+    return (
+        '.src.test.' in schema_file
+        or schema_file.endswith('.src.test.json')
+        or '.evosuite-tests.' in schema_file
+    )
+
+
 class TypePromptGenerator:
     def __init__(self, context_code_snippet, fragment_type, source_type, source_type_description, type_variation, prompt_type, source_language, target_language, feedback):
         self.context_code_snippet = context_code_snippet
@@ -153,10 +173,12 @@ def log_detail(log_path, title, content=''):
                 f.write('\n')
 
 
-def count_pending_type_translations(schema_dir):
+def count_pending_type_translations(schema_dir, include_tests=False):
     total = 0
     type_variations = ['types', 'return_types', 'parameters', 'body_types']
     for schema_file in os.listdir(schema_dir):
+        if _is_test_schema_name(schema_file) and not include_tests:
+            continue
         with open(f'{schema_dir}/{schema_file}', 'r') as f:
             data = json.load(f)
         for class_ in data['classes']:
@@ -185,6 +207,16 @@ def fallback_type_for(source_type):
     if source_type and source_type.endswith('[]'):
         return 'Array<Any>'
     return 'Any'
+
+
+def _cangjie_stub_name(type_name):
+    simple_name = type_name.split('.')[-1]
+    simple_name = re.sub(r'[^0-9A-Za-z_]', '_', simple_name)
+    if not simple_name:
+        return ''
+    if simple_name[0].isdigit():
+        simple_name = f'_{simple_name}'
+    return simple_name
 
 
 def update_universal_type_map(source_type, translated_type, map_file='data/java/type_resolution/universal_type_map_final.json'):
@@ -244,8 +276,10 @@ def is_type_loadable(import_stmt, type_name, custom_classes=None):
     # Generate stub class definitions for custom types so cjc can resolve them
     custom_stubs = ''
     for simple_name in dedupe_preserve_order(
-        (cls.split('.')[-1] for cls in custom_classes),
+        (_cangjie_stub_name(cls) for cls in custom_classes),
     ):
+        if not simple_name:
+            continue
         # Cangjie doesn't support nested classes; use only the simple name.
         custom_stubs += f'class {simple_name} {{}}\n'
 
@@ -308,16 +342,20 @@ def main(args):
     model_info = yaml.safe_load(open('configs/model_configs.yaml', 'r'))['models']
     args.schema_dir = f'data/java/schemas{args.suffix}/{args.model_name}/{args.temperature}/{args.project_name}'
     model = Model(model_info=model_info[args.model_name])
-    total_types = count_pending_type_translations(args.schema_dir)
+    include_tests = _should_include_test_sources(args)
+    total_types = count_pending_type_translations(args.schema_dir, include_tests=include_tests)
     processed_types = 0
 
     # Get custom types from schema files and persist to JSON
-    custom_types = get_custom_types(args.schema_dir)
-    custom_type_map = get_custom_type_translation_map(args.schema_dir)
+    schema_filter = lambda schema_file: include_tests or not _is_test_schema_name(schema_file)
+    custom_types = get_custom_types(args.schema_dir, schema_filter=schema_filter)
+    custom_type_map = get_custom_type_translation_map(args.schema_dir, schema_filter=schema_filter)
     save_custom_types(args.project_name, custom_types)
     log_detail(log_path, 'CUSTOM TYPES', f'Loaded {len(custom_types)} custom types')
 
     for schema_file in os.listdir(args.schema_dir):
+        if _is_test_schema_name(schema_file) and not include_tests:
+            continue
 
         data = {}
         with open(f'{args.schema_dir}/{schema_file}', 'r') as f:
@@ -562,5 +600,6 @@ if __name__ == '__main__':
     parser.add_argument('--budget', type=int, dest='budget', help='budget for each type translation')
     parser.add_argument('--use_llm', type=str, default='true', help='Enable LLM translation for unknown types (true/false). If false, only fixed_type_map and custom types are used.')
     parser.add_argument('--use_rag', type=str, default='false', help='Enable RAG context injection for type resolution (true/false). Only takes effect when use_llm is also true.')
+    parser.add_argument('--translate_tests', type=str, default='false', help='Include src/test Java schemas in type translation (true/false).')
     args = parser.parse_args()
     main(args)

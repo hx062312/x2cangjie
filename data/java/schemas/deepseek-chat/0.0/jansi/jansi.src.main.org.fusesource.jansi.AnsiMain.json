@@ -401,16 +401,29 @@
                         "types": {}
                     },
                     "translation": [],
-                    "translation_status": "pending",
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: --- cjc stderr ---\n\u001b[31merror\u001b[0m: expected declaration, found 'println'\n \u001b[36m==>\u001b[0m /tmp/tmpn7pmphqe.cj:1:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m1\u001b[0m \u001b[36m| \u001b[0mprintln(\"Jansi \" + getJansiVersion())\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n\u001b[31merror\u001b[0m: expected declaration, found keyword 'if'\n \u001b[36m==>\u001b[0m /tmp/tmpn7pmphqe.cj:6:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m6\u001b[0m \u001b[36m| \u001b[0mif (loaded) {\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n2 errors generated, 2 errors printed.\n\n--- cjc stdout ---\n"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 71.5023603439331,
+                    "generation_timestamp": "2026-05-21T18:27:21.942635",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
-                    "needs_open": false
+                    "needs_open": false,
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 },
                 "194-197:getJansiVersion": {
                     "start": 194,
@@ -487,13 +500,20 @@
                         "parameters": {},
                         "types": {}
                     },
-                    "translation": [],
-                    "translation_status": "pending",
+                    "translation": [
+                        "    private static func getJansiVersion(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: unclosed delimiter: '('\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:15:35:\n   | \n15 |                 let p = (AnsiMain.type).getPackage()\n   |                         ~         ^ expected ')' here\n   |                         |\n   |                         to match this opening '('\n   |\nerror: expected a member name after '.' in qualified name, found keyword 'type'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:15:35:\n   | \n15 |                 let p = (AnsiMain.type).getPackage()\n   |                                  ~^^^^ expected a member name here\n   |                                  |\n   |                                  after '.' in qualified name\n   | \nhelp: you could escape keyword as a member name using '`':"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 7.45165753364563,
+                    "generation_timestamp": "2026-05-21T18:27:29.413748",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -502,7 +522,17 @@
                         "    private static func getJansiVersion(): String {",
                         "        throw Exception('TODO')",
                         "    }\n"
-                    ]
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 },
                 "199-232:diagnoseTty": {
                     "start": 199,
@@ -671,7 +701,7 @@
                                 "source_type": "Kernel32.Kernel32_CONSOLE_SCREEN_BUFFER_INFO",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "Kernel32.Kernel32_CONSOLE_SCREEN_BUFFER_INFO",
+                                "translated_target_type": "Kernel32_CONSOLE_SCREEN_BUFFER_INFO",
                                 "reasoning": "",
                                 "prompt": "",
                                 "feedback": ""
@@ -713,7 +743,7 @@
                                 "source_type": "CLibrary.CLibrary_WinSize",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "CLibrary.CLibrary_WinSize",
+                                "translated_target_type": "CLibrary_WinSize",
                                 "reasoning": "",
                                 "prompt": "",
                                 "feedback": ""
@@ -765,13 +795,20 @@
                         },
                         "types": {}
                     },
-                    "translation": [],
-                    "translation_status": "pending",
+                    "translation": [
+                        "    private static func diagnoseTty(stderr: Bool): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: cannot convert an integer literal to type '(Int64) -> Int64'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:23:36:\n   | \n23 |         let mode = Array<Int64>(1, 0)\n   |                                    ^ \n   |\nerror: generic type should be used with type argument\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:28:21:\n   | \n28 |         if (name != None && !name.isEmpty()) {\n   |                     ^ \n   |\nerror: 'CONSOLE_SCREEN_BUFFER_INFO' is not a member of class 'Kernel32'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:36:29:\n   | \n36 |         let info = Kernel32.CONSOLE_SCREEN_BUFFER_INFO()\n   |                             ^^^^^^^^^^^^^^^^^^^^^^^^^^ \n   |\nerror: 'WinSize' is not a member of class 'CLibrary'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:43:27:\n   | \n43 |         let ws = CLibrary.WinSize()\n   |                           ^^^^^^^ \n   |"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 18.65740394592285,
+                    "generation_timestamp": "2026-05-21T18:27:48.090334",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -780,7 +817,17 @@
                         "    private static func diagnoseTty(stderr: Bool): Unit {",
                         "        throw Exception('TODO')",
                         "    }\n"
-                    ]
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 },
                 "234-295:testAnsi": {
                     "start": 234,
@@ -915,7 +962,7 @@
                                 "source_type": "Ansi.Color",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "Ansi.Color",
+                                "translated_target_type": "Color",
                                 "reasoning": "",
                                 "prompt": "",
                                 "feedback": ""
@@ -981,13 +1028,20 @@
                         },
                         "types": {}
                     },
-                    "translation": [],
-                    "translation_status": "pending",
+                    "translation": [
+                        "    private static func testAnsi(stderr: Bool): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: undeclared type name 'PrintStream'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:23:24:\n   | \n23 |                 let s: PrintStream = if (stderr) { System.err } else { System.out };\n   |                        ^ \n   |\nerror: undeclared identifier 'System'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:23:52:\n   | \n23 |                 let s: PrintStream = if (stderr) { System.err } else { System.out };\n   |                                                    ^ \n   |\nerror: undeclared identifier 'System'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:23:72:\n   | \n23 |                 let s: PrintStream = if (stderr) { System.err } else { System.out };\n   |                                                                        ^ \n   |\nerror: 'Color' is not a member of class 'Ansi'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:25:24:\n   | \n25 |         for (c in Ansi.Color.values()) {\n   |                        ^^^^^ \n   |\nerror: 'Color' is not a member of class 'Ansi'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:30:24:\n   | \n30 |         for (c in Ansi.Color.values()) {\n   |                        ^^^^^ \n   |"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 24.56609272956848,
+                    "generation_timestamp": "2026-05-21T18:28:12.676825",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -996,7 +1050,17 @@
                         "    private static func testAnsi(stderr: Bool): Unit {",
                         "        throw Exception('TODO')",
                         "    }\n"
-                    ]
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 },
                 "297-309:getPomPropertiesVersion": {
                     "start": 297,
@@ -1118,13 +1182,20 @@
                         },
                         "types": {}
                     },
-                    "translation": [],
-                    "translation_status": "pending",
+                    "translation": [
+                        "    private static func getPomPropertiesVersion(path: String): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: unclosed delimiter: '('\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:27:38:\n   | \n27 |                 let in__ = (AnsiMain.type).getResourceAsStream(\"/META-INF/maven/\" + path + \"/pom.properties\")\n   |                            ~         ^ expected ')' here\n   |                            |\n   |                            to match this opening '('\n   |\nerror: expected a member name after '.' in qualified name, found keyword 'type'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:27:38:\n   | \n27 |                 let in__ = (AnsiMain.type).getResourceAsStream(\"/META-INF/maven/\" + path + \"/pom.properties\")\n   |                                     ~^^^^ expected a member name here\n   |                                     |\n   |                                     after '.' in qualified name\n   | \nhelp: you could escape keyword as a member name using '`':"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 8.897706031799316,
+                    "generation_timestamp": "2026-05-21T18:28:21.596032",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -1133,7 +1204,17 @@
                         "    private static func getPomPropertiesVersion(path: String): String {",
                         "        throw Exception('TODO')",
                         "    }\n"
-                    ]
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 },
                 "311-322:printJansiLogoDemo": {
                     "start": 311,
@@ -1248,13 +1329,20 @@
                         "parameters": {},
                         "types": {}
                     },
-                    "translation": [],
-                    "translation_status": "pending",
+                    "translation": [
+                        "    private static func printJansiLogoDemo(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: undeclared identifier 'BufferedReader'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:31:28:\n   | \n31 |                 let in__ = BufferedReader(InputStreamReader(AnsiMain.getResourceAsStream(\"jansi.txt\"), UTF_8))\n   |                            ^ \n   |"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 9.372114419937134,
+                    "generation_timestamp": "2026-05-21T18:28:30.987739",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -1263,7 +1351,17 @@
                         "    private static func printJansiLogoDemo(): Unit {",
                         "        throw Exception('TODO')",
                         "    }\n"
-                    ]
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 },
                 "324-335:writeFileContent": {
                     "start": 324,
@@ -1414,13 +1512,20 @@
                         },
                         "types": {}
                     },
-                    "translation": [],
-                    "translation_status": "pending",
+                    "translation": [
+                        "    private static func writeFileContent(f: File): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: 'open' is not a member of class 'File'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:35:33:\n   | \n35 |                 let in__ = File.open(f.path, OpenMode.Read)\n   |                                 ^^^^ \n   |\nerror: unknown named argument prefix 'item:'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:37:37:\n   | \n37 |         let buf = Array<Byte>(1024, item: 0)\n   |                                     ^ \n   |"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 10.580679655075073,
+                    "generation_timestamp": "2026-05-21T18:28:41.589825",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -1429,7 +1534,17 @@
                         "    private static func writeFileContent(f: File): Unit {",
                         "        throw Exception('TODO')",
                         "    }\n"
-                    ]
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 },
                 "337-343:closeQuietly": {
                     "start": 337,
@@ -1515,13 +1630,20 @@
                         },
                         "types": {}
                     },
-                    "translation": [],
-                    "translation_status": "pending",
+                    "translation": [
+                        "    private static func closeQuietly(c: Any): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: 'close' is not a member of interface 'Any'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiMain.cj:40:11:\n   | \n40 |         c.close()\n   |           ^^^^^ \n   |"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 8.35697603225708,
+                    "generation_timestamp": "2026-05-21T18:28:49.966715",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -1530,7 +1652,17 @@
                         "    private static func closeQuietly(c: Any): Unit {",
                         "        throw Exception('TODO')",
                         "    }\n"
-                    ]
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 }
             },
             "fields": {},

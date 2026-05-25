@@ -2,8 +2,8 @@
 package jansi
 
 // Imports Begin
-import std.collection.*
 import std.collection.ArrayList
+import std.collection.LinkedList
 import std.core.*
 import std.fs.*
 import std.io.*

@@ -2,12 +2,10 @@
 package jansi
 
 // Imports Begin
-import std.ast.*
 import std.core.*
 import std.fs.*
 import std.io.*
 import std.process.*
-import std.regex.*
 import std.regex.Regex
 // Imports End
 

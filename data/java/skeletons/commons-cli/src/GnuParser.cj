@@ -2,14 +2,15 @@
 package commons_cli
 
 // Imports Begin
+
 // Imports End
 
-open class GnuParser <: Parser {
+public open class GnuParser <: Parser {
     // Fields Begin
     // Fields End
 
     // Methods Begin
-    protected func flatten(options: Options, arguments: Array<String>, stopAtNonOption: Bool): Array<String> {
+    protected override func flatten(options_param: Options, arguments: Array<Any>, stopAtNonOption: Bool): Array<Any> {
         throw Exception('TODO')
     }
 

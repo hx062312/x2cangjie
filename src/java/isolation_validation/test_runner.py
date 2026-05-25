@@ -20,9 +20,10 @@ from pathlib import Path
 from typing import Optional
 
 from src.java.isolation_validation import change_mode, runtime_support, side_effect
+from src.java.isolation_validation.test_matcher import find_focal_tests
 
 
-_FOCAL_RE = re.compile(r"//\s*focal call:\s*[\w.$]+\.(\w+)\.(\w+)")
+_FOCAL_RE = re.compile(r"//\s*focal call:\s*(\S+)")
 _PKG_NAME_RE = re.compile(r'^\s*name\s*=\s*"([^"]+)"', re.MULTILINE)
 
 
@@ -61,7 +62,14 @@ def _read_focal(test_cj: Path) -> Optional[tuple[str, str]]:
     for line in text.splitlines():
         m = _FOCAL_RE.search(line)
         if m:
-            return m.group(1), m.group(2)
+            focal = m.group(1).strip()
+            owner, sep, method = focal.rpartition(".")
+            if not sep or not owner or not method:
+                return None
+            class_name = owner.replace("$", ".").rsplit(".", 1)[-1]
+            if method == "<init>":
+                method = class_name
+            return class_name, method
     return None
 
 
@@ -75,17 +83,23 @@ def _workflow_for(test_cj: Path) -> Path:
 
 
 def find_matching_tests(
-    staging_dir: Path, simple_class: str, simple_method: str
+    staging_dir: Path,
+    simple_class: str,
+    simple_method: str,
+    *,
+    is_constructor: bool = False,
+    parameters: Optional[list] = None,
+    signature: Optional[str] = None,
 ) -> list[Path]:
-    """Return _test.cj files whose focal call matches (simple_class, simple_method)."""
-    matched: list[Path] = []
-    if not staging_dir.is_dir():
-        return matched
-    for test_cj in sorted(staging_dir.glob("*_test.cj")):
-        focal = _read_focal(test_cj)
-        if focal == (simple_class, simple_method):
-            matched.append(test_cj)
-    return matched
+    """Return _test.cj files whose normalized focal call matches the fragment."""
+    fragment = {
+        "class_name": simple_class,
+        "fragment_name": simple_method,
+        "is_constructor": is_constructor,
+        "parameters": parameters,
+        "signature": signature,
+    }
+    return [test_cj for test_cj, _workflow in find_focal_tests(fragment, staging_dir)]
 
 
 def _tail_lines(text: str, n: int = 50) -> str:
@@ -102,13 +116,25 @@ def run_mock_tests_for_fragment(
 
     Returns (status, message) where status is one of:
       - "no-tests": no matching _test.cj found
+      - "not-independent": matched tests require unsupported independent replay
       - "success" : all matching tests passed
       - "failure" : at least one matching test failed (message = last 50 lines)
     """
     simple_class = _strip_to_simple(fragment["class_name"])
     simple_method = _strip_to_simple(fragment["fragment_name"])
+    is_constructor = bool(fragment.get("is_constructor", False))
 
-    tests = find_matching_tests(staging_dir, simple_class, simple_method)
+    matched = find_focal_tests(
+        {
+            "class_name": simple_class,
+            "fragment_name": simple_method,
+            "is_constructor": is_constructor,
+            "parameters": fragment.get("parameters"),
+            "signature": fragment.get("signature"),
+        },
+        staging_dir,
+    )
+    tests = [test_cj for test_cj, _workflow in matched]
     if not tests:
         return "no-tests", f"no _test.cj matches {simple_class}.{simple_method}"
 
@@ -139,9 +165,14 @@ def run_mock_tests_for_fragment(
                 staged_workflow = cj_test_dir / workflow.name
                 shutil.copy2(workflow, staged_workflow)
                 try:
-                    side_effect.instrument(
-                        str(staged_test), str(staged_workflow), str(cj_src)
+                    instrument_result = side_effect.instrument(
+                        str(staged_test), str(staged_workflow), str(cj_src), structured=True
                     )
+                    if instrument_result.get("status") == "not-independent":
+                        staged_test.unlink(missing_ok=True)
+                        if staged_workflow is not None:
+                            staged_workflow.unlink(missing_ok=True)
+                        return "not-independent", instrument_result.get("message", "mock test is not independently replayable")
                 except Exception as e:
                     print(f"[mock] instrument failed for {test_cj.name}: {e}")
 

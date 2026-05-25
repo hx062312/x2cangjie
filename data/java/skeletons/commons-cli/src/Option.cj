@@ -2,13 +2,13 @@
 package commons_cli
 
 // Imports Begin
+import std.collection.ArrayList
 // Imports End
 
-open class Option <: Cloneable & Serializable {
+public open class Option {
     // Fields Begin
     static let UNINITIALIZED: Int64 = throw Exception('TODO')
     static let UNLIMITED_VALUES: Int64 = throw Exception('TODO')
-    static let serialVersionUID: Int64 = throw Exception('TODO')
     let option: String = throw Exception('TODO')
     var longOption: String = throw Exception('TODO')
     var argName: String = throw Exception('TODO')
@@ -16,37 +16,33 @@ open class Option <: Cloneable & Serializable {
     var required: Bool = throw Exception('TODO')
     var optionalArg: Bool = throw Exception('TODO')
     var argCount: Int64 = throw Exception('TODO')
-    var type: Type<Any> = throw Exception('TODO')
+    var type__: Any = throw Exception('TODO')
     var values: ArrayList<String> = throw Exception('TODO')
     var valuesep: Rune = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public static func builder(): Any {
+    public static func builder0(): Option_Builder {
         throw Exception('TODO')
     }
 
-    public static func builder(option: String): Any {
+    public static func builder1(option_param: String): Option_Builder {
         throw Exception('TODO')
     }
 
-    private init(builder: Any) {
+    public init(constructorId: Int64, option_param: String, longOption_param: String, description_param: String, hasArg: Bool, builder: Option_Builder) {
         throw Exception('TODO')
     }
 
-    public init(option: String, hasArg: Bool, description: String) {
+    public static func Option1(option_param: String, description_param: String): Option {
         throw Exception('TODO')
     }
 
-    public init(option: String, description: String) {
+    public static func Option2(option_param: String, hasArg: Bool, description_param: String): Option {
         throw Exception('TODO')
     }
 
-    public init(option: String, longOption: String, hasArg: Bool, description: String) {
-        throw Exception('TODO')
-    }
-
-    func acceptsArg(): Bool {
+    public open func acceptsArg(): Bool {
         throw Exception('TODO')
     }
 
@@ -54,99 +50,99 @@ open class Option <: Cloneable & Serializable {
         throw Exception('TODO')
     }
 
-    public func addValue(value: String): Bool {
+    public open func addValue(value: String): Bool {
         throw Exception('TODO')
     }
 
-    func addValueForProcessing(value: String): Unit {
+    public open func addValueForProcessing(value: String): Unit {
         throw Exception('TODO')
     }
 
-    func clearValues(): Unit {
+    public open func clearValues(): Unit {
         throw Exception('TODO')
     }
 
-    public func clone(): Any {
+    public open func clone(): Any {
         throw Exception('TODO')
     }
 
-    public func equals(obj: Any): Bool {
+    public open func equals(obj: Any): Bool {
         throw Exception('TODO')
     }
 
-    public func getArgName(): String {
+    public open func getArgName(): String {
         throw Exception('TODO')
     }
 
-    public func getArgs(): Int64 {
+    public open func getArgs(): Int64 {
         throw Exception('TODO')
     }
 
-    public func getDescription(): String {
+    public open func getDescription(): String {
         throw Exception('TODO')
     }
 
-    public func getId(): Int64 {
+    public open func getId(): Int64 {
         throw Exception('TODO')
     }
 
-    func getKey(): String {
+    public open func getKey(): String {
         throw Exception('TODO')
     }
 
-    public func getLongOpt(): String {
+    public open func getLongOpt(): String {
         throw Exception('TODO')
     }
 
-    public func getOpt(): String {
+    public open func getOpt(): String {
         throw Exception('TODO')
     }
 
-    public func getType(): Any {
+    public open func getType(): Any {
         throw Exception('TODO')
     }
 
-    public open func getValue(): String {
+    public open func getValue0(): String {
         throw Exception('TODO')
     }
 
-    public open func getValue(index: Int64): String {
+    public open func getValue1(index: Int64): String {
         throw Exception('TODO')
     }
 
-    public open func getValue(defaultValue: String): String {
+    public open func getValue2(defaultValue: String): String {
         throw Exception('TODO')
     }
 
-    public func getValues(): Array<String> {
+    public open func getValues(): Array<Any> {
         throw Exception('TODO')
     }
 
-    public func getValueSeparator(): Rune {
+    public open func getValueSeparator(): Rune {
         throw Exception('TODO')
     }
 
-    public func getValuesList(): ArrayList<String> {
+    public open func getValuesList(): ArrayList<String> {
         throw Exception('TODO')
     }
 
-    public func hasArg(): Bool {
+    public open func hasArg(): Bool {
         throw Exception('TODO')
     }
 
-    public func hasArgName(): Bool {
+    public open func hasArgName(): Bool {
         throw Exception('TODO')
     }
 
-    public func hasArgs(): Bool {
+    public open func hasArgs(): Bool {
         throw Exception('TODO')
     }
 
-    public func hashCode(): Int64 {
+    public open func hashCode(): Int64 {
         throw Exception('TODO')
     }
 
-    public func hasLongOpt(): Bool {
+    public open func hasLongOpt(): Bool {
         throw Exception('TODO')
     }
 
@@ -154,15 +150,15 @@ open class Option <: Cloneable & Serializable {
         throw Exception('TODO')
     }
 
-    public func hasOptionalArg(): Bool {
+    public open func hasOptionalArg(): Bool {
         throw Exception('TODO')
     }
 
-    public func hasValueSeparator(): Bool {
+    public open func hasValueSeparator(): Bool {
         throw Exception('TODO')
     }
 
-    public func isRequired(): Bool {
+    public open func isRequired(): Bool {
         throw Exception('TODO')
     }
 
@@ -170,54 +166,58 @@ open class Option <: Cloneable & Serializable {
         throw Exception('TODO')
     }
 
-    func requiresArg(): Bool {
+    public open func requiresArg(): Bool {
         throw Exception('TODO')
     }
 
-    public func setArgName(argName: String): Unit {
+    public open func setArgName(argName_param: String): Unit {
         throw Exception('TODO')
     }
 
-    public func setArgs(num: Int64): Unit {
+    public open func setArgs(num: Int64): Unit {
         throw Exception('TODO')
     }
 
-    public func setDescription(description: String): Unit {
+    public open func setDescription(description_param: String): Unit {
         throw Exception('TODO')
     }
 
-    public func setLongOpt(longOpt: String): Unit {
+    public open func setLongOpt(longOpt: String): Unit {
         throw Exception('TODO')
     }
 
-    public func setOptionalArg(optionalArg: Bool): Unit {
+    public open func setOptionalArg(optionalArg_param: Bool): Unit {
         throw Exception('TODO')
     }
 
-    public func setRequired(required: Bool): Unit {
+    public open func setRequired(required_param: Bool): Unit {
         throw Exception('TODO')
     }
 
-    public open func setType(type: Type<Any>): Unit {
+    public open func setType0(type___param: Any): Unit {
         throw Exception('TODO')
     }
 
-    public open func setType(type: Any): Unit {
+    public open func setType1(type___param: Any): Unit {
         throw Exception('TODO')
     }
 
-    public func setValueSeparator(sep: Rune): Unit {
+    public open func setValueSeparator(sep: Rune): Unit {
         throw Exception('TODO')
     }
 
-    public func toString(): String {
+    public open func toString(): String {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
-class Builder {
+public class Option_Builder {
     // Fields Begin
     var option: String = throw Exception('TODO')
     var description: String = throw Exception('TODO')
@@ -226,75 +226,79 @@ class Builder {
     var required: Bool = throw Exception('TODO')
     var optionalArg: Bool = throw Exception('TODO')
     var argCount: Int64 = throw Exception('TODO')
-    var type: Type<Any> = throw Exception('TODO')
+    var type__: Any = throw Exception('TODO')
     var valueSeparator: Rune = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    private init(option: String) {
+    private init(option_param: String) {
         throw Exception('TODO')
     }
 
-    public func argName(argName: String): Any {
+    public open func argName_method(argName_param: String): Option_Builder {
         throw Exception('TODO')
     }
 
-    public func build(): Option {
+    public open func build(): Option {
         throw Exception('TODO')
     }
 
-    public func desc(description: String): Any {
+    public open func desc(description_param: String): Option_Builder {
         throw Exception('TODO')
     }
 
-    public open func hasArg(): Any {
+    public open func hasArg0(): Option_Builder {
         throw Exception('TODO')
     }
 
-    public open func hasArg(hasArg: Bool): Any {
+    public open func hasArg1(hasArg: Bool): Option_Builder {
         throw Exception('TODO')
     }
 
-    public func hasArgs(): Any {
+    public open func hasArgs(): Option_Builder {
         throw Exception('TODO')
     }
 
-    public func longOpt(longOpt: String): Any {
+    public open func longOpt(longOpt: String): Option_Builder {
         throw Exception('TODO')
     }
 
-    public func numberOfArgs(numberOfArgs: Int64): Any {
+    public open func numberOfArgs(numberOfArgs: Int64): Option_Builder {
         throw Exception('TODO')
     }
 
-    public func option(option: String): Any {
+    public open func option_method(option_param: String): Option_Builder {
         throw Exception('TODO')
     }
 
-    public func optionalArg(isOptional: Bool): Any {
+    public open func optionalArg_method(isOptional: Bool): Option_Builder {
         throw Exception('TODO')
     }
 
-    public open func required(): Any {
+    public open func required0(): Option_Builder {
         throw Exception('TODO')
     }
 
-    public open func required(required: Bool): Any {
+    public open func required1(required_param: Bool): Option_Builder {
         throw Exception('TODO')
     }
 
-    public func type(type: Type<Any>): Any {
+    public open func type_(type___param: Any): Option_Builder {
         throw Exception('TODO')
     }
 
-    public open func valueSeparator(): Any {
+    public open func valueSeparator0(): Option_Builder {
         throw Exception('TODO')
     }
 
-    public open func valueSeparator(sep: Rune): Any {
+    public open func valueSeparator1(sep: Rune): Option_Builder {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

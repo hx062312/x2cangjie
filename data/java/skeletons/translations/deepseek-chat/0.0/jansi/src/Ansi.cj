@@ -5,453 +5,504 @@ package jansi
 import std.collection.ArrayList
 import std.core.*
 import std.core.String
-import std.core.StringBuilder
 // Imports End
 
 public open class Ansi {
     // Fields Begin
-    static let DISABLE: String = throw Exception('TODO')
-    static var detector: Any = throw Exception('TODO')
-    static let holder: ThreadLocal<Bool> = throw Exception('TODO')
-    static let FIRST_ESC_CHAR: Rune = throw Exception('TODO')
-    static let SECOND_ESC_CHAR: Rune = throw Exception('TODO')
-    let builder: Any = throw Exception('TODO')
-    let attributeOptions: ArrayList<Int64> = throw Exception('TODO')
+    static let DISABLE: String = "Ansi.disable"  // Already translated, compilation failed
+    static var detector: Any = throw Exception('TODO')  // Already translated, compilation failed
+    static let holder: ThreadLocal<Bool> = throw Exception('TODO')  // Already translated, compilation failed
+    static let FIRST_ESC_CHAR: Rune = Rune(27)  // Already translated, compilation failed
+    static let SECOND_ESC_CHAR: Rune = '['
+    let builder: Any = StringBuilder()
+    let attributeOptions: ArrayList<Int64> = ArrayList<Int64>(5)
     // Fields End
 
     // Methods Begin
     public static func setDetector(detector: Any): Unit {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func isDetected(): Bool {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func setEnabled(flag: Bool): Unit {
-        throw Exception('TODO')
+                holder.set(flag)
     }
 
     public static func isEnabled(): Bool {
-        throw Exception('TODO')
+                return holder.get().getOrThrow()
     }
 
-    public static func ansi(): Ansi {
-        throw Exception('TODO')
+    public static func ansi0(): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public static func ansi(builder: Any): Ansi {
-        throw Exception('TODO')
+    public static func ansi1(builder: Any): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public static func ansi(size: Int64): Ansi {
-        throw Exception('TODO')
+    public static func ansi2(size: Int64): Ansi {
+                if (isEnabled()) {
+        return Ansi.Ansi2(size)
+        } else {
+        return Ansi_NoAnsi(size)
+        }
     }
 
-    public init() {
-        throw Exception('TODO')
+    public static func Ansi0(): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public init(parent: Ansi) {
-        throw Exception('TODO')
+    public static func Ansi1(parent: Ansi): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public init(size: Int64) {
-        throw Exception('TODO')
+    public static func Ansi2(size: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public init(builder: Any) {
-        throw Exception('TODO')
+    public init(constructorId: Int64, builder: Any, parent: Ansi) {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func fg(color: Color): Ansi {
-        throw Exception('TODO')
+    public open func fg0(color: Color): Ansi {
+                attributeOptions.add(color.fg())
+        return this
     }
 
-    public open func fg(color: Int64): Ansi {
-        throw Exception('TODO')
+    public open func fg1(color: Int64): Ansi {
+                return this
     }
 
-    public open func fgRgb(color: Int64): Ansi {
-        throw Exception('TODO')
+    public open func fgRgb0(color: Int64): Ansi {
+                return fgRgb1(color >> 16, color >> 8, color)
     }
 
-    public open func fgRgb(r: Int64, g: Int64, b: Int64): Ansi {
-        throw Exception('TODO')
+    public open func fgRgb1(r: Int64, g: Int64, b: Int64): Ansi {
+                return this
     }
 
     public open func fgBlack(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBlue(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgCyan(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgDefault(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgGreen(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgMagenta(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgRed(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgYellow(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func bg(color: Color): Ansi {
-        throw Exception('TODO')
+    public open func bg0(color: Color): Ansi {
+                attributeOptions.add(color.bg())
+        return this
     }
 
-    public open func bg(color: Int64): Ansi {
-        throw Exception('TODO')
+    public open func bg1(color: Int64): Ansi {
+                return this
     }
 
-    public open func bgRgb(color: Int64): Ansi {
-        throw Exception('TODO')
+    public open func bgRgb0(color: Int64): Ansi {
+                return bgRgb1(color >> 16, color >> 8, color)
     }
 
-    public open func bgRgb(r: Int64, g: Int64, b: Int64): Ansi {
-        throw Exception('TODO')
+    public open func bgRgb1(r: Int64, g: Int64, b: Int64): Ansi {
+                return this
     }
 
     public open func bgCyan(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgDefault(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgGreen(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgMagenta(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgRed(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgYellow(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBright(color: Color): Ansi {
-        throw Exception('TODO')
+                attributeOptions.add(color.fgBright())
+        return this
     }
 
     public open func fgBrightBlack(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBrightBlue(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBrightCyan(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBrightDefault(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBrightGreen(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBrightMagenta(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBrightRed(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func fgBrightYellow(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgBright(color: Color): Ansi {
-        throw Exception('TODO')
+                attributeOptions.add(color.bgBright())
+        return this
     }
 
     public open func bgBrightCyan(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgBrightDefault(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgBrightGreen(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgBrightMagenta(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgBrightRed(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bgBrightYellow(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(attribute: Attribute): Ansi {
-        throw Exception('TODO')
+    public open func a0(attribute: Attribute): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func cursor(row: Int64, column: Int64): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func cursorToColumn(x: Int64): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func cursorUp(y: Int64): Ansi {
-        throw Exception('TODO')
+                if (y > 0) {
+        return appendEscapeSequence1(r'A', y)
+        } else if (y < 0) {
+        return cursorDown(-y)
+        } else {
+        return this
+        }
     }
 
     public open func cursorDown(y: Int64): Ansi {
-        throw Exception('TODO')
+                if (y > 0) {
+        return appendEscapeSequence1(r'B', y)
+        } else if (y < 0) {
+        return cursorUp(-y)
+        } else {
+        return this
+        }
     }
 
     public open func cursorRight(x: Int64): Ansi {
-        throw Exception('TODO')
+                if (x > 0) {
+        return appendEscapeSequence1(r'C', x)
+        } else if (x < 0) {
+        return cursorLeft(-x)
+        } else {
+        return this
+        }
     }
 
     public open func cursorLeft(x: Int64): Ansi {
-        throw Exception('TODO')
+                if (x > 0) {
+        return appendEscapeSequence1(r'D', x)
+        } else if (x < 0) {
+        return cursorRight(-x)
+        } else {
+        return this
+        }
     }
 
     public open func cursorMove(x: Int64, y: Int64): Ansi {
-        throw Exception('TODO')
+                return cursorRight(x).cursorDown(y)
     }
 
-    public open func cursorDownLine(): Ansi {
-        throw Exception('TODO')
+    public open func cursorDownLine0(): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func cursorDownLine(n: Int64): Ansi {
-        throw Exception('TODO')
+    public open func cursorDownLine1(n: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func cursorUpLine(): Ansi {
-        throw Exception('TODO')
+    public open func cursorUpLine0(): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func cursorUpLine(n: Int64): Ansi {
-        throw Exception('TODO')
+    public open func cursorUpLine1(n: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func eraseScreen(): Ansi {
-        throw Exception('TODO')
+    public open func eraseScreen0(): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func eraseScreen(kind: Erase): Ansi {
-        throw Exception('TODO')
+    public open func eraseScreen1(kind: Erase): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func eraseLine(): Ansi {
-        throw Exception('TODO')
+    public open func eraseLine0(): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func eraseLine(kind: Erase): Ansi {
-        throw Exception('TODO')
+    public open func eraseLine1(kind: Erase): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func scrollUp(rows: Int64): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func scrollDown(rows: Int64): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func restorCursorPosition(): Ansi {
-        throw Exception('TODO')
+                return restoreCursorPosition()
     }
 
     public open func saveCursorPosition(): Ansi {
-        throw Exception('TODO')
+                saveCursorPositionSCO()
+        return saveCursorPositionDEC()
     }
 
     public open func saveCursorPositionSCO(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func saveCursorPositionDEC(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func restoreCursorPosition(): Ansi {
-        throw Exception('TODO')
+                restoreCursorPositionSCO()
+        return restoreCursorPositionDEC()
     }
 
     public open func restoreCursorPositionSCO(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func restoreCursorPositionDEC(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func reset(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func bold(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func boldOff(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: String): Ansi {
-        throw Exception('TODO')
+    public open func a1(value: String): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: Bool): Ansi {
-        throw Exception('TODO')
+    public open func a2(value: Bool): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: Rune): Ansi {
-        throw Exception('TODO')
+    public open func a3(value: Rune): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: Array<Rune>, offset: Int64, len: Int64): Ansi {
-        throw Exception('TODO')
+    public open func a4(value: Array<Rune>, offset: Int64, len: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: Array<Rune>): Ansi {
-        throw Exception('TODO')
+    public open func a5(value: Array<Rune>): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: String, start: Int64, end: Int64): Ansi {
-        throw Exception('TODO')
+    public open func a6(value: String, start: Int64, end: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a_1(value: String): Ansi {
-        throw Exception('TODO')
+    public open func a7(value: String): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: Float64): Ansi {
-        throw Exception('TODO')
+    public open func a8(value: Float64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: Float32): Ansi {
-        throw Exception('TODO')
+    public open func a9(value: Float32): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: Int64): Ansi {
-        throw Exception('TODO')
+    public open func a10(value: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a_1(value: Int64): Ansi {
-        throw Exception('TODO')
+    public open func a11(value: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: Any): Ansi {
-        throw Exception('TODO')
+    public open func a12(value: Any): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func a(value: StringBuilder): Ansi {
-        throw Exception('TODO')
+    public open func a13(value: StringBuilder): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func newline(): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func format(pattern: String): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func apply(fun: Ansi_Consumer): Ansi {
-        throw Exception('TODO')
+                fun.apply(this)
+        return this
     }
 
-    public open func render(text: String): Ansi {
-        throw Exception('TODO')
+    public open func render0(text: String): Ansi {
+                a1(AnsiRenderer.render0(text))
+        return this
     }
 
-    public open func render_1(text: String): Ansi {
-        throw Exception('TODO')
+    public open func render1(text: String): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func toString(): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    private func appendEscapeSequence(command: Rune): Ansi {
-        throw Exception('TODO')
+    private func appendEscapeSequence0(command: Rune): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    private func appendEscapeSequence(command: Rune, option: Int64): Ansi {
-        throw Exception('TODO')
+    private func appendEscapeSequence1(command: Rune, option: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    private func appendEscapeSequence_1(command: Rune): Ansi {
-        throw Exception('TODO')
+    private func appendEscapeSequence2(command: Rune): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     private func flushAttributes(): Unit {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     private func _appendEscapeSequence(command: Rune): Ansi {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func append(csq: String): Ansi {
-        throw Exception('TODO')
+                return append0(csq)
+    }
+
+    public open func append0(csq: String): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func append(csq: String, start: Int64, end: Int64): Ansi {
-        throw Exception('TODO')
+                return append1(csq, start, end)
+    }
+
+    public open func append1(csq: String, start: Int64, end: Int64): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func append(c: Rune): Ansi {
-        throw Exception('TODO')
+                return append2(c)
+    }
+
+    public open func append2(c: Rune): Ansi {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
 public open class Color {
     // Fields Begin
-    var BLACK: Any = throw Exception('TODO')
-    var RED: Any = throw Exception('TODO')
-    var GREEN: Any = throw Exception('TODO')
-    var YELLOW: Any = throw Exception('TODO')
-    var BLUE: Any = throw Exception('TODO')
-    var MAGENTA: Any = throw Exception('TODO')
-    var CYAN: Any = throw Exception('TODO')
-    var WHITE: Any = throw Exception('TODO')
-    var DEFAULT: Any = throw Exception('TODO')
-    let value: Int64 = throw Exception('TODO')
-    let name: String = throw Exception('TODO')
+    var BLACK: Any = throw Exception('TODO')  // Already translated, compilation failed
+    var RED: Any = throw Exception("TODO")
+    var GREEN: Any = throw Exception('TODO')  // Already translated, compilation failed
+    var YELLOW: Any = throw Exception('TODO')  // Already translated, compilation failed
+    var BLUE: Any = throw Exception('TODO')  // Already translated, compilation failed
+    var MAGENTA: Any = 5
+    var CYAN: Any = throw Exception('TODO')  // Already translated, compilation failed
+    var WHITE: Any = throw Exception('TODO')  // Already translated, compilation failed
+    var DEFAULT: Any = 9
+    let value: Int64 = 0
+    let name: String = ""  // Already translated, compilation failed
     // Fields End
 
     // Methods Begin
@@ -468,11 +519,11 @@ public open class Color {
     }
 
     public open func fg(): Int64 {
-        throw Exception('TODO')
+                return value + 30
     }
 
     public open func bg(): Int64 {
-        throw Exception('TODO')
+                return value + 40
     }
 
     public open func fgBright(): Int64 {
@@ -492,26 +543,26 @@ public open class Color {
 
 public open class Attribute {
     // Fields Begin
-    var BLINK_OFF: Any = throw Exception('TODO')
-    var NEGATIVE_OFF: Any = throw Exception('TODO')
-    var CONCEAL_OFF: Any = throw Exception('TODO')
-    var STRIKETHROUGH_OFF: Any = throw Exception('TODO')
-    let value: Int64 = throw Exception('TODO')
+    var ITALIC_OFF: Any = throw Exception('TODO')  // Already translated, compilation failed
+    var UNDERLINE_OFF: Any = 24
+    var BLINK_OFF: Any = 25
+    var NEGATIVE_OFF: Any = 27
+    var CONCEAL_OFF: Any = 28
+    var STRIKETHROUGH_OFF: Any = throw Exception('TODO')  // Already translated, compilation failed
+    let value: Int64 = 0
     let name: String = throw Exception('TODO')
-    var RESET: Any = throw Exception('TODO')
-    var INTENSITY_BOLD: Any = throw Exception('TODO')
-    var INTENSITY_FAINT: Any = throw Exception('TODO')
-    var ITALIC: Any = throw Exception('TODO')
-    var UNDERLINE: Any = throw Exception('TODO')
-    var BLINK_SLOW: Any = throw Exception('TODO')
-    var BLINK_FAST: Any = throw Exception('TODO')
-    var NEGATIVE_ON: Any = throw Exception('TODO')
-    var CONCEAL_ON: Any = throw Exception('TODO')
-    var STRIKETHROUGH_ON: Any = throw Exception('TODO')
-    var UNDERLINE_DOUBLE: Any = throw Exception('TODO')
-    var INTENSITY_BOLD_OFF: Any = throw Exception('TODO')
-    var ITALIC_OFF: Any = throw Exception('TODO')
-    var UNDERLINE_OFF: Any = throw Exception('TODO')
+    var RESET: Any = 0
+    var INTENSITY_BOLD: Any = 1
+    var INTENSITY_FAINT: Any = 2
+    var ITALIC: Any = throw Exception('TODO')  // Already translated, compilation failed
+    var UNDERLINE: Any = 4
+    var BLINK_SLOW: Any = 5
+    var BLINK_FAST: Any = 6
+    var NEGATIVE_ON: Any = 7
+    var CONCEAL_ON: Any = 8
+    var STRIKETHROUGH_ON: Any = 9
+    var UNDERLINE_DOUBLE: Any = 21
+    var INTENSITY_BOLD_OFF: Any = 22
     // Fields End
 
     // Methods Begin
@@ -536,9 +587,9 @@ public open class Attribute {
 
 public open class Erase {
     // Fields Begin
-    var FORWARD: Any = throw Exception('TODO')
-    var BACKWARD: Any = throw Exception('TODO')
-    var ALL: Any = throw Exception('TODO')
+    var FORWARD: Any = 0
+    var BACKWARD: Any = 1
+    var ALL: Any = throw Exception('TODO')  // Already translated, compilation failed
     let value: Int64 = throw Exception('TODO')
     let name: String = throw Exception('TODO')
     // Fields End
@@ -577,23 +628,20 @@ private open class Ansi_NoAnsi <: Ansi {
     // Fields End
 
     // Methods Begin
-    public init() {
+    public init(args: Any) {
+        super()
+        throw Exception('TODO')  // Already translated, compilation failed
+    }
+
+    private static func determineStringBuilder(args: Any): Any {
+        throw Exception('TODO')  // Already translated, compilation failed
+    }
+
+    public override func fg0(color: Color): Ansi {
         throw Exception('TODO')
     }
 
-    public init(size: Int64) {
-        throw Exception('TODO')
-    }
-
-    public init(builder: Any) {
-        throw Exception('TODO')
-    }
-
-    public override func fg(color: Color): Ansi {
-        throw Exception('TODO')
-    }
-
-    public override func bg(color: Color): Ansi {
+    public override func bg0(color: Color): Ansi {
         throw Exception('TODO')
     }
 
@@ -605,23 +653,23 @@ private open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    public override func fg(color: Int64): Ansi {
+    public override func fg1(color: Int64): Ansi {
         throw Exception('TODO')
     }
 
-    public override func fgRgb(r: Int64, g: Int64, b: Int64): Ansi {
+    public override func fgRgb1(r: Int64, g: Int64, b: Int64): Ansi {
         throw Exception('TODO')
     }
 
-    public override func bg(color: Int64): Ansi {
+    public override func bg1(color: Int64): Ansi {
         throw Exception('TODO')
     }
 
-    public override func bgRgb(r: Int64, g: Int64, b: Int64): Ansi {
+    public override func bgRgb1(r: Int64, g: Int64, b: Int64): Ansi {
         throw Exception('TODO')
     }
 
-    public override func a(attribute: Attribute): Ansi {
+    public override func a0(attribute: Attribute): Ansi {
         throw Exception('TODO')
     }
 
@@ -649,35 +697,35 @@ private open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorDownLine(): Ansi {
+    public override func cursorDownLine0(): Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorDownLine(n: Int64): Ansi {
+    public override func cursorDownLine1(n: Int64): Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorUpLine(): Ansi {
+    public override func cursorUpLine0(): Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorUpLine(n: Int64): Ansi {
+    public override func cursorUpLine1(n: Int64): Ansi {
         throw Exception('TODO')
     }
 
-    public override func eraseScreen(): Ansi {
+    public override func eraseScreen0(): Ansi {
         throw Exception('TODO')
     }
 
-    public override func eraseScreen(kind: Erase): Ansi {
+    public override func eraseScreen1(kind: Erase): Ansi {
         throw Exception('TODO')
     }
 
-    public override func eraseLine(): Ansi {
+    public override func eraseLine0(): Ansi {
         throw Exception('TODO')
     }
 
-    public override func eraseLine(kind: Erase): Ansi {
+    public override func eraseLine1(kind: Erase): Ansi {
         throw Exception('TODO')
     }
 
@@ -706,5 +754,9 @@ private open class Ansi_NoAnsi <: Ansi {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

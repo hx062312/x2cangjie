@@ -196,6 +196,314 @@ def _collect_top_level_classes(node, code, records, file_info, depth=0):
         _collect_top_level_classes(child, code, records, file_info, depth)
 
 
+def _simple_java_type_name(text):
+    text = (text or '').strip()
+    for prefix in ('extends ', 'implements '):
+        if text.startswith(prefix):
+            text = text[len(prefix):].strip()
+    text = text.split('<', 1)[0].split(',', 1)[0].strip()
+    text = text.replace('[]', '').strip()
+    return text.rsplit('.', 1)[-1].strip()
+
+
+def _iter_class_declarations(node):
+    if node.type in TOP_LEVEL_TYPES:
+        yield node
+        body = node.child_by_field_name('body')
+        if body:
+            for child in body.children:
+                yield from _iter_class_declarations(child)
+        return
+    for child in node.children:
+        yield from _iter_class_declarations(child)
+
+
+def _direct_class_members(class_node):
+    body = class_node.child_by_field_name('body')
+    if body is None:
+        return []
+    return [
+        child for child in body.children
+        if child.type not in TOP_LEVEL_TYPES
+    ]
+
+
+def _collect_field_declarators_from_field(field_node, code):
+    fields = []
+
+    def _walk(node):
+        if node.type == 'variable_declarator':
+            name_node = node.child_by_field_name('name')
+            if name_node is not None:
+                fields.append({
+                    'name': extract_text_by_bytes(
+                        code, name_node.start_byte, name_node.end_byte),
+                    'name_node': name_node,
+                })
+            return
+        for child in node.children:
+            _walk(child)
+
+    _walk(field_node)
+    return fields
+
+
+def _collect_direct_fields(class_node, code):
+    fields = []
+    for child in _direct_class_members(class_node):
+        if child.type == 'field_declaration':
+            fields.extend(_collect_field_declarators_from_field(child, code))
+    return fields
+
+
+def _collect_direct_methods(class_node):
+    return [
+        child for child in _direct_class_members(class_node)
+        if child.type in ('method_declaration', 'constructor_declaration')
+    ]
+
+
+def _class_parent_name(class_node, code):
+    superclass = class_node.child_by_field_name('superclass')
+    if superclass is None:
+        return ''
+    return _simple_java_type_name(
+        extract_text_by_bytes(code, superclass.start_byte, superclass.end_byte)
+    )
+
+
+def _is_this_field_identifier(node, code):
+    parent = node.parent
+    if parent is None or parent.type != 'field_access':
+        return False
+    name_node = parent.child_by_field_name('field')
+    object_node = parent.child_by_field_name('object')
+    return (
+        name_node == node
+        and object_node is not None
+        and extract_text_by_bytes(code, object_node.start_byte, object_node.end_byte) == 'this'
+    )
+
+
+def _is_field_access_field_identifier(node):
+    parent = node.parent
+    if parent is None or parent.type != 'field_access':
+        return False
+    return parent.child_by_field_name('field') == node
+
+
+def _is_method_declaration_name(node):
+    parent = node.parent
+    return (
+        parent is not None
+        and parent.type in ('method_declaration', 'constructor_declaration')
+        and parent.child_by_field_name('name') == node
+    )
+
+
+def _is_method_invocation_name(node):
+    parent = node.parent
+    return (
+        parent is not None
+        and parent.type == 'method_invocation'
+        and parent.child_by_field_name('name') == node
+    )
+
+
+def _nearest_method_or_class(node):
+    current = node.parent
+    while current is not None:
+        if current.type in (
+            'method_declaration', 'constructor_declaration',
+            'class_declaration', 'interface_declaration',
+            'enum_declaration', 'record_declaration',
+        ):
+            return current
+        current = current.parent
+    return None
+
+
+def _is_identifier_node(node):
+    return node.type in ('identifier', 'type_identifier')
+
+
+def _unique_shadow_name(base, used, suffix):
+    candidate = f"{base}_{suffix}"
+    index = 2
+    while candidate in used:
+        candidate = f"{base}_{suffix}{index}"
+        index += 1
+    used.add(candidate)
+    return candidate
+
+
+def _collect_method_parameter_renames(method_node, code, collision_names, used_names):
+    renames = {}
+
+    def _walk(node):
+        if node.type == 'formal_parameter':
+            name_node = node.child_by_field_name('name')
+            if name_node is not None:
+                name = extract_text_by_bytes(code, name_node.start_byte, name_node.end_byte)
+                if name in collision_names and name not in renames:
+                    renames[name] = _unique_shadow_name(name, used_names, 'param')
+            return
+        for child in node.children:
+            _walk(child)
+
+    _walk(method_node)
+    return renames
+
+
+def _collect_shadow_class_infos(output_dir, parser):
+    class_infos = []
+    for java_file in _iter_java_files(output_dir):
+        code = _read_bytes(java_file)
+        tree = parser.parse(code)
+        for class_node in _iter_class_declarations(tree.root_node):
+            name_node = class_node.child_by_field_name('name')
+            if name_node is None:
+                continue
+            name = extract_text_by_bytes(code, name_node.start_byte, name_node.end_byte)
+            fields = _collect_direct_fields(class_node, code)
+            class_infos.append({
+                'name': name,
+                'file_path': java_file,
+                'class_node': class_node,
+                'parent': _class_parent_name(class_node, code),
+                'fields': fields,
+                'methods': _collect_direct_methods(class_node),
+            })
+    return class_infos
+
+
+def _handle_inheritance_shadow_conflicts(output_dir, parser):
+    print("Step 5/5: Resolving inherited member shadow conflicts...")
+    class_infos = _collect_shadow_class_infos(output_dir, parser)
+    by_name = {}
+    for info in class_infos:
+        by_name.setdefault(info['name'], info)
+
+    direct_fields = {
+        info['name']: {field['name'] for field in info['fields']}
+        for info in class_infos
+    }
+    ancestor_cache = {}
+
+    def ancestor_fields(class_name, seen=None):
+        if class_name in ancestor_cache:
+            return ancestor_cache[class_name]
+        if seen is None:
+            seen = set()
+        if class_name in seen or class_name not in by_name:
+            return set()
+        seen.add(class_name)
+        parent = by_name[class_name].get('parent')
+        if not parent or parent not in by_name:
+            result = set()
+        else:
+            result = set(direct_fields.get(parent, set()))
+            result.update(ancestor_fields(parent, seen))
+        ancestor_cache[class_name] = result
+        return result
+
+    edits_by_file = {}
+    renamed_fields = []
+    renamed_params = []
+
+    for info in class_infos:
+        code = _read_bytes(info['file_path'])
+        ancestors = ancestor_fields(info['name'])
+        own_field_names = set(direct_fields.get(info['name'], set()))
+        used_names = set(own_field_names)
+        field_renames = {}
+
+        for field in info['fields']:
+            old_name = field['name']
+            if old_name not in ancestors:
+                continue
+            new_name = _unique_shadow_name(old_name, used_names, 'field')
+            field_renames[old_name] = new_name
+            edits_by_file.setdefault(info['file_path'], []).append(
+                (field['name_node'].start_byte, field['name_node'].end_byte, new_name)
+            )
+            renamed_fields.append((info['name'], old_name, new_name))
+
+        member_collision_names = ancestors | own_field_names
+        method_param_renames = {}
+        for method in info['methods']:
+            method_used = set(used_names)
+            method_renames = _collect_method_parameter_renames(
+                method, code, member_collision_names, method_used
+            )
+            if method_renames:
+                method_param_renames[method.id] = method_renames
+                for old_name, new_name in sorted(method_renames.items()):
+                    renamed_params.append((info['name'], old_name, new_name))
+
+        def _walk_class(node, active_param_renames=None):
+            if active_param_renames is None:
+                active_param_renames = {}
+
+            if node != info['class_node'] and node.type in TOP_LEVEL_TYPES:
+                return
+
+            if node.type in ('method_declaration', 'constructor_declaration'):
+                active_param_renames = method_param_renames.get(node.id, {})
+
+            if _is_identifier_node(node):
+                name = extract_text_by_bytes(code, node.start_byte, node.end_byte)
+                replacement = None
+
+                if (
+                    name in active_param_renames
+                    and not _is_field_access_field_identifier(node)
+                    and not _is_method_declaration_name(node)
+                    and not _is_method_invocation_name(node)
+                ):
+                    replacement = active_param_renames[name]
+                elif name in field_renames:
+                    in_method = _nearest_method_or_class(node)
+                    param_shadows = (
+                        in_method is not None
+                        and in_method.id in method_param_renames
+                        and name in method_param_renames[in_method.id]
+                    )
+                    if _is_this_field_identifier(node, code) or (
+                        not param_shadows and not _is_field_access_field_identifier(node)
+                    ):
+                        replacement = field_renames[name]
+
+                if replacement is not None:
+                    edits_by_file.setdefault(info['file_path'], []).append(
+                        (node.start_byte, node.end_byte, replacement)
+                    )
+
+            for child in node.children:
+                _walk_class(child, active_param_renames)
+
+        if field_renames or method_param_renames:
+            _walk_class(info['class_node'])
+
+    modified_files = 0
+    for java_file, edits in edits_by_file.items():
+        if _apply_byte_edits(java_file, edits):
+            modified_files += 1
+
+    if renamed_fields:
+        for class_name, old_name, new_name in renamed_fields:
+            print(f"  field {class_name}.{old_name} -> {new_name}")
+    if renamed_params:
+        for class_name, old_name, new_name in renamed_params:
+            print(f"  param {class_name}.{old_name} -> {new_name}")
+    if not renamed_fields and not renamed_params:
+        print("  No inherited shadow conflicts found.")
+    else:
+        print(f"  Modified {modified_files} file(s)")
+
+    return len(renamed_fields) + len(renamed_params)
+
+
 def _collect_project_source_info(output_dir, parser):
     file_infos = {}
     class_records = []
@@ -424,7 +732,7 @@ def _rename_java_files(renames_by_fqcn):
 
 
 def _handle_flattened_subpackage_conflicts(output_dir, parser):
-    print("Step 4/4: Detecting flattened subpackage class conflicts...")
+    print("Step 4/5: Detecting flattened subpackage class conflicts...")
     file_infos, class_records = _collect_project_source_info(output_dir, parser)
     graph = _build_java_package_graph(file_infos, class_records)
     effective_subpaths = compute_effective_subpath_map(graph)
@@ -489,7 +797,7 @@ def main(args):
 
     # Step 1: Collect all top-level class names (for conflict detection)
     # and extends relationships (for inner class bare-name replacement in subclasses).
-    print("Step 1/4: Collecting class names...")
+    print("Step 1/5: Collecting class names...")
     parser = load_parser()
     all_names = set()
     # file_path -> set of simple parent class names (from extends/implements)
@@ -547,7 +855,7 @@ def main(args):
           f"{len(file_extends)} files with extends/implements")
 
     # Step 2: Find all inner classes
-    print("Step 2/4: Detecting inner classes...")
+    print("Step 2/5: Detecting inner classes...")
     all_inner_classes = {}
 
     for root, dirs, files in os.walk(output_dir):
@@ -571,7 +879,7 @@ def main(args):
         print(f"  Found {total} inner classes in {len(all_inner_classes)} files")
 
     # Step 3: Resolve names and rename
-    print("Step 3/4: Resolving inner class names and renaming...")
+    print("Step 3/5: Resolving inner class names and renaming...")
     if all_inner_classes:
         name_map = _resolve_names(all_inner_classes, all_names)
 
@@ -627,13 +935,15 @@ def main(args):
 
     flattened_renames = _handle_flattened_subpackage_conflicts(output_dir,
                                                                parser)
+    shadow_renames = _handle_inheritance_shadow_conflicts(output_dir, parser)
 
     removed = clean_target_dirs(output_dir)
     if removed:
         print(f"\nCleaned {len(removed)} target director(ies)")
 
     print(f"\nDone: {total} inner classes found, "
-          f"{flattened_renames} flattened class conflict(s) renamed")
+          f"{flattened_renames} flattened class conflict(s) renamed, "
+          f"{shadow_renames} inherited shadow conflict(s) renamed")
     print(f"Output: {output_dir}")
 
 

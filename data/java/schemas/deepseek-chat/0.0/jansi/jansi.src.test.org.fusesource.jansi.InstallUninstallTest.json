@@ -128,16 +128,29 @@
                         "types": {}
                     },
                     "translation": [],
-                    "translation_status": "pending",
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: --- cjc stderr ---\n\u001b[31merror\u001b[0m: expected declaration, found 'print'\n \u001b[36m==>\u001b[0m /tmp/tmps2rwum9q.cj:1:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m1\u001b[0m \u001b[36m| \u001b[0mprint(System.out, \"Lorem ipsum\")\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n1 error generated, 1 error printed.\n\n--- cjc stdout ---\n"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 13.498551368713379,
+                    "generation_timestamp": "2026-05-21T18:37:48.419718",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
-                    "needs_open": false
+                    "needs_open": false,
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
                 },
                 "37-41:print": {
                     "start": 37,
@@ -286,22 +299,31 @@
                         },
                         "types": {}
                     },
-                    "translation": [],
-                    "translation_status": "pending",
+                    "translation": "let half: Int64 = text.size / 2\nstream.print(text.substring(0, half))\nstream.println(Ansi.ansi().fg(Ansi.Color.GREEN).a(text.substring(half)).reset())",
+                    "translation_status": "completed",
                     "syntactic_validation": "pending",
-                    "cangjie_compilation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
                     "test_execution": "pending",
-                    "elapsed_time": 0,
-                    "generation_timestamp": 0,
+                    "elapsed_time": 2.114208936691284,
+                    "generation_timestamp": "2026-05-21T18:36:46.767299",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
                     "needs_open": false,
-                    "partial_translation": [
-                        "    private static func print(stream: Any, text: String): Unit {",
-                        "        throw Exception('TODO')",
-                        "    }\n"
-                    ]
+                    "partial_translation": "let half: Int64 = text.size / 2\nstream.print(text.substring(0, half))\nstream.println(Ansi.ansi().fg(Ansi.Color.GREEN).a(text.substring(half)).reset())",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
                 }
             },
             "fields": {},

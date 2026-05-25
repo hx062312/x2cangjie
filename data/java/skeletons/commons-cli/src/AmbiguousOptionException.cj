@@ -2,27 +2,32 @@
 package commons_cli
 
 // Imports Begin
+
 // Imports End
 
-open class AmbiguousOptionException <: UnrecognizedOptionException {
+public open class AmbiguousOptionException <: UnrecognizedOptionException {
     // Fields Begin
-    static let serialVersionUID: Int64 = throw Exception('TODO')
-    let matchingOptions: Collection<String> = throw Exception('TODO')
+    let matchingOptions: Array<String> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    private static func createMessage(option: String, matchingOptions: Collection<String>): String {
+    private static func createMessage(option_param: String, matchingOptions_param: Array<String>): String {
         throw Exception('TODO')
     }
 
-    public init(option: String, matchingOptions: Collection<String>) {
+    public init(option_param: String, matchingOptions_param: Array<String>) {
+        super()
         throw Exception('TODO')
     }
 
-    public func getMatchingOptions(): Collection<String> {
+    public open func getMatchingOptions(): Array<String> {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

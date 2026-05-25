@@ -2,11 +2,13 @@
 package commons_cli
 
 // Imports Begin
+import std.collection.ArrayList
+import std.collection.HashMap
 // Imports End
 
-open class DefaultParser <: CommandLineParser {
+public open class DefaultParser <: CommandLineParser {
     // Fields Begin
-    var cmd: Any = throw Exception('TODO')
+    var cmd: CommandLine = throw Exception('TODO')
     var options: Options = throw Exception('TODO')
     var stopAtNonOption: Bool = throw Exception('TODO')
     var currentToken: String = throw Exception('TODO')
@@ -18,19 +20,11 @@ open class DefaultParser <: CommandLineParser {
     // Fields End
 
     // Methods Begin
-    public static func builder(): Any {
+    public static func builder(): DefaultParser_Builder {
         throw Exception('TODO')
     }
 
-    public init() {
-        throw Exception('TODO')
-    }
-
-    public init(allowPartialMatching: Bool) {
-        throw Exception('TODO')
-    }
-
-    private init(allowPartialMatching: Bool, stripLeadingAndTrailingQuotes: Bool) {
+    public init(constructorId: Int64, allowPartialMatching_param: Bool, stripLeadingAndTrailingQuotes_param: Bool) {
         throw Exception('TODO')
     }
 
@@ -38,7 +32,7 @@ open class DefaultParser <: CommandLineParser {
         throw Exception('TODO')
     }
 
-    protected func checkRequiredOptions(): Unit {
+    protected open func checkRequiredOptions(): Unit {
         throw Exception('TODO')
     }
 
@@ -50,7 +44,7 @@ open class DefaultParser <: CommandLineParser {
         throw Exception('TODO')
     }
 
-    protected func handleConcatenatedOptions(token: String): Unit {
+    protected open func handleConcatenatedOptions(token: String): Unit {
         throw Exception('TODO')
     }
 
@@ -110,19 +104,19 @@ open class DefaultParser <: CommandLineParser {
         throw Exception('TODO')
     }
 
-    public open func parse(options: Options, arguments: Array<String>): Any {
+    public open func parse0(options_param: Options, arguments: Array<Any>): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse(options: Options, arguments: Array<String>, stopAtNonOption: Bool): Any {
+    public open func parse1(options_param: Options, arguments: Array<Any>, stopAtNonOption_param: Bool): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse(options: Options, arguments: Array<String>, properties: HashMap<String, String>): Any {
+    public open func parse2(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse(options: Options, arguments: Array<String>, properties: HashMap<String, String>, stopAtNonOption: Bool): Any {
+    public open func parse3(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>, stopAtNonOption_param: Bool): CommandLine {
         throw Exception('TODO')
     }
 
@@ -139,9 +133,13 @@ open class DefaultParser <: CommandLineParser {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
-class Builder {
+public class DefaultParser_Builder {
     // Fields Begin
     var allowPartialMatching: Bool = throw Exception('TODO')
     var stripLeadingAndTrailingQuotes: Bool = throw Exception('TODO')
@@ -152,15 +150,15 @@ class Builder {
         throw Exception('TODO')
     }
 
-    public func build(): Any {
+    public open func build(): DefaultParser {
         throw Exception('TODO')
     }
 
-    public func setAllowPartialMatching(allowPartialMatching: Bool): Any {
+    public open func setAllowPartialMatching(allowPartialMatching_param: Bool): DefaultParser_Builder {
         throw Exception('TODO')
     }
 
-    public func setStripLeadingAndTrailingQuotes(stripLeadingAndTrailingQuotes: Bool): Any {
+    public open func setStripLeadingAndTrailingQuotes(stripLeadingAndTrailingQuotes_param: Bool): DefaultParser_Builder {
         throw Exception('TODO')
     }
 

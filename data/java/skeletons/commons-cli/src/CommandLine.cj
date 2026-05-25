@@ -2,11 +2,12 @@
 package commons_cli
 
 // Imports Begin
+import std.collection.ArrayList
+import std.collection.HashMap
 // Imports End
 
-open class CommandLine <: Serializable {
+public open class CommandLine {
     // Fields Begin
-    static let serialVersionUID: Int64 = throw Exception('TODO')
     let args: ArrayList<String> = throw Exception('TODO')
     let options: ArrayList<Option> = throw Exception('TODO')
     // Fields End
@@ -16,103 +17,103 @@ open class CommandLine <: Serializable {
         throw Exception('TODO')
     }
 
-    protected func addArg(arg: String): Unit {
+    protected open func addArg(arg: String): Unit {
         throw Exception('TODO')
     }
 
-    protected func addOption(opt: Option): Unit {
+    protected open func addOption(opt: Option): Unit {
         throw Exception('TODO')
     }
 
-    public func getArgList(): ArrayList<String> {
+    public open func getArgList(): ArrayList<String> {
         throw Exception('TODO')
     }
 
-    public func getArgs(): Array<String> {
+    public open func getArgs(): Array<Any> {
         throw Exception('TODO')
     }
 
-    public open func getOptionObject(opt: Rune): Any {
+    public open func getOptionObject0(opt: Rune): Any {
         throw Exception('TODO')
     }
 
-    public open func getOptionObject(opt: String): Any {
+    public open func getOptionObject1(opt: String): Any {
         throw Exception('TODO')
     }
 
-    public open func getOptionProperties(option: Option): HashMap<String, String> {
+    public open func getOptionProperties0(option: Option): HashMap<String, String> {
         throw Exception('TODO')
     }
 
-    public open func getOptionProperties(opt: String): HashMap<String, String> {
+    public open func getOptionProperties1(opt: String): HashMap<String, String> {
         throw Exception('TODO')
     }
 
-    public func getOptions(): Array<Option> {
+    public open func getOptions(): Array<Any> {
         throw Exception('TODO')
     }
 
-    public open func getOptionValue(opt: Rune): String {
+    public open func getOptionValue0(opt: Rune): String {
         throw Exception('TODO')
     }
 
-    public open func getOptionValue(opt: Rune, defaultValue: String): String {
+    public open func getOptionValue1(opt: Rune, defaultValue: String): String {
         throw Exception('TODO')
     }
 
-    public open func getOptionValue(option: Option): String {
+    public open func getOptionValue2(option: Option): String {
         throw Exception('TODO')
     }
 
-    public open func getOptionValue(option: Option, defaultValue: String): String {
+    public open func getOptionValue3(option: Option, defaultValue: String): String {
         throw Exception('TODO')
     }
 
-    public open func getOptionValue(opt: String): String {
+    public open func getOptionValue4(opt: String): String {
         throw Exception('TODO')
     }
 
-    public open func getOptionValue(opt: String, defaultValue: String): String {
+    public open func getOptionValue5(opt: String, defaultValue: String): String {
         throw Exception('TODO')
     }
 
-    public open func getOptionValues(opt: Rune): Array<String> {
+    public open func getOptionValues0(opt: Rune): Array<Any> {
         throw Exception('TODO')
     }
 
-    public open func getOptionValues(option: Option): Array<String> {
+    public open func getOptionValues1(option: Option): Array<Any> {
         throw Exception('TODO')
     }
 
-    public open func getOptionValues(opt: String): Array<String> {
+    public open func getOptionValues2(opt: String): Array<Any> {
         throw Exception('TODO')
     }
 
-    public open func getParsedOptionValue(opt: Rune): Any {
+    public open func getParsedOptionValue0(opt: Rune): Any {
         throw Exception('TODO')
     }
 
-    public open func getParsedOptionValue(option: Option): Any {
+    public open func getParsedOptionValue1(option: Option): Any {
         throw Exception('TODO')
     }
 
-    public open func getParsedOptionValue(opt: String): Any {
+    public open func getParsedOptionValue2(opt: String): Any {
         throw Exception('TODO')
     }
 
-    public open func hasOption(opt: Rune): Bool {
+    public open func hasOption0(opt: Rune): Bool {
         throw Exception('TODO')
     }
 
-    public open func hasOption(opt: Option): Bool {
+    public open func hasOption1(opt: Option): Bool {
         throw Exception('TODO')
     }
 
-    public open func hasOption(opt: String): Bool {
+    public open func hasOption2(opt: String): Bool {
         throw Exception('TODO')
     }
 
-    public func iterator(): Iterator<Option> {
+    public open func iterator(): ArrayList<Option> {
         throw Exception('TODO')
     }
 
@@ -123,21 +124,21 @@ open class CommandLine <: Serializable {
     // Methods End
 }
 
-class Builder {
+public class CommandLine_Builder {
     // Fields Begin
-    let commandLine: Any = throw Exception('TODO')
+    let commandLine: CommandLine = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public func addArg(arg: String): Any {
+    public open func addArg(arg: String): CommandLine_Builder {
         throw Exception('TODO')
     }
 
-    public func addOption(opt: Option): Any {
+    public open func addOption(opt: Option): CommandLine_Builder {
         throw Exception('TODO')
     }
 
-    public func build(): Any {
+    public open func build(): CommandLine {
         throw Exception('TODO')
     }
 

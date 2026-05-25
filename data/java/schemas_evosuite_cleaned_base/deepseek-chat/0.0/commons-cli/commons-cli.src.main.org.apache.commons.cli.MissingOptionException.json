@@ -1,0 +1,678 @@
+{
+    "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/main/java/org/apache/commons/cli/MissingOptionException.java",
+    "imports": {
+        "20-20:import java.util.Iterator;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.Iterator;"
+        },
+        "21-21:import java.util.List;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.List;"
+        }
+    },
+    "classes": {
+        "24-93:MissingOptionException": {
+            "start": 24,
+            "end": 93,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "ParseException"
+            ],
+            "methods": {
+                "34-48:createMessage": {
+                    "start": 34,
+                    "end": 48,
+                    "body": [
+                        "private static String createMessage(final List<?> missingOptions_param) {",
+                        "        final StringBuilder buf = new StringBuilder(\"Missing required option\");",
+                        "        buf.append(missingOptions_param.size() == 1 ? \"\" : \"s\");",
+                        "        buf.append(\": \");",
+                        "",
+                        "        final Iterator<?> it = missingOptions_param.iterator();",
+                        "        while (it.hasNext()) {",
+                        "            buf.append(it.next());",
+                        "            if (it.hasNext()) {",
+                        "                buf.append(\", \");",
+                        "            }",
+                        "        }",
+                        "",
+                        "        return buf.toString();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "StringBuilder",
+                        "Iterator<?>"
+                    ],
+                    "signature": "createMessage(final List<?> missingOptions_param)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "List<?>",
+                            "name": "missingOptions_param"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "size()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "StringBuilder": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Iterator<?>": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|List<?>|missingOptions_param": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    private static func createMessage(missingOptions_param: ArrayList<Nothing>): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: 'hasNext' is not a member of class 'Iterator<Nothing>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/MissingOptionException.cj:23:19:\n   | \n23 |         while (it.hasNext()) {\n   |                   ^^^^^^^ \n   |\nerror: 'hasNext' is not a member of class 'Iterator<Nothing>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/MissingOptionException.cj:25:16:\n   | \n25 |         if (it.hasNext()) {\n   |                ^^^^^^^ \n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 8.428375005722046,
+                    "generation_timestamp": "2026-05-25T16:14:07.567265",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func createMessage(missingOptions_param: ArrayList<Nothing>): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "59-66:MissingOptionException": {
+                    "start": 59,
+                    "end": 66,
+                    "body": [
+                        "public MissingOptionException(",
+                        "            int constructorId, final List missingOptions_param, final String message) {",
+                        "",
+                        "        super(message);",
+                        "        if (constructorId == 1) {",
+                        "            this.missingOptions = missingOptions_param;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "MissingOptionException( int constructorId, final List missingOptions_param, final String message)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "int",
+                            "name": "constructorId"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "List",
+                            "name": "missingOptions_param"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "message"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.ParseException",
+                            "21-33:ParseException",
+                            "30-32:ParseException"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "|int|constructorId": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|List|missingOptions_param": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|message": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public init(constructorId: Int64, missingOptions_param: ArrayList<Any>, message: String) {",
+                        "        super()\n        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: call to 'super' must be first expression in constructor of class 'MissingOptionException'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/MissingOptionException.cj:20:17:\n   | \n20 |                 super(message)\n   |                 ^ \n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 6.568214654922485,
+                    "generation_timestamp": "2026-05-25T16:14:14.154674",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public init(constructorId: Int64, missingOptions_param: ArrayList<Any>, message: String) {",
+                        "        super()\n        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "68-75:MissingOptionException1": {
+                    "start": 68,
+                    "end": 75,
+                    "body": [
+                        "public static MissingOptionException MissingOptionException1(",
+                        "            int constructorId, final List missingOptions_param, final String message) {",
+                        "        if (constructorId == 1) {",
+                        "            return new MissingOptionException(",
+                        "                    constructorId, missingOptions_param, createMessage(missingOptions_param));",
+                        "        }",
+                        "        return new MissingOptionException(constructorId, missingOptions_param, message);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "MissingOptionException"
+                    ],
+                    "body_types": [
+                        "MissingOptionException"
+                    ],
+                    "signature": "MissingOptionException1( int constructorId, final List missingOptions_param, final String message)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "int",
+                            "name": "constructorId"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "List",
+                            "name": "missingOptions_param"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "message"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.MissingOptionException",
+                            "24-93:MissingOptionException",
+                            "34-48:createMessage"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.MissingOptionException",
+                            "24-93:MissingOptionException",
+                            "59-66:MissingOptionException"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "MissingOptionException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "MissingOptionException": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {
+                            "|int|constructorId": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|List|missingOptions_param": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "final|String|message": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public static func MissingOptionException1(constructorId: Int64, missingOptions_param: ArrayList<Any>, message: String): MissingOptionException {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: mismatched types\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/MissingOptionException.cj:25:90:\n   | \n25 |         return MissingOptionException(constructorId, missingOptions_param, createMessage(missingOptions_param))\n   |                                                                                          ^^^^^^^^^^^^^^^^^^^^ expected 'Class-ArrayList<Nothing>', found 'Class-ArrayList<Interface-Any>'\n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 7.757002830505371,
+                    "generation_timestamp": "2026-05-25T16:14:21.933230",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public static func MissingOptionException1(constructorId: Int64, missingOptions_param: ArrayList<Any>, message: String): MissingOptionException {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "90-92:getMissingOptions": {
+                    "start": 90,
+                    "end": 92,
+                    "body": [
+                        "public List getMissingOptions() {",
+                        "        return missingOptions;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "List"
+                    ],
+                    "body_types": [],
+                    "signature": "getMissingOptions()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "List": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "return missingOptions",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 1.6310937404632568,
+                    "generation_timestamp": "2026-05-25T16:14:23.601958",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "return missingOptions",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                }
+            },
+            "fields": {
+                "26-26:serialVersionUID_field": {
+                    "start": 26,
+                    "end": 26,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final long serialVersionUID_field = 8161889051578563249L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "long"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "long": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [],
+                    "skipped": true
+                },
+                "51-51:missingOptions": {
+                    "start": 51,
+                    "end": 51,
+                    "enum_constant": false,
+                    "body": [
+                        "private List missingOptions;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "List"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "List": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": "var missingOptions: ArrayList<Any> = ArrayList<Any>()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 1.4828474521636963,
+                    "generation_timestamp": "2026-05-25T16:13:59.120980",
+                    "model_name": "",
+                    "partial_translation": "var missingOptions: ArrayList<Any> = ArrayList<Any>()",
+                    "original_budget": {
+                        "syntactic": 2,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    },
+                    "final_budget": {
+                        "syntactic": 2,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    }
+                }
+            },
+            "cangjie_class_declaration": "public open class MissingOptionException <: ParseException {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/MissingOptionException.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/MissingOptionException.cj",
+    "import_map": {
+        "Iterator": "java.util.Iterator",
+        "List": "java.util.List"
+    }
+}

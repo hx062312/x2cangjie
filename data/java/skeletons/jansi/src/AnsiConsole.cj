@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.core.IllegalArgumentException
+import std.core.*
 import std.fs.*
 import std.io.*
 // Imports End

@@ -58,15 +58,15 @@ public open class AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected open func processCharsetSelect(options: ArrayList<Object>): Bool {
+    protected open func processCharsetSelect0(options: ArrayList<Object>): Bool {
         throw Exception('TODO')
     }
 
-    private func optionInt(options: ArrayList<Object>, index: Int64): Int64 {
+    private func optionInt0(options: ArrayList<Object>, index: Int64): Int64 {
         throw Exception('TODO')
     }
 
-    private func optionInt(options: ArrayList<Object>, index: Int64, defaultValue: Int64): Int64 {
+    private func optionInt1(options: ArrayList<Object>, index: Int64, defaultValue: Int64): Int64 {
         throw Exception('TODO')
     }
 
@@ -106,35 +106,35 @@ public open class AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected open func processSetForegroundColor(color: Int64): Unit {
+    protected open func processSetForegroundColor0(color: Int64): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetForegroundColor(color: Int64, bright: Bool): Unit {
+    protected open func processSetForegroundColor1(color: Int64, bright: Bool): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetForegroundColorExt(paletteIndex: Int64): Unit {
+    protected open func processSetForegroundColorExt0(paletteIndex: Int64): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetForegroundColorExt(r: Int64, g: Int64, b: Int64): Unit {
+    protected open func processSetForegroundColorExt1(r: Int64, g: Int64, b: Int64): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetBackgroundColor(color: Int64): Unit {
+    protected open func processSetBackgroundColor0(color: Int64): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetBackgroundColor(color: Int64, bright: Bool): Unit {
+    protected open func processSetBackgroundColor1(color: Int64, bright: Bool): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetBackgroundColorExt(paletteIndex: Int64): Unit {
+    protected open func processSetBackgroundColorExt0(paletteIndex: Int64): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetBackgroundColorExt(r: Int64, g: Int64, b: Int64): Unit {
+    protected open func processSetBackgroundColorExt1(r: Int64, g: Int64, b: Int64): Unit {
         throw Exception('TODO')
     }
 
@@ -202,7 +202,7 @@ public open class AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected open func processCharsetSelect(set: Int64, seq: Rune): Unit {
+    protected open func processCharsetSelect1(set: Int64, seq: Rune): Unit {
         throw Exception('TODO')
     }
 

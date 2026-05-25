@@ -7,9 +7,9 @@ package jansi
 
 public open class AnsiColors {
     // Fields Begin
-    var Colors16: Any = throw Exception('TODO')
-    var Colors256: Any = throw Exception('TODO')
-    var TrueColor: Any = throw Exception('TODO')
+    var Colors16: Any = "16 colors"
+    var Colors256: Any = "256 colors"
+    var TrueColor: Any = "24-bit colors"
     let description: String = throw Exception('TODO')
     // Fields End
 
@@ -19,13 +19,13 @@ public open class AnsiColors {
     }
 
     public open func getDescription(): String {
-        throw Exception('TODO')
+                return this.description
     }
 
     // Methods End
 
     protected init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 }
 

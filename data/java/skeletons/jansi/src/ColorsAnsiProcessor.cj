@@ -25,7 +25,7 @@ public open class ColorsAnsiProcessor <: AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected override func processCharsetSelect(options: ArrayList<Object>): Bool {
+    protected override func processCharsetSelect0(options: ArrayList<Object>): Bool {
         throw Exception('TODO')
     }
 

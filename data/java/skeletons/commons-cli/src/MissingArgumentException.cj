@@ -2,27 +2,32 @@
 package commons_cli
 
 // Imports Begin
+
 // Imports End
 
-open class MissingArgumentException <: ParseException {
+public open class MissingArgumentException <: ParseException {
     // Fields Begin
-    static let serialVersionUID: Int64 = throw Exception('TODO')
     var option: Option = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public init(option: Option) {
+    public init(constructorId: Int64, message: String, option_param: Option) {
+        super()
         throw Exception('TODO')
     }
 
-    public init(message: String) {
+    public static func MissingArgumentException1(constructorId: Int64, message: String, option_param: Option): MissingArgumentException {
         throw Exception('TODO')
     }
 
-    public func getOption(): Option {
+    public open func getOption(): Option {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

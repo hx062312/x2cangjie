@@ -2,11 +2,11 @@
 package commons_cli
 
 // Imports Begin
+
 // Imports End
 
-open class ParseException <: Exception {
+public open class ParseException {
     // Fields Begin
-    static let serialVersionUID: Int64 = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
@@ -15,5 +15,9 @@ open class ParseException <: Exception {
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

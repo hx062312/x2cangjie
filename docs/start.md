@@ -45,6 +45,97 @@ mkdir -p data/java/type_resolution
 # 使用 cangjie 项目中已有的类型映射，或参考 cangjie 创建
 ```
 
+## 基于 `_evosuite_cleaned_base` 从 2.3 开始运行
+
+本流程适用于已经完成 Java 侧预处理、Schema 生成和依赖顺序生成的 EvoSuite clean base：
+
+```text
+projects/java/cleaned_final_projects_evosuite_cleaned_base/<project>
+data/java/schemas_evosuite_cleaned_base/<model>/<temperature>/<project>
+data/java/dependencies_evosuite_cleaned_base/<project>/traversal.json
+```
+
+对应 suffix 固定为：
+
+```text
+_evosuite_cleaned_base
+```
+
+### 前置检查
+
+```bash
+project=<project>
+model=<model_name>
+temperature=<temperature>
+suffix=_evosuite_cleaned_base
+
+base="projects/java/cleaned_final_projects${suffix}/${project}"
+test -d "$base/target/classes"
+test -d "data/java/schemas${suffix}/${model}/${temperature}/${project}"
+test -f "data/java/dependencies${suffix}/${project}/traversal.json"
+```
+
+### 1. 类型翻译
+
+首次使用 RAG 时先准备索引：
+
+```bash
+bash scripts/java/crawl_java_base.sh
+export OPENAI_API_KEY=""
+export OPENAI_BASE_URL="https://openrouter.ai/api/v1"
+python -m src.java.rag.indexer
+```
+
+执行类型翻译：
+
+```bash
+bash scripts/java/translate_types.sh <project> <model_name> <temperature> _evosuite_cleaned_base
+```
+
+### 2. 生成骨架结构
+
+```bash
+bash scripts/java/create_skeleton.sh <project> <model_name> _evosuite_cleaned_base <temperature>
+```
+
+### 3. 构建 mock 测试语料
+
+```bash
+bash scripts/java/build_mock_corpus.sh <project>
+```
+
+脚本会优先读取：
+
+```text
+projects/java/cleaned_final_projects_evosuite_cleaned_base/<project>
+```
+
+生成文件位于：
+
+```text
+/tmp/cangjie_mock/<project>/
+```
+
+### 4. 执行片段翻译
+
+```bash
+bash scripts/java/translate_fragment.sh <project> <model_name> _evosuite_cleaned_base <temperature> true false
+```
+
+参数含义：
+
+- `true`：启用 RAG。
+- `false`：不跳过 mock 测试。若只想跑编译验证，可把最后一个参数改为 `true`。
+
+主要输出：
+
+```text
+data/java/schemas_evosuite_cleaned_base/translations/<model>/<temperature>/<project>/
+data/java/skeletons/<project>/src/
+```
+
+---
+
 ## 阶段一：项目预处理
 
 > 阶段一复用 TRAM 的预处理流程。详细步骤参考 TRAM/README.md。
@@ -82,7 +173,7 @@ bash scripts/java/add_plugin.sh <project>
 
 ---
 
-### 1.3 处理 Cangjie 关键字与命名冲突
+### 1.3 处理 Cangjie 关键字冲突
 
 **命令：**
 
@@ -98,7 +189,7 @@ bash scripts/java/handle_keyword_conflicts.sh <project>
 
 ---
 
-### 1.3.2 处理 Cangjie 展平后的命名冲突
+### 1.3.2 处理 Cangjie 展平后的命名冲突与 shadow 冲突
 
 **命令：**
 
@@ -106,7 +197,7 @@ bash scripts/java/handle_keyword_conflicts.sh <project>
 bash scripts/java/handle_name_conflicts.sh <project>
 ```
 
-- **作用：** 处理 Cangjie 不支持嵌套类、以及为避免包循环而展平 Java 子包后带来的同名类冲突。
+- **作用：** 处理 Cangjie 不支持嵌套类、为避免包循环而展平 Java 子包后带来的同名类冲突，以及 Java 继承/作用域 shadow 在 Cangjie schema/skeleton 中造成的名字污染。
 - **输入：** `projects/java/keyword_handled/<project>/`
 - **输出：** `projects/java/name_handled/<project>/` (新建目录，非原地修改)
 - **重命名策略：**
@@ -115,6 +206,8 @@ bash scripts/java/handle_name_conflicts.sh <project>
   - 通过继承访问的子类中的裸引用（解析 `extends`/`implements` 关系）
   - 被展平到同一 Cangjie 包的子包同名顶级类 (`sub/package/Foo` → `sub_package_Foo`)
   - 子包展平采用最小必要展平：父子包被合并到根包时，孙子包仍可保留为根包下的子包
+  - 继承 shadow 冲突：子类字段与祖先字段同名时改名为 `<name>_field`；方法/构造器参数与当前类或祖先字段同名时改名为 `<name>_param`
+  - shadow 改名会同步更新当前类作用域内的声明、裸引用和 `this.<field>` 引用，避免后续 schema 把变量、字段和类型名混在一起
 - **Python 脚本：** `src/java/preprocessing/handle_name_conflicts.py`
 
 ---
@@ -223,7 +316,7 @@ python src/java/utils/parse_dependencies.py --project_name=<project> --function=
 
 **用途：** 翻译时按此顺序处理类，确保被依赖的类先翻译。
 
-**前提条件：** 项目必须已完成编译（阶段一 1.3）
+**前提条件：** 项目必须已完成预处理、JAR 合并和调用图生成（阶段一 1.4-1.6）。
 
 ---
 
@@ -508,7 +601,7 @@ x2cangjie/
 │   ├── build_original_projects.sh    # 构建原始项目
 │   ├── add_plugin.sh            # 添加 JAR 插件
 │   ├── handle_keyword_conflicts.sh  # 处理 Cangjie 关键字冲突
-│   ├── handle_name_conflicts.sh    # 处理内部类命名冲突
+│   ├── handle_name_conflicts.sh    # 处理内部类/子包展平/shadow 命名冲突
 │   ├── merge_jar.sh             # 构建并合并 JAR
 │   ├── generate_cg.sh           # 生成调用图
 │   ├── reduce_third_party_libs.sh  # 缩减第三方依赖
@@ -539,7 +632,7 @@ x2cangjie/
 │   │   └── indexer.py           # 离线索引构建
 │   ├── preprocessing/           # 预处理脚本
 │   │   ├── handle_keyword_conflicts.py   # 关键字冲突处理
-│   │   ├── handle_name_conflicts.py      # 命名冲突处理（内部类重命名）
+│   │   ├── handle_name_conflicts.py      # 命名冲突处理（内部类、子包展平、继承 shadow）
 │   │   ├── _shared.py                     # 共享工具（tree-sitter 解析等）
 │   │   ├── reduce_third_party_libs.py
 │   │   └── decompose_dev_test.py

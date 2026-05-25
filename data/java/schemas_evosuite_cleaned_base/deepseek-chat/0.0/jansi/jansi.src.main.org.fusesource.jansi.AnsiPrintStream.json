@@ -1,0 +1,1318 @@
+{
+    "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/jansi/src/main/java/org/fusesource/jansi/AnsiPrintStream.java",
+    "imports": {
+        "18-18:import java.io.IOException;": {
+            "start": 18,
+            "end": 18,
+            "body": "import java.io.IOException;"
+        },
+        "19-19:import java.io.PrintStream;": {
+            "start": 19,
+            "end": 19,
+            "body": "import java.io.PrintStream;"
+        },
+        "20-20:import java.io.UnsupportedEncodingException;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.UnsupportedEncodingException;"
+        },
+        "22-22:import org.fusesource.jansi.io.AnsiOutputStream;": {
+            "start": 22,
+            "end": 22,
+            "body": "import org.fusesource.jansi.io.AnsiOutputStream;"
+        }
+    },
+    "classes": {
+        "28-101:AnsiPrintStream": {
+            "start": 28,
+            "end": 101,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "java.io.PrintStream"
+            ],
+            "methods": {
+                "30-32:AnsiPrintStream": {
+                    "start": 30,
+                    "end": 32,
+                    "body": [
+                        "public AnsiPrintStream(AnsiOutputStream out, boolean autoFlush, Object args) throws UnsupportedEncodingException {",
+                        "        super(out, autoFlush, determineEncoding(args));",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "AnsiPrintStream( AnsiOutputStream out,  boolean autoFlush,  Object args)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "AnsiOutputStream",
+                            "name": "out"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "boolean",
+                            "name": "autoFlush"
+                        },
+                        {
+                            "modifier": "",
+                            "type": "Object",
+                            "name": "args"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "34-42:determineEncoding"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "<init>(java.io.OutputStream,boolean,java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "|AnsiOutputStream|out": {
+                                "identifier": "|AnsiOutputStream|out",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 11:53:23",
+                                "source_type": "AnsiOutputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiOutputStream",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "|boolean|autoFlush": {
+                                "identifier": "|boolean|autoFlush",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 11:53:23",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "|Object|args": {
+                                "identifier": "|Object|args",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 11:53:23",
+                                "source_type": "Object",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Any",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public init(out: AnsiOutputStream, autoFlush: Bool, args: Any) {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: extra arguments given for parameter list '()' in call\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:14:22:\n   | \n14 |                 super(out, autoFlush, determineEncoding(args))\n   |                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ expected 0 arguments, found 3\n   | \nnote: found candidate\n  ==> (package std.core)object.cj:14:18:"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 6.839992523193359,
+                    "generation_timestamp": "2026-05-25T13:31:31.487405",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public init(out: AnsiOutputStream, autoFlush: Bool, args: Any) {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "34-42:determineEncoding": {
+                    "start": 34,
+                    "end": 42,
+                    "body": [
+                        "private static String determineEncoding(Object args) throws UnsupportedEncodingException {",
+                        "        if (args == null) {",
+                        "            return null; // Use default encoding",
+                        "        } else if (args instanceof String) {",
+                        "            return (String) args;",
+                        "        } else {",
+                        "            throw new IllegalArgumentException(\"Invalid argument type\");",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "String",
+                        "IllegalArgumentException"
+                    ],
+                    "signature": "determineEncoding( Object args)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "Object",
+                            "name": "args"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.IllegalArgumentException",
+                            "<init>(java.lang.String)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:23",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-25 11:53:23",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "IllegalArgumentException": {
+                                "identifier": "IllegalArgumentException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-25 12:37:38",
+                                "source_type": "IllegalArgumentException",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.core.*\n```\n\nCANGJIE TRANSLATION:\n```\nIllegalArgumentException\n```\n\nREASONING:\nIn Cangjie, the standard library includes `IllegalArgumentException` directly in the `std.core` package, which serves the same purpose as Java's `IllegalArgumentException`\u2014thrown when a method receives an illegal or inappropriate argument. No additional mapping or custom type is needed.",
+                                "imports": "import std.core.*",
+                                "translated_target_type": "IllegalArgumentException",
+                                "reasoning": "In Cangjie, the standard library includes `IllegalArgumentException` directly in the `std.core` package, which serves the same purpose as Java's `IllegalArgumentException`\u2014thrown when a method receives an illegal or inappropriate argument. No additional mapping or custom type is needed.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: runtime \u73af\u5883\u53d8\u91cf\u4f7f\u7528\u624b\u518c > runtime \u521d\u59cb\u5316\u53ef\u9009\u914d\u7f6e > \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b]\n[Context: runtime \u73af\u5883\u53d8\u91cf\u4f7f\u7528\u624b\u518c > runtime \u521d\u59cb\u5316\u53ef\u9009\u914d\u7f6e > \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b]\n\n- \u4ed3\u9889 GWP-Asan \u662f\u4e00\u79cd\u57fa\u4e8e\u91c7\u6837\u7684\u5185\u5b58\u68c0\u67e5\u5de5\u5177\uff0c\u5185\u5b58\u8d8a\u754c\u95ee\u9898\u53ef\u80fd\u65e0\u6cd5\u5b8c\u5168\u68c0\u51fa\u3002\n- \u4ed3\u9889 GWP-Asan \u5bf9\u4ed3\u9889\u5806\u5185\u5b58\u7684\u8d8a\u754c\u68c0\u6d4b\u8303\u56f4\u6709\u9650\uff0c\u65e0\u6cd5\u68c0\u6d4b\u5185\u5b58\u8bfb\u8d8a\u754c\u8bbf\u95ee\uff0c\u4ec5\u80fd\u68c0\u6d4b\u90e8\u5206\u5199\u8d8a\u754c\u8bbf\u95ee\uff1a\u5411\u524d\u5199\u8d8a\u754c 8 \u5b57\u8282\u4ee5\u5185\uff1b\u5411\u540e\u5199\u8d8a\u754c\u5230\u5c3e\u90e8\u7684\u586b\u5145\u533a\u57df\uff08\u6839\u636e\u6570\u7ec4\u5bf9\u8c61\u957f\u5ea6\u7684\u4e0d\u540c\uff0c\u586b\u5145\u533a\u57df\u53ef\u80fd\u4e3a 0-7 \u5b57\u8282\uff09\u3002\n\n### Reference [Source: Language Manual]\n[Context: runtime \u73af\u5883\u53d8\u91cf\u4f7f\u7528\u624b\u518c > runtime \u521d\u59cb\u5316\u53ef\u9009\u914d\u7f6e > \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b]\n[Context: runtime \u73af\u5883\u53d8\u91cf\u4f7f\u7528\u624b\u518c > runtime \u521d\u59cb\u5316\u53ef\u9009\u914d\u7f6e > \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b]\n\n\u5728\u4ed3\u9889\u4e0e C \u4ee3\u7801\u4e92\u64cd\u4f5c\u7684\u8fc7\u7a0b\u4e2d\uff0c\u53ef\u80fd\u51fa\u73b0\u4e00\u4e9b\u4ed3\u9889\u5806\u5185\u5b58\u5b89\u5168\u95ee\u9898\u3002\u4ed3\u9889 GWP-Asan \u63d0\u4f9b\u4e86\u4e00\u79cd\u5185\u5b58\u5b89\u5168\u68c0\u6d4b\u529f\u80fd\u3002\u5b83\u53ef\u4ee5\u5728\u4ed3\u9889\u7a0b\u5e8f\u8fd0\u884c\u8fc7\u7a0b\u4e2d\u68c0\u6d4b\u4ee3\u7801\u662f\u5426\u5b58\u5728\u4ed3\u9889\u5806\u5185\u5b58\u5b89\u5168\u95ee\u9898\u3002GWP-Asan \u901a\u8fc7\u5bf9\u4ed3\u9889\u8bed\u8a00\u6807\u51c6\u5e93\u63d0\u4f9b\u7684 acquireArrayRawData \u548c releaseArrayRawData \u63a5\u53e3\uff08\u53c2\u89c1\u300a\u4ed3\u9889\u7f16\u7a0b\u8bed\u8a00\u5e93 API \u6587\u6863\u300bstd.core \u5305\u4e00\u8282\uff09\u8fdb\u884c\u91c7\u6837\uff0c\u5e76\u8bb0\u5f55\u5bf9\u6bd4\u91c7\u6837\u5bf9\u8c61\u524d\u540e\u5185\u5b58\u7684 Canary \u6570\u636e\uff0c\u4ece\u800c\u68c0\u6d4b\u4ed3\u9889\u4e0e C \u8bed\u8a00\u4e92\u64cd\u4f5c\u8fc7\u7a0b\u4e2d\u662f\u5426\u51fa\u73b0\u4e86\u4ed3\u9889\u5806\u5185\u5b58\u5b89\u5168\u95ee\u9898\u3002\n\n\u4ed3\u9889 GWP-Asan \u662f\u4e00\u79cd\u57fa\u4e8e\u91c7\u6837\u7684\u68c0\u6d4b\u5de5\u5177\uff0c\u53ef\u4ee5\u901a\u8fc7\u8bbe\u7f6e\u4e0d\u540c\u7684\u503c\u6765\u8c03\u6574\u91c7\u6837\u9891\u7387\uff0c\u4ee5\u5e73\u8861\u6027\u80fd\u5f71\u54cd\u548c\u68c0\u6d4b\u8986\u76d6\u7387\u3002\u5728\u9ed8\u8ba4\u6216\u66f4\u4f4e\u91c7\u6837\u9891\u7387\u4e0b\uff0cCPU \u6027\u80fd\u635f\u5931\u548c\u989d\u5916\u7684\u5185\u5b58\u5360\u7528\u6781\u4f4e\u3002\n\n> **\u8bf4\u660e\uff1a**\n>\n> \u4ed3\u9889 GWP-Asan \u5185\u5b58\u5b89\u5168\u68c0\u6d4b\u4ec5\u652f\u6301 Linux \u548c OpenHarmony \u64cd\u4f5c\u7cfb\u7edf\u3002\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nIllegalArgumentException\n```\n\nJAVA TYPE DESCRIPTION:\nThrown to indicate that a method has been passed an illegal or\n inappropriate argument.\n\nJAVA CODE:\n```\n    private static String determineEncoding(Object args) throws UnsupportedEncodingException {\n        if (args == null) {\n            return null; // Use default encoding\n        } else if (args instanceof String) {\n            return (String) args;\n        } else {\n            throw new IllegalArgumentException(\"Invalid argument type\");\n        }\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions). Every non-empty import line must be valid Cangjie syntax starting with \"import \"; do NOT use Python-style \"from ... import ...\".\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "|Object|args": {
+                                "identifier": "|Object|args",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 11:53:23",
+                                "source_type": "Object",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Any",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    private static func determineEncoding(args: Any): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: undeclared identifier 'null'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:18:29:\n   | \n18 |                 if (args == null) {\n   |                             ^ \n   |\nerror: undeclared identifier 'null'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:19:16:\n   | \n19 |         return null\n   |                ^ \n   |\nerror: mismatched types\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:21:17:\n   | \n21 |         return (args as String)\n   |                 ^^^^^^^^^^^^^^ expected 'Struct-String', found 'Enum-Option<Struct-String>'\n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 8.111260890960693,
+                    "generation_timestamp": "2026-05-25T13:14:18.080160",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func determineEncoding(args: Any): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "44-46:getOut": {
+                    "start": 44,
+                    "end": 46,
+                    "body": [
+                        "protected AnsiOutputStream getOut() {",
+                        "        return (AnsiOutputStream) out;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [
+                        "AnsiOutputStream"
+                    ],
+                    "body_types": [
+                        "AnsiOutputStream"
+                    ],
+                    "signature": "getOut()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "AnsiOutputStream": {
+                                "identifier": "AnsiOutputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "AnsiOutputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiOutputStream",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "AnsiOutputStream": {
+                                "identifier": "AnsiOutputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "AnsiOutputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiOutputStream",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    protected open func getOut(): AnsiOutputStream {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: 'out' is not a member of class 'AnsiPrintStream'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:22:29:\n   | \n22 |                 return this.out as AnsiOutputStream\n   |                             ^^^ \n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 6.303396701812744,
+                    "generation_timestamp": "2026-05-25T13:14:24.401619",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    protected open func getOut(): AnsiOutputStream {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "48-50:getType": {
+                    "start": 48,
+                    "end": 50,
+                    "body": [
+                        "public AnsiType getType() {",
+                        "        return getOut().getType();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "AnsiType"
+                    ],
+                    "body_types": [],
+                    "signature": "getType()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "126-128:getType"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "AnsiType": {
+                                "identifier": "AnsiType",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "AnsiType",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiType",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "return getOut().getType()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 1.9447457790374756,
+                    "generation_timestamp": "2026-05-25T13:14:26.364766",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "return getOut().getType()",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "52-54:getColors": {
+                    "start": 52,
+                    "end": 54,
+                    "body": [
+                        "public AnsiColors getColors() {",
+                        "        return getOut().getColors();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "AnsiColors"
+                    ],
+                    "body_types": [],
+                    "signature": "getColors()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "130-132:getColors"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "AnsiColors": {
+                                "identifier": "AnsiColors",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "AnsiColors",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiColors",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "return getOut().getColors()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 2.731459140777588,
+                    "generation_timestamp": "2026-05-25T13:14:29.114481",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "return getOut().getColors()",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "56-58:getMode": {
+                    "start": 56,
+                    "end": 58,
+                    "body": [
+                        "public AnsiMode getMode() {",
+                        "        return getOut().getMode();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "AnsiMode"
+                    ],
+                    "body_types": [],
+                    "signature": "getMode()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "134-136:getMode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "AnsiMode": {
+                                "identifier": "AnsiMode",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "AnsiMode",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMode",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "return getOut().getMode()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 2.3369686603546143,
+                    "generation_timestamp": "2026-05-25T13:14:31.469730",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "return getOut().getMode()",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "60-62:setMode": {
+                    "start": 60,
+                    "end": 62,
+                    "body": [
+                        "public void setMode(AnsiMode ansiMode) {",
+                        "        getOut().setMode(ansiMode);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "setMode( AnsiMode ansiMode)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "AnsiMode",
+                            "name": "ansiMode"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "138-143:setMode"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|AnsiMode|ansiMode": {
+                                "identifier": "|AnsiMode|ansiMode",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "AnsiMode",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiMode",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "getOut().setMode(ansiMode)",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 2.2349448204040527,
+                    "generation_timestamp": "2026-05-25T13:31:33.741808",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "getOut().setMode(ansiMode)",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "64-66:isResetAtUninstall": {
+                    "start": 64,
+                    "end": 66,
+                    "body": [
+                        "public boolean isResetAtUninstall() {",
+                        "        return getOut().isResetAtUninstall();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isResetAtUninstall()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "145-147:isResetAtUninstall"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "return getOut().isResetAtUninstall()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 2.063565254211426,
+                    "generation_timestamp": "2026-05-25T13:14:33.554178",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "return getOut().isResetAtUninstall()",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "68-70:setResetAtUninstall": {
+                    "start": 68,
+                    "end": 70,
+                    "body": [
+                        "public void setResetAtUninstall(boolean resetAtClose) {",
+                        "        getOut().setResetAtUninstall(resetAtClose);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "setResetAtUninstall( boolean resetAtClose)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "boolean",
+                            "name": "resetAtClose"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "149-151:setResetAtUninstall"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|boolean|resetAtClose": {
+                                "identifier": "|boolean|resetAtClose",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "getOut().setResetAtUninstall(resetAtClose)",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 2.2038445472717285,
+                    "generation_timestamp": "2026-05-25T13:14:35.779303",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "getOut().setResetAtUninstall(resetAtClose)",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "76-78:getTerminalWidth": {
+                    "start": 76,
+                    "end": 78,
+                    "body": [
+                        "public int getTerminalWidth() {",
+                        "        return getOut().getTerminalWidth();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "int"
+                    ],
+                    "body_types": [],
+                    "signature": "getTerminalWidth()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "122-124:getTerminalWidth"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "return getOut().getTerminalWidth()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 1.9954144954681396,
+                    "generation_timestamp": "2026-05-25T13:31:35.756127",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "return getOut().getTerminalWidth()",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "80-82:install": {
+                    "start": 80,
+                    "end": 82,
+                    "body": [
+                        "public void install() throws IOException {",
+                        "        getOut().install();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "install()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "337-341:install"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "getOut().install()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 2.1479859352111816,
+                    "generation_timestamp": "2026-05-25T13:31:37.922060",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "getOut().install()",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "84-90:uninstall": {
+                    "start": 84,
+                    "end": 90,
+                    "body": [
+                        "public void uninstall() throws IOException {",
+                        "        // If the system output stream has been closed, out should be null, so avoid a NPE",
+                        "        AnsiOutputStream out = getOut();",
+                        "        if (out != null) {",
+                        "            out.uninstall();",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "AnsiOutputStream"
+                    ],
+                    "signature": "uninstall()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "44-46:getOut"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiOutputStream",
+                            "41-359:AnsiOutputStream",
+                            "343-352:uninstall"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "void",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Unit",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "AnsiOutputStream": {
+                                "identifier": "AnsiOutputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "AnsiOutputStream",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "AnsiOutputStream",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func uninstall(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: undeclared identifier 'null'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:59:20:\n   | \n59 |         if (out != null) {\n   |                    ^ \n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 6.600483655929565,
+                    "generation_timestamp": "2026-05-25T13:48:31.468506",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func uninstall(): Unit {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "92-100:toString": {
+                    "start": 92,
+                    "end": 100,
+                    "body": [
+                        "@Override",
+                        "    public String toString() {",
+                        "        return \"AnsiPrintStream{\"",
+                        "                + \"type=\" + getType()",
+                        "                + \", colors=\" + getColors()",
+                        "                + \", mode=\" + getMode()",
+                        "                + \", resetAtUninstall=\" + isResetAtUninstall()",
+                        "                + \"}\";",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [],
+                    "signature": "toString()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "48-50:getType"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.Object)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "52-54:getColors"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "56-58:getMode"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.AnsiPrintStream",
+                            "28-101:AnsiPrintStream",
+                            "64-66:isResetAtUninstall"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(boolean)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 11:53:25",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func toString(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: 'toString' is not a member of class 'AnsiType'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:63:29:\n   | \n63 |         \"type=\" + getType().toString() +\n   |                             ^^^^^^^^ \n   |\nerror: 'toString' is not a member of class 'AnsiColors'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:64:35:\n   | \n64 |         \", colors=\" + getColors().toString() +\n   |                                   ^^^^^^^^ \n   |\nerror: 'toString' is not a member of class 'AnsiMode'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj:65:31:\n   | \n65 |         \", mode=\" + getMode().toString() +\n   |                               ^^^^^^^^ \n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 8.26229739189148,
+                    "generation_timestamp": "2026-05-25T13:14:44.059276",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func toString(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                }
+            },
+            "fields": {},
+            "cangjie_class_declaration": "public open class AnsiPrintStream {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/AnsiPrintStream.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/AnsiPrintStream.cj",
+    "import_map": {
+        "IOException": "java.io.IOException",
+        "PrintStream": "java.io.PrintStream",
+        "UnsupportedEncodingException": "java.io.UnsupportedEncodingException",
+        "AnsiOutputStream": "org.fusesource.jansi.io.AnsiOutputStream"
+    }
+}

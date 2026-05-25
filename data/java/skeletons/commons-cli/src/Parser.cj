@@ -2,61 +2,63 @@
 package commons_cli
 
 // Imports Begin
+import std.collection.ArrayList
+import std.collection.HashMap
 // Imports End
 
-abstract class Parser <: CommandLineParser {
+public abstract class Parser <: CommandLineParser {
     // Fields Begin
-    var cmd: Any = throw Exception('TODO')
+    var cmd: CommandLine = throw Exception('TODO')
     var options: Options = throw Exception('TODO')
     var requiredOptions: ArrayList<Any> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    protected func checkRequiredOptions(): Unit {
+    protected open func checkRequiredOptions(): Unit {
         throw Exception('TODO')
     }
 
-    protected func flatten(opts: Options, arguments: Array<String>, stopAtNonOption: Bool): Array<String> {
+    protected open func flatten(opts: Options, arguments: Array<Any>, stopAtNonOption: Bool): Array<Any> {
         throw Exception('TODO')
     }
 
-    protected func getOptions(): Options {
+    protected open func getOptions(): Options {
         throw Exception('TODO')
     }
 
-    protected func getRequiredOptions(): ArrayList<Any> {
+    protected open func getRequiredOptions(): ArrayList<Any> {
         throw Exception('TODO')
     }
 
-    public open func parse(options: Options, arguments: Array<String>): Any {
+    public open func parse0(options_param: Options, arguments: Array<Any>): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse(options: Options, arguments: Array<String>, stopAtNonOption: Bool): Any {
+    public open func parse1(options_param: Options, arguments: Array<Any>, stopAtNonOption: Bool): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse(options: Options, arguments: Array<String>, properties: HashMap<String, String>): Any {
+    public open func parse2(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse(options: Options, arguments: Array<String>, properties: HashMap<String, String>, stopAtNonOption: Bool): Any {
+    public open func parse3(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>, stopAtNonOption: Bool): CommandLine {
         throw Exception('TODO')
     }
 
-    public func processArgs(opt: Option, iter: ListIterator<String>): Unit {
+    public open func processArgs(opt: Option, iter: Any): Unit {
         throw Exception('TODO')
     }
 
-    protected func processOption(arg: String, iter: ListIterator<String>): Unit {
+    protected open func processOption(arg: String, iter: Any): Unit {
         throw Exception('TODO')
     }
 
-    protected func processProperties(properties: HashMap<String, String>): Unit {
+    protected open func processProperties(properties: HashMap<String, String>): Unit {
         throw Exception('TODO')
     }
 
-    protected func setOptions(options: Options): Unit {
+    protected open func setOptions(options_param: Options): Unit {
         throw Exception('TODO')
     }
 

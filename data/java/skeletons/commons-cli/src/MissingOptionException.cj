@@ -2,31 +2,36 @@
 package commons_cli
 
 // Imports Begin
+import std.collection.ArrayList
 // Imports End
 
-open class MissingOptionException <: ParseException {
+public open class MissingOptionException <: ParseException {
     // Fields Begin
-    static let serialVersionUID: Int64 = throw Exception('TODO')
     var missingOptions: ArrayList<Any> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    private static func createMessage(missingOptions: ArrayList<Any>): String {
+    private static func createMessage(missingOptions_param: ArrayList<Nothing>): String {
         throw Exception('TODO')
     }
 
-    public init(missingOptions: ArrayList<Any>) {
+    public init(constructorId: Int64, missingOptions_param: ArrayList<Any>, message: String) {
+        super()
         throw Exception('TODO')
     }
 
-    public init(message: String) {
+    public static func MissingOptionException1(constructorId: Int64, missingOptions_param: ArrayList<Any>, message: String): MissingOptionException {
         throw Exception('TODO')
     }
 
-    public func getMissingOptions(): ArrayList<Any> {
+    public open func getMissingOptions(): ArrayList<Any> {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 

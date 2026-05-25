@@ -6,6 +6,7 @@ import tempfile
 from pathlib import Path
 
 from src.java.isolation_validation import runtime_support
+from src.java.utils.get_custom_types import get_custom_type_translation_map
 
 # Status constants for compilation validation
 ERROR = "error"
@@ -97,10 +98,14 @@ def get_original_skeleton_path(fragment: dict, args) -> str:
 _type_map = None
 
 
-def get_type_map():
+def get_type_map(schema_dir=None):
     """Load and return the type map for Java to Cangjie type conversion."""
     global _type_map
     if _type_map is not None:
+        if schema_dir:
+            schema_path = Path(schema_dir)
+            if schema_path.is_dir():
+                _type_map.update(get_custom_type_translation_map(str(schema_path)))
         return _type_map
 
     _type_map = {}
@@ -120,6 +125,11 @@ def get_type_map():
             for k, v in universal_map.items():
                 if v:
                     _type_map[k] = v
+
+    if schema_dir:
+        schema_path = Path(schema_dir)
+        if schema_path.is_dir():
+            _type_map.update(get_custom_type_translation_map(str(schema_path)))
 
     return _type_map
 
@@ -347,7 +357,14 @@ def find_static_initializer_in_skeleton(skeleton_content: str) -> tuple:
     return (None, None, None)
 
 
-def find_method_in_skeleton(skeleton_content: str, method_name: str, signature: str, is_test: bool, is_constructor: bool) -> tuple:
+def find_method_in_skeleton(
+    skeleton_content: str,
+    method_name: str,
+    signature: str,
+    is_test: bool,
+    is_constructor: bool,
+    schema_dir=None,
+) -> tuple:
     """Find method pattern in skeleton. Returns (sig, start, end) or (None, None, None)."""
     # main() is a top-level function without 'func' keyword in Cangjie
     if method_name == "main":
@@ -379,7 +396,7 @@ def find_method_in_skeleton(skeleton_content: str, method_name: str, signature: 
 
         # If signature has parameters, use re.finditer to find all matches and select correct overload
         java_param_types = extract_param_types_list(signature)
-        type_map = get_type_map()
+        type_map = get_type_map(schema_dir)
         expected_cangjie_types = [get_cangjie_type(t, type_map) for t in java_param_types]
 
         if expected_cangjie_types:
@@ -431,7 +448,7 @@ def find_method_in_skeleton(skeleton_content: str, method_name: str, signature: 
 
         # Extract expected Cangjie parameter types from Java signature
         java_param_types = extract_param_types_list(signature)
-        type_map = get_type_map()
+        type_map = get_type_map(schema_dir)
         expected_cangjie_types = [get_cangjie_type(t, type_map) for t in java_param_types]
 
         # Find all matches
@@ -480,7 +497,7 @@ def find_method_in_skeleton(skeleton_content: str, method_name: str, signature: 
     return (None, None, None)
 
 
-def find_fragment_in_skeleton(skeleton_content: str, fragment: dict) -> tuple:
+def find_fragment_in_skeleton(skeleton_content: str, fragment: dict, schema_dir=None) -> tuple:
     """
     Find the fragment location in skeleton content.
     Dispatch to type-specific handlers.
@@ -502,7 +519,14 @@ def find_fragment_in_skeleton(skeleton_content: str, fragment: dict) -> tuple:
         return find_static_initializer_in_skeleton(skeleton_content)
     elif fragment_type == "method":
         is_constructor = fragment.get("is_constructor", False)
-        return find_method_in_skeleton(skeleton_content, name, signature, is_test, is_constructor)
+        return find_method_in_skeleton(
+            skeleton_content,
+            name,
+            signature,
+            is_test,
+            is_constructor,
+            schema_dir,
+        )
 
     return (None, None, None)
 
@@ -725,12 +749,16 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
     with open(skeleton_file, 'r') as f:
         skeleton_content = f.read()
 
-    fragment_sig, start_pos, end_pos = find_fragment_in_skeleton(skeleton_content, fragment)
+    fragment_sig, start_pos, end_pos = find_fragment_in_skeleton(
+        skeleton_content,
+        fragment,
+        getattr(args, "translation_dir", None),
+    )
 
     if fragment_sig is None:
         return cangjie_compile(cangjie_code, fragment, args)
 
-    fragment_body = extract_method_body(cangjie_code, fragment)
+    fragment_body = extract_method_body(cangjie_code, fragment, getattr(args, "translation_dir", None))
 
     modified_skeleton = replace_fragment_in_skeleton(skeleton_content, fragment_sig, fragment_body, fragment_type)
 
@@ -786,7 +814,7 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
         return (ERROR, str(e), str(e))
 
 
-def extract_method_body(cangjie_code: str, fragment: dict) -> str:
+def extract_method_body(cangjie_code: str, fragment: dict, schema_dir=None) -> str:
     """
     Extract the method body from generated Cangjie code.
     """
@@ -806,7 +834,7 @@ def extract_method_body(cangjie_code: str, fragment: dict) -> str:
 
     # Convert Java types to Cangjie types for precise matching
     java_param_types = extract_param_types_list(signature)
-    type_map = get_type_map()
+    type_map = get_type_map(schema_dir)
     cangjie_param_types = [get_cangjie_type(t, type_map) for t in java_param_types]
 
     is_top_level_func = (method_name == "main")

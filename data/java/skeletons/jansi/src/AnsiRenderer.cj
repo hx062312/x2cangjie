@@ -3,7 +3,6 @@ package jansi
 
 // Imports Begin
 import std.core.*
-import std.io.*
 // Imports End
 
 public open class AnsiRenderer {
@@ -17,27 +16,27 @@ public open class AnsiRenderer {
     // Fields End
 
     // Methods Begin
-    public static func render(input: String): String {
+    public static func render0(input: String): String {
         throw Exception('TODO')
     }
 
-    public static func render(input: String, target: Any): Any {
+    public static func render1(input: String, target: Any): Any {
         throw Exception('TODO')
     }
 
-    public static func render_1(text: String): String {
+    public static func render2(text: String): String {
         throw Exception('TODO')
     }
 
-    public static func renderCodes(): String {
+    public static func renderCodes0(): String {
         throw Exception('TODO')
     }
 
-    public static func renderCodes(codes: String): String {
+    public static func renderCodes1(codes: String): String {
         throw Exception('TODO')
     }
 
-    private static func render(ansi: Ansi): Ansi {
+    private static func render3(ansi: Ansi): Ansi {
         throw Exception('TODO')
     }
 
@@ -106,15 +105,11 @@ public open class Code {
         throw Exception('TODO')
     }
 
-    init(n: Any) {
-        throw Exception('TODO')
-    }
-
     public open func isColor(): Bool {
         throw Exception('TODO')
     }
 
-    public open func getColor(): Ansi.Color {
+    public open func getColor(): Color {
         throw Exception('TODO')
     }
 

@@ -2,6 +2,34 @@ import os
 import json
 
 
+def _as_bool(value, default=False):
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() == "true"
+
+
+def _should_include_test_fragments(args):
+    return _as_bool(getattr(args, "translate_tests", False))
+
+
+def _is_test_schema(schema_name):
+    return (
+        ".src.test." in schema_name
+        or schema_name.endswith(".src.test")
+        or ".evosuite-tests." in schema_name
+    )
+
+
+def _field_name_from_key(field_key):
+    return field_key.split(":", 1)[1].strip() if ":" in field_key else field_key.strip()
+
+
+def _is_framework_ignored_field(field_key):
+    return _field_name_from_key(field_key).startswith("serialVersionUID")
+
+
 def order_fragments(project_traversal):
     """
     Order the fragments - keep traversal.json order, move test methods to end.
@@ -158,6 +186,7 @@ def get_reverse_traversal(args):
     """
     project_traversal = []
     schemas = os.listdir(args.translation_dir)
+    include_tests = _should_include_test_fragments(args)
 
     # Load class order from traversal.json if available
     traversal_order_path = f"data/java/dependencies{args.suffix}/{args.project}/traversal.json"
@@ -165,7 +194,10 @@ def get_reverse_traversal(args):
     try:
         with open(traversal_order_path, "r") as f:
             class_order = json.load(f)
-        class_order = [class_order[str(i)] for i in range(len(class_order))]
+        class_order = [
+            class_order[key]
+            for key in sorted(class_order, key=lambda k: int(k))
+        ]
     except FileNotFoundError:
         class_order = []
 
@@ -181,6 +213,9 @@ def get_reverse_traversal(args):
             continue
 
         schema_base_name = schema[:-5]
+
+        if _is_test_schema(schema_base_name) and not include_tests:
+            continue
 
         if args.translate_evosuite and "ESTest" not in schema:
             continue
@@ -204,6 +239,9 @@ def get_reverse_traversal(args):
 
             schema_base_name = schema[:-5]
 
+            if _is_test_schema(schema_base_name) and not include_tests:
+                continue
+
             if args.translate_evosuite and "ESTest" not in schema:
                 continue
 
@@ -221,6 +259,8 @@ def get_reverse_traversal(args):
                 field_order = get_field_order(data, class_)
 
                 for field_ in field_order:
+                    if _is_framework_ignored_field(field_):
+                        continue
                     project_traversal.append(
                         {
                             "schema_name": schema_base_name,
@@ -256,6 +296,8 @@ def get_reverse_traversal(args):
                     # Check if class name ends with _test (test class)
                     actual_class_name = class_.split(":")[-1]
                     is_test_method = actual_class_name.endswith("_test")
+                    if is_test_method and not include_tests:
+                        continue
 
                     if (
                         any([x not in processed_fragments for x in dependent_fragments])
@@ -308,6 +350,7 @@ def get_reverse_traversal(args):
     waiting_queue = {}
 
     classes_by_order = {}
+    unordered_classes = []
     for schema_base_name, data in all_schema_data.items():
         for class_ in data["classes"]:
             if "new" in class_ or "{" in class_:
@@ -318,11 +361,19 @@ def get_reverse_traversal(args):
                 if order_idx not in classes_by_order:
                     classes_by_order[order_idx] = []
                 classes_by_order[order_idx].append((schema_base_name, class_, data))
+            else:
+                unordered_classes.append((schema_base_name, class_, data))
 
-    for order_idx in sorted(classes_by_order.keys()):
-        for schema_base_name, class_, data in classes_by_order[order_idx]:
+    class_batches = [classes_by_order[order_idx] for order_idx in sorted(classes_by_order.keys())]
+    if unordered_classes:
+        class_batches.append(unordered_classes)
+
+    for class_batch in class_batches:
+        for schema_base_name, class_, data in class_batch:
             field_order = get_field_order(data, class_)
             for field_ in field_order:
+                if _is_framework_ignored_field(field_):
+                    continue
                 processed_fragments.append(f"{schema_base_name}|{class_}|{field_}")
                 project_traversal.append(
                     {
@@ -361,6 +412,8 @@ def get_reverse_traversal(args):
                 # Check if class name ends with _test (test class)
                 actual_class_name = class_.split(":")[-1]
                 is_test_method = actual_class_name.endswith("_test")
+                if is_test_method and not include_tests:
+                    continue
 
                 if any([x not in processed_fragments for x in dependent_fragments]):
                     waiting_queue[full_fragment_name] = [

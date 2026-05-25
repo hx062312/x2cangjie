@@ -2,18 +2,16 @@
 package commons_cli
 
 // Imports Begin
+
 // Imports End
 
-interface CommandLineParser {
-    // Fields Begin
-    // Fields End
-
+public interface CommandLineParser {
     // Methods Begin
-    open func parse(options: Options, arguments: Array<String>): Any {
+    func parse0(options: Options, arguments: Array<Any>): CommandLine {
         throw Exception('TODO')
     }
 
-    open func parse(options: Options, arguments: Array<String>, stopAtNonOption: Bool): Any {
+    func parse1(options: Options, arguments: Array<Any>, stopAtNonOption: Bool): CommandLine {
         throw Exception('TODO')
     }
 

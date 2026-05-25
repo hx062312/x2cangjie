@@ -152,18 +152,28 @@ def get_dir_files(dir_path):
 
 
 def get_language_parser(language):
-    if not os.path.exists('misc/parser/language.so'):
-        lib_dir = 'misc/sitter-libs'
-        libs = [os.path.join(lib_dir, d) for d in os.listdir(lib_dir)]
-
-        Language.build_library(
-            'misc/parser/language.so',
-            libs,
-        )
-
-    LANGUAGE = Language('misc/parser/language.so', language)
     parser = Parser()
-    parser.set_language(LANGUAGE)
+    try:
+        if language != 'java':
+            raise ImportError
+        import tree_sitter_java
+
+        LANGUAGE = Language(tree_sitter_java.language())
+    except Exception:
+        if not os.path.exists('misc/parser/language.so'):
+            lib_dir = 'misc/sitter-libs'
+            libs = [os.path.join(lib_dir, d) for d in os.listdir(lib_dir)]
+
+            Language.build_library(
+                'misc/parser/language.so',
+                libs,
+            )
+
+        LANGUAGE = Language('misc/parser/language.so', language)
+    if hasattr(parser, 'set_language'):
+        parser.set_language(LANGUAGE)
+    else:
+        parser.language = LANGUAGE
     return parser
 
 

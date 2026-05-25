@@ -2,12 +2,10 @@
 package jansi
 
 // Imports Begin
-import std.ast.*
 import std.core.*
 import std.fs.*
 import std.io.*
 import std.process.*
-import std.regex.*
 import std.regex.Regex
 // Imports End
 
@@ -20,23 +18,23 @@ public open class MingwSupport {
 
     // Methods Begin
     public init() {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getConsoleName(stdout: Bool): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getTerminalWidth(name: String): Int64 {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     private static func waitAndCapture(p: Process): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     private func getRedirect(fd: FileDescriptor): Any {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     // Methods End

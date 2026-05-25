@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirna
 from src.java.isolation_validation import runtime_support
 from src.java.utils.get_dependencies import get_dependencies
 from src.java.utils.get_class_order import get_class_order
-from src.java.utils.get_custom_types import get_custom_types
+from src.java.utils.get_custom_types import get_custom_type_translation_map, get_custom_types
 from src.java.utils.package_collapse import (
     compute_schema_effective_subpath_map as _compute_schema_effective_subpath_map,
     extract_type_names as _extract_type_names,
@@ -21,6 +21,44 @@ from src.java.utils.package_collapse import (
     get_effective_skeleton_sub_path as _get_effective_skeleton_sub_path,
     remove_collapsed_output_dirs as _remove_collapsed_output_dirs,
 )
+
+
+def _as_bool(value, default=False):
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() == "true"
+
+
+def _should_include_test_sources(args):
+    return _as_bool(getattr(args, "translate_tests", False))
+
+
+def _is_test_schema_name(schema_fname):
+    return (
+        ".src.test." in schema_fname
+        or schema_fname.endswith(".src.test.json")
+        or ".evosuite-tests." in schema_fname
+    )
+
+
+def _remove_generated_test_skeletons(*roots):
+    for root in roots:
+        src_dir = Path(root) / "src"
+        if not src_dir.is_dir():
+            continue
+        for test_file in src_dir.rglob("*_test.cj"):
+            test_file.unlink()
+
+
+def _field_name_from_key(field_key):
+    return field_key.split(':', 1)[1].strip() if ':' in field_key else field_key.strip()
+
+
+def _is_framework_ignored_field(field_key, field_info=None):
+    """Skip Java metadata fields that are not useful translation targets."""
+    return _field_name_from_key(field_key).startswith("serialVersionUID")
 
 
 # ============================================================
@@ -388,7 +426,7 @@ def generate_field_skeleton(field_info, field_key, type_map):
     Returns:
         tuple: (skeleton_string, partial_translation_list)
     """
-    field_name = field_key.split(':')[1].strip()
+    field_name = _field_name_from_key(field_key)
     modifiers = field_info.get('modifiers', [])
 
     types = field_info.get('types', [])
@@ -519,6 +557,10 @@ def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
     # Fields
     skeleton += "    // Fields Begin\n"
     for field_key in sorted(class_info.get('fields', {})):
+        if _is_framework_ignored_field(field_key, class_info['fields'][field_key]):
+            class_info['fields'][field_key]['skipped'] = True
+            class_info['fields'][field_key]['partial_translation'] = []
+            continue
         field_info = class_info['fields'][field_key]
         field_skeleton, field_partial = generate_field_skeleton(field_info, field_key, type_map)
         skeleton += field_skeleton
@@ -1069,6 +1111,8 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
 
 
 def main(args):
+    include_tests = _should_include_test_sources(args)
+
     # Load type mappings
     type_map = {}
 
@@ -1100,7 +1144,9 @@ def main(args):
     # Dependencies and custom types
     args.schemas_dir = schema_dir
     dependencies = get_dependencies(args)
-    custom_types = get_custom_types(schema_dir)
+    schema_filter = lambda schema_fname: include_tests or not _is_test_schema_name(schema_fname)
+    custom_types = get_custom_types(schema_dir, schema_filter=schema_filter)
+    type_map.update(get_custom_type_translation_map(schema_dir, schema_filter=schema_filter))
     additional_custom_types = ['Exception', 'Error', 'RuntimeException']
     custom_types = list(set(custom_types + additional_custom_types))
 
@@ -1109,6 +1155,8 @@ def main(args):
     os.makedirs(skeletons_dir, exist_ok=True)
     translations_skeleton_dir = f"data/java/skeletons/translations/{args.model}/{args.temperature}/{args.project}"
     os.makedirs(translations_skeleton_dir, exist_ok=True)
+    if not include_tests:
+        _remove_generated_test_skeletons(skeletons_dir, translations_skeleton_dir)
 
     # Cangjie package name
     cjpm_name = args.project.replace('-', '_')
@@ -1126,6 +1174,8 @@ def main(args):
         if not schema_fname.endswith('.json'):
             continue
         if f'{args.project}.src.main' not in schema_fname and f'{args.project}.src.test' not in schema_fname:
+            continue
+        if _is_test_schema_name(schema_fname) and not include_tests:
             continue
         schema_path = f"{schema_dir}/{schema_fname}"
         with open(schema_path, 'r') as f:
@@ -1223,6 +1273,12 @@ if __name__ == '__main__':
     parser.add_argument('--model', type=str, dest='model', help='name of the model')
     parser.add_argument('--suffix', type=str, dest='suffix', help='suffix (e.g., _decomposed_tests)')
     parser.add_argument('--temperature', type=float, dest='temperature', help='temperature')
+    parser.add_argument(
+        '--translate_tests',
+        type=str,
+        default='false',
+        help='Include src/test Java classes in skeleton generation (true/false)',
+    )
     args = parser.parse_args()
 
     main(args)

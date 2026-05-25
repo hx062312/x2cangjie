@@ -14,9 +14,11 @@ def dedupe_preserve_order(items, key=None):
     return result
 
 
-def get_custom_types(schema_dir):
+def get_custom_types(schema_dir, schema_filter=None):
     custom_types = []
     for schema_file in os.listdir(schema_dir):
+        if schema_filter is not None and not schema_filter(schema_file):
+            continue
         data = {}
         with open(f'{schema_dir}/{schema_file}', 'r') as f:
             data = json.load(f)
@@ -31,9 +33,9 @@ def get_custom_types(schema_dir):
     return dedupe_preserve_order(custom_types)
 
 
-def get_custom_type_translation_map(schema_dir):
+def get_custom_type_translation_map(schema_dir, schema_filter=None):
     """Map Java custom type spellings to Cangjie flattened class names."""
-    custom_types = get_custom_types(schema_dir)
+    custom_types = get_custom_types(schema_dir, schema_filter=schema_filter)
     simple_types = set(t for t in custom_types if '.' not in t)
     type_map = {}
     for type_name in custom_types:
