@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Handle Cangjie keyword conflicts in Java code using tree-sitter.
-When Java identifiers conflict with Cangjie keywords (type, init, in, is, func),
+When Java identifiers conflict with Cangjie keywords (type, init, in, is, func, match),
 append suffix to make them valid Cangjie identifiers.
 
 Non-method identifiers (fields, params, locals, field accesses) -> '__' suffix
@@ -33,11 +33,11 @@ SKIP_KEYWORDS = {
     'return', 'if', 'else', 'for', 'while', 'try', 'catch', 'finally',
     'throws', 'override', 'abstract', 'final', 'native', 'synchronized',
     'transient', 'volatile', 'public', 'private', 'protected', 'internal',
-    'static', 'var', 'let', 'where', 'match', 'main'
+    'static', 'var', 'let', 'where', 'main'
 }
 
 # The actual keywords that need renaming
-ACTIVE_KEYWORDS = CANGJIE_KEYWORDS - SKIP_KEYWORDS  # {'type', 'init', 'in', 'is', 'func'}
+ACTIVE_KEYWORDS = CANGJIE_KEYWORDS - SKIP_KEYWORDS  # {'type', 'init', 'in', 'is', 'func', 'match'}
 
 
 # ---------------------------------------------------------------------------

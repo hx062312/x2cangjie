@@ -758,20 +758,115 @@ def _handle_flattened_subpackage_conflicts(output_dir, parser):
     for fqcn, rename in renames_by_fqcn.items():
         simple_to_renamed.setdefault(rename['old_name'], set()).add(fqcn)
 
+# Build fqcn replacement map: old_fqcn -> new_fqcn
+    # After subpackage flattening, files stay in their original package directory
+    # because handle_name_conflicts only renames classes, not moves files or
+    # updates package declarations.  So the correct new FQCN uses the original
+    # (pre-flatten) package path plus the new class name.
+    #
+    # Example: org.apache.commons.validator.routines.EmailValidator
+    #   -> routines_EmailValidator (renamed class, still in routines package)
+    #   -> org.apache.commons.validator.routines.routines_EmailValidator (new FQCN)
+    #
+    # We use text-level regex replacement instead of AST byte-offset editing
+    # because the AST approach (_collect_reference_edits + _apply_byte_edits)
+    # produced corrupted output when multiple edits had overlapping byte ranges
+    # in files with many references to the same renamed class.
+    fqcn_replacements = {}
+    for old_fqcn, rename in renames_by_fqcn.items():
+        pkg = rename['package']
+        new_name = rename['new_name']
+        new_fqcn = f"{pkg}.{new_name}" if pkg else new_name
+        if old_fqcn != new_fqcn:
+            fqcn_replacements[old_fqcn] = new_fqcn
+
+    # Group renames by old simple name for bare-name replacement
+    # Maps old simple name -> list of (old_fqcn, new_fqcn, new_name)
+    simple_name_groups = {}
+    for old_fqcn, rename in renames_by_fqcn.items():
+        old_name = rename['old_name']
+        simple_name_groups.setdefault(old_name, []).append(
+            (old_fqcn, fqcn_replacements.get(old_fqcn, old_fqcn), rename['new_name'])
+        )
+
     modified_files = 0
     for java_file in list(_iter_java_files(output_dir)):
-        code = _read_bytes(java_file)
-        code_text = code.decode('utf-8')
-        file_info = {
-            'file_path': java_file,
-            'package': _extract_package_name(code_text),
-            'imports': _extract_imports(code_text),
-        }
-        tree = parser.parse(code)
-        edits = []
-        _collect_reference_edits(tree.root_node, code, file_info,
-                                 renames_by_fqcn, simple_to_renamed, edits)
-        if _apply_byte_edits(java_file, edits):
+        with open(java_file, 'r', encoding='utf-8') as f:
+            text = f.read()
+        original_text = text
+
+        # Extract imports BEFORE Pass 1, because Pass 1 rewrites FQCNs in imports
+        # which changes the import key from the old simple name (e.g. UrlValidator)
+        # to a new simple name (e.g. routines_UrlValidator), making it impossible
+        # to match bare references to the old simple name in Pass 2.
+        pre_pass1_imports = _extract_imports(text)
+        pre_pass1_package = _extract_package_name(text)
+
+        # Pass 1: Replace FQCN references (scoped identifiers / fully-qualified names)
+        # This handles import statements, FQCN method calls, javadoc {@link} tags, etc.
+        # Replace longest FQCNs first to avoid partial matches.
+        for old_fqcn, new_fqcn in sorted(
+                fqcn_replacements.items(),
+                key=lambda item: len(item[0]),
+                reverse=True):
+            text = text.replace(old_fqcn, new_fqcn)
+
+        # Pass 2: Replace simple name references based on imports and same-package
+        # For each old simple name, check if it's imported or in the same package,
+        # and if so, rename it.  This handles bare references like EmailValidator
+        # that refer to the renamed class.
+        #
+        # We use pre-Pass-1 imports because after Pass 1 rewrites FQCNs, the import
+        # keys change (e.g. UrlValidator -> routines_UrlValidator), making it
+        # impossible to detect that the old simple name should be renamed.
+        if simple_name_groups:
+            file_imports = pre_pass1_imports
+            file_package = pre_pass1_package
+
+            for old_name, entries in simple_name_groups.items():
+                if old_name not in text:
+                    continue
+
+                for old_fqcn, new_fqcn, new_name in entries:
+                    # Check if this file imports or same-package-resolves the old FQCN
+                    imported_fqcn = file_imports.get(old_name)
+                    same_package_fqcn = (
+                        f"{file_package}.{old_name}"
+                        if file_package else old_name
+                    )
+                    # Determine if this simple name should be renamed in this file
+                    should_rename = False
+
+                    # Case 1: The old FQCN is imported (the original import, before
+                    # Pass 1 rewrote it).  This means bare references to old_name
+                    # in this file refer to the renamed class, so they must be
+                    # updated to the new simple name.
+                    if imported_fqcn == old_fqcn:
+                        should_rename = True
+                    # Case 2: Same-package reference — the class is in the same
+                    # package so it doesn't need an import.
+                    elif imported_fqcn is None and same_package_fqcn == old_fqcn:
+                        should_rename = True
+
+                    if should_rename:
+                        # Use negative lookbehind to avoid replacing simple names
+                        # that are part of fully-qualified names (e.g.
+                        # "org.apache.commons.validator.DateValidator" should NOT
+                        # have its trailing "DateValidator" replaced when the
+                        # import resolves to routines.DateValidator — the FQCN
+                        # refers to a different class in the same package).
+                        # Pattern: word-boundary + old_name, but NOT preceded by
+                        # a word char + dot (which means it's the last component
+                        # of a qualified name).
+                        text = re.sub(
+                            rf'(?<!\w\.)\b{re.escape(old_name)}\b',
+                            new_name, text)
+                        # Only rename once per old_name per file
+                        break
+
+        if text != original_text:
+            with open(java_file, 'w', encoding='utf-8') as f:
+                f.write(text)
             modified_files += 1
 
     _rename_java_files(renames_by_fqcn)
@@ -792,8 +887,20 @@ def main(args):
         return
 
     if os.path.exists(output_dir):
-        shutil.rmtree(output_dir)
-    shutil.copytree(input_dir, output_dir)
+        shutil.rmtree(output_dir, ignore_errors=True)
+
+    def _ignore_git_and_benchmarks(directory, files):
+        """Ignore .git dirs and benchmarks directories during copy."""
+        ignored = set()
+        for f in files:
+            full = os.path.join(directory, f)
+            if f == '.git' and os.path.isdir(full):
+                ignored.add(f)
+            if f == 'benchmarks' and os.path.isdir(full):
+                ignored.add(f)
+        return ignored
+
+    shutil.copytree(input_dir, output_dir, ignore=_ignore_git_and_benchmarks)
 
     # Step 1: Collect all top-level class names (for conflict detection)
     # and extends relationships (for inner class bare-name replacement in subclasses).
@@ -896,7 +1003,7 @@ def main(args):
                 qualified_pattern = rf'({re.escape(outer)})\.{re.escape(old_name)}\b'
                 qualified_replacement = rf'\1.{new_name}'
                 dot_new_pattern = rf'\.new\s+{re.escape(old_name)}\b'
-                bare_pattern = rf'\b{re.escape(old_name)}\b'
+                bare_pattern = rf'(?<!\.)\b{re.escape(old_name)}\b'
 
                 for root2, dirs2, files2 in os.walk(output_dir):
                     if _skip_dir(root2):
@@ -905,7 +1012,7 @@ def main(args):
                         if not fname2.endswith('.java'):
                             continue
                         fp2 = os.path.join(root2, fname2)
-                        with open(fp2, 'r') as f:
+                        with open(fp2, 'r', encoding='utf-8') as f:
                             fc = f.read()
 
                         had_qualified = False
@@ -926,7 +1033,7 @@ def main(args):
                                 fc = re.sub(bare_pattern, new_name, fc)
 
                         if fp2 == file_path or had_qualified or subclasses_outer:
-                            with open(fp2, 'w') as f:
+                            with open(fp2, 'w', encoding='utf-8') as f:
                                 f.write(fc)
 
                 print(f"  {rel}: {outer}.{old_name} → {new_name}")
