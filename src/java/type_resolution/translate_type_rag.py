@@ -11,6 +11,7 @@ from src.java.model.model import Model
 from jinja2 import Template
 
 from src.java.rag import get_rag_engine
+from src.java.progressive_kb import get_progressive_kb
 from src.java.utils.get_custom_types import (
     dedupe_preserve_order,
     get_custom_type_translation_map,
@@ -116,6 +117,38 @@ class Parser:
         translation = self.extract_translation(generation)
         reasoning = self.extract_reasoning(generation)
         return imports, translation, reasoning
+
+
+# Cangjie types that are built-in and require no import statements.
+# When imports is None but the translated type is one of these,
+# we accept it as a legitimate "no imports needed" result.
+CANGJIE_BUILTIN_TYPES = {
+    'Int8', 'Int16', 'Int32', 'Int64', 'IntNative',
+    'UInt8', 'UInt16', 'UInt32', 'UInt64', 'UIntNative',
+    'Float16', 'Float32', 'Float64',
+    'Bool', 'Unit', 'Nothing',
+    'Byte',
+    'String', 'Rune',
+    'Any', 'Object', 'Comparable',
+    'Array', 'ArrayList', 'HashMap', 'HashSet', 'LinkedList', 'RSortSet',
+    'Option', 'Result', 'Optional',
+    'BigInteger', 'BigDecimal', 'Decimal',
+    'Iterator', 'Iterable', 'Collection', 'Sequence',
+    'Range', 'Int64Range',
+    'Throwable', 'Exception', 'Error',
+    'Ordering',
+}
+
+
+def _strip_generic_params(type_str):
+    """Strip generic type parameters from a type string for built-in matching.
+    e.g. 'HashMap<String, Int64>' -> 'HashMap', 'Option<T>' -> 'Option'
+    """
+    if '<' in type_str:
+        return type_str.split('<', 1)[0].strip()
+    if '[' in type_str:
+        return type_str.split('[', 1)[0].strip()
+    return type_str.strip()
 
 
 def get_source_type_description(source_type):
@@ -348,6 +381,17 @@ def main(args):
             UNIVERSAL_TYPE_MAP = json.load(f)
     log_detail(log_path, 'CONFIG', f'Loaded {len(UNIVERSAL_TYPE_MAP)} entries from universal_type_map_final.json as cache')
 
+    # Initialize Progressive Knowledge Base (if enabled)
+    kb = None
+    if getattr(args, 'use_progressive_kb', 'false') == 'true':
+        try:
+            kb = get_progressive_kb()
+            kb.ensure_dirs()
+            log_detail(log_path, 'CONFIG', f'Progressive KB enabled: {kb.pair_count} pairs, {kb.type_mapping_count} type mappings')
+        except Exception as e:
+            log_detail(log_path, 'CONFIG', f'Progressive KB init failed (will proceed without): {e}')
+            kb = None
+
     model_info = yaml.safe_load(open('configs/model_configs.yaml', 'r'))['models']
     args.schema_dir = f'data/java/schemas{args.suffix}/{args.model_name}/{args.temperature}/{args.project_name}'
     model = Model(model_info=model_info[args.model_name])
@@ -468,6 +512,42 @@ def main(args):
 
                                 continue
 
+                            # --- Progressive KB: check type mapping first (skip LLM if known) ---
+                            kb_context = ""
+                            if kb is not None:
+                                kb_mapping = kb.get_type_mapping(source_type)
+                                if kb_mapping and kb_mapping.verified:
+                                    # Direct cache hit — no LLM call needed
+                                    result.translated = True
+                                    result.translated_target_type = kb_mapping.cangjie_type
+                                    result.imports = '\n'.join(kb_mapping.imports) if kb_mapping.imports else None
+                                    result.translated_target_type = update_universal_type_map(source_type, result.translated_target_type)
+                                    append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
+                                    i += 1
+                                    interaction_history = []
+                                    feedback = ''
+                                    budget = args.budget
+                                    save_results(data, args.schema_dir, schema_file)
+                                    processed_types += 1
+                                    terminal_type_status(processed_types, total_types, source_type, result.translated_target_type, True, 'progressive_kb_cache')
+                                    log_detail(log_path, f'PASS progressive_kb_cache {source_type}', f'{source_type} -> {result.translated_target_type}')
+                                    continue
+
+                                # Retrieve few-shot examples for this type's context
+                                kb_type_examples = kb.retrieve(
+                                    java_code=fragment_body,
+                                    java_types=[source_type],
+                                    top_k=2,
+                                )
+                                if kb_type_examples:
+                                    kb_context = kb.format_few_shot_prompt(kb_type_examples, max_examples=2)
+                                    log_detail(log_path, f'KB FEW-SHOT {source_type}', f'Retrieved {len(kb_type_examples)} examples')
+
+                                # Also inject type mapping context for related types
+                                kb_type_ctx = kb.format_type_context([source_type])
+                                if kb_type_ctx:
+                                    kb_context = (kb_context + "\n\n" + kb_type_ctx).strip()
+
                             # Skip LLM translation if use_llm is false — only fixed_type_map and custom types are used
                             if args.use_llm == 'false':
                                 fallback_type = fallback_type_for(source_type)
@@ -513,8 +593,15 @@ def main(args):
                                 feedback
                             )
                             prompt = prompt_generator.generate_prompt()
+                            # Construct final prompt: KB examples + RAG docs + prompt
+                            # KB few-shot (real examples) goes before RAG docs (descriptions)
+                            context_parts = []
+                            if kb_context:
+                                context_parts.append(kb_context)
                             if rag_context:
-                                prompt = rag_context + "\n\n" + prompt
+                                context_parts.append(rag_context)
+                            if context_parts:
+                                prompt = "\n\n".join(context_parts) + "\n\n" + prompt
 
                             interaction = Interaction(role='user', content=prompt)
                             interaction_history.append(interaction)
@@ -566,6 +653,29 @@ def main(args):
                                 budget -= 1
                                 continue
 
+                            # --- IMPORTS fallback logic ---
+                            # If LLM omitted the CANGJIE IMPORTS block (imports is None):
+                            #   - For built-in types: accept as empty string (no imports needed)
+                            #   - For non-built-in types: add feedback asking to re-provide with imports
+                            if imports is None and translation is not None:
+                                base_type = _strip_generic_params(translation)
+                                if base_type in CANGJIE_BUILTIN_TYPES:
+                                    # Built-in type — no imports actually needed
+                                    imports = ''
+                                    log_detail(log_path, f'IMPORTS INFERENCE {source_type}',
+                                               f'LLM omitted IMPORTS block, but {translation} is a built-in type — treating as no imports needed')
+                                else:
+                                    # Non-built-in type — LLM must provide imports
+                                    feedback = (
+                                        f'Your translation "{translation}" may require import statements in Cangjie, '
+                                        f'but you omitted the CANGJIE IMPORTS section. '
+                                        f'Please provide your response again with the CANGJIE IMPORTS section filled in. '
+                                        f'Every non-empty import line must start with "import ".'
+                                    )
+                                    log_detail(log_path, f'IMPORTS MISSING {source_type}', feedback)
+                                    budget -= 1
+                                    continue
+
                             if isinstance(translation, str):
                                 if "#" in translation:
                                     translation = translation.split('#', 1)[0].strip()
@@ -592,6 +702,21 @@ def main(args):
                                 f'IMPORTS:\n{imports}\n\nTRANSLATION:\n{translation}\n\nREASONING:\n{reasoning}',
                             )
 
+                            # --- Progressive KB: store successful type mapping ---
+                            if kb is not None:
+                                try:
+                                    # Convert imports string to list, filtering out empty lines
+                                    imports_list = [line for line in imports.split('\n') if line.strip()] if imports else []
+                                    kb.add_type_mapping(
+                                        java_type=source_type,
+                                        cangjie_type=translation,
+                                        imports=imports_list,
+                                        source='llm',
+                                        verified=True,
+                                    )
+                                except Exception as e:
+                                    log_detail(log_path, f'KB WARNING {source_type}', f'Failed to store type mapping: {e}')
+
                             append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                             i += 1
                             interaction_history = []
@@ -616,6 +741,7 @@ if __name__ == '__main__':
     parser.add_argument('--budget', type=int, dest='budget', help='budget for each type translation')
     parser.add_argument('--use_llm', type=str, default='true', help='Enable LLM translation for unknown types (true/false). If false, only fixed_type_map and custom types are used.')
     parser.add_argument('--use_rag', type=str, default='false', help='Enable RAG context injection for type resolution (true/false). Only takes effect when use_llm is also true.')
+    parser.add_argument('--use_progressive_kb', type=str, default='false', help='Enable Progressive Knowledge Base for type resolution (true/false). Provides few-shot examples from verified translations before LLM calls.')
     parser.add_argument('--translate_tests', type=str, default='false', help='Include src/test Java schemas in type translation (true/false).')
     args = parser.parse_args()
     main(args)
