@@ -16,6 +16,7 @@ from src.java.translation.cangjie_compilation_validation import cangjie_compilat
 from src.java.translation.get_reverse_traversal import get_reverse_traversal
 from src.java.translation.prompt_generator import PromptGenerator
 from src.java.rag import get_rag_engine
+from src.java.progressive_kb import get_progressive_kb
 from src.java.utils.get_custom_types import get_custom_type_translation_map
 from src.java.isolation_validation.test_runner import (
     run_mock_tests_for_fragment,
@@ -41,6 +42,88 @@ def _as_bool(value, default=False):
     if isinstance(value, bool):
         return value
     return str(value).strip().lower() == "true"
+
+
+def _store_translation_pair_to_kb(fragment, generation, args):
+    """
+    Store a verified translation pair into the Progressive KB.
+    
+    Called after successful compilation (and optionally mock-test) to
+    progressively build up the knowledge base for future few-shot retrieval.
+    
+    Only stores when use_progressive_kb is enabled.
+    """
+    if not _as_bool(getattr(args, 'use_progressive_kb', 'false')):
+        return
+    try:
+        kb = get_progressive_kb()
+
+        # The fragment dict itself doesn't carry "body" — we need to read
+        # the Java source and type info from the schema JSON file.
+        java_code = ""
+        java_types = []
+        cangjie_types = []
+        try:
+            schema_path = Path(f"{args.translation_dir}/{fragment['schema_name']}.json")
+            with open(schema_path, "r") as f:
+                schema_data = json.load(f)
+            class_key = find_class_key(schema_data.get("classes", {}), fragment.get("class_name", ""))
+            if class_key:
+                frag_dict = schema_data["classes"][class_key].get(
+                    f"{fragment.get('fragment_type', 'method')}s", {}
+                ).get(fragment.get("fragment_name", ""), {})
+                # Java source code
+                body_lines = frag_dict.get("body", [])
+                if isinstance(body_lines, list):
+                    java_code = "\n".join(str(l) for l in body_lines)
+                elif body_lines:
+                    java_code = str(body_lines)
+
+                # Java types from direct type fields (types, return_types, body_types)
+                java_types_set = set()
+                for variation in ("types", "return_types", "body_types"):
+                    type_list = frag_dict.get(variation, [])
+                    if isinstance(type_list, list):
+                        for t in type_list:
+                            if isinstance(t, dict):
+                                src = t.get("type", "")
+                            elif isinstance(t, str):
+                                src = t
+                            else:
+                                continue
+                            if src:
+                                java_types_set.add(src)
+                java_types = list(java_types_set)
+
+                # Cangjie types from type_translations (already translated types)
+                cangjie_types_set = set()
+                type_translations = frag_dict.get("type_translations", {})
+                for variation in ("types", "return_types", "body_types", "parameters"):
+                    var_data = type_translations.get(variation, {})
+                    for tid, tdata in var_data.items():
+                        if isinstance(tdata, dict) and tdata.get("translated"):
+                            tgt = tdata.get("translated_target_type", "")
+                            if tgt:
+                                cangjie_types_set.add(tgt)
+                cangjie_types = list(cangjie_types_set)
+        except Exception as e:
+            log_detail(args, "KB SCHEMA READ", f"Could not read schema for KB: {e}")
+
+        cangjie_code = "\n".join(generation) if isinstance(generation, list) else str(generation)
+        signature = f"{fragment.get('class_name', '')}.{fragment.get('fragment_name', '')}"
+        
+        kb.add_example(
+            java_code=java_code,
+            cangjie_code=cangjie_code,
+            signature=signature,
+            scenario="auto",
+            java_types=java_types,
+            cangjie_types=cangjie_types,
+            compile_pass=True,
+            source_project=getattr(args, 'project', ''),
+        )
+    except Exception as e:
+        log_detail(args, "KB WARNING", f"Failed to store translation pair: {e}")
 
 
 def _remove_generated_test_skeletons(project: str, model: str, temperature) -> None:
@@ -398,12 +481,21 @@ def prompt_model(model_info, client, prompt, total_input_tokens, args, response_
         frequency_penalty=0.0,
         presence_penalty=0.0,
     )
-    if response_format:
+
+    # Only pass response_format for models known to support JSON mode reliably.
+    # deepseek-chat via OpenRouter returns empty responses when forced into
+    # json_object mode — it's better to rely on the system prompt instruction
+    # ("You output only valid JSON") and let the model respond freely.
+    models_supporting_json_mode = {"gpt-4o-2024-11-20", "gpt-4o", "gpt-4"}
+    if response_format and args.model in models_supporting_json_mode:
         kwargs["response_format"] = response_format
 
     completion = client.chat.completions.create(**kwargs)
 
     generation = completion.choices[0].message.content
+
+    if not generation:
+        generation = ""
 
     if args.model == "deepseek-coder-33b-instruct":
         if generation.strip().startswith("```"):
@@ -412,7 +504,7 @@ def prompt_model(model_info, client, prompt, total_input_tokens, args, response_
             pass
         else:
             generation = prompt + generation.strip()
-            generation = generation[generation.find("### Response:") :]
+            generation = generation[generation.find("### Response"):]
 
     return generation
 
@@ -428,8 +520,24 @@ def extract_json_translation(generation: str, fragment: dict, args) -> tuple:
       - "reasoning": (optional) model's reasoning
       - "imports": (optional) additional imports needed
     """
+    # Guard against empty/None generation before attempting JSON parse
+    if not generation or not generation.strip():
+        return False, None, "the model returned an empty response"
+
+    # Strip markdown code fences if present — models sometimes wrap JSON
+    # in ```json ... ``` when not in strict JSON mode.
+    stripped = generation.strip()
+    if stripped.startswith("```"):
+        # Remove opening ```json or ```
+        first_newline = stripped.find("\n")
+        if first_newline != -1:
+            stripped = stripped[first_newline + 1:]
+        # Remove closing ```
+        if stripped.endswith("```"):
+            stripped = stripped[:-3].rstrip()
+
     try:
-        response = json.loads(generation)
+        response = json.loads(stripped)
     except json.JSONDecodeError as e:
         return False, None, f"the model did not output valid JSON: {e}"
 
@@ -798,6 +906,7 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            _store_translation_pair_to_kb(fragment, generation, args)
             terminal_attempt("test", shared_attempt, shared_budget_total, True, "skipped")
             terminal_result(True, "llm")
             if fragment["is_test_method"]:
@@ -823,6 +932,7 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            _store_translation_pair_to_kb(fragment, generation, args)
             terminal_result(True, "llm")
             break
 
@@ -848,6 +958,7 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            _store_translation_pair_to_kb(fragment, generation, args)
             terminal_result(True, "llm")
             break
 
@@ -1034,6 +1145,12 @@ if __name__ == "__main__":
         type=str,
         default="false",
         help="Enable RAG context on compilation errors (true/false)",
+    )
+    parser_.add_argument(
+        "--use_progressive_kb",
+        type=str,
+        default="false",
+        help="Enable Progressive Knowledge Base for few-shot examples from verified translations (true/false)",
     )
     parser_.add_argument(
         "--skip_mock",
