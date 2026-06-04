@@ -144,7 +144,9 @@ class Method:
 
 def get_dir_files(dir_path):
     java_files = []
+    skip_dirs = {'evosuite-tests', 'evosuite-report'}
     for root, dirs, files in os.walk(dir_path):
+        dirs[:] = [d for d in dirs if d not in skip_dirs]
         for file in files:
             if file.endswith('.java'):
                 java_files.append(os.path.join(root, file))
