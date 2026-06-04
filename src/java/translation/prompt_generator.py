@@ -2,6 +2,7 @@ import json
 import os
 
 from src.java.rag import get_rag_engine
+from src.java.progressive_kb import get_progressive_kb
 
 
 def find_class_key(classes_dict, class_name):
@@ -64,6 +65,7 @@ class PromptGenerator:
         self.prompt_status = "success"
         self.use_icl_pool = use_icl_pool
         self.rag_context: str = ""
+        self.kb_context: str = ""
         self.fragment_details = fragment_details
         self.signature = None
 
@@ -71,6 +73,7 @@ class PromptGenerator:
             "deepseek-coder-33b-instruct-persona": "You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.",
             "deepseek-chat-persona": "",
             "gpt-4o-2024-11-20-persona": "",
+            "glm-5.1-persona": "",
             "llama-3-3-70b-instruct-persona": "",
             "Qwen2.5-Coder-32B-Instruct-persona": "You are Qwen, created by Alibaba Cloud. You are a helpful assistant.",
             "cangjie-persona": """You are a Java to Cangjie code translation expert.
@@ -128,6 +131,24 @@ Notes:
             except Exception as e:
                 print(f"[RAG] Warning: Fragment RAG injection failed: {e}")
 
+        # Progressive KB context injection (real translation examples > docs)
+        if getattr(self.args, 'use_progressive_kb', 'false') == 'true':
+            try:
+                kb = get_progressive_kb()
+                # Retrieve analogous translation pairs for few-shot context
+                involved_types = getattr(self, '_involved_types', [])
+                examples = kb.retrieve(
+                    java_code=self.source_fragment_body,
+                    java_types=involved_types,
+                    top_k=3,
+                )
+                if examples:
+                    kb_few_shot = kb.format_few_shot_prompt(examples, max_examples=3)
+                    if kb_few_shot:
+                        self.kb_context = kb_few_shot
+            except Exception as e:
+                print(f"[Progressive KB] Warning: KB injection failed: {e}")
+
         self.build_base_prompt()
 
     def build_base_prompt(self):
@@ -145,6 +166,11 @@ Notes:
         # then partial Cangjie translation (skeleton with dependencies)
         self.add_partial_translation()
         self.double_line_break()
+
+        # Progressive KB few-shot examples (real translation pairs) — before docs
+        if self.kb_context:
+            self.prompt += self.kb_context
+            self.double_line_break()
 
         # RAG documentation after the task context, not before
         if self.rag_context:
@@ -504,9 +530,12 @@ Notes:
             if len(super_class_declaration) > 0:
                 self.partial_translation += "\n".join(super_class_declaration) + "\n\n"
 
-        main_class_decl = self.class_dict[
-            "cangjie_class_declaration"
-        ]
+        # cangjie_class_declaration may be missing if create_skeleton crashed mid-run;
+        # fall back to a minimal declaration so the pipeline doesn't hard-crash.
+        main_class_decl = self.class_dict.get(
+            "cangjie_class_declaration",
+            f"class {self.class_actual_name} {{\n",
+        )
         # Don't close the class here - we'll close it after adding all members
         main_class_partial_translation = main_class_decl
 
