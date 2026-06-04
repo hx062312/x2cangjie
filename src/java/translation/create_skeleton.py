@@ -16,6 +16,7 @@ from src.java.utils.get_class_order import get_class_order
 from src.java.utils.get_custom_types import get_custom_type_translation_map, get_custom_types
 from src.java.utils.package_collapse import (
     compute_schema_effective_subpath_map as _compute_schema_effective_subpath_map,
+    compute_skeleton_sub_path as _compute_skeleton_sub_path,
     extract_type_names as _extract_type_names,
     get_cangjie_package as _get_cangjie_package,
     get_effective_skeleton_sub_path as _get_effective_skeleton_sub_path,
@@ -356,12 +357,16 @@ def get_class_modifiers(java_modifiers, is_abstract, was_nested=False):
     Returns e.g. 'public abstract ', 'public open ', 'public ', ''.
 
     If the class was a Java nested/inner class extracted to top-level,
-    strip 'private' since Cangjie's file-level 'private' is stricter
-    than Java's 'private to enclosing class'.
+    promote to 'public' since Cangjie requires types used in public
+    API signatures to be public (Cangjie's default 'open class' is
+    internal, which conflicts with public method signatures).
     """
     access_mod = get_access_modifier(java_modifiers)
-    if was_nested and access_mod == 'private ':
-        access_mod = ''
+    if was_nested:
+        # Nested classes flattened to top-level must be public in Cangjie,
+        # because they are typically referenced in public/protected method
+        # signatures of their enclosing class.
+        access_mod = 'public '
     if is_abstract:
         return f"{access_mod}abstract "
     if class_needs_open(java_modifiers, is_abstract):
@@ -599,6 +604,9 @@ def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
             field_names.add(fn)
 
     used_sigs = set()
+    # Track per-method-name static flags to detect mixed static/non-static conflicts
+    # (Cangjie does not allow overloading by static vs non-static for the same method name)
+    method_static_flags = {}  # method_name -> set of {True, False} for static modifier seen
     has_main_from_class = False
 
     for method_key in class_info.get('methods', {}):
@@ -626,12 +634,36 @@ def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
 
         # Signature conflict detection
         is_constructor = method_info.get('is_constructor', False)
+        modifiers = method_info.get('modifiers', [])
+        is_static_method = 'static' in modifiers
         cangjie_method_name = 'init' if is_constructor else custom_method_name
         cangjie_param_types = tuple(
             get_cangjie_type(p.get('type', 'Any'), type_map)
             for p in method_info.get('parameters', [])
         )
         sig_key = (cangjie_method_name, cangjie_param_types)
+
+        # Track static/non-static per method name for conflict detection
+        if cangjie_method_name not in method_static_flags:
+            method_static_flags[cangjie_method_name] = set()
+        method_static_flags[cangjie_method_name].add(is_static_method)
+
+        # Detect mixed static/non-static for same method name
+        # Cangjie cannot overload methods with same name but different static modifiers
+        if len(method_static_flags[cangjie_method_name]) > 1 and not is_constructor:
+            # Force rename: append "_static" or "_instance" suffix
+            suffix = "_static" if is_static_method else "_instance"
+            new_name = f"{custom_method_name}{suffix}"
+            # Avoid collision with existing names
+            counter = 1
+            while (new_name, cangjie_param_types) in used_sigs:
+                new_name = f"{custom_method_name}{suffix}{counter}"
+                counter += 1
+            custom_method_name = new_name
+            method_info['renamed_from'] = method_name
+            # Also reset sig_key since name changed
+            cangjie_method_name = custom_method_name
+            sig_key = (cangjie_method_name, cangjie_param_types)
 
         if sig_key in used_sigs:
             if is_constructor:
@@ -645,11 +677,45 @@ def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
                 while (f"{custom_method_name}_{suffix}", cangjie_param_types) in used_sigs:
                     suffix += 1
                 custom_method_name = f"{custom_method_name}_{suffix}"
+                method_info['renamed_from'] = method_name
+                cangjie_method_name = custom_method_name
+                sig_key = (cangjie_method_name, cangjie_param_types)
         used_sigs.add(sig_key)
+
+        # If method was renamed due to overload conflict, check if override is still valid.
+        # A renamed method (e.g., format -> format_1) can only keep 'override' if the
+        # parent class has a method with the RENAMED name and matching parameter types.
+        is_override = method_info.get('is_override', False)
+        if is_override and method_info.get('renamed_from'):
+            # Method was renamed — verify parent actually has the renamed method
+            parent_has_renamed_override = False
+            original_name = method_info['renamed_from']
+            if extends:
+                for parent_class_short in extends:
+                    parent_schema = all_schema_classes.get(parent_class_short)
+                    if parent_schema and 'methods' in parent_schema:
+                        for pm_key, pm_info in parent_schema['methods'].items():
+                            pm_name = pm_key.split(':')[1].strip()
+                            if '(' in pm_name:
+                                pm_name = pm_name.split('(')[0].strip()
+                            # Parent must have a method with the same RENAMED name
+                            if pm_name == custom_method_name:
+                                # Check parameter type compatibility
+                                parent_param_types = tuple(
+                                    get_cangjie_type(p.get('type', 'Any'), type_map)
+                                    for p in pm_info.get('parameters', [])
+                                )
+                                if parent_param_types == cangjie_param_types:
+                                    parent_has_renamed_override = True
+                                    break
+                    if parent_has_renamed_override:
+                        break
+            if not parent_has_renamed_override:
+                is_override = False
 
         method_skeleton, method_partial = generate_method_skeleton(
             method_info, method_key, type_map,
-            is_override=method_info.get('is_override', False),
+            is_override=is_override,
             needs_super_call=needs_super_call,
             custom_method_name=custom_method_name,
             needs_open=method_info.get('needs_open', False),
@@ -967,7 +1033,14 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_im
                     for tid, tdata in frag_data.get('type_translations', {}).get(tv, {}).items():
                         imports_val = tdata.get('imports', '')
                         if imports_val and imports_val not in ('None', ''):
-                            for imp in imports_val.split('\n'):
+                            # imports_val can be either a newline-joined string or a list
+                            # (list format was temporarily produced by Progressive KB cache;
+                            #  defensive: handle both formats)
+                            if isinstance(imports_val, list):
+                                imports_lines = imports_val
+                            else:
+                                imports_lines = imports_val.split('\n')
+                            for imp in imports_lines:
                                 imp = imp.strip()
                                 if imp:
                                     cangjie_imports.add(imp)
@@ -1133,14 +1206,7 @@ def main(args):
 
     # Phase 1: Build Global Context
 
-    # Load fixed_type_map.json
-    fixed_map_path = "data/java/type_resolution/fixed_type_map.json"
-    if os.path.exists(fixed_map_path):
-        with open(fixed_map_path, 'r') as f:
-            fixed_map = json.load(f)
-            type_map.update(fixed_map)
-
-    # Load universal_type_map_final.json (user-defined translations)
+    # Load universal_type_map_final.json (user-defined / LLM translations) first
     universal_map_path = "data/java/type_resolution/universal_type_map_final.json"
     if os.path.exists(universal_map_path):
         with open(universal_map_path, 'r') as f:
@@ -1148,6 +1214,14 @@ def main(args):
             for k, v in universal_map.items():
                 if v:
                     type_map[k] = v
+
+    # Load fixed_type_map.json AFTER universal so it takes priority
+    # (corrects bad LLM translations like IOException -> Exception)
+    fixed_map_path = "data/java/type_resolution/fixed_type_map.json"
+    if os.path.exists(fixed_map_path):
+        with open(fixed_map_path, 'r') as f:
+            fixed_map = json.load(f)
+            type_map.update(fixed_map)
 
     # Schema directory
     schema_dir = f"data/java/schemas{args.suffix}/{args.model}/{args.temperature}/{args.project}"
@@ -1162,7 +1236,7 @@ def main(args):
     schema_filter = lambda schema_fname: include_tests or not _is_test_schema_name(schema_fname)
     custom_types = get_custom_types(schema_dir, schema_filter=schema_filter)
     type_map.update(get_custom_type_translation_map(schema_dir, schema_filter=schema_filter))
-    additional_custom_types = ['Exception', 'Error', 'RuntimeException']
+    additional_custom_types = ['Exception', 'Error', 'RuntimeException', 'IOException']
     custom_types = list(set(custom_types + additional_custom_types))
 
     # Output directories
