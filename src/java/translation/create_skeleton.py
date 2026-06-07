@@ -22,6 +22,7 @@ from src.java.utils.package_collapse import (
     get_effective_skeleton_sub_path as _get_effective_skeleton_sub_path,
     remove_collapsed_output_dirs as _remove_collapsed_output_dirs,
 )
+from src.java.generics_rule_lib import get_generics_rule_lib
 
 
 def _as_bool(value, default=False):
@@ -145,9 +146,28 @@ def annotate_method_flags(schema, class_to_methods=None, all_schema_classes=None
 
 # Hash containers whose key/element type must satisfy Hashable & Equatable.
 # Cangjie's Any does not satisfy these constraints, so use AnyHashable there.
+# Loaded from generics_rule_lib/container_type_map.json via GenericsRuleLib.
+# Fallback hardcoded values used when the rule library is unavailable.
+
 _HASH_KEY_CONTAINERS = frozenset({'HashMap', 'LinkedHashMap', 'TreeMap', 'ConcurrentHashMap'})
 _HASH_ELEMENT_CONTAINERS = frozenset({'HashSet', 'LinkedHashSet', 'TreeSet'})
 _ERASED_GENERIC_TYPES = frozenset({'Any', 'Nothing'})
+
+# Lazy-loaded rule library instance (thread-safe singleton)
+_rule_lib = None
+
+
+def _get_rule_lib():
+    """Return the generics rule lib singleton, or None if unavailable."""
+    global _rule_lib
+    if _rule_lib is not None:
+        return _rule_lib if _rule_lib is not False else None
+    try:
+        _rule_lib = get_generics_rule_lib()
+        return _rule_lib
+    except Exception:
+        _rule_lib = False  # sentinel: tried and failed
+        return None
 
 
 def get_cangjie_type(java_type, type_map):
@@ -155,7 +175,12 @@ def get_cangjie_type(java_type, type_map):
     Convert Java type to Cangjie type using type_map.
     Handles generic types like List<String> -> ArrayList<String>.
 
-    Replaces Any with AnyHashable in hash-container key/element positions.
+    Uses generics_rule_lib for container-aware mapping when available,
+    falling back to hardcoded _HASH_KEY_CONTAINERS/_HASH_ELEMENT_CONTAINERS
+    for Any->AnyHashable replacement.
+
+    Priority: type_map exact match → generics_rule_lib container map →
+    decompose generics with recursive resolution → array handling → Any.
     """
     if not java_type:
         return "Any"
@@ -166,6 +191,14 @@ def get_cangjie_type(java_type, type_map):
     # are intentionally mapped as a whole, e.g. Callable<Boolean> -> () -> Bool.
     if java_type in type_map:
         return type_map[java_type]
+
+    # --- Generics Rule Library integration: container-aware type translation ---
+    if '<' in java_type and java_type.endswith('>'):
+        rule_lib = _get_rule_lib()
+        if rule_lib is not None:
+            translated = rule_lib.translate_container_type(java_type, type_map)
+            if translated is not None:
+                return translated
 
     # Handle generics like ArrayList<String>
     if '<' in java_type and java_type.endswith('>'):
@@ -204,12 +237,23 @@ def get_cangjie_type(java_type, type_map):
             # Unknown base type, use as-is with Cangjie-style generics
             base_cangjie = base_type
 
-        if base_cangjie in _HASH_KEY_CONTAINERS and resolved_parts:
-            if resolved_parts[0] == 'Any':
-                resolved_parts[0] = 'AnyHashable'
-        elif base_cangjie in _HASH_ELEMENT_CONTAINERS and resolved_parts:
-            if resolved_parts[0] == 'Any':
-                resolved_parts[0] = 'AnyHashable'
+        # Use rule lib for hash container detection if available, else fallback
+        rule_lib = _get_rule_lib()
+        if rule_lib is not None:
+            if rule_lib.is_hash_key_container(base_cangjie) and resolved_parts:
+                if resolved_parts[0] == 'Any':
+                    resolved_parts[0] = rule_lib.any_replacement_for(base_cangjie, "key")
+            elif rule_lib.is_hash_element_container(base_cangjie) and resolved_parts:
+                if resolved_parts[0] == 'Any':
+                    resolved_parts[0] = rule_lib.any_replacement_for(base_cangjie, "element")
+        else:
+            # Fallback to hardcoded sets
+            if base_cangjie in _HASH_KEY_CONTAINERS and resolved_parts:
+                if resolved_parts[0] == 'Any':
+                    resolved_parts[0] = 'AnyHashable'
+            elif base_cangjie in _HASH_ELEMENT_CONTAINERS and resolved_parts:
+                if resolved_parts[0] == 'Any':
+                    resolved_parts[0] = 'AnyHashable'
 
         generic_cangjie = ', '.join(resolved_parts)
         return f"{base_cangjie}<{generic_cangjie}>"
