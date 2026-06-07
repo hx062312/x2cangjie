@@ -3,6 +3,7 @@ import os
 
 from src.java.rag import get_rag_engine
 from src.java.progressive_kb import get_progressive_kb
+from src.java.generics_rule_lib import get_generics_rule_lib
 
 
 def find_class_key(classes_dict, class_name):
@@ -66,6 +67,7 @@ class PromptGenerator:
         self.use_icl_pool = use_icl_pool
         self.rag_context: str = ""
         self.kb_context: str = ""
+        self.generics_context: str = ""
         self.fragment_details = fragment_details
         self.signature = None
 
@@ -149,6 +151,16 @@ Notes:
             except Exception as e:
                 print(f"[Progressive KB] Warning: KB injection failed: {e}")
 
+        # Generics Rule Library: inject matching rules for generics patterns
+        if '<' in (self.source_fragment_body or ''):
+            try:
+                generics_lib = get_generics_rule_lib()
+                generics_rules = generics_lib.match_rules(self.source_fragment_body, top_k=3)
+                if generics_rules:
+                    self.generics_context = generics_lib.format_rule_prompt(generics_rules, max_rules=3)
+            except Exception as e:
+                print(f"[Generics Rule Lib] Warning: rule injection failed: {e}")
+
         self.build_base_prompt()
 
     def build_base_prompt(self):
@@ -166,6 +178,11 @@ Notes:
         # then partial Cangjie translation (skeleton with dependencies)
         self.add_partial_translation()
         self.double_line_break()
+
+        # Generics Rule Library patterns (structural mapping rules) — before KB examples
+        if self.generics_context:
+            self.prompt += self.generics_context
+            self.double_line_break()
 
         # Progressive KB few-shot examples (real translation pairs) — before docs
         if self.kb_context:
