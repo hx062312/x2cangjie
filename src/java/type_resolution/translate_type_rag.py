@@ -12,6 +12,7 @@ from jinja2 import Template
 
 from src.java.rag import get_rag_engine
 from src.java.progressive_kb import get_progressive_kb
+from src.java.generics_rule_lib import get_generics_rule_lib
 from src.java.utils.get_custom_types import (
     dedupe_preserve_order,
     get_custom_type_translation_map,
@@ -236,9 +237,94 @@ def terminal_type_status(index, total, source_type, target_type, passed, reason)
     print(f'[type {index:0{width}d}/{total:0{width}d}] {icon} {source_type} -> {target} | {reason}', flush=True)
 
 
+def _is_type_parameter(source_type):
+    """Check if source_type is a Java type parameter declaration (single uppercase letter like T, E, K, V).
+
+    Type parameters should be preserved as-is, not mapped to Any.
+    Common Java type parameter names: T, E, K, V, U, R, S, N, A, B, C, M, X, Y, Z.
+    """
+    if not source_type:
+        return False
+    # Strip whitespace
+    stripped = source_type.strip()
+    # Pure single uppercase letter (T, E, K, V)
+    if len(stripped) == 1 and stripped.isalpha() and stripped.isupper():
+        return True
+    # Common multi-letter type parameter patterns (T1, T2, E1, TKey, VVal) -
+    # these start with uppercase and are likely type parameters, not class names.
+    # Only match short all-uppercase identifiers that look like type parameters.
+    # Most classes have mixed case (ArrayList, HashMap) while type params are all-uppercase or short.
+    if stripped.isupper() and len(stripped) <= 3:
+        return True
+    # Angle-bracket type parameter patterns like <K, V> or <T> should not appear here,
+    # but if they do, they're definitely type parameters
+    if stripped.startswith('<') or stripped.endswith('>'):
+        return True
+    return False
+
+
 def fallback_type_for(source_type):
-    if source_type and source_type.endswith('[]'):
+    """Determine a fallback Cangjie type for a Java type when no other mapping is available.
+
+    Priority order:
+    1. Type parameters (T, E, K, V) → preserve as-is (not Any!)
+    2. Array types (T[]) → Array<Any>
+    3. Rule lib nested class lookup (Map.Entry → MapEntry)
+    4. Rule lib primitive_map lookup (ThreadFactory, Instant, etc.)
+    5. Rule lib functional interface lookup (Function<T,R> → (T) -> R)
+    6. Container bare-name lookup (List, Map, etc.)
+    7. Container with generics (List<Something>) → resolve via rule lib
+    8. Default → Any
+    """
+    if not source_type:
+        return 'Any'
+
+    # 1. Type parameters should be preserved, never mapped to Any
+    if _is_type_parameter(source_type):
+        return source_type.strip()
+
+    # 2. Array types
+    if source_type.endswith('[]'):
         return 'Array<Any>'
+
+    stripped = source_type.strip()
+    # Strip package qualifier for lookup
+    short_name = stripped.split('.')[-1] if '.' in stripped else stripped
+
+    # 3-7. Check rule lib for static type mappings (no LLM needed)
+    try:
+        rule_lib = get_generics_rule_lib()
+
+        # 3. Nested class lookup (Map.Entry → MapEntry)
+        if '.' in stripped:
+            nested = rule_lib.translate_nested_class(stripped)
+            if nested is not None:
+                return nested
+
+        # 4. Primitive map lookup (JDK type → Cangjie type)
+        if short_name in rule_lib.primitive_map:
+            return rule_lib.primitive_map[short_name]
+        if stripped in rule_lib.primitive_map:
+            return rule_lib.primitive_map[stripped]
+
+        # 5. Functional interface lookup
+        func_type = rule_lib.translate_functional_interface(stripped)
+        if func_type is not None:
+            return func_type
+
+        # 6. Container bare-name lookup
+        container_entry = rule_lib.get_container_cangjie(short_name)
+        if container_entry is not None:
+            return container_entry['cangjie']
+
+        # 7. Container with generics
+        if '<' in stripped and stripped.endswith('>'):
+            translated = rule_lib.translate_container_type(stripped)
+            if translated is not None:
+                return translated
+    except Exception:
+        pass  # Rule lib not available, fall through
+
     return 'Any'
 
 
@@ -392,6 +478,15 @@ def main(args):
             log_detail(log_path, 'CONFIG', f'Progressive KB init failed (will proceed without): {e}')
             kb = None
 
+    # Initialize Generics Rule Library (always loaded; lightweight memoization)
+    generics_lib = None
+    try:
+        generics_lib = get_generics_rule_lib()
+        log_detail(log_path, 'CONFIG', f'Generics Rule Lib loaded: {generics_lib.rule_count} rules, {generics_lib.container_count} container mappings')
+    except Exception as e:
+        log_detail(log_path, 'CONFIG', f'Generics Rule Lib init failed (will proceed without): {e}')
+        generics_lib = None
+
     model_info = yaml.safe_load(open('configs/model_configs.yaml', 'r'))['models']
     args.schema_dir = f'data/java/schemas{args.suffix}/{args.model_name}/{args.temperature}/{args.project_name}'
     model = Model(model_info=model_info[args.model_name])
@@ -448,6 +543,8 @@ def main(args):
 
                             if budget == 0:
                                 fallback_type = fallback_type_for(source_type)
+                                # Determine if the fallback produced a meaningful mapping (not just 'Any')
+                                fallback_is_meaningful = fallback_type != 'Any'
                                 result = Result()
                                 result.attempted = True
                                 result.identifier = type_identifier
@@ -462,8 +559,12 @@ def main(args):
                                 append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                                 save_results(data, args.schema_dir, schema_file)
                                 processed_types += 1
-                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:budget_exhausted')
-                                log_detail(log_path, f'FALLBACK budget_exhausted {source_type}', feedback)
+                                if fallback_is_meaningful:
+                                    terminal_type_status(processed_types, total_types, source_type, fallback_type, True, 'rule_lib:static_map')
+                                    log_detail(log_path, f'PASS rule_lib:static_map {source_type}', f'{source_type} -> {fallback_type}')
+                                else:
+                                    terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:budget_exhausted')
+                                    log_detail(log_path, f'FALLBACK budget_exhausted {source_type}', feedback)
                                 i += 1
                                 interaction_history = []
                                 feedback = ''
@@ -548,9 +649,18 @@ def main(args):
                                 if kb_type_ctx:
                                     kb_context = (kb_context + "\n\n" + kb_type_ctx).strip()
 
+                            # --- Generics Rule Lib: inject matching rules as context ---
+                            generics_context = ""
+                            if generics_lib is not None and '<' in source_type:
+                                generics_rules = generics_lib.match_rules_for_type(source_type, top_k=2)
+                                if generics_rules:
+                                    generics_context = generics_lib.format_rule_prompt(generics_rules, max_rules=2)
+                                    log_detail(log_path, f'GENERICS RULE {source_type}', f'Matched {len(generics_rules)} rules: {[r["id"] for r in generics_rules]}')
+
                             # Skip LLM translation if use_llm is false — only fixed_type_map and custom types are used
                             if args.use_llm == 'false':
                                 fallback_type = fallback_type_for(source_type)
+                                fallback_is_meaningful = fallback_type != 'Any'
                                 result.translated = True
                                 result.translated_target_type = fallback_type
                                 result.feedback = 'LLM translation disabled and no fixed/custom mapping was found'
@@ -559,8 +669,12 @@ def main(args):
                                 append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                                 save_results(data, args.schema_dir, schema_file)
                                 processed_types += 1
-                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:llm_disabled')
-                                log_detail(log_path, f'FALLBACK llm_disabled {source_type}', result.feedback)
+                                if fallback_is_meaningful:
+                                    terminal_type_status(processed_types, total_types, source_type, fallback_type, True, 'rule_lib:static_map')
+                                    log_detail(log_path, f'PASS rule_lib:static_map {source_type}', f'{source_type} -> {fallback_type}')
+                                else:
+                                    terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:llm_disabled')
+                                    log_detail(log_path, f'FALLBACK llm_disabled {source_type}', result.feedback)
                                 i += 1
                                 interaction_history = []
                                 feedback = ''
@@ -593,9 +707,12 @@ def main(args):
                                 feedback
                             )
                             prompt = prompt_generator.generate_prompt()
-                            # Construct final prompt: KB examples + RAG docs + prompt
+                            # Construct final prompt: Generics rules + KB examples + RAG docs + prompt
+                            # Generics mapping rules (structural patterns) go first
                             # KB few-shot (real examples) goes before RAG docs (descriptions)
                             context_parts = []
+                            if generics_context:
+                                context_parts.append(generics_context)
                             if kb_context:
                                 context_parts.append(kb_context)
                             if rag_context:
@@ -619,6 +736,7 @@ def main(args):
 
                             if not status:
                                 fallback_type = fallback_type_for(source_type)
+                                fallback_is_meaningful = fallback_type != 'Any'
                                 result.translated = True
                                 result.translated_target_type = fallback_type
                                 result.feedback = generation
@@ -627,8 +745,12 @@ def main(args):
                                 append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                                 save_results(data, args.schema_dir, schema_file)
                                 processed_types += 1
-                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:model_error')
-                                log_detail(log_path, f'FALLBACK model_error {source_type}', generation)
+                                if fallback_is_meaningful:
+                                    terminal_type_status(processed_types, total_types, source_type, fallback_type, True, 'rule_lib:static_map')
+                                    log_detail(log_path, f'PASS rule_lib:static_map {source_type}', f'{source_type} -> {fallback_type}')
+                                else:
+                                    terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:model_error')
+                                    log_detail(log_path, f'FALLBACK model_error {source_type}', generation)
                                 i += 1
                                 interaction_history = []
                                 feedback = ''
