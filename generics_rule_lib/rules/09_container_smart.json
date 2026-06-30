@@ -1,108 +1,7 @@
 {
   "category": "container_smart",
-  "description": "智能容器转换规则：Java 标准库泛型容器/接口到仓颉标准库的映射，包括 API 变更和约束自动推导。",
+  "description": "语义级容器/API差异规则：仅保留无法由确定性类型表达式解析完成、需要代码结构重写的 Java API 模式。Optional/HashMap/HashSet 等纯类型表达式映射由 java_base_type_map.json + type_expression.py 处理。",
   "rules": [
-    {
-      "id": "C41",
-      "subcategory": "optional",
-      "name": "Optional<T> → Option<T>",
-      "java_ast_pattern": {
-        "node_type": "TypeDeclaration",
-        "type_name": "Optional"
-      },
-      "java_regex_fallback": "Optional<\\s*([^>]+)\\s*>",
-      "cangjie_template": "Option<$1>",
-      "transforms": [
-        { "from": "Optional", "to": "Option", "scope": "type_name" },
-        { "from": "isPresent()", "to": "!= None 或 match/let 绑定", "scope": "method_call" },
-        { "from": "get()", "to": "getOrThrow()", "scope": "method_call" },
-        { "from": "orElse(default)", "to": "?? default", "scope": "method_call" },
-        { "from": "orElseGet(supplier)", "to": "?? supplier()", "scope": "method_call" },
-        { "from": "ifPresent(consumer)", "to": "if (let Some(v) = opt) { consumer(v) }", "scope": "method_call" }
-      ],
-      "constraints": {
-        "cangjie_semantics": "Option 是仓颉的 Optional 等价物，使用 Some/None 构造器",
-        "requires": [],
-        "conflicts": [],
-        "api_transforms": {
-          "isPresent()": "opt != None 或 match(opt) { case Some(v) => ... case None => ... }",
-          "get()": "opt.getOrThrow()",
-          "orElse(default)": "opt ?? default",
-          "orElseGet(supplier)": "opt ?? supplier()",
-          "ifPresent(consumer)": "if (let Some(v) = opt) { consumer(v) }",
-          "map(mapper)": "opt.map(mapper)",
-          "flatMap(mapper)": "opt.flatMap(mapper)",
-          "filter(predicate)": "opt.filter(predicate)"
-        }
-      },
-      "priority": 9,
-      "example": {
-        "java": "Optional<String> name = Optional.ofNullable(input);\nif (name.isPresent()) {\n    System.out.println(name.get());\n}",
-        "cangjie": "let name: Option<String> = if (input != null) { Some(input) } else { None }\nif (let Some(v) = name) {\n    println(v)\n}",
-        "note": "Option 使用 Some/None，判空改为模式匹配"
-      },
-      "validation_probes": ["cjpm build 是否通过", "确认 Option 方法替换正确"]
-    },
-    {
-      "id": "C42",
-      "subcategory": "hash_map",
-      "name": "HashMap<K,V> 约束推导",
-      "java_ast_pattern": {
-        "node_type": "TypeDeclaration",
-        "type_name": "HashMap"
-      },
-      "java_regex_fallback": "HashMap<\\s*([^,>]+)\\s*,\\s*([^>]+)\\s*>",
-      "cangjie_template": "HashMap<$1, $2>",
-      "transforms": [
-        { "from": "HashMap", "to": "HashMap", "scope": "type_name" },
-        { "from": "Any in key position", "to": "AnyHashable", "scope": "type_parameter" },
-        { "from": "无约束声明", "to": "where K <: Hashable & Equatable<K>", "scope": "constraint_inference" }
-      ],
-      "constraints": {
-        "cangjie_semantics": "仓颉 HashMap 要求键类型满足 Hashable & Equatable<K>；如果键类型参数为 Any，需替换为 AnyHashable",
-        "requires": [],
-        "conflicts": [],
-        "key_constraint": "K <: Hashable & Equatable<K>",
-        "any_key_replacement": "AnyHashable"
-      },
-      "priority": 9,
-      "example": {
-        "java": "HashMap<Object, String> map = new HashMap<>();",
-        "cangjie": "let map: HashMap<AnyHashable, String> = HashMap<AnyHashable, String>()",
-        "note": "Object → Any，但 HashMap key 位置需 AnyHashable"
-      },
-      "validation_probes": ["cjpm build 是否通过", "确认键类型约束满足"]
-    },
-    {
-      "id": "C43",
-      "subcategory": "hash_set",
-      "name": "HashSet<T> 约束推导",
-      "java_ast_pattern": {
-        "node_type": "TypeDeclaration",
-        "type_name": "HashSet"
-      },
-      "java_regex_fallback": "HashSet<\\s*([^>]+)\\s*>",
-      "cangjie_template": "HashSet<$1>",
-      "transforms": [
-        { "from": "HashSet", "to": "HashSet", "scope": "type_name" },
-        { "from": "Any in element position", "to": "AnyHashable", "scope": "type_parameter" },
-        { "from": "无约束声明", "to": "where T <: Hashable & Equatable<T>", "scope": "constraint_inference" }
-      ],
-      "constraints": {
-        "cangjie_semantics": "仓颉 HashSet 要求元素类型满足 Hashable & Equatable<T>；如果元素类型为 Any，需替换为 AnyHashable",
-        "requires": [],
-        "conflicts": [],
-        "element_constraint": "T <: Hashable & Equatable<T>",
-        "any_element_replacement": "AnyHashable"
-      },
-      "priority": 9,
-      "example": {
-        "java": "HashSet<Object> set = new HashSet<>();",
-        "cangjie": "let set: HashSet<AnyHashable> = HashSet<AnyHashable>()",
-        "note": "元素类型 Any → AnyHashable"
-      },
-      "validation_probes": ["cjpm build 是否通过", "确认元素类型约束满足"]
-    },
     {
       "id": "C44",
       "subcategory": "stream_api",
@@ -114,12 +13,36 @@
       "java_regex_fallback": "\\.stream\\(\\)|\\.collect\\(|\\.map\\(|\\.filter\\(|\\.forEach\\(|Collectors\\.",
       "cangjie_template": "// 需重构为 for-in 循环或集合操作方法",
       "transforms": [
-        { "from": ".stream()", "to": "直接对集合使用迭代方法", "scope": "stream_operation" },
-        { "from": ".collect(Collectors.toList())", "to": "ArrayList<T>() 或迭代收集", "scope": "terminal_operation" },
-        { "from": ".map(f)", "to": "集合.map(f) 或 for 循环", "scope": "intermediate_operation" },
-        { "from": ".filter(p)", "to": "集合.filter(p) 或 for 循环", "scope": "intermediate_operation" },
-        { "from": ".forEach(c)", "to": "for (item in collection) { c(item) }", "scope": "terminal_operation" },
-        { "from": ".reduce(init, f)", "to": "集合.fold(init, f) 或 for 循环", "scope": "terminal_operation" }
+        {
+          "from": ".stream()",
+          "to": "直接对集合使用迭代方法",
+          "scope": "stream_operation"
+        },
+        {
+          "from": ".collect(Collectors.toList())",
+          "to": "ArrayList<T>() 或迭代收集",
+          "scope": "terminal_operation"
+        },
+        {
+          "from": ".map(f)",
+          "to": "集合.map(f) 或 for 循环",
+          "scope": "intermediate_operation"
+        },
+        {
+          "from": ".filter(p)",
+          "to": "集合.filter(p) 或 for 循环",
+          "scope": "intermediate_operation"
+        },
+        {
+          "from": ".forEach(c)",
+          "to": "for (item in collection) { c(item) }",
+          "scope": "terminal_operation"
+        },
+        {
+          "from": ".reduce(init, f)",
+          "to": "集合.fold(init, f) 或 for 循环",
+          "scope": "terminal_operation"
+        }
       ],
       "constraints": {
         "cangjie_semantics": "仓颉标准库无 Stream API，需逐个操作映射为集合方法或 for-in 循环",
@@ -133,7 +56,10 @@
         "cangjie": "var result = ArrayList<String>()\nfor (s in list) {\n    if (s.length > 5) {\n        result.append(s.uppercase())\n    }\n}",
         "note": "Stream 操作需重构为 for-in 或集合方法"
       },
-      "validation_probes": ["cjpm build 是否通过", "确认语义等价"]
+      "validation_probes": [
+        "cjpm build 是否通过",
+        "确认语义等价"
+      ]
     },
     {
       "id": "C45",
@@ -146,11 +72,31 @@
       "java_regex_fallback": "CompletableFuture<\\s*([^>]+)\\s*>",
       "cangjie_template": "Future<$1>  // 或 async/await 模式",
       "transforms": [
-        { "from": "CompletableFuture", "to": "Future 或 async/await", "scope": "type_name" },
-        { "from": "thenApply", "to": "map", "scope": "method_call" },
-        { "from": "thenCompose", "to": "flatMap", "scope": "method_call" },
-        { "from": "exceptionally", "to": "recover", "scope": "method_call" },
-        { "from": "get()", "to": "await", "scope": "method_call" }
+        {
+          "from": "CompletableFuture",
+          "to": "Future 或 async/await",
+          "scope": "type_name"
+        },
+        {
+          "from": "thenApply",
+          "to": "map",
+          "scope": "method_call"
+        },
+        {
+          "from": "thenCompose",
+          "to": "flatMap",
+          "scope": "method_call"
+        },
+        {
+          "from": "exceptionally",
+          "to": "recover",
+          "scope": "method_call"
+        },
+        {
+          "from": "get()",
+          "to": "await",
+          "scope": "method_call"
+        }
       ],
       "constraints": {
         "cangjie_semantics": "仓颉并发模型与 Java 不同，CompletableFuture 需重构为 Future 或 async/await",
@@ -164,7 +110,10 @@
         "cangjie": "// 方案1: Future\nlet future: Future<String> = Future<String>(fetchData)\nlet result = future.map({ s => s.uppercase() }).await()\n\n// 方案2: async/await\nasync func getData(): String {\n    return fetchData().uppercase()\n}",
         "note": "并发模式需根据场景选择重构策略"
       },
-      "validation_probes": ["cjpm build 是否通过", "确认并发语义正确"]
+      "validation_probes": [
+        "cjpm build 是否通过",
+        "确认并发语义正确"
+      ]
     }
   ]
 }

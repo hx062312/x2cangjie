@@ -7,12 +7,12 @@ package jansi
 
 public open class AnsiType {
     // Fields Begin
-    var Native: Any = throw Exception("TODO")
+    var Native: Any = throw Exception('TODO')
     var Unsupported: Any = throw Exception('TODO')
-    var VirtualTerminal: Any = "Supported through windows virtual terminal"
-    var Emulation: Any = "Emulated through using windows API console commands"
-    var Redirected: Any = "The stream is redirected to a file or a pipe"
-    let description: String = throw Exception('TODO')
+    var VirtualTerminal: Any = throw Exception('TODO')
+    var Emulation: Any = throw Exception('TODO')
+    var Redirected: Any = throw Exception('TODO')
+    var description: String = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
@@ -27,7 +27,7 @@ public open class AnsiType {
     // Methods End
 
     protected init() {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 }
 

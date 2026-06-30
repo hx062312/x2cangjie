@@ -15,8 +15,7 @@ flowchart TD
     D1["misc/CangjieCorpus/<br/>仓颉语料库(Markdown)"] -->|src/java/rag/indexer.py<br/>分块+embedding+索引| D2["data/java/rag/<br/>chromadb + bm25_index.pkl + chunks.json"]
     D3["Oracle Java API文档<br/>(java.base)"] -->|crawl_java_base.sh| D4["data/java/crawl/java.base_module_doc.json"]
 
-    C1 -->|translate_types.sh<br/>RAG增强类型翻译| E1["data/java/type_resolution/<br/>fixed_type_map.json<br/>universal_type_map_final.json"]
-    D2 -->|RAG检索Cangjie API文档| E1
+    C1 -->|translate_types.sh<br/>确定性类型解析+KB+shim| E1["data/java/type_resolution/<br/>java_base_type_map.json<br/>generated_interface_shims/"]
     D4 --> E1
 
     C1 --> E2

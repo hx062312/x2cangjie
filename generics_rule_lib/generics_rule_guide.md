@@ -2,7 +2,7 @@
 
 ## 概述
 
-本规则库是 x2cangjie 项目中 **Java 泛型结构 → 仓颉代码** 翻译的系统化、可执行映射规则集合。覆盖泛型声明、约束转换、通配符处理、型变映射、原始类型恢复、数组/实例化、递归边界、语义差异、智能容器共 **9 大类 45 条规则**，以及容器类型映射表和原始类型映射表。
+本规则库是 x2cangjie 项目中 **Java 泛型机制 → 仓颉代码** 翻译的系统化、可执行提示规则集合。覆盖泛型声明、约束转换、通配符处理、型变映射、原始类型恢复、数组/实例化、递归边界、语义差异、需要代码重构的容器/API 模式共 **9 大类 42 条规则**。纯类型表达式映射不再交给 LLM 规则库，而由 `java_base_type_map.json` 与 `type_expression.py` 确定性完成。
 
 ---
 
@@ -59,9 +59,9 @@
 | `priority` | 匹配优先级，数字越大越优先 |
 | `validation_probes` | 编译验证检查项列表 |
 
-### 容器类型映射格式
+### 确定性类型表达式映射
 
-`type_container_map.json` 每条映射包含：
+主流程使用 `java_base_type_map.json` 记录 raw type 映射，用 `type_expression.py` 在使用点组合泛型参数，例如 `List<String>` → `ArrayList<String>`、`HashMap<Object, Integer>` → `HashMap<AnyHashable, Int64>`。`type_container_map.json` 仅保留为历史参考/兼容数据，不再作为 LLM prompt 的类型翻译来源。历史容器映射格式如下：
 
 ```json
 {
@@ -215,28 +215,25 @@ Java:   List list = new ArrayList();
 | 类型强转 | `(T) obj` → `obj as T` 或 `obj as? T` | C39 |
 | 泛型重载 | Java 因擦除冲突，仓颉合法 | C40 ✅ |
 
-### 09 — 智能容器转换（C41-C45）
+### 09 — 容器/API 语义重构（C44-C45）
 
 | Java | 仓颉 | 规则 | 注意事项 |
 |---|---|---|---|
-| `Optional<T>` | `Option<T>` | C41 | API 完全不同，见 api_transforms |
-| `HashMap<K,V>` | `HashMap<K,V>` | C42 | 键类型需满足 Hashable 约束 |
-| `HashSet<T>` | `HashSet<T>` | C43 | 元素类型需满足 Hashable 约束 |
 | `Stream<T>` | 重构为迭代器 | C44 | 仓颉无 Stream API |
 | `CompletableFuture<T>` | `Future<T>` / async | C45 | 并发模型不同 |
 
-**约束推导规则**：当容器类型参数为 `Any` 时：
+`Optional<T>`、`HashMap<K,V>`、`HashSet<T>` 这类类型表达式不再作为 LLM 规则：
 
-- `HashMap<Any, V>` → `HashMap<AnyHashable, V>`
-- `HashSet<Any>` → `HashSet<AnyHashable>`
-- `TreeMap<Any, V>` 不允许（`Any` 不满足 `Comparable`）
+- `Optional<T>` → `Option<T>` 由类型映射表和表达式解析完成
+- `HashMap<Any, V>` → `HashMap<AnyHashable, V>` 由确定性约束处理完成
+- `HashSet<Any>` → `HashSet<AnyHashable>` 由确定性约束处理完成
 
 ## 规则优先级规则
 
 匹配时按以下优先级排序：
 
 1. **Priority 10**：声明级规则（C01-C04），最精确
-2. **Priority 9**：接口/方法级约束（C05-C08, C41-C43）
+2. **Priority 9**：接口/方法级约束（C05-C08）
 3. **Priority 8**：通配符和型变规则（C12-C14, C18-C19, C29）
 4. **Priority 7**：原始类型和嵌套（C22-C24, C15, C17, C31, C44）
 5. **Priority 6**：数组/实例化和语义优势（C25-C26, C33-C34, C38, C40, C45）
@@ -262,7 +259,7 @@ Java:   List list = new ArrayList();
 | `rules/06_array_instantiation.json` | 数组与实例化（C25-C28） |
 | `rules/07_advanced.json` | 递归边界与高级模式（C29-C32） |
 | `rules/08_semantic_gap.json` | 语义差异（C33-C40） |
-| `rules/09_container_smart.json` | 智能容器转换（C41-C45） |
+| `rules/09_container_smart.json` | 容器/API 语义重构（C44-C45） |
 | `generics_rule_guide.md` | 本文档 |
 
 ---
@@ -298,7 +295,9 @@ get_cangjie_type("HashMap<String, Object>", type_map)
 ```
 处理每个类型 source_type:
 │
-├── UNIVERSAL_TYPE_MAP 命中？ → 直接返回
+├── fixed/custom/java_base 精确命中？ → 直接返回
+│
+├── type_expression 可确定性解析？ → 直接返回
 │
 ├── Progressive KB 缓存命中？ → 直接返回
 │
@@ -315,7 +314,7 @@ get_cangjie_type("HashMap<String, Object>", type_map)
 │   context_parts.append(rag_context)
 │   prompt = "\n\n".join(context_parts) + "\n\n" + prompt
 │
-└── LLM 翻译 → 结果写入 UNIVERSAL_TYPE_MAP + Progressive KB
+└── LLM 翻译 → 结果写入当前 schema + Progressive KB
 ```
 
 ### 3. 片段翻译阶段 (`prompt_generator.py`)

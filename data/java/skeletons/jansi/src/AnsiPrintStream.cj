@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.core.*
+
 // Imports End
 
 public open class AnsiPrintStream {
@@ -10,11 +10,11 @@ public open class AnsiPrintStream {
     // Fields End
 
     // Methods Begin
-    public init(out: AnsiOutputStream, autoFlush: Bool, args: Any) {
+    public init(out: AnsiOutputStream, autoFlush: Bool) {
         throw Exception('TODO')
     }
 
-    private static func determineEncoding(args: Any): String {
+    public init(out: AnsiOutputStream, autoFlush: Bool, encoding: String) {
         throw Exception('TODO')
     }
 
@@ -46,7 +46,7 @@ public open class AnsiPrintStream {
         throw Exception('TODO')
     }
 
-    public open func getTerminalWidth(): Int64 {
+    public open func getTerminalWidth(): Int32 {
         throw Exception('TODO')
     }
 

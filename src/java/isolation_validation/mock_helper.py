@@ -353,15 +353,48 @@ def _extract_class_name(dotted: str) -> str:
     return parts[-1]
 
 
-# universal_type_map 作为 fallback：mock_helper 的 type_map 优先（保特化语义），
-# 漏的类型去 universal 查一遍，并去掉泛型参数后回退到 mock 体系认识的 base name。
-_UNIVERSAL_MAP_PATH = (
-    Path(__file__).resolve().parents[3] / "data" / "java" / "type_resolution" / "universal_type_map_final.json"
+# mock_helper 的 type_map 优先（保特化语义），漏的 JDK 类型再查 java_base_type_map。
+_JAVA_BASE_MAP_PATH = (
+    Path(__file__).resolve().parents[3] / "data" / "java" / "type_resolution" / "java_base_type_map.json"
 )
+
+
+def _normalize_type_map_value(value: Any) -> str:
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        mapped = value.get("mapping", "")
+        return mapped if isinstance(mapped, str) else ""
+    return ""
+
+
+def _simple_type_name(type_name: str) -> str:
+    return type_name.split(".")[-1] if "." in type_name else type_name
+
+
+def _load_java_base_type_map() -> dict[str, str]:
+    raw_map = json.loads(_JAVA_BASE_MAP_PATH.read_text(encoding="utf-8"))
+    result: dict[str, str] = {}
+    simple_aliases: dict[str, set[str]] = {}
+
+    for key, value in raw_map.items():
+        mapped = _normalize_type_map_value(value)
+        if not mapped:
+            continue
+        result[key] = mapped
+        if "." in key:
+            simple_aliases.setdefault(_simple_type_name(key), set()).add(mapped)
+
+    for alias, mappings in simple_aliases.items():
+        if len(mappings) == 1 and alias not in result and alias not in type_map:
+            result[alias] = next(iter(mappings))
+    return result
+
+
 try:
-    _universal_type_map: dict[str, str] = json.loads(_UNIVERSAL_MAP_PATH.read_text(encoding="utf-8"))
+    _java_base_type_map = _load_java_base_type_map()
 except FileNotFoundError:
-    _universal_type_map = {}
+    _java_base_type_map = {}
 
 
 def _strip_generics(value: str) -> str:
@@ -405,8 +438,8 @@ def retrieve_from_type_map(class_name: Any, default: Any = None) -> str | None:
         return f"Array<{element_type}>"
     if class_name in type_map:
         return type_map[class_name]
-    if class_name in _universal_type_map:
-        return _strip_generics(_universal_type_map[class_name])
+    if class_name in _java_base_type_map:
+        return _strip_generics(_java_base_type_map[class_name])
     return default if default is not None else class_name
 
 

@@ -61,9 +61,15 @@ def process_waiting_queue(
                 x for x in waiting_queue[waiting_fragment][0]
             ]
             if all([x in processed_fragments for x in waiting_dependent_fragments]):
-                _, waiting_schema, waiting_class, waiting_method, is_test_method, is_constructor, signature = (
-                    waiting_queue[waiting_fragment]
-                )
+                (
+                    _,
+                    waiting_schema,
+                    waiting_class,
+                    waiting_method,
+                    is_test_method,
+                    is_constructor,
+                    signature,
+                ) = _unpack_waiting_fragment(waiting_queue[waiting_fragment])
 
                 processed_fragments.append(waiting_fragment)
                 del waiting_queue[waiting_fragment]
@@ -83,6 +89,23 @@ def process_waiting_queue(
         threshold -= 1
 
     return waiting_queue, processed_fragments, project_traversal
+
+
+def _unpack_waiting_fragment(item):
+    if len(item) == 7:
+        return item
+    if len(item) == 6:
+        dependent_fragments, schema, class_, method, is_test_method, signature = item
+        return (
+            dependent_fragments,
+            schema,
+            class_,
+            method,
+            is_test_method,
+            False,
+            signature,
+        )
+    raise ValueError(f"Unexpected waiting queue entry length: {len(item)}")
 
 
 def get_field_order(data, class_):
@@ -133,7 +156,7 @@ def unroll_cycles(waiting_queue, processed_fragments, project_traversal):
             is_test_method,
             is_constructor,
             signature,
-        ) = waiting_queue[k]
+        ) = _unpack_waiting_fragment(waiting_queue[k])
 
         for df in waiting_dependent_fragments:
             if df not in waiting_queue:
@@ -157,7 +180,7 @@ def unroll_cycles(waiting_queue, processed_fragments, project_traversal):
                 is_test_method,
                 is_constructor,
                 signature,
-            ) = waiting_queue[cycle_fragment]
+            ) = _unpack_waiting_fragment(waiting_queue[cycle_fragment])
 
             processed_fragments.append(cycle_fragment)
             del waiting_queue[cycle_fragment]
@@ -309,6 +332,7 @@ def get_reverse_traversal(args):
                             class_,
                             method_,
                             is_test_method,
+                            data["classes"][class_]["methods"][method_].get("is_constructor", False),
                             data["classes"][class_]["methods"][method_].get("signature", ""),
                         ]
                         continue
@@ -321,6 +345,7 @@ def get_reverse_traversal(args):
                             "fragment_name": method_,
                             "fragment_type": "method",
                             "is_test_method": is_test_method,
+                            "is_constructor": data["classes"][class_]["methods"][method_].get("is_constructor", False),
                             "signature": data["classes"][class_]["methods"][method_].get("signature", ""),
                         }
                     )

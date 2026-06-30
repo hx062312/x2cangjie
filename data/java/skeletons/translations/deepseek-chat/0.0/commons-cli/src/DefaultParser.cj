@@ -2,152 +2,136 @@
 package commons_cli
 
 // Imports Begin
+import commons_cli.runtime.AnyHashable
 import std.collection.ArrayList
 import std.collection.HashMap
+import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class DefaultParser <: CommandLineParser {
     // Fields Begin
     var cmd: CommandLine = throw Exception('TODO')
     var options: Options = throw Exception('TODO')
-    var stopAtNonOption: Bool = false
+    var stopAtNonOption: Bool = throw Exception('TODO')
     var currentToken: String = throw Exception('TODO')
     var currentOption: Option = throw Exception('TODO')
-    var skipParsing: Bool = false
-    var expectedOpts: ArrayList<Any> = ArrayList<Any>()
-    let allowPartialMatching: Bool = true
-    let stripLeadingAndTrailingQuotes: Bool = false  // Already translated, compilation failed
+    var skipParsing: Bool = throw Exception('TODO')
+    var expectedOpts: ArrayList<Any> = throw Exception('TODO')
+    var allowPartialMatching: Bool = throw Exception('TODO')
+    var stripLeadingAndTrailingQuotes: Bool = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
     public static func builder(): DefaultParser_Builder {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
-    public init(constructorId: Int64, allowPartialMatching_param: Bool, stripLeadingAndTrailingQuotes_param: Bool) {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public init(constructorId: Int32, allowPartialMatching_param: Bool, stripLeadingAndTrailingQuotes_param: Bool) {
+        throw Exception('TODO')
     }
 
     private func checkRequiredArgs(): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     protected open func checkRequiredOptions(): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func getLongPrefix(token: String): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
-    private func getMatchingLongOptions(token: String): ArrayList<String> {
-                if (allowPartialMatching) {
-        return options.getMatchingOptions(token)
-        }
-        let matches = ArrayList<String>(1)
-        if (options.hasLongOption(token)) {
-        let option = options.getOption(token)
-        matches.add(option.getLongOpt())
-        }
-        return matches
+    private func getMatchingLongOptions<String>(token: String): ArrayList<String> {
+        throw Exception('TODO')
     }
 
     protected open func handleConcatenatedOptions(token: String): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func handleLongOption(token: String): Unit {
-                if (token.indexOf('=') == -1) {
-        handleLongOptionWithoutEqual(token)
-        } else {
-        handleLongOptionWithEqual(token)
-        }
+        throw Exception('TODO')
     }
 
     private func handleLongOptionWithEqual(token: String): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
-    private func handleLongOptionWithoutEqual(token: String): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+    private func handleLongOptionWithoutEqual<String>(token: String): Unit {
+        throw Exception('TODO')
     }
 
     private func handleOption(option: Option): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
-    private func handleProperties(properties: HashMap<String, String>): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+    private func handleProperties(properties: HashMap<AnyHashable, Any>): Unit {
+        throw Exception('TODO')
     }
 
     private func handleShortAndLongOption(token: String): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func handleToken(token: String): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func handleUnknownToken(token: String): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func isArgument(token: String): Bool {
-                return !isOption(token) || isNegativeNumber(token)
+        throw Exception('TODO')
     }
 
     private func isJavaProperty(token: String): Bool {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func isLongOption(token: String): Bool {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func isNegativeNumber(token: String): Bool {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func isOption(token: String): Bool {
-                return isLongOption(token) || isShortOption(token)
+        throw Exception('TODO')
     }
 
     private func isShortOption(token: String): Bool {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
-    public open func parse0(options_param: Options, arguments: Array<Any>): CommandLine {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public open func parse0(options_param: Options, arguments: Array<String>): CommandLine {
+        throw Exception('TODO')
     }
 
-    public open func parse1(options_param: Options, arguments: Array<Any>, stopAtNonOption_param: Bool): CommandLine {
-                return parse3(options_param, arguments, HashMap<String, String>(), stopAtNonOption_param)
+    public open func parse1(options_param: Options, arguments: Array<String>, stopAtNonOption_param: Bool): CommandLine {
+        throw Exception('TODO')
     }
 
-    public open func parse2(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>): CommandLine {
-                return parse3(options_param, arguments, properties, false)
+    public open func parse2(options_param: Options, arguments: Array<String>, properties: HashMap<AnyHashable, Any>): CommandLine {
+        throw Exception('TODO')
     }
 
-    public open func parse3(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>, stopAtNonOption_param: Bool): CommandLine {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public open func parse3(options_param: Options, arguments: Array<String>, properties: HashMap<AnyHashable, Any>, stopAtNonOption_param: Bool): CommandLine {
+        throw Exception('TODO')
     }
 
     private func stripLeadingAndTrailingQuotesDefaultOff(token: String): String {
-                if (stripLeadingAndTrailingQuotes) {
-        return Util.stripLeadingAndTrailingQuotes(token)
-        }
-        return token
+        throw Exception('TODO')
     }
 
     private func stripLeadingAndTrailingQuotesDefaultOn(token: String): String {
-                if (stripLeadingAndTrailingQuotes == false || stripLeadingAndTrailingQuotes) {
-        return Util.stripLeadingAndTrailingQuotes(token)
-        }
-        return token
+        throw Exception('TODO')
     }
 
     private func updateRequiredOptions(option: Option): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End
@@ -169,16 +153,15 @@ public class DefaultParser_Builder {
     }
 
     public open func build(): DefaultParser {
-                return DefaultParser(1, allowPartialMatching, stripLeadingAndTrailingQuotes)
+        throw Exception('TODO')
     }
 
     public open func setAllowPartialMatching(allowPartialMatching_param: Bool): DefaultParser_Builder {
-                this.allowPartialMatching = allowPartialMatching_param
-        return this
+        throw Exception('TODO')
     }
 
     public open func setStripLeadingAndTrailingQuotes(stripLeadingAndTrailingQuotes_param: Bool): DefaultParser_Builder {
-                this.stripLeadingAndTrailingQuotes = stripLeadingAndTrailingQuotes_param; return this
+        throw Exception('TODO')
     }
 
     // Methods End

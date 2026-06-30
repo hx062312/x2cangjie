@@ -2,48 +2,49 @@
 package commons_cli
 
 // Imports Begin
+import std.collection.ArrayList
 import std.collection.HashMap
+import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class OptionGroup {
     // Fields Begin
-    let optionMap: HashMap<String, Option> = HashMap<String, Option>()
+    var optionMap: HashMap<String, Option> = throw Exception('TODO')
     var selected: String = throw Exception('TODO')
-    var required: Bool = false
+    var required: Bool = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
     public open func addOption(option: Option): OptionGroup {
-                optionMap[option.getKey()] = option
-        return this
+        throw Exception('TODO')
     }
 
-    public open func getNames(): Array<String> {
-                return optionMap.keys().toArray()
+    public open func getNames<String>(): ArrayList<String> {
+        throw Exception('TODO')
     }
 
-    public open func getOptions(): Collection<Option> {
-                return optionMap.values()
+    public open func getOptions<Option>(): ArrayList<Option> {
+        throw Exception('TODO')
     }
 
     public open func getSelected(): String {
-                return this.selected
+        throw Exception('TODO')
     }
 
     public open func isRequired(): Bool {
-                return this.required
+        throw Exception('TODO')
     }
 
     public open func setRequired(required_param: Bool): Unit {
-                this.required = required_param
+        throw Exception('TODO')
     }
 
     public open func setSelected(option: Option): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     public open func toString(): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

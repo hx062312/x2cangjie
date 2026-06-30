@@ -2,9 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.core.*
-import std.fs.*
-import std.io.*
+import std.io.OutputStream
 // Imports End
 
 public open class AnsiConsole {
@@ -20,20 +18,20 @@ public open class AnsiConsole {
     static let JANSI_EAGER: String = throw Exception('TODO')
     static let JANSI_NORESET: String = throw Exception('TODO')
     static let JANSI_GRACEFUL: String = throw Exception('TODO')
-    static var system_out: Any = throw Exception('TODO')
-    static var out: Any = throw Exception('TODO')
-    static var system_err: Any = throw Exception('TODO')
-    static var err: Any = throw Exception('TODO')
+    static var system_out: OutputStream = throw Exception('TODO')
+    static var out: OutputStream = throw Exception('TODO')
+    static var system_err: OutputStream = throw Exception('TODO')
+    static var err: OutputStream = throw Exception('TODO')
     static let IS_WINDOWS: Bool = throw Exception('TODO')
     static let IS_CYGWIN: Bool = throw Exception('TODO')
     static let IS_MSYSTEM: Bool = throw Exception('TODO')
     static let IS_CONEMU: Bool = throw Exception('TODO')
-    static let ENABLE_VIRTUAL_TERMINAL_PROCESSING: Int64 = throw Exception('TODO')
-    static var STDOUT_FILENO: Int64 = throw Exception('TODO')
-    static var STDERR_FILENO: Int64 = throw Exception('TODO')
+    static let ENABLE_VIRTUAL_TERMINAL_PROCESSING: Int32 = throw Exception('TODO')
+    static var STDOUT_FILENO: Int32 = throw Exception('TODO')
+    static var STDERR_FILENO: Int32 = throw Exception('TODO')
     static var initialized: Bool = throw Exception('TODO')
-    static var installed: Int64 = throw Exception('TODO')
-    static var virtualProcessing: Int64 = throw Exception('TODO')
+    static var installed: Int32 = throw Exception('TODO')
+    static var virtualProcessing: Int32 = throw Exception('TODO')
     static let JANSI_MODE: String = throw Exception('TODO')
     static let JANSI_OUT_MODE: String = throw Exception('TODO')
     static let JANSI_ERR_MODE: String = throw Exception('TODO')
@@ -51,7 +49,7 @@ public open class AnsiConsole {
     // Static Initializer End
 
     // Methods Begin
-    public static func getTerminalWidth(): Int64 {
+    public static func getTerminalWidth(): Int32 {
         throw Exception('TODO')
     }
 
@@ -75,7 +73,7 @@ public open class AnsiConsole {
         throw Exception('TODO')
     }
 
-    public static func sysOut(): Any {
+    public static func sysOut(): OutputStream {
         throw Exception('TODO')
     }
 
@@ -83,7 +81,7 @@ public open class AnsiConsole {
         throw Exception('TODO')
     }
 
-    public static func sysErr(): Any {
+    public static func sysErr(): OutputStream {
         throw Exception('TODO')
     }
 

@@ -1,6 +1,7 @@
 package package_name
 
 import std.collection.*
+import std.io.*
 import std.reflect.*
 import std.random.*
 import std.convert .*
@@ -360,6 +361,15 @@ public class SimpleIoc {
         return constructor
     }
 
+    public func construct<TClass>(): TClass where TClass <: Object {
+        let instance = makeInstanceForType(TypeInfo.of<TClass>(), 0, HashSet<TypeInfo>())
+        return (instance as TClass).getOrThrow()
+    }
+
+    public func construct(classType: TypeInfo): Object {
+        return makeInstanceForType(classType, 0, HashSet<TypeInfo>())
+    }
+
     private static func getPreferredConstructorInfo(constructorInfos: ArrayList<ConstructorInfo>): ConstructorInfo {
         var preferredConstructorInfo: ConstructorInfo = constructorInfos.toArray()[0]
         let preferredConstructorInfoFlag = false
@@ -481,8 +491,170 @@ public class SimpleIoc {
         return instance
     }
 
+    private static func isNamed(typeInfo: TypeInfo, name: String): Bool {
+        return typeInfo.name == name || typeInfo.qualifiedName == name
+    }
+
+    private static func isAnyName(typeInfo: TypeInfo): Bool {
+        return isNamed(typeInfo, "Any") || isNamed(typeInfo, "Interface-Any") || isNamed(typeInfo, "std.core.Any")
+    }
+
+    private static func isObjectName(typeInfo: TypeInfo): Bool {
+        return isNamed(typeInfo, "Object") || isNamed(typeInfo, "Class-Object") || isNamed(typeInfo, "std.core.Object")
+    }
+
+    private static func isStringName(typeInfo: TypeInfo): Bool {
+        return isNamed(typeInfo, "String") || isNamed(typeInfo, "Struct-String") || isNamed(typeInfo, "std.core.String")
+    }
+
+    private static func isOutputStreamName(typeInfo: TypeInfo): Bool {
+        return isNamed(typeInfo, "OutputStream") || isNamed(typeInfo, "std.io.OutputStream")
+    }
+
+    private static func isInputStreamName(typeInfo: TypeInfo): Bool {
+        return isNamed(typeInfo, "InputStream") || isNamed(typeInfo, "std.io.InputStream")
+    }
+
+    private static func isSeekableName(typeInfo: TypeInfo): Bool {
+        return isNamed(typeInfo, "Seekable") || isNamed(typeInfo, "std.io.Seekable")
+    }
+
+    private func makeDefaultValue(typeInfo: TypeInfo, depth: Int64, constructing: HashSet<TypeInfo>): Any {
+        if (isAnyName(typeInfo) || isObjectName(typeInfo)) {
+            return Object()
+        }
+        if (isStringName(typeInfo)) {
+            return ""
+        }
+        if (isNamed(typeInfo, "Bool") || isNamed(typeInfo, "std.core.Bool")) {
+            return false
+        }
+        if (isNamed(typeInfo, "Rune") || isNamed(typeInfo, "std.core.Rune")) {
+            return Rune(0)
+        }
+        if (isNamed(typeInfo, "Int64") || isNamed(typeInfo, "std.core.Int64")) {
+            return Int64(0)
+        }
+        if (isNamed(typeInfo, "Int32") || isNamed(typeInfo, "std.core.Int32")) {
+            return Int32(0)
+        }
+        if (isNamed(typeInfo, "Int16") || isNamed(typeInfo, "std.core.Int16")) {
+            return Int16(0)
+        }
+        if (isNamed(typeInfo, "Int8") || isNamed(typeInfo, "std.core.Int8")) {
+            return Int8(0)
+        }
+        if (isNamed(typeInfo, "UInt64") || isNamed(typeInfo, "std.core.UInt64")) {
+            return UInt64(0)
+        }
+        if (isNamed(typeInfo, "UInt32") || isNamed(typeInfo, "std.core.UInt32")) {
+            return UInt32(0)
+        }
+        if (isNamed(typeInfo, "UInt16") || isNamed(typeInfo, "std.core.UInt16")) {
+            return UInt16(0)
+        }
+        if (isNamed(typeInfo, "UInt8") || isNamed(typeInfo, "std.core.UInt8")) {
+            return UInt8(0)
+        }
+        if (isNamed(typeInfo, "Float64") || isNamed(typeInfo, "std.core.Float64")) {
+            return Float64(0.0)
+        }
+        if (isNamed(typeInfo, "Float32") || isNamed(typeInfo, "std.core.Float32")) {
+            return Float32(0.0)
+        }
+        if (isNamed(typeInfo, "StringBuilder") || isNamed(typeInfo, "std.core.StringBuilder")) {
+            return StringBuilder()
+        }
+        if (isOutputStreamName(typeInfo) || isInputStreamName(typeInfo) || isSeekableName(typeInfo) || isNamed(typeInfo, "ByteBuffer") || isNamed(typeInfo, "std.io.ByteBuffer")) {
+            return ByteBuffer()
+        }
+
+        if (let Some(_) <- (typeInfo as InterfaceTypeInfo)) {
+            throw Exception("mock ioc unsupported constructor parameter: interface ${typeInfo.qualifiedName}")
+        }
+
+        if (let Some(classInfo) <- (typeInfo as ClassTypeInfo)) {
+            if (classInfo.isAbstract()) {
+                throw Exception("mock ioc unsupported constructor parameter: abstract class ${typeInfo.qualifiedName}")
+            }
+            return makeInstanceForType(typeInfo, depth, constructing)
+        }
+
+        throw Exception("mock ioc unsupported constructor parameter: ${typeInfo.qualifiedName}")
+    }
+
+    private func makeInstanceForType(classType: TypeInfo, depth: Int64, constructing: HashSet<TypeInfo>): Object {
+        if (depth > 4) {
+            throw Exception("mock ioc unsupported constructor: recursion depth exceeded for ${classType.qualifiedName}")
+        }
+        if (constructing.contains(classType)) {
+            throw Exception("mock ioc unsupported constructor: recursive dependency for ${classType.qualifiedName}")
+        }
+
+        let classInfo = (classType as ClassTypeInfo).getOrThrow()
+        if (classInfo.isAbstract()) {
+            throw Exception("mock ioc unsupported constructor: abstract class ${classType.qualifiedName}")
+        }
+
+        let constructors = classInfo.constructors.toArray()
+        if (constructors.isEmpty()) {
+            throw Exception("mock ioc unsupported constructor: no public constructor for ${classType.qualifiedName}")
+        }
+
+        constructing.add(classType)
+
+        for (constructorInfo in constructors) {
+            if (constructorInfo.parameters.isEmpty()) {
+                try {
+                    let instance = makeInstance(constructorInfo, depth, constructing)
+                    constructing.remove(classType)
+                    return instance
+                } catch (e: Exception) {
+                }
+            }
+        }
+
+        for (constructorInfo in constructors) {
+            if (constructorInfo.findAnnotation<Principal>().isSome()) {
+                try {
+                    let instance = makeInstance(constructorInfo, depth, constructing)
+                    constructing.remove(classType)
+                    return instance
+                } catch (e: Exception) {
+                }
+            }
+        }
+
+        var maxParameterCount = 0
+        for (constructorInfo in constructors) {
+            if (constructorInfo.parameters.size > maxParameterCount) {
+                maxParameterCount = constructorInfo.parameters.size
+            }
+        }
+
+        for (parameterCount in 1..(maxParameterCount + 1)) {
+            for (constructorInfo in constructors) {
+                if (constructorInfo.parameters.size == parameterCount) {
+                    try {
+                        let instance = makeInstance(constructorInfo, depth, constructing)
+                        constructing.remove(classType)
+                        return instance
+                    } catch (e: Exception) {
+                    }
+                }
+            }
+        }
+
+        constructing.remove(classType)
+        throw Exception("mock ioc unsupported constructor: no constructible public constructor for ${classType.qualifiedName}")
+    }
+
     // 用于获取一个实例，过程中会递归调用getService来获取参数的实例
     private func makeInstance(myfactory: ConstructorInfo): Object {
+        return makeInstance(myfactory, 0, HashSet<TypeInfo>())
+    }
+
+    private func makeInstance(myfactory: ConstructorInfo, depth: Int64, constructing: HashSet<TypeInfo>): Object {
         var instance = Object()
         let parameterInfos = myfactory.parameters
         let parameters: Array<Any> = Array<Any>(parameterInfos.size, repeat: Object())
@@ -492,7 +664,7 @@ public class SimpleIoc {
             instance = (myfactory.apply(_emptyArguments) as Object).getOrThrow()
         } else {
             for (parameterInfo in parameterInfos) {
-                parameters[parameterInfo.index] = getService(parameterInfo.typeInfo)
+                parameters[parameterInfo.index] = makeDefaultValue(parameterInfo.typeInfo, depth + 1, constructing)
             }
             instance = (myfactory.apply(parameters) as Object).getOrThrow()
         }

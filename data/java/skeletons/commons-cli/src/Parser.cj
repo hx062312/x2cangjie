@@ -2,8 +2,10 @@
 package commons_cli
 
 // Imports Begin
+import commons_cli.runtime.AnyHashable
 import std.collection.ArrayList
 import std.collection.HashMap
+import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public abstract class Parser <: CommandLineParser {
@@ -18,7 +20,7 @@ public abstract class Parser <: CommandLineParser {
         throw Exception('TODO')
     }
 
-    protected open func flatten(opts: Options, arguments: Array<Any>, stopAtNonOption: Bool): Array<Any> {
+    protected open func flatten(opts: Options, arguments: Array<String>, stopAtNonOption: Bool): Array<String> {
         throw Exception('TODO')
     }
 
@@ -30,31 +32,31 @@ public abstract class Parser <: CommandLineParser {
         throw Exception('TODO')
     }
 
-    public open func parse0(options_param: Options, arguments: Array<Any>): CommandLine {
+    public open func parse0(options_param: Options, arguments: Array<String>): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse1(options_param: Options, arguments: Array<Any>, stopAtNonOption: Bool): CommandLine {
+    public open func parse1(options_param: Options, arguments: Array<String>, stopAtNonOption: Bool): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse2(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>): CommandLine {
+    public open func parse2(options_param: Options, arguments: Array<String>, properties: HashMap<AnyHashable, Any>): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse3(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>, stopAtNonOption: Bool): CommandLine {
+    public open func parse3(options_param: Options, arguments: Array<String>, properties: HashMap<AnyHashable, Any>, stopAtNonOption: Bool): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func processArgs(opt: Option, iter: Any): Unit {
+    public open func processArgs<String>(opt: Option, iter: Iterator<String>): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processOption(arg: String, iter: Any): Unit {
+    protected open func processOption<String>(arg: String, iter: Iterator<String>): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processProperties(properties: HashMap<String, String>): Unit {
+    protected open func processProperties(properties: HashMap<AnyHashable, Any>): Unit {
         throw Exception('TODO')
     }
 

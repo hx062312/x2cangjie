@@ -2,12 +2,14 @@
 package commons_cli
 
 // Imports Begin
+import std.collection.ArrayList
 import std.collection.HashMap
+import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class OptionGroup {
     // Fields Begin
-    let optionMap: HashMap<String, Option> = throw Exception('TODO')
+    var optionMap: HashMap<String, Option> = throw Exception('TODO')
     var selected: String = throw Exception('TODO')
     var required: Bool = throw Exception('TODO')
     // Fields End
@@ -17,11 +19,11 @@ public open class OptionGroup {
         throw Exception('TODO')
     }
 
-    public open func getNames(): Array<String> {
+    public open func getNames<String>(): ArrayList<String> {
         throw Exception('TODO')
     }
 
-    public open func getOptions(): Collection<Option> {
+    public open func getOptions<Option>(): ArrayList<Option> {
         throw Exception('TODO')
     }
 

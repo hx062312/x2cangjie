@@ -2,8 +2,9 @@
 package jansi
 
 // Imports Begin
+import jansi.runtime.AnyHashable
+import std.core.Resource
 import std.fs.*
-import std.io.*
 // Imports End
 
 public open class AnsiMain {
@@ -35,7 +36,7 @@ public open class AnsiMain {
         throw Exception('TODO')
     }
 
-    private static func closeQuietly(c: Any): Unit {
+    private static func closeQuietly(c: Resource): Unit {
         throw Exception('TODO')
     }
 

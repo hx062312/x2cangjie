@@ -44,6 +44,28 @@ def _as_bool(value, default=False):
     return str(value).strip().lower() == "true"
 
 
+def _reset_translation_skeletons_from_baseline(translation_dir):
+    """Start fragment validation from clean generated skeleton sources."""
+    copied = 0
+    for schema_path in Path(translation_dir).glob("*.json"):
+        try:
+            schema_data = json.loads(schema_path.read_text())
+        except Exception:
+            continue
+        source = schema_data.get("cangjie_skeleton_path")
+        target = schema_data.get("cangjie_translations_skeleton_path")
+        if not source or not target:
+            continue
+        source_path = Path(source)
+        target_path = Path(target)
+        if not source_path.is_file():
+            continue
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        target_path.write_text(source_path.read_text(), encoding="utf-8")
+        copied += 1
+    return copied
+
+
 def _store_translation_pair_to_kb(fragment, generation, args):
     """
     Store a verified translation pair into the Progressive KB.
@@ -1032,6 +1054,7 @@ def main(args):
     processed_fragments, pending_fragments = get_pending_fragments(
         fragment_traversal, args
     )
+    _reset_translation_skeletons_from_baseline(args.translation_dir)
 
     session_inject(args.skeleton_dir)
     try:

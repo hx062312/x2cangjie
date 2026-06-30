@@ -1,7 +1,7 @@
 {
   "version": "3.0",
   "name": "Java Generics → Cangjie Mapping Rule Library",
-  "description": "系统化的、可执行的 Java 泛型结构到仓颉代码的映射规则库，覆盖声明、约束、通配符、型变、原始类型、数组实例化、递归边界、语义差异和智能容器转换共 9 大类 45 条规则。v3.0 新增：函数式接口映射、JDK 类型扩展、类型参数保留、嵌套类映射。",
+  "description": "系统化的、可执行的 Java 泛型机制到仓颉代码的提示规则库，覆盖声明、约束、通配符、型变、原始类型、数组实例化、递归边界、语义差异和需要代码重构的容器/API 模式共 9 大类 42 条规则；纯类型表达式映射由 java_base_type_map.json 与 type_expression.py 确定性处理。v3.0 新增：函数式接口映射、JDK 类型扩展、类型参数保留、嵌套类映射。",
   "source": "x2cangjie",
   "created": "2026-06-04",
   "updated": "2026-06-07",
@@ -59,13 +59,10 @@
     ]
   },
   "integration_priority": [
-    "Primitive Map (primitive_map.json) — static type lookup, no LLM needed",
-    "Functional Interface Map (functional_interface_map.json) — SAM → function type, no LLM needed",
-    "Fixed Type Map (fixed_type_map.json)",
+    "Java Base Type Map (java_base_type_map.json)",
     "Custom Types (custom_types.json)",
-    "Universal Type Map (universal_type_map_final.json)",
-    "Container Smart Map (type_container_map.json)",
-    "Generics Rule Lib (本规则库)",
+    "Deterministic Type Expression Resolver (java_base_type_map.json + type_expression.py)",
+    "Generics Rule Lib (本规则库，仅泛型机制/语义差异提示)",
     "Progressive KB 缓存 (type_mappings.json)",
     "Progressive KB Few-Shot (translation_pool.json)",
     "RAG 文档检索",

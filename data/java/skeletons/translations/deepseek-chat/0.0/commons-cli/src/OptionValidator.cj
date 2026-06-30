@@ -11,15 +11,15 @@ class OptionValidator {
 
     // Methods Begin
     private static func isValidChar(c: Rune): Bool {
-                return (c >= r'a' && c <= r'z') || (c >= r'A' && c <= r'Z') || (c >= r'0' && c <= r'9') || c == r'_' || c == r'-'
+        throw Exception('TODO')
     }
 
     private static func isValidOpt(c: Rune): Bool {
-                return isValidChar(c) || c == r'?' || c == r'@'
+        throw Exception('TODO')
     }
 
     static func validate(option: String): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

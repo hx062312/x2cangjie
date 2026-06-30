@@ -3,6 +3,9 @@ package commons_cli
 
 // Imports Begin
 import std.fs.*
+import std.reflect.TypeInfo
+import std.time.DateTime
+import stdx.encoding.url.URL
 // Imports End
 
 public open class TypeHandler {
@@ -10,11 +13,11 @@ public open class TypeHandler {
     // Fields End
 
     // Methods Begin
-    public static func createClass(classname: String): Any {
+    public static func createClass(classname: String): TypeInfo {
         throw Exception('TODO')
     }
 
-    public static func createDate(str: String): Any {
+    public static func createDate(str: String): DateTime {
         throw Exception('TODO')
     }
 
@@ -34,11 +37,11 @@ public open class TypeHandler {
         throw Exception('TODO')
     }
 
-    public static func createURL(str: String): Any {
+    public static func createURL(str: String): URL {
         throw Exception('TODO')
     }
 
-    public static func createValue0(str: String, clazz: Any): Any {
+    public static func createValue0<T>(str: String, clazz: TypeInfo): T {
         throw Exception('TODO')
     }
 

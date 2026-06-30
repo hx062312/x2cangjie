@@ -6,6 +6,13 @@ import tempfile
 from pathlib import Path
 
 from src.java.isolation_validation import runtime_support
+from src.java.type_resolution.interface_shim import merge_shim_type_map
+from src.java.type_resolution.type_expression import (
+    build_default_type_map,
+    get_cangjie_type as _deterministic_get_cangjie_type,
+    load_json_map as _load_json_type_map,
+    merge_truthy_type_map as _merge_truthy_type_map_normalized,
+)
 from src.java.utils.get_custom_types import get_custom_type_translation_map
 
 # Status constants for compilation validation
@@ -14,6 +21,14 @@ SUCCESS = "success"
 FAILURE = "failure"
 NOT_EXERCISED = "not-exercised"
 _PKG_NAME_RE = re.compile(r'^\s*name\s*=\s*"([^"]+)"', re.MULTILINE)
+
+
+def _load_json_map(path):
+    return _load_json_type_map(path)
+
+
+def _merge_truthy_type_map(type_map, path):
+    _merge_truthy_type_map_normalized(type_map, path)
 
 
 def _read_package_name(project_root: Path) -> str:
@@ -106,30 +121,16 @@ def get_type_map(schema_dir=None):
             schema_path = Path(schema_dir)
             if schema_path.is_dir():
                 _type_map.update(get_custom_type_translation_map(str(schema_path)))
+                merge_shim_type_map(_type_map, schema_path.name)
         return _type_map
 
-    _type_map = {}
-
-    # Load fixed_type_map.json
-    fixed_map_path = "data/java/type_resolution/fixed_type_map.json"
-    if os.path.exists(fixed_map_path):
-        with open(fixed_map_path, 'r') as f:
-            fixed_map = json.load(f)
-            _type_map.update(fixed_map)
-
-    # Load universal_type_map_final.json
-    universal_map_path = "data/java/type_resolution/universal_type_map_final.json"
-    if os.path.exists(universal_map_path):
-        with open(universal_map_path, 'r') as f:
-            universal_map = json.load(f)
-            for k, v in universal_map.items():
-                if v:
-                    _type_map[k] = v
+    _type_map = build_default_type_map()
 
     if schema_dir:
         schema_path = Path(schema_dir)
         if schema_path.is_dir():
             _type_map.update(get_custom_type_translation_map(str(schema_path)))
+            merge_shim_type_map(_type_map, schema_path.name)
 
     return _type_map
 
@@ -142,72 +143,8 @@ _ERASED_GENERIC_TYPES = frozenset({'Any', 'Nothing'})
 
 
 def get_cangjie_type(java_type, type_map):
-    """
-    Convert Java type to Cangjie type using type_map.
-    Handles generic types like List<String> -> ArrayList<String>.
-
-    Replaces Any with AnyHashable in hash-container key/element positions.
-    """
-    if not java_type:
-        return "Any"
-
-    java_type = java_type.strip()
-
-    # Prefer exact mappings before decomposing generics. Some Java library types
-    # are intentionally mapped as a whole, e.g. Callable<Boolean> -> () -> Bool.
-    if java_type in type_map:
-        return type_map[java_type]
-
-    # Handle generics like ArrayList<String>
-    if '<' in java_type and java_type.endswith('>'):
-        base_type = java_type[:java_type.index('<')]
-        generic_part = java_type[java_type.index('<')+1:java_type.rindex('>')]
-        generic_parts = []
-        depth = 0
-        current = ""
-        for c in generic_part:
-            if c == '<':
-                depth += 1
-                current += c
-            elif c == '>':
-                depth -= 1
-                current += c
-            elif c == ',' and depth == 0:
-                generic_parts.append(current.strip())
-                current = ""
-            else:
-                current += c
-        if current.strip():
-            generic_parts.append(current.strip())
-
-        resolved_parts = [get_cangjie_type(g, type_map) for g in generic_parts]
-
-        if base_type in type_map:
-            base_cangjie = type_map[base_type]
-            if base_cangjie in _ERASED_GENERIC_TYPES:
-                return base_cangjie
-            if '<' in base_cangjie:
-                base_cangjie = base_cangjie.split('<')[0]
-        else:
-            base_cangjie = base_type
-
-        if base_cangjie in _HASH_KEY_CONTAINERS and resolved_parts:
-            if resolved_parts[0] == 'Any':
-                resolved_parts[0] = 'AnyHashable'
-        elif base_cangjie in _HASH_ELEMENT_CONTAINERS and resolved_parts:
-            if resolved_parts[0] == 'Any':
-                resolved_parts[0] = 'AnyHashable'
-
-        generic_cangjie = ', '.join(resolved_parts)
-        return f"{base_cangjie}<{generic_cangjie}>"
-
-    # Handle primitive arrays like int[] -> Array<Int64>
-    if java_type.endswith('[]'):
-        element_type = java_type[:-2]
-        return f"Array<{get_cangjie_type(element_type, type_map)}>"
-
-    # Default to Any for unknown types
-    return "Any"
+    """Convert a Java type expression to Cangjie using the shared resolver."""
+    return _deterministic_get_cangjie_type(java_type, type_map)
 
 
 def extract_param_types_from_signature(signature: str) -> str:
@@ -389,7 +326,9 @@ def find_method_in_skeleton(
     # 注意：构造函数必须是 public|private|protected init，不能是 static init
     modifier_opt = r"((open\s+)?(public|private|protected)(\s+(static|open|override))*\s+)?"
     # Use non-capturing groups so group 1 is always the params
-    modifier_for_sig = r"(?:open\s+)?(?:public|private|protected)(?:\s+(?:static|open|override))*"
+    modifier_for_sig = (
+        r"(?:(?:public|private|protected|static|open|override)\s+)*"
+    )
     if is_constructor:
         modifier_required = r"((open\s+)?(public|private|protected)(\s+(static|open|override))*\s+)"
         pattern = rf"{modifier_required}init\s*\([^)]*\)\s*\{{[\s\S]*?throw Exception\('TODO'\)[\s\S]*?\}}"
@@ -733,6 +672,45 @@ def reset_fragment_to_todo(skeleton_content: str, fragment_sig: str, fragment_ty
         return reset_method_body_to_todo(skeleton_content, fragment_sig, args, fragment)
 
 
+def _body_from_signature_match(cangjie_code: str, sig_match) -> str | None:
+    brace_start = cangjie_code.find('{', sig_match.end() - 1)
+    if brace_start == -1:
+        return None
+    close_brace_pos = find_matching_brace(cangjie_code, brace_start)
+    if close_brace_pos == -1:
+        return None
+    body_content = cangjie_code[brace_start + 1:close_brace_pos]
+    lines = body_content.strip().split('\n')
+    stripped_lines = [line.strip() for line in lines if line.strip()]
+    return '\n'.join(stripped_lines)
+
+
+def _extract_first_callable_body(
+        cangjie_code: str,
+        method_name: str,
+        is_constructor: bool = False,
+        is_static_initializer: bool = False) -> str | None:
+    if is_static_initializer:
+        pattern = r"static\s+init\s*\([^)]*\)\s*\{"
+    elif is_constructor:
+        pattern = r"(?:(?:public|private|protected|static|open|override)\s+)*init\s*\([^)]*\)\s*\{"
+    else:
+        pattern = rf"(?:(?:@Test)\s+)?(?:(?:public|private|protected|static|open|override)\s+)*func\s+{re.escape(method_name)}\s*\([^)]*\)\s*(?::\s*[^\{{]*)?\{{"
+    match = re.search(pattern, cangjie_code, re.MULTILINE)
+    if not match:
+        return None
+    return _body_from_signature_match(cangjie_code, match)
+
+
+def _load_clean_skeleton_content(fragment: dict, args, fallback_path: str) -> str:
+    """Use the original skeleton as compile baseline to avoid stale translations."""
+    original_path = get_original_skeleton_path(fragment, args)
+    if original_path and os.path.exists(original_path):
+        with open(original_path, 'r') as f:
+            return f.read()
+    with open(fallback_path, 'r') as f:
+        return f.read()
+
 
 def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tuple:
     """
@@ -746,8 +724,7 @@ def cangjie_compile_with_skeleton(cangjie_code: str, fragment: dict, args) -> tu
     if not os.path.exists(skeleton_file):
         return cangjie_compile(cangjie_code, fragment, args)
 
-    with open(skeleton_file, 'r') as f:
-        skeleton_content = f.read()
+    skeleton_content = _load_clean_skeleton_content(fragment, args, skeleton_file)
 
     fragment_sig, start_pos, end_pos = find_fragment_in_skeleton(
         skeleton_content,
@@ -841,6 +818,12 @@ def extract_method_body(cangjie_code: str, fragment: dict, schema_dir=None) -> s
     is_static_initializer = (fragment_type == "static_initializer")
     is_constructor = fragment.get("is_constructor", False)
 
+    fallback_body = _extract_first_callable_body(
+        cangjie_code,
+        method_name,
+        is_constructor=is_constructor,
+        is_static_initializer=is_static_initializer,
+    )
 
     # Helper to parse Cangjie params: "a: Int64, b: Float64" -> ["Int64", "Float64"]
     def parse_cangjie_params(param_str):
@@ -851,13 +834,13 @@ def extract_method_body(cangjie_code: str, fragment: dict, schema_dir=None) -> s
                 result.append(param.split(':')[-1].strip())
         return result
 
-    modifier_for_sig = r"(?:open\s+)?(?:public|private|protected)(?:\s+(?:static|open|override))*"
+    modifier_for_sig = r"(?:(?:public|private|protected|static|open|override)\s+)*"
 
     if is_static_initializer:
         # Cangjie static init: static init() { body }
         sig_match = re.search(rf"static init\(\)\s*\{{", cangjie_code)
         if not sig_match:
-            return cangjie_code.strip()
+            return fallback_body if fallback_body is not None else cangjie_code.strip()
     elif is_constructor:
         # Constructor: public init(...) { body } - no 'func' keyword
         if cangjie_param_types:
@@ -878,46 +861,46 @@ def extract_method_body(cangjie_code: str, fragment: dict, schema_dir=None) -> s
             if not sig_match and all_matches:
                 sig_match = re.search(rf"{modifier_for_sig}\s+init\s*\([^)]*\)", all_matches[0].group())
             if not sig_match:
-                return cangjie_code.strip()
+                return fallback_body if fallback_body is not None else cangjie_code.strip()
         else:
             sig_match = re.search(rf"{modifier_for_sig}\s+init\s*\([^)]*\)\s*\{{", cangjie_code)
             if not sig_match:
-                return cangjie_code.strip()
+                return fallback_body if fallback_body is not None else cangjie_code.strip()
     elif is_top_level_func:
         sig_match = re.search(rf"{method_name}\s*\([^)]*\)\s*:\s*[^\{{]*", cangjie_code)
         if not sig_match:
-            return cangjie_code.strip()
+            return fallback_body if fallback_body is not None else cangjie_code.strip()
     elif cangjie_param_types:
         # Find all func matches and select correct one based on params (same logic as find_method_in_skeleton)
-        pattern = rf"(?:@Test\s+)?{modifier_for_sig}\s+func\s+{re.escape(method_name)}\s*\([^)]*\)\s*:\s*[^\{{]*\{{"
+        pattern = rf"(?:@Test\s+)?{modifier_for_sig}func\s+{re.escape(method_name)}\s*\([^)]*\)\s*(?::\s*[^\{{]*)?\{{"
         all_matches = list(re.finditer(pattern, cangjie_code, re.MULTILINE))
         sig_match = None
         for match in all_matches:
             matched_text = match.group()
-            sig_pattern = rf"(?:@Test\s+)?{modifier_for_sig}\s+func\s+{re.escape(method_name)}\s*\(([^)]*)\)\s*:"
+            sig_pattern = rf"(?:@Test\s+)?{modifier_for_sig}func\s+{re.escape(method_name)}\s*\(([^)]*)\)\s*(?::\s*[^\{{]*)?"
             sig_match_inner = re.search(sig_pattern, matched_text)
             if not sig_match_inner:
                 continue
             if parse_cangjie_params(sig_match_inner.group(1)) == cangjie_param_types:
-                sig_match = re.search(rf"(?:@Test\s+)?{modifier_for_sig}\s+func\s+{re.escape(method_name)}\s*\([^)]*\)\s*:\s*[^\{{]*", matched_text)
+                sig_match = re.search(rf"(?:@Test\s+)?{modifier_for_sig}func\s+{re.escape(method_name)}\s*\([^)]*\)\s*(?::\s*[^\{{]*)?", matched_text)
                 break
         # Fallback to first match
         if not sig_match and all_matches:
-            sig_match = re.search(rf"(?:@Test\s+)?{modifier_for_sig}\s+func\s+{re.escape(method_name)}\s*\([^)]*\)\s*:\s*[^\{{]*", all_matches[0].group())
+            sig_match = re.search(rf"(?:@Test\s+)?{modifier_for_sig}func\s+{re.escape(method_name)}\s*\([^)]*\)\s*(?::\s*[^\{{]*)?", all_matches[0].group())
         if not sig_match:
-            return cangjie_code.strip()
+            return fallback_body if fallback_body is not None else cangjie_code.strip()
     else:
-        sig_match = re.search(rf"(?:@Test\s+)?{modifier_for_sig}\s+func\s+{re.escape(method_name)}\s*\([^)]*\)\s*:\s*[^\{{]*", cangjie_code)
+        sig_match = re.search(rf"(?:@Test\s+)?{modifier_for_sig}func\s+{re.escape(method_name)}\s*\([^)]*\)\s*(?::\s*[^\{{]*)?", cangjie_code)
         if not sig_match:
-            return cangjie_code.strip()
+            return fallback_body if fallback_body is not None else cangjie_code.strip()
 
     brace_start = cangjie_code.find('{', sig_match.end() - 1)
     if brace_start == -1:
-        return cangjie_code.strip()
+        return fallback_body if fallback_body is not None else cangjie_code.strip()
 
     close_brace_pos = find_matching_brace(cangjie_code, brace_start)
     if close_brace_pos == -1:
-        return cangjie_code.strip()
+        return fallback_body if fallback_body is not None else cangjie_code.strip()
 
     body_content = cangjie_code[brace_start + 1:close_brace_pos]
     lines = body_content.strip().split('\n')

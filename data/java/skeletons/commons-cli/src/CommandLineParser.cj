@@ -7,11 +7,11 @@ package commons_cli
 
 public interface CommandLineParser {
     // Methods Begin
-    func parse0(options: Options, arguments: Array<Any>): CommandLine {
+    func parse0(options: Options, arguments: Array<String>): CommandLine {
         throw Exception('TODO')
     }
 
-    func parse1(options: Options, arguments: Array<Any>, stopAtNonOption: Bool): CommandLine {
+    func parse1(options: Options, arguments: Array<String>, stopAtNonOption: Bool): CommandLine {
         throw Exception('TODO')
     }
 

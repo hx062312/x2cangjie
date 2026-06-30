@@ -1,13 +1,15 @@
 """
 Generics Rule Library — Loading, matching, and application engine.
 
-Provides four integration points for the Java → Cangjie translation pipeline:
+Provides two integration points for the Java → Cangjie translation pipeline:
 
-1. Container type mapping and constraint inference (for create_skeleton.py)
-2. Generics rule matching (for translate_type_rag.py)
-3. Few-shot prompt injection (for prompt_generator.py)
-4. Static type resolution (primitive_map, functional_interface_map, nested class map
-   — used in fallback_type_for() before budget_exhausted returns Any)
+1. Generics rule matching for language mechanisms that need model guidance.
+2. Few-shot prompt injection for generic declarations, bounds, wildcards,
+   raw-type recovery, generic arrays/construction, and semantic gaps.
+
+Concrete type expressions such as List<String>, HashMap<Object, Integer>, and
+Function<T, R> are resolved deterministically by
+src.java.type_resolution.type_expression using fixed/java.base type maps.
 
 Data directory:  generics_rule_lib/  (at repo root)
 """
@@ -70,9 +72,9 @@ class GenericsRuleLib:
     """Load and query the Java generics → Cangjie mapping rule library.
 
     Attributes:
-        rules:  flat list of all 45 rule dicts (sorted by priority desc)
-        container_map:  dict from type_container_map.json
-        primitive_map:  dict from primitive_map.json
+        rules: flat list of prompt rules sorted by priority desc
+        container_map: legacy/reference dict from type_container_map.json
+        primitive_map: legacy/reference dict from primitive_map.json
     """
 
     def __init__(self, rule_dir: Optional[str] = None):
@@ -141,7 +143,7 @@ class GenericsRuleLib:
             self.nested_class_map = ndata.get("mappings", {})
 
     # ------------------------------------------------------------------
-    # Container mapping (integration point 1: create_skeleton.py)
+    # Legacy/reference container mapping
     # ------------------------------------------------------------------
 
     def get_container_cangjie(self, java_type_name: str) -> Optional[dict]:

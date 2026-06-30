@@ -7,7 +7,6 @@ TEMP="${TEMP:-0.0}"
 SUFFIX="${SUFFIX:-_evosuite_cleaned_base}"
 ANALYSIS_DIR="${ANALYSIS_DIR:-data/analysis}"
 USE_RAG="${USE_RAG:-true}"
-USE_LLM="${USE_LLM:-true}"
 SKIP_MOCK="${SKIP_MOCK:-true}"
 TRANSLATE_TESTS="${TRANSLATE_TESTS:-false}"
 
@@ -25,8 +24,7 @@ cat > "$TYPE_LOG" <<EOF
 model=$MODEL
 temperature=$TEMP
 suffix=$SUFFIX
-use_llm=$USE_LLM
-use_rag=$USE_RAG
+use_progressive_kb=true
 started_at=$(date -Is)
 
 EOF
@@ -50,7 +48,6 @@ cat > "$FULL_LOG" <<EOF
 model=$MODEL
 temperature=$TEMP
 suffix=$SUFFIX
-use_llm=$USE_LLM
 use_rag=$USE_RAG
 skip_mock=$SKIP_MOCK
 translate_tests=$TRANSLATE_TESTS
@@ -95,7 +92,7 @@ run_type_translation() {
   append_header "$FULL_LOG" "$project type translation"
 
   set +e
-  bash scripts/java/translate_types.sh "$project" "$MODEL" "$TEMP" "$SUFFIX" "$USE_LLM" "$USE_RAG" \
+  bash scripts/java/translate_types.sh "$project" "$MODEL" "$TEMP" "$SUFFIX" "$TRANSLATE_TESTS" true \
     > >(tee -a "$TYPE_LOG" >> "$FULL_LOG") \
     2> >(tee -a "$TYPE_LOG" >> "$FULL_LOG")
   local status=$?

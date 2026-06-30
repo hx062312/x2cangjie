@@ -11,7 +11,7 @@ public open class ParseException {
 
     // Methods Begin
     public init(message: String) {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

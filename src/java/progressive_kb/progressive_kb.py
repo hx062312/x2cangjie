@@ -58,7 +58,7 @@ class TypeMapping:
     java_type: str
     cangjie_type: str
     imports: list = field(default_factory=list)
-    source: str = "llm"       # "fixed_map" | "custom_type" | "llm" | "kb"
+    source: str = "llm"       # "java_base_map" | "custom_type" | "generated_interface_shim" | "llm" | "kb"
     verified: bool = True
 
 
