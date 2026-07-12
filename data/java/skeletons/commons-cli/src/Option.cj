@@ -3,22 +3,20 @@ package commons_cli
 
 // Imports Begin
 import std.collection.ArrayList
-import std.reflect.TypeInfo
-import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class Option {
     // Fields Begin
-    static let UNINITIALIZED: Int32 = throw Exception('TODO')
-    static let UNLIMITED_VALUES: Int32 = throw Exception('TODO')
-    var option: String = throw Exception('TODO')
+    static let UNINITIALIZED: Int64 = throw Exception('TODO')
+    static let UNLIMITED_VALUES: Int64 = throw Exception('TODO')
+    let option: String = throw Exception('TODO')
     var longOption: String = throw Exception('TODO')
     var argName: String = throw Exception('TODO')
     var description: String = throw Exception('TODO')
     var required: Bool = throw Exception('TODO')
     var optionalArg: Bool = throw Exception('TODO')
-    var argCount: Int32 = throw Exception('TODO')
-    var type__: TypeInfo = throw Exception('TODO')
+    var argCount: Int64 = throw Exception('TODO')
+    var type__: Any = throw Exception('TODO')
     var values: ArrayList<String> = throw Exception('TODO')
     var valuesep: Rune = throw Exception('TODO')
     // Fields End
@@ -32,7 +30,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public init(constructorId: Int32, option_param: String, longOption_param: String, description_param: String, hasArg: Bool, builder: Option_Builder) {
+    public init(constructorId: Int64, option_param: String, longOption_param: String, description_param: String, hasArg: Bool, builder: Option_Builder) {
         throw Exception('TODO')
     }
 
@@ -76,7 +74,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public open func getArgs(): Int32 {
+    public open func getArgs(): Int64 {
         throw Exception('TODO')
     }
 
@@ -84,7 +82,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public open func getId(): Int32 {
+    public open func getId(): Int64 {
         throw Exception('TODO')
     }
 
@@ -108,7 +106,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public open func getValue1(index: Int32): String {
+    public open func getValue1(index: Int64): String {
         throw Exception('TODO')
     }
 
@@ -116,7 +114,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public open func getValues(): Array<String> {
+    public open func getValues(): Array<Any> {
         throw Exception('TODO')
     }
 
@@ -124,7 +122,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public open func getValuesList<String>(): ArrayList<String> {
+    public open func getValuesList(): ArrayList<String> {
         throw Exception('TODO')
     }
 
@@ -140,7 +138,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public open func hashCode(): Int32 {
+    public open func hashCode(): Int64 {
         throw Exception('TODO')
     }
 
@@ -176,7 +174,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public open func setArgs(num: Int32): Unit {
+    public open func setArgs(num: Int64): Unit {
         throw Exception('TODO')
     }
 
@@ -196,7 +194,7 @@ public open class Option {
         throw Exception('TODO')
     }
 
-    public open func setType0(type___param: TypeInfo): Unit {
+    public open func setType0(type___param: Any): Unit {
         throw Exception('TODO')
     }
 
@@ -227,8 +225,8 @@ public class Option_Builder {
     var argName: String = throw Exception('TODO')
     var required: Bool = throw Exception('TODO')
     var optionalArg: Bool = throw Exception('TODO')
-    var argCount: Int32 = throw Exception('TODO')
-    var type__: TypeInfo = throw Exception('TODO')
+    var argCount: Int64 = throw Exception('TODO')
+    var type__: Any = throw Exception('TODO')
     var valueSeparator: Rune = throw Exception('TODO')
     // Fields End
 
@@ -265,7 +263,7 @@ public class Option_Builder {
         throw Exception('TODO')
     }
 
-    public open func numberOfArgs(numberOfArgs: Int32): Option_Builder {
+    public open func numberOfArgs(numberOfArgs: Int64): Option_Builder {
         throw Exception('TODO')
     }
 
@@ -285,7 +283,7 @@ public class Option_Builder {
         throw Exception('TODO')
     }
 
-    public open func type_(type___param: TypeInfo): Option_Builder {
+    public open func type_(type___param: Any): Option_Builder {
         throw Exception('TODO')
     }
 

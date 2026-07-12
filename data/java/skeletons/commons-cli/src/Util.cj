@@ -7,7 +7,7 @@ package commons_cli
 
 class Util {
     // Fields Begin
-    static let EMPTY_STRING_ARRAY: Array<String> = throw Exception('TODO')
+    static let EMPTY_STRING_ARRAY: Array<Any> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin

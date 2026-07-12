@@ -2,16 +2,14 @@
 package commons_cli
 
 // Imports Begin
-import commons_cli.runtime.AnyHashable
 import std.collection.ArrayList
 import std.collection.HashMap
-import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class CommandLine {
     // Fields Begin
-    var args: ArrayList<String> = throw Exception('TODO')
-    var options: ArrayList<Option> = throw Exception('TODO')
+    let args: ArrayList<String> = throw Exception('TODO')
+    let options: ArrayList<Option> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
@@ -27,11 +25,11 @@ public open class CommandLine {
         throw Exception('TODO')
     }
 
-    public open func getArgList<String>(): ArrayList<String> {
+    public open func getArgList(): ArrayList<String> {
         throw Exception('TODO')
     }
 
-    public open func getArgs(): Array<String> {
+    public open func getArgs(): Array<Any> {
         throw Exception('TODO')
     }
 
@@ -43,15 +41,15 @@ public open class CommandLine {
         throw Exception('TODO')
     }
 
-    public open func getOptionProperties0(option: Option): HashMap<AnyHashable, Any> {
+    public open func getOptionProperties0(option: Option): HashMap<String, String> {
         throw Exception('TODO')
     }
 
-    public open func getOptionProperties1(opt: String): HashMap<AnyHashable, Any> {
+    public open func getOptionProperties1(opt: String): HashMap<String, String> {
         throw Exception('TODO')
     }
 
-    public open func getOptions<Option>(): Array<Option> {
+    public open func getOptions(): Array<Any> {
         throw Exception('TODO')
     }
 
@@ -79,15 +77,15 @@ public open class CommandLine {
         throw Exception('TODO')
     }
 
-    public open func getOptionValues0(opt: Rune): Array<String> {
+    public open func getOptionValues0(opt: Rune): Array<Any> {
         throw Exception('TODO')
     }
 
-    public open func getOptionValues1<String>(option: Option): Array<String> {
+    public open func getOptionValues1(option: Option): Array<Any> {
         throw Exception('TODO')
     }
 
-    public open func getOptionValues2(opt: String): Array<String> {
+    public open func getOptionValues2(opt: String): Array<Any> {
         throw Exception('TODO')
     }
 
@@ -115,7 +113,7 @@ public open class CommandLine {
         throw Exception('TODO')
     }
 
-    public open func iterator<Option>(): Iterator<Option> {
+    public open func iterator(): ArrayList<Option> {
         throw Exception('TODO')
     }
 
@@ -128,7 +126,7 @@ public open class CommandLine {
 
 public class CommandLine_Builder {
     // Fields Begin
-    var commandLine: CommandLine = throw Exception('TODO')
+    let commandLine: CommandLine = throw Exception('TODO')
     // Fields End
 
     // Methods Begin

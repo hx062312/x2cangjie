@@ -21,7 +21,7 @@ public open class AnsiType {
     }
 
     public open func getDescription(): String {
-                return this.description
+        throw Exception('TODO')
     }
 
     // Methods End

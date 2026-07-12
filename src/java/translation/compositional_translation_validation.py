@@ -531,6 +531,131 @@ def prompt_model(model_info, client, prompt, total_input_tokens, args, response_
     return generation
 
 
+# ---------------------------------------------------------------------------
+# Part 1: Pseudocode intermediate layer (Java → pseudocode semantic bridge)
+# ---------------------------------------------------------------------------
+#
+# Generates an LLM-authored, language-agnostic pseudocode + natural-language
+# annotation block that captures the *intent* of the Java fragment. The block is
+# later injected into the translation prompt (via PromptGenerator.pseudocode_context)
+# so the translator step focuses on the target-language rendering rather than
+# re-importing Java source patterns that do not map cleanly into Cangjie.
+#
+# Returns "" on any failure so callers can treat absence gracefully.
+
+
+PSEUDOCODE_SYSTEM_PROMPT = (
+    "You are a code comprehension engine. Your job is to read a Java fragment and "
+    "describe its semantic intent and logic in language-agnostic pseudocode "
+    "annotated with natural-language comments. The pseudocode is later used as a "
+    "translation bridge to a target language. You must NOT use Java-specific "
+    "syntax or APIs. Express ALL operations in plain pseudo-statements and "
+    "accompany each block with a natural-language comment describing its purpose."
+)
+
+
+def _extract_pseudocode(generation: str) -> str:
+    """Pull the pseudocode block out of an LLM response.
+
+    Accepts either a triple-backtick fenced block or a bare block; returns the
+    trimmed inner text. If no block is found, returns the whole generation so
+    the downstream steps can still see something useful.
+    """
+    if not generation:
+        return ""
+    stripped = generation.strip()
+    # Strip leading/trailing triple-backtick fences if present.
+    if stripped.startswith("```"):
+        # Drop the leading fence (and optional language tag).
+        first_nl = stripped.find("\n")
+        if first_nl != -1:
+            stripped = stripped[first_nl + 1:]
+        else:
+            stripped = ""
+    # Strip a trailing fence if present.
+    if stripped.rstrip().endswith("```"):
+        stripped = stripped.rstrip()
+        stripped = stripped[: stripped.rfind("```")].rstrip()
+    return stripped.strip()
+
+
+def _generate_pseudocode(fragment: dict, args, model_info, client) -> str:
+    """Phase-1 LLM call: Java fragment → annotated pseudocode bridge.
+
+    Returns the pseudocode block as a string; empty string on any failure
+    (network/JSON/empty). Failures are non-fatal — translation proceeds
+    without the semantic bridge.
+    """
+    try:
+        java_code = ""
+        frag_type = fragment.get("fragment_type", "method")
+        frag_name = fragment.get("fragment_name", "")
+        actual_name = frag_name.split(":")[-1] if ":" in frag_name else frag_name
+
+        # The fragment dict does not always carry "body" directly; reuse the
+        # same source-fragment assembly strategy as PromptGenerator for symmetry.
+        # We build a throwaway PromptGenerator solely to access the assembled
+        # source_fragment_code; we set _skip_prompt_build=True so the expensive
+        # context loads (RAG / KB / generics / grammar / syntax-graph) and the
+        # full prompt build are NOT triggered — we only need the Java source.
+        prompt_gen = PromptGenerator(
+            is_feedback=False,
+            args=args,
+            fragment_details=fragment,
+            feedback="",
+            pseudocode="",  # do not recurse into pseudocode generation
+            _skip_prompt_build=True,  # only need source_fragment_code, not the prompt
+        )
+        java_code = prompt_gen.source_fragment_code or ""
+
+        if not java_code.strip():
+            return ""
+
+        user_prompt = (
+            f'JAVA FRAGMENT ({frag_type} "{actual_name}"):\n```\n{java_code}\n```\n\n'
+            "TASK: Produce a pseudocode description of the above fragment following "
+            "these rules:\n"
+            "1. Output ONE block of pseudocode inside triple backticks.\n"
+            "2. Use plain control-flow keywords (FOR / WHILE / IF / ELSE / RETURN / "
+            "BREAK) only.\n"
+            "3. Replace every Java API call with a high-level verb phrase describing "
+            "intent. Example: `Collections.sort(xs)` -> `sort xs in place`.\n"
+            "4. Each logical block MUST be preceded by a single-line comment starting "
+            "with `//` that explains the intent in natural language.\n"
+            "5. Do NOT mention Cangjie, Python, or any other target language.\n"
+            "6. Keep the same control-flow order and variable names (when meaningful).\n"
+        )
+
+        total_input_tokens = get_total_input_tokens(
+            PSEUDOCODE_SYSTEM_PROMPT + user_prompt, args, model_info
+        )
+        max_new_tokens = min(
+            model_info[args.model]["max_new_tokens"],
+            model_info[args.model]["total"] - total_input_tokens,
+        )
+        if max_new_tokens <= 0:
+            return ""
+
+        completion = client.chat.completions.create(
+            model=model_info[args.model]["model_id"],
+            messages=[
+                {"role": "system", "content": PSEUDOCODE_SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt},
+            ],
+            max_tokens=max_new_tokens,
+            temperature=args.temperature,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+        )
+        generation = completion.choices[0].message.content or ""
+        log_detail(args, "PSEUDOCODE", generation)
+        return _extract_pseudocode(generation)
+    except Exception as e:  # non-fatal: translation proceeds without bridge
+        log_detail(args, "PSEUDOCODE-ERROR", str(e))
+        return ""
+
+
 def extract_json_translation(generation: str, fragment: dict, args) -> tuple:
     """
     Extract translation from JSON output.
@@ -738,11 +863,20 @@ def translate(
         shared_attempt = shared_budget_total - budget.get("cangjie_compilation", shared_budget_total) + 1
         ############################ <TRANSLATION> ############################
         with redirect_stdout_to_body_log(args):
+            # --- Part 1: Pseudocode intermediate layer -------------------------
+            # When --use_pseudocode is on, run a Java → pseudocode LLM call here
+            # and pass the result to PromptGenerator so the actual translation
+            # prompt is built around the semantic bridge rather than raw Java.
+            pseudocode = ""
+            if _as_bool(getattr(args, 'use_pseudocode', 'false')):
+                pseudocode = _generate_pseudocode(fragment, args, model_info, client)
+
             prompt_gen = PromptGenerator(
                 is_feedback=True if feedback else False,
                 args=args,
                 fragment_details=fragment,
                 feedback=feedback,
+                pseudocode=pseudocode,
             )
             prompt = prompt_gen.generate_prompt()
 
@@ -1180,6 +1314,29 @@ if __name__ == "__main__":
         type=str,
         default="false",
         help="Skip mock-test validation after successful Cangjie compilation (true/false)",
+    )
+    parser_.add_argument(
+        "--use_pseudocode",
+        type=str,
+        default="false",
+        help="Part 1: enable pseudocode intermediate layer (Java→pseudocode→Cangjie) "
+        "two-phase translation. Decouples Java source-syntax inheritance from "
+        "Cangjie output rendering (true/false)",
+    )
+    parser_.add_argument(
+        "--use_grammar_prompt",
+        type=str,
+        default="false",
+        help="Part 2: inject Cangjie EBNF grammar + runtime type-mapping notes into "
+        "the translation prompt as a hard-syntax-constraint block (true/false)",
+    )
+    parser_.add_argument(
+        "--use_syntax_rag",
+        type=str,
+        default="false",
+        help="Part 3: retrieve Cangjie corpus snippets whose CFG/DFG graphs are "
+        "structurally similar to the Java fragment and inject as few-shot structural "
+        "examples (true/false)",
     )
     args = parser_.parse_args()
     main(args)

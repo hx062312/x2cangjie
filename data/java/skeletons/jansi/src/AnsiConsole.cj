@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.io.OutputStream
+
 // Imports End
 
 public open class AnsiConsole {
@@ -18,10 +18,10 @@ public open class AnsiConsole {
     static let JANSI_EAGER: String = throw Exception('TODO')
     static let JANSI_NORESET: String = throw Exception('TODO')
     static let JANSI_GRACEFUL: String = throw Exception('TODO')
-    static var system_out: OutputStream = throw Exception('TODO')
-    static var out: OutputStream = throw Exception('TODO')
-    static var system_err: OutputStream = throw Exception('TODO')
-    static var err: OutputStream = throw Exception('TODO')
+    static var system_out: Any = throw Exception('TODO')
+    static var out: Any = throw Exception('TODO')
+    static var system_err: Any = throw Exception('TODO')
+    static var err: Any = throw Exception('TODO')
     static let IS_WINDOWS: Bool = throw Exception('TODO')
     static let IS_CYGWIN: Bool = throw Exception('TODO')
     static let IS_MSYSTEM: Bool = throw Exception('TODO')
@@ -61,7 +61,7 @@ public open class AnsiConsole {
         throw Exception('TODO')
     }
 
-    private static func newPrintStream(out: AnsiOutputStream, enc: String): AnsiPrintStream {
+    private static func newPrintStream(out_param: AnsiOutputStream, enc: String): AnsiPrintStream {
         throw Exception('TODO')
     }
 
@@ -73,7 +73,7 @@ public open class AnsiConsole {
         throw Exception('TODO')
     }
 
-    public static func sysOut(): OutputStream {
+    public static func sysOut(): Any {
         throw Exception('TODO')
     }
 
@@ -81,7 +81,7 @@ public open class AnsiConsole {
         throw Exception('TODO')
     }
 
-    public static func sysErr(): OutputStream {
+    public static func sysErr(): Any {
         throw Exception('TODO')
     }
 

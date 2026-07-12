@@ -7,25 +7,25 @@ import std.collection.ArrayList
 
 public open class MissingOptionException <: ParseException {
     // Fields Begin
-    var missingOptions: ArrayList<Any> = throw Exception('TODO')
+    var missingOptions: ArrayList<Any> = ArrayList<Any>()
     // Fields End
 
     // Methods Begin
-    private static func createMessage(missingOptions_param: ArrayList<Any>): String {
-        throw Exception('TODO')
+    private static func createMessage(missingOptions_param: ArrayList<Nothing>): String {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public init(constructorId: Int32, missingOptions_param: ArrayList<Any>, message: String) {
+    public init(constructorId: Int64, missingOptions_param: ArrayList<Any>, message: String) {
         super()
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public static func MissingOptionException1(constructorId: Int32, missingOptions_param: ArrayList<Any>, message: String): MissingOptionException {
-        throw Exception('TODO')
+    public static func MissingOptionException1(constructorId: Int64, missingOptions_param: ArrayList<Any>, message: String): MissingOptionException {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getMissingOptions(): ArrayList<Any> {
-        throw Exception('TODO')
+                return missingOptions
     }
 
     // Methods End

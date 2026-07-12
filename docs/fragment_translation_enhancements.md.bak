@@ -1,0 +1,350 @@
+﻿# Fragment 缈昏瘧浼樺寲锛氬疄鐜拌鏄庢枃妗?
+> 鏈枃璁板綍 x2cangjie 涓夐」 fragment 缈昏瘧澧炲己鏀归€犵殑璁捐銆佸疄鐜颁笌浣跨敤鏂瑰紡锛?> - **Part 1**: 浼唬鐮佷腑闂村眰锛圝ava 鈫?浼唬鐮?鈫?Cangjie 涓ら樁娈电炕璇戯級
+> - **Part 2**: Cangjie 璇硶 / EBNF 瑙勫垯娉ㄥ叆
+> - **Part 3**: 璇硶鍥?RAG锛圕FG/DFG 缁撴瀯鐩镐技妫€绱級
+>
+> 鏂囨湯闄?瀹屾暣椤圭洰杩愯娴佺▼"銆?
+---
+
+## 鎬讳綋鎬濊矾
+
+x2cangjie 鐨?fragment 缈昏瘧鏈変袱绫婚敊璇細
+- **A: 閿欒缁ф壙 Java 婧愯娉?API 妯″紡** 鈥?LLM 鍊惧悜浜庢ā浠?Java 婧愬疄鐜版柟寮忥紝鍗充娇 Cangjie 涓嶆敮鎸佽妯″紡銆?- **B: 浣跨敤閿欒鐨?Cangjie 璇硶/API** 鈥?LLM 瀵?Cangjie 璁粌鏁版嵁绋€钖勶紝涓嶇煡閬撹鎬庝箞鍐欍€?
+閽堝涓婅堪闂鍒嗗埆寮曞叆锛?- **Part 1** 瑙ｅ喅 A锛氬厛璁?LLM 灏?Java fragment 瑙ｄ负璇█鏃犲叧鐨?浼唬鐮?+ 鑷劧璇█娉ㄩ噴"涓棿琛ㄧず锛屽啀鍩轰簬浼唬鐮?+ 鍏冩暟鎹炕璇戞垚 Cangjie銆備袱闃舵瑙ｈ€?鐞嗚В Java 璇箟"鍜?鐢熸垚姝ｇ‘ Cangjie 璇硶/API"銆?- **Part 2** 瑙ｅ喅 B锛氬皢 Cangjie 鍏抽敭璇硶瑙勫垯浠?EBNF 鎽樿 + 杩愯鏃舵槧灏勬敞閲婄殑褰㈠紡娉ㄥ叆 prompt 浣滀负纭害鏉熸彁绀猴紝涓嶄緷璧栫害鏉熻В鐮併€?- **Part 3** 鍚屾椂缂撹В A/B锛氫粠 CangjieCorpus 鎻愬彇鎺у埗娴?+ 鏁版嵁娴佺粨鏋勬寚绾癸紝鎸夌粨鏋勭浉浼煎害妫€绱㈠苟娉ㄥ叆 few-shot 缁撴瀯绀轰緥銆?
+涓夐儴鍒嗗潎涓?*榛樿鍏抽棴**锛坄"false"`锛夛紝鎸?flag 寮€鍚紝**鍚戝悗鍏煎**锛?- 鍏抽棴鏃惰涓轰笌鏀归€犲墠瀹屽叏涓€鑷淬€?- 浜掍负鐙珛锛屽彲鍗曠嫭鎴栫粍鍚堟墦寮€銆?- 澶辫触閫€鍖栵紙fail-open锛夛細浠讳綍 Part 澶辫触鏃朵笉褰卞搷涓绘祦绋嬶紝浠呮墦鍗拌鍛娿€?
+鍙傝€冭鏂囩储寮曡瑙?`docs/related_work_code_translation.md`銆?
+---
+
+## Part 1 鈥?浼唬鐮佷腑闂村眰
+
+### 鍔ㄦ満
+
+鐏垫劅鏉ヨ嚜 *Can Emulating Semantic Translation Help LLMs with Code Translation? A Study Based on Pseudocode*锛坅rXiv:2510.00920锛夈€傝鏂囧湪 Python/Java/C++/Go/Rust 涓婅瘉鏄庯細鐩告瘮浜庣洿鎺?`Source 鈫?Target`锛屼娇鐢ㄤ吉浠ｇ爜涓棿琛ㄧず鍙互鏄捐憲鍑忓皯"鐩存帴缈昏瘧鏃?LLM 妯′豢婧愯瑷€瀹炵幇鏂瑰紡瀵艰嚧鐨勮涔夐敊璇?銆倄2cangjie 涓?Cangjie 鏄綆璧勬簮璇█锛屼吉浠ｇ爜涓棿灞傝В鑰︿簡璇箟鐞嗚В涓庣洰鏍囪瑷€娓叉煋锛岀壒鍒鍚堟垜浠殑鍦烘櫙銆?
+### 璁捐瑕佺偣
+
+1. **涓ら樁娈?*锛?   - Phase 1 鈥?`Java fragment 鈫?浼唬鐮侊紙甯?`//` 鑷娉ㄩ噴銆佽瑷€鏃犲叧銆佺函鑷劧璇█鎻忚堪鎿嶄綔鎰忓浘锛塦锛屼綔涓?璇箟妗ユ"銆?   - Phase 2 鈥?`浼唬鐮?+ 鍏冩暟鎹紙閮ㄥ垎楠ㄦ灦銆佹硾鍨嬭鍒欍€丷AG 鏂囨。銆並B 渚嬪瓙銆丳art 2/3 娉ㄥ叆锛夆啋 Cangjie`锛屼綔涓哄疄闄呯炕璇戙€?2. **涓嶄涪寮?Java 婧愮爜**锛歅hase 2 鐨?prompt 鍚屾椂鍖呭惈 Java 婧愪唬鐮佸拰浼唬鐮侊紝浼唬鐮佸眳涓В鍐虫涔夈€傝繖涓庤鏂囦腑 "Strategy 4/5" 涓€鑷?鈥斺€?LLM 鍙鐓ф簮鐮佸寲瑙ｄ吉浠ｇ爜妯＄硦鎬с€?3. 澶辫触閫€鍖栦负鐩存帴缈昏瘧 鈥?Phase 1 LLM 璋冪敤澶辫触锛堢綉缁?JSON/绌哄搷搴旓級鏃惰繑鍥炵┖涓诧紝涓荤炕璇戠户缁繘琛屾棤璇箟妗ユ鐨勭増鏈€?
+### 瀹炵幇浣嶇疆
+
+| 鏂囦欢 | 鍙樻洿 |
+|---|---|
+| `src/java/translation/compositional_translation_validation.py` | 鏂板 `PSEUDOCODE_SYSTEM_PROMPT`銆乣_extract_pseudocode()`銆乣_generate_pseudocode(fragment, args, model_info, client) -> str`锛沗translate()` 寰幆鍦ㄦ瀯寤?`PromptGenerator` 鍓嶅厛璋冪敤涓€娆?LLM 鎷夸吉浠ｇ爜鍧楋紝鍐嶄互 `pseudocode=` 褰㈠弬浼犲叆锛沗__init__` 鐨?`argparse` 鍔犲叆 `--use_pseudocode`锛堥粯璁?`"false"`锛夈€?|
+| `src/java/translation/prompt_generator.py` | `__init__` 鏂板 `pseudocode=""` 涓?`_skip_prompt_build=False` 褰㈠弬锛屾柊澧?`self.pseudocode_context`锛涙柊澧?`add_pseudocode_bridge()` 鏂规硶锛沗build_base_prompt()` 鍦?Java 婧愪唬鐮佷箣鍚庛€乸artial translation 涔嬪墠娉ㄥ叆浼唬鐮佹ˉ姊佹枃鏈€?|
+| `configs/prompt_templates.yaml` | 鏂板妯℃澘 `pseudocode_generation_system`銆乣pseudocode_generation_user`銆乣pseudocode_bridge_context`锛堜緵浜哄闃咃紱杩愯鏈熶娇鐢ㄤ唬鐮佸唴宓屽瓧绗︿覆浠ヤ繚璇佺‘瀹氭€э紝瑙?`_generate_pseudocode()`锛夈€?|
+| `scripts/java/translate_fragment.sh` | 鏂板绗?9 浣嶇疆鍙傛暟 `use_pseudocode`锛堥粯璁?`"false"`锛夛紝鍔犳牎楠岋紝閫忎紶 `--use_pseudocode=` 缁?Python銆?|
+
+### Phase-1 prompt 瑙勭害
+
+瑕佹眰 LLM 杈撳嚭鐨勪吉浠ｇ爜鍧楋細
+- 浠呬竴濂椾笁鍙嶅紩鍙峰寘瑁癸紱
+- 浠呬娇鐢?`FOR / WHILE / IF / ELSE / RETURN / BREAK` 绛夐€氱敤鍏抽敭瀛楋紱
+- 姣忎釜 Java API 璋冪敤鏀瑰啓涓哄姩璇嶇煭璇紙濡?`Collections.sort(xs)` 鈫?`sort xs in place`锛夛紱
+- 姣忎釜閫昏緫鍧楀墠鐢?`//` 娉ㄩ噴璇存槑鎰忓浘锛?- 涓嶆彁鍙?Cangjie/Python 绛変换浣曠洰鏍囪瑷€锛?- 淇濇寔鍘熷鎺у埗娴侀『搴忎笌鍙橀噺鍚嶃€?
+`_extract_pseudocode()` 鐢ㄥ惎鍙戝紡鍓ョ涓夊弽寮曞彿鍥存爮锛屽け璐ユ椂杩斿洖鍘熸枃鏈紝纭繚涓嬫父 PromptGenerator 鑳芥嬁鍒伴潪绌哄瓧绗︿覆銆?
+### `_skip_prompt_build` 閽╁瓙
+
+`_generate_pseudocode` 鍐呴儴鍙渶瑕?`source_fragment_code`锛堢粍瑁呭ソ鐨?Java fragment锛夛紝涓嶉渶瑕?RAG/KB/generics/grammar/syntax-graph 绛夋槀璐典笂涓嬫枃銆傚洜姝?PromptGenerator 鍔犱簡涓€涓唴閮?`_skip_prompt_build` 褰㈠弬锛氱疆 `True` 鏃跺湪 `load_fragment()` 涔嬪悗鍗?`return`锛岃烦杩囨槀璐典笂涓嬫枃鍔犺浇涓?prompt 鏋勫缓銆傝繖閬垮厤浜嗕竴娆?鍙兂瑕佹簮鐮佸嵈鐧借窇浜嗗叏濂楁绱?鐨勫紑閿€锛屽挨鍏舵槸閬垮厤鍙︿竴娆℃棤璋撶殑 RAG 璋冪敤銆?
+---
+
+## Part 2 鈥?Cangjie 璇硶 / EBNF 娉ㄥ叆
+
+### 鍔ㄦ満
+
+鐏垫劅鏉ヨ嚜 *Grammar Prompting for Domain-Specific Language Generation with Large Language Models*锛圵ang et al., ACL 2023锛夆€斺€?璇佹槑**浠?*鍦?prompt 閲屽啓鍏ョ洰鏍囪瑷€鐨?EBNF 瑙勫垯锛堟棤闇€绾︽潫瑙ｇ爜锛夊凡缁忚兘鏄捐憲鎻愬崌浣庤祫婧?DSL 鐩爣璇█鐨勮娉曟纭巼銆侰angjie 瀵?LLM 鑰岃█杩戜箮 DSL銆侱ocCGen锛圗MNLP 2024锛夎繘涓€姝ヨ瘉鏄庝粠鏂囨。鎻愬彇 grammar/schema 鐢ㄤ簬绾︽潫鐢熸垚锛屽湪 OOD锛堟湭瑙佸簱/浣庤祫婧愶級鍦烘櫙鏁堟灉鏄捐憲銆?
+### 璁捐瑕佺偣
+
+1. **EBNF 鎽樿**锛堝彉閲?鍑芥暟/绫诲０鏄庛€佹帶鍒舵祦銆乵atch 绛夛級+ **8 鏉＄‖璇箟绾︽潫**锛圙1-G8锛変綔涓?prompt 澶撮儴纭害鏉熷潡銆?2. **杩愯鏃剁被鍨嬫槧灏勬敞閲?*锛坄Object 鈫?AnyHashable`銆乣Runnable 鈫?() -> Unit` 绛変竴缁勯珮棰?API 鍚嶆槧灏勶級锛屽湪 grammar 鍧椾箣鍚庨檮鍔狅紝"鍚嶅瓧浣犲繀椤?NOT 鐢紱绛変环鏄犲皠"銆?3. **鍙紪杈?*: 瑙勫垯鏉冨▉鐗堟斁 `configs/prompt_templates.yaml`锛坄cangjie_grammar_context` / `cangjie_grammar_runtime_note`锛夛紝涓嶅啓姝讳唬鐮?鈥斺€?闈炲伐绋嬪笀鍙洿鎺ョ紪杈戙€備唬鐮佸唴鏈?fallback 鐭増浠ヤ究閰嶇疆涓嶅彲杈炬椂浠嶅彲宸ヤ綔銆?4. **缂撳瓨涓€娆?*: `get_grammar_prompt()` 鍗曚緥鎳掑姞杞斤紝鎵€鏈?fragment 鍏变韩鍚屼竴鍧楁枃鏈紝閬垮厤閲嶅 YAML 瑙ｆ瀽銆?
+### 瀹炵幇浣嶇疆
+
+| 鏂囦欢 | 鍙樻洿 |
+|---|---|
+| `src/java/translation/grammar_prompt.py` | 鏂版ā鍧椼€俙build_grammar_prompt()`銆乣get_grammar_prompt()` 鍗曚緥 + `reset_cache()`锛涗粠 `configs/prompt_templates.yaml` 鍔犺浇锛堢紦瀛橈級锛屽け璐ュ洖閫€鍒版ā鍧楀唴 `_FALLBACK_GRAMMAR` / `_FALLBACK_RUNTIME`銆?|
+| `src/java/translation/prompt_generator.py` | 椤堕儴 import `get_grammar_prompt`锛沗__init__` 鍔?`self.grammar_context`锛屽綋 `args.use_grammar_prompt == 'true'` 鏃惰皟鐢?`get_grammar_prompt()` 鍙栧緱鏂囨湰锛沗build_base_prompt()` 鍦?`add_instruction()` 涔嬪悗銆乣add_source_code()` 涔嬪墠娉ㄥ叆 grammar 鏂囨湰锛岃妯″瀷鍏堣纭害鏉熷啀璇?Java 婧愮爜銆?|
+| `configs/prompt_templates.yaml` | 鏂板闀挎ā鏉?`cangjie_grammar_context`锛圗BNF 鎽樿 + G1-G8 绾︽潫锛夈€乣cangjie_grammar_runtime_note`锛圓PI 鍚嶆槧灏勮〃锛夈€?|
+| `scripts/java/translate_fragment.sh` | 鏂板绗?10 浣嶇疆鍙傛暟 `use_grammar_prompt`锛堥粯璁?`"false"`锛夛紝鍔犳牎楠岋紝閫忎紶 `--use_grammar_prompt=`銆?|
+
+### 涓轰粈涔堜笉鍋氱害鏉熻В鐮?
+璁烘枃閲岀殑 Earley parser 绾︽潫瑙ｇ爜闇€瑕侀€?token 璁块棶 logits锛孫penAI API 浠呰兘鐢?`logit_bias` 闂存帴杩戜技锛涗笖 `cjpm build` 缂栬瘧楠岃瘉 + `--validate_by_cangjie` 閲嶈瘯鍥炶矾宸茬粡鏄竴濂?rejection sampling"鐨勫舰鎬?鈥斺€?鎴戜滑鍦ㄧ紪璇戝け璐ユ椂杩涘叆 feedback 寰幆锛岃 LLM 鍦ㄩ敊璇俊鍙蜂笅鑷籂姝ｃ€侴rammar Prompt 娉ㄥ叆鏄湪涓嶇牬鍧忕幇鏈?API 璋冪敤鏋舵瀯鐨勫墠鎻愪笅鎷垮埌 deltas 鏈€浣庢垚鏈殑鏂瑰紡銆?
+---
+
+## Part 3 鈥?璇硶鍥?RAG锛圕FG/DFG 缁撴瀯鐩镐技妫€绱級
+
+### 鍔ㄦ満
+
+鐏垫劅鏉ヨ嚜 *CodeGRAG: Extracting Composed Syntax Graphs for Retrieval Augmented Cross-Lingual Code Generation*锛圚uang et al., 2024锛夈€侰odeGRAG 浠庝唬鐮佹彁鍙?CFG + DFG锛岀敤 GNN + 璺ㄨ瑷€妫€绱㈠櫒妫€绱㈢粨鏋勭浉浼肩墖娈靛仛 few-shot銆傛垜浠仛"瀹炵敤鍖栫畝鍖栫増"锛氱函姝ｅ垯缁撴瀯鎸囩汗 + Jaccard 鐩镐技搴︼紝鏃?NN/CUDA/棰濆渚濊禆銆?
+### 缁撴瀯鎸囩汗
+
+瀵?Java 鎴?Cangjie 浠ｇ爜鍧楃粺涓€鎻愬彇 `StructSig`锛堣瑷€鏃犲叧锛屽洜涓哄叧閿瓧 token 闆嗗悎鍖呭惈 Java 涓?Cangjie 涓ょ鑼冨紡锛夛細
+- **shape_bag**: 妗跺寲璁℃暟锛?/1/2-4/鈮? 鈫?"0/1/2/3"锛夌殑 12 涓搷浣滅被鍒紝鍖呮嫭 `cf_if / cf_loop / cf_switch_match / cf_return / cf_throw / cf_try_catch / op_call / op_index / op_field_access / op_new_alloc / op_assign / op_lambda`銆?- **call_names**: 鏂规硶璋冪敤鐐圭殑鏍囪瘑绗﹂泦鍚堬紙鍘婚櫎 `if/for` 绛夋帶鍒舵祦鍏抽敭瀛楋級銆?- **container_types**: 鍛戒腑甯歌闆嗗悎绫诲瀷鍚嶏紙list/array/map/hashmap/set 绛夛級銆?- **category**: 鐢?corpus 鐩綍绮楀垎绫伙紙std/manual/extra锛夈€?
+瀹瑰櫒绫诲瀷涓庡嚱鏁拌皟鐢ㄥ悕鍙捣"璇箟寰皟"浣滅敤锛岀粨鏋?shape 鏉冮噸鏈€澶с€傝繖鏄釜"椋庢牸鍚彂"鑰岄潪绮剧‘绛変环鐨?CFG/DFG 鍚屾瀯鍒ゆ柇銆?
+### 瀹炵幇
+
+| 鏂囦欢 | 鍙樻洿 |
+|---|---|
+| `src/java/rag/syntax_graph.py` | 鏂版ā鍧椼€俙infer_structural_signature(code, category)` 鍏叡鎻愬彇鍣紝`StructSig` dataclass锛沗build_syntax_graph_index(corpus_root, out_path)` 鎵?`CangjieCorpus` 涓?`.cj/.cangjie/.cj.txt` 鏂囦欢鍜?`.md` 涓?```cangjie/cj``` 鍥存爮鍧楋紝pickle 搴忓垪鍖?`data/java/rag/syntax_graph_index.pkl`锛? `.jsonl` 浜鸿鍓湰锛夛紱`_SyntaxGraphRAG` 鍗曚緥 retriever锛圝accard 鍔犳潈锛歚0.6*shape + 0.25*call + 0.15*container`锛屽緱鍒?<0.05 涓㈠純锛夛紝棣栨璋冪敤 _lazy build 绱㈠紩鑻ユ棤鍒欏皾璇曞湪绾?build銆?|
+| `src/java/translation/prompt_generator.py` | 椤堕儴 import `get_syntax_graph_rag`锛沗__init__` 鍔?`self.syntax_graph_context` 鍗犱綅瀛楁锛涘湪 `load_fragment()` 涔嬪悗銆乣build_base_prompt()` 涔嬪墠锛屽綋 `args.use_syntax_rag == 'true'` 鏃惰皟鐢?`sgrag.inject(self.source_fragment_body, top_k=3)`锛沗build_base_prompt()` 鍦?RAG 鏂囨。涔嬪悗銆両CL 涔嬪墠娉ㄥ叆缁撴瀯绀轰緥鍧椼€?|
+| `tests/test_syntax_graph.py` | 4 涓?unit test锛氭彁鍙栧櫒銆佽法璇█鐩镐技銆佺┖浠ｇ爜銆佹棤绱㈠紩鏃?graceful 杩斿洖 ""銆?|
+| `scripts/java/build_syntax_graph_index.sh` | 涓€閿剼鏈細`bash scripts/java/build_syntax_graph_index.sh [corpus_root]`锛屽彲閫夐鏋勫缓绱㈠紩锛坮etriever 涔熶細绗竴娆¤皟鐢ㄦ椂 lazy-build锛屼絾棰勫缓浼氭洿蹇級銆?|
+| `scripts/java/build_mock_corpus.sh` | 锛堟湭鏀瑰姩锛屼粎鏂囨。瀵归綈璇存槑锛夈€?|
+
+### 鏃佽矾闄勫姞锛氳娉曞浘 RAG vs 鍘?RAG
+
+鏈」鐩凡鏈?`src/java/rag/` 璇箟妫€绱紙ChromaDB vector + BM25 + RRF锛夌敤浜庢枃妗ｆ绱紙濡?Cangjie 鏍囧噯搴?API 鏂囨。锛夛紱Part 3 鏄?*缁撴瀯妫€绱?*锛堢粨鏋勬寚绾癸級锛屼簰琛ワ細鍘?RAG 鍥炵瓟"璇ョ敤浠€涔?API"锛孭art 3 鍥炵瓟"璇ュ啓浠€涔堟牱鐨勪唬鐮侀鏋?銆?
+---
+
+## CLI flag 涓庣粍鍚堝缓璁?
+### 鏂板涓変釜 flag
+
+```text
+--use_pseudocode           Part 1: 浼唬鐮佷腑闂村眰
+--use_grammar_prompt       Part 2: Cangjie EBNF 璇硶鎻愮ず
+--use_syntax_rag           Part 3: 璇硶鍥?RAG 缁撴瀯鐩镐技妫€绱?```
+
+鍏ㄩ儴榛樿 `"false"`锛屼笌鐜版湁 `--use_rag / --use_progressive_kb` 涓€鑷达紝鎸?`"true"/"false"` 瀛楃涓插舰寮忎紶鍏ャ€?
+### `translate_fragment.sh` 璋冪敤
+
+```bash
+# 鏃ц涓猴紙鍏ㄩ儴鏂板弬鏁伴粯璁?false锛屽悜鍚庡吋瀹癸級
+bash scripts/java/translate_fragment.sh jansi deepseek-chat _evosuite_cleaned_base 0.0 true true false true
+
+# 鍏ㄥ紑锛堝缓璁粍鍚堬紝鏈€閲嶏紝璐ㄩ噺浼樺厛锛?bash scripts/java/translate_fragment.sh jansi deepseek-chat _evosuite_cleaned_base 0.0 \
+    true true false true \
+    true true true
+
+# 浠?Part 1 + Part 2锛堟帹鑽愯捣鐐癸細瑙ｈ€﹁涔夌户鎵?+ 鎻愯娉曪級
+bash scripts/java/translate_fragment.sh jansi deepseek-chat _evosuite_cleaned_base 0.0 \
+    true true false true \
+    true true false
+
+# 浠?Part 3锛堢粨鏋勭ず渚嬶紱鍙綔涓?RAG 鏂囨。妫€绱㈢殑琛ュ厖锛?bash scripts/java/translate_fragment.sh jansi deepseek-chat _evosuite_cleaned_base 0.0 \
+    true true false true \
+    false false true
+```
+
+### 鎺ㄨ崘缁勫悎
+
+| 鍦烘櫙 | use_pseudocode | use_grammar_prompt | use_syntax_rag |
+|---|---|---|---|
+| 浠呬慨 Java鈫扖angjie API 妯″紡缁ф壙閿?| true | false | false |
+| 涓嶇啛鎮?Cangjie 璇硶锛堝涓虹紪璇戞姤璇硶閿欙級 | false | true | false |
+| 闇€瑕?few-shot 缁撴瀯妯℃澘 | false | false | true |
+| **鎺ㄨ崘璧风偣**锛氬悓鏃惰В A+B锛屾€т环姣旀渶楂?| true | true | false |
+| 鍏ㄥ紑锛堣吹浣嗗鐩婃渶楂橈級 | true | true | true |
+
+### 璋冭瘯杈呭姪
+
+- `debug.sh <project> <model> <suffix> <temp> [use_rag]` 宸叉湁鐨勬洿搴曞眰 wrapper 涓嶅彉 鈥斺€?浣犲彧瑕佺粰瀹?`use_pseudocode=true` 绛夐澶栧弬鏁般€?*娉ㄦ剰**:`debug.sh` 鐩墠 `tee "$@"`锛岃浣跨敤鏂板弬鏁拌鐩存帴浠ヤ綅缃弬鏁颁紶鍏ワ紝渚嬪锛歚bash debug.sh jansi deepseek-chat _evosuite_cleaned_base 0.0 true false false true true true true`銆備笁鍙嶅紩鍙烽噷绗?5-11 浣嶇疆鍙傛暟鐓ф棫 (use_rag, skip_mock, translate_tests, use_progressive_kb, use_pseudocode, use_grammar_prompt, use_syntax_rag)銆?
+---
+
+## 鏂板 / 淇敼鏂囦欢娓呭崟
+
+### 鏂板
+
+```
+src/java/translation/grammar_prompt.py                           # Part 2 妯″潡
+src/java/rag/syntax_graph.py                                     # Part 3 妯″潡
+tests/test_grammar_prompt.py                                     # Part 2 鍗曟祴
+tests/test_syntax_graph.py                                       # Part 3 鍗曟祴
+scripts/java/build_syntax_graph_index.sh                         # Part 3 绱㈠紩鏋勫缓鑴氭湰
+docs/fragment_translation_enhancements.md                        # 鏈枃妗?```
+
+### 淇敼
+
+```
+src/java/translation/compositional_translation_validation.py      # Part 1: _generate_pseudocode() + translate() 寰幆娉ㄥ叆 + CLI flag
+src/java/translation/prompt_generator.py                         # Part 1/2/3: 褰㈠弬銆佷笂涓嬫枃鍔犺浇銆乥uild_base_prompt 娉ㄥ叆鐐?configs/prompt_templates.yaml                                    # Part 1/2 妯℃澘
+scripts/java/translate_fragment.sh                               # 涓変釜鏂颁綅缃弬鏁?+ 鏍￠獙 + 閫忎紶
+```
+
+---
+
+## 杩愯闇€鐭?/ 澶辫触閫€鍖栬涓?
+- 鎵€鏈夋柊妯″潡**fail-open**锛氫换浣曞紓甯稿潎琚?`try/except` 鎹曡幏锛屼粎 `print(f"[...] Warning: ...")`锛屼笉褰卞搷涓荤炕璇戝惊鐜€?- Part 3 **棣栨寮€ `use_syntax_rag=true`** 鏃惰嫢 `data/java/rag/syntax_graph_index.pkl` 涓嶅瓨鍦紝浼氳Е鍙?`build_syntax_graph_index()` 閲嶆柊鎵?`misc/CangjieCorpus`銆傚缓璁彁鍓嶇敤 `bash scripts/java/build_syntax_graph_index.sh` 棰勫缓绱㈠紩浠ュ姞閫熼娆¤繍琛屻€?- Part 1 涓?Part 3 鍦?`_skip_prompt_build=True` 鐨勪吉浠ｇ爜鐢熸垚闃舵涓嶄細瑙﹀彂 Part 2/Part 3 鐨勪笂涓嬫枃鍔犺浇 鈥斺€?Part 1 鍐呴儴 PromptGenerator 鍙敤 `source_fragment_code`锛岄伩鍏嶉噸澶?RAG 妫€绱€?- 褰撳墠瀵规瘡涓湁 `--use_pseudocode=true` 鐨?fragment 浼氬涓€娆?LLM 璋冪敤锛圥hase-1 浼唬鐮佺敓鎴愶級銆侺LM token 娑堣€楃害 +20-40%锛堝彇鍐充簬 fragment 澶у皬锛夈€傚闇€鏋佽嚧锛屽彲鍦?`--recursion_depth=1` 鏃舵彁鍓嶈烦杩囦吉浠ｇ爜锛堝綋鍓嶅疄鐜板苟涓嶈烦杩団€斺€旀墍鏈夐€掑綊灞傚潎灏濊瘯浼唬鐮侊紝鍥犱负鏄寜 fragment 绮掑害鑰岄潪鎸夐€掑綊灞?鈥斺€?涓€鑸?recursion_depth=2 涓嶄細鏈夊ぇ閲忓瓙 fragment锛屽紑閿€鍙帶锛夈€?
+---
+
+## 鍗曞厓娴嬭瘯 / 楠岃瘉
+
+| 娴嬭瘯 | 瑕嗙洊 |
+|---|---|
+| `tests/test_grammar_prompt.py::test_build_grammar_prompt_returns_nonempty_block_with_ebnf_marker` | Part 2 鍔犺浇涓庝骇鐗?|
+| `tests/test_grammar_prompt.py::test_get_grammar_prompt_is_cached` | 鍗曚緥缂撳瓨 |
+| `tests/test_grammar_prompt.py::test_cache_reset_reloads` | fallback 璺緞 |
+| `tests/test_syntax_graph.py::test_signature_has_control_flow_tokens_for_loop_and_branch` | Part 3 鎻愬彇鍣?|
+| `tests/test_syntax_graph.py::test_cross_lingual_similarity_high_for_equivalent_structure` | 璺ㄨ瑷€鐩镐技搴?|
+| `tests/test_syntax_graph.py::test_signature_empty_for_blank_code` | 杈圭晫 |
+| `tests/test_syntax_graph.py::test_singleton_returns_empty_when_no_index` | 鏃犵储寮曢€€鍖?|
+
+**杩愯**锛?
+```bash
+conda activate x2cangjie
+export PYTHONPATH=$(pwd)
+python -m pytest tests/test_grammar_prompt.py tests/test_syntax_graph.py -v
+```
+
+> 娉細鏈満 Windows 鐜鏃?Python/pytest锛屾湰浠撳簱鍦?Docker 鍐呬娇鐢?conda env `x2cangjie` 杩愯銆傛柊澧炴祴璇曠敤 monkeypatch 閲嶅畾鍚?RAG 榛樿璺緞锛?*涓嶉渶瑕?* Cangjie SDK / ChromaDB / LLM 璋冪敤锛岀函鍗曞厓鍙窇銆?
+---
+
+## 宸茬煡闄愬埗涓庡悗缁彲鏀硅繘椤?
+1. **Part 1 鍙紭 ablation**锛氳鏂?A6 璀﹀憡浼唬鐮佸鐩婂彲鑳介儴鍒嗘潵鑷?CoT 澶氭鎺ㄧ悊鏁堝簲锛岃€岄潪浼唬鐮佽瑷€涓珛鎬с€傚缓璁仛 ablation 瀵规瘮 (a) 鐩存帴缈昏瘧銆?b) CoT 鍏堝垎鏋愬啀缈昏瘧銆?c) 浼唬鐮佷腑闂村眰锛屽垎绂诲閲忔潵婧愩€?2. **Part 2 鏈惎鐢ㄧ害鏉熻В鐮?*锛歚cjpm build` 缂栬瘧閿欒淇″彿宸茬粡瀹炵幇浜?rejection sampling"锛屼絾 logit-bias 杩戜技绾︽潫鏈仛鈥斺€旇繖鏄悗缁彲浠ュ紩鍏ョ殑澧為噺銆?3. **Part 3 鍚屾瀯鍒ゆ柇绮楃硻**锛氱函姝ｅ垯 + Jaccard 鏄 CodeGRAG 鐨勭畝鍖栫増锛涜嫢闇€瑕佹洿寮猴紝鍙帴 tree-sitter-java 瑙ｆ瀽 + 鐪熷疄 CFG/DFG锛屼互鍙婂紩鍏ヨ法璇█鐨勯璁粌浠ｇ爜鎼滅储妯″瀷鍋氭绱㈡簮銆?4. **Part 1 Phase-1 prompt 杩樺彲浼樺寲**锛氬彲鍙傝€冭鏂?GitHub 浠撳簱 `imcsq/Pseudocode-based-Code-Translation` 涓殑 `02cothint1` 绛?prompt 鍙樹綋锛屽仛瀵规瘮瀹為獙銆?5. **鏈仛绔埌绔瘎浼?*锛氭湰娆″彧鎺ラ€氫簡浠ｇ爜骞跺啓浜嗗崟娴嬶紝鏈鍒扮璺?jansi/commons-cli 瀹炴祴鈥斺€旈渶鍦ㄩ厤缃疄闄?LLM 涓?`cjpm` 鐨?Docker 鐜涓繍琛屽苟閫氳繃 `analyze_errors.sh` 缁熻 fragment 閫氳繃鐜囧閲忥紝浠ュ疄璇佷笂杩版瘡閮ㄥ垎鐨勬敹鐩娿€?
+---
+
+# 瀹屾暣椤圭洰杩愯娴佺▼
+
+涓嬮潰缁欏嚭浠庨浂鍒?fragment 缈昏瘧瀹屾垚鐨勭鍒扮杩愯娴佺▼锛屾兜鐩栫幆澧冦€侀澶勭悊銆乻chema銆佷緷璧栥€佺炕璇戙€侀敊璇垎鏋愶紝浠ュ強鏈鏂板鐨勪笁閮ㄥ垎濡備綍鍦ㄦ渶鍚庝竴姝ヨ寮€鍏虫帶鍒跺湴鍙犲姞杩涘幓銆?
+## 0. 鐜涓庝緷璧?
+```bash
+conda activate x2cangjie
+export PYTHONPATH=$(pwd)                       # 蹇呴渶锛屾墍鏈?python 璋冪敤閮戒緷璧?export OPENAI_API_KEY="sk-or-..."
+export OPENAI_BASE_URL="https://openrouter.ai/api/v1"   # 鎴栦綘鐨?provider
+# Cangjie SDK锛坈jc / cjpm锛夊繀椤昏嚜琛屽畨瑁呭苟鍔犲叆 PATH锛涗笉鍙粡 conda/maven 鑾峰緱
+which cjc cjpm                                  # 搴斿潎杩斿洖鍙墽琛岃矾寰?# misc/ 涓嬬殑 tree-sitter-java/python v0.23.5銆乯ava-callgraph銆丆angjieCorpus 蹇呴』宸?clone 涓?build
+# configs/model_configs.yaml 蹇呴』浠?.example 鎷疯礉骞跺～濂?model_id / base_url / api_key
+```
+
+璇︾粏鎼缓瑙?`Dockerfile` 涓?`docs/start.md` 绗?1-3 姝ャ€?
+## 1. Java 渚ч澶勭悊
+
+```bash
+# 瀵?EvoSuite clean base 娴佺▼锛氬厛鎸?evosuite_cleaned_base_commands.md 璧?0-3 姝ワ紝
+# 浜х墿钀藉埌 cleaned_final_projects_evosuite_cleaned_base/$project
+bash scripts/java/preprocess.sh jansi           # 鎴栧 evosuite clean base锛屽弬鐓?evosuite_cleaned_base_commands.md
+# 浜х墿锛歱rojects/java/cleaned_final_projects[_evosuite_cleaned_base]/jansi/ ...
+```
+
+## 2. schema 鐢熸垚
+
+```bash
+model=deepseek-chat
+temp=0.0
+suffix=_evosuite_cleaned_base
+bash scripts/java/create_schema.sh jansi "$model" "$temp" "$suffix"
+# 浜х墿锛歞ata/java/schemas${suffix}/${model}/${temp}/jansi/*.json
+```
+
+## 3. 渚濊禆椤哄簭鐢熸垚
+
+```bash
+bash scripts/java/get_dependencies.sh jansi "$suffix"
+# 浜х墿锛歞ata/java/dependencies${suffix}/jansi/traversal.json
+```
+
+## 4. 绫诲瀷缈昏瘧锛堥娆＄敤 RAG 闇€鍏堝缓绱㈠紩锛?
+```bash
+# 涓€娆℃€у缓 RAG 鏂囨。绱㈠紩
+bash scripts/java/crawl_java_base.sh
+export OPENAI_API_KEY="sk-or-..."
+python -m src.java.rag.indexer
+
+# 鎵ц绫诲瀷缈昏瘧
+bash scripts/java/translate_types.sh jansi "$model" "$temp" "$suffix" false true
+```
+
+## 5. 楠ㄦ灦鐢熸垚
+
+```bash
+bash scripts/java/create_skeleton.sh jansi "$model" "$suffix" "$temp"
+# 浜х墿锛歞ata/java/skeletons/jansi/src/*.cj锛堝惈 throw Exception('TODO') 鍗犱綅绗︼級
+```
+
+## 6. 鏋勫缓 mock 娴嬭瘯璇枡
+
+```bash
+bash scripts/java/build_mock_corpus.sh jansi
+# 浜х墿锛?tmp/cangjie_mock/jansi/
+```
+
+## 7.**Fragment 缈昏瘧锛堟柊澧炰笁閮ㄥ垎鍦ㄦ澶勫彔鍔狅級**
+
+鍩虹璋冪敤锛堟棫璺緞锛屽悜鍚庡吋瀹癸級锛?
+```bash
+bash scripts/java/translate_fragment.sh jansi "$model" "$suffix" "$temp" \
+    true true false true
+# 鍙傛暟椤哄簭锛歱roject model suffix temperature use_rag skip_mock translate_tests use_progressive_kb
+```
+
+鍚敤鏈鏂板涓夐儴鍒嗭紙鍦ㄧ 9-11 浣嶇疆鍙傛暟锛夛細
+
+```bash
+# 寮€鍚?Part 1 (use_pseudocode) + Part 2 (use_grammar_prompt)锛屼繚鐣欏師榛樿
+bash scripts/java/translate_fragment.sh jansi "$model" "$suffix" "$temp" \
+    true true false true \
+    true true false
+# 鍙傛暟锛歶se_rag=true, skip_mock=true, translate_tests=false, use_progressive_kb=true,
+#       use_pseudocode=true, use_grammar_prompt=true, use_syntax_rag=false
+
+# 鍏ㄥ紑涓夐儴鍒嗭紙鏈€閲嶏紝璐ㄩ噺鏈€楂橈級
+bash scripts/java/translate_fragment.sh jansi "$model" "$suffix" "$temp" \
+    true true false true \
+    true true true
+
+# 璋冭瘯妯″紡锛坱ee 鍏ㄩ儴杈撳嚭鑷?./translate_debug.log锛?bash debug.sh jansi "$model" "$suffix" "$temp" \
+    true false false true \
+    true true true
+```
+
+棣栨寮€ `use_syntax_rag=true` 鏃讹紝寤鸿棰勬瀯寤鸿娉曞浘绱㈠紩浠ュ姞閫燂細
+
+```bash
+bash scripts/java/build_syntax_graph_index.sh misc/CangjieCorpus
+# 浜х墿锛歞ata/java/rag/syntax_graph_index.pkl + .jsonl
+```
+
+涓荤炕璇戝惊鐜殑琛屼负锛?
+```
+for each fragment in traversal.json (渚濊禆椤哄簭):
+    if --use_pseudocode:
+        Phase-1 LLM call: Java fragment 鈫?浼唬鐮佸潡锛堝甫 // 鑷娉ㄩ噴锛?    else:
+        浼唬鐮佸潡 := ""
+    PromptGenerator(args, fragment, pseudocode=浼唬鐮佸潡):
+        load_fragment()
+        if _skip_prompt_build: return              # 浠?_generate_pseudocode 璧拌繖鏉℃嵎寰?        construct_adaptive_icl()
+        if use_rag: rag.inject_fragment_context()   # 鏂囨。绾?RAG
+        if use_progressive_kb: progressive_kb.retrieve()
+        if generics 妯″紡: generics_rule_lib.match_rules()
+        if use_grammar_prompt: get_grammar_prompt() 鈫?grammar_context
+        if use_syntax_rag: syntax_graph_rag.inject(source_fragment_body) 鈫?syntax_graph_context
+        build_base_prompt():
+            persona 鈫?instruction 鈫?grammar(Part2) 鈫?java婧?鈫?            pseudocode_bridge(Part1) 鈫?partial_translation 鈫?generics 鈫?            kb few-shot 鈫?RAG 鏂囨。 鈫?syntax graph 绀轰緥(Part3) 鈫?            ICL 鈫?feedback 鈫?"### Response:"
+    LLM call 鈫?JSON {code, reasoning, imports}
+    extract_json_translation() 鈫?syntactic check 鈫?cangjie_compilation_validation()
+    if 缂栬瘧澶辫触: feedback = 缂栬瘧閿欒; 璺冲洖 PromptGenerator 閲嶅缓甯?feedback
+    if 缂栬瘧鎴愬姛: (skip_mock=false 鏃? mock 娴嬭瘯 鈫?缁х画鎴栧洖閫€
+    translation_status = success / fallback:*
+```
+
+## 8. 閿欒鍒嗘瀽
+
+```bash
+bash scripts/java/analyze_errors.sh jansi "$model" "$temp" "$suffix"
+# 浜х墿锛歞ata/java/analysis/jansi_${model}_${temp}${suffix}_errors.txt
+# 鍚細缂栬瘧閫氳繃/澶辫触缁熻銆侀敊璇垎绫汇€乸er-fragment 閿欒銆佹畫鐣?TODO 妫€鏌ャ€丆SV 鏁版嵁瀵煎嚭
+```
+
+## 9. 鎵归噺杩愯澶氫釜椤圭洰
+
+```bash
+MODEL=deepseek-chat TEMP=0.0 SUFFIX=_evosuite_cleaned_base \
+USE_RAG=true SKIP_MOCK=true TRANSLATE_TESTS=false \
+bash scripts/java/run_525_evosuite_round.sh
+# 褰撳墠鍦?scripts 鍐呰凯浠?PROJECTS=(jansi commons-cli)
+# 鑻ヨ鍙犲姞鏈涓夐儴鍒嗭紝闇€鍦ㄨ剼鏈噷鎴栫幆澧冨彉閲忎腑鍔犲叆瀵瑰簲鐨?use_pseudocode 绛?# 璇ヨ剼鏈湭鐩存帴鏀寔杩欎笁澶勭幆澧冨彉閲忥紱濡傞渶鎵归噺鍙犲姞锛屽缓璁墜鏀硅剼鏈€?```
+
+## 10. 鍗曞厓娴嬭瘯鏂板妯″潡
+
+```bash
+conda activate x2cangjie
+export PYTHONPATH=$(pwd)
+python -m pytest tests/test_grammar_prompt.py tests/test_syntax_graph.py -v
+# 涓嶄緷璧?Cangjie SDK / LLM锛涚函鍗曞厓瑕嗙洊 Part 2 / Part 3 鐨勬彁鍙栦笌闄嶇骇璺緞
+```
+
+## 11. 鍥炴粴
+
+浠讳竴 Part 鍏抽棴鍙渶灏嗗搴斾綅缃弬鏁拌 `false`锛?*榛樿鍏抽棴**淇濊瘉涓嶇牬鍧忎换浣曟棦鏈夎矾寰勶細
+
+```bash
+bash scripts/java/translate_fragment.sh jansi "$model" "$suffix" "$temp" \
+    true true false true \
+    false false false
+```
+
+娆㈣繋闃呰 `docs/related_work_code_translation.md` 浜嗚В涓夐儴鍒嗙殑璁烘枃渚濇嵁涓庡彲閫夋紨杩涜矾寰勩€

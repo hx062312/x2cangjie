@@ -10,8 +10,8 @@ public open class GnuParser <: Parser {
     // Fields End
 
     // Methods Begin
-    protected override func flatten(options_param: Options, arguments: Array<String>, stopAtNonOption: Bool): Array<String> {
-        throw Exception('TODO')
+    protected override func flatten(options_param: Options, arguments: Array<Any>, stopAtNonOption: Bool): Array<Any> {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     // Methods End

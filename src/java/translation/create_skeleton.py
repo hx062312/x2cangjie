@@ -550,8 +550,30 @@ def get_method_type_params(method_info):
                 params.extend(_parse_type_param_names(f"<{match.group(1)}>"))
                 break
 
+    # Java allows generic type-parameter names to shadow concrete types
+    # (e.g. `<String, Integer> Map<String, Integer> foo()`), but Cangjie
+    # does not — declaring `func foo<String, Integer>()` makes `String` and
+    # `Integer` refer to unconstrained generic parameters, shadowing
+    # `std.String` / `std.Int64` and breaking HashMap's `Hashable`
+    # constraint on the key type. Filter out names that collide with known
+    # Java/JDK/Cangjie type names so they are not emitted as Cangjie
+    # generic parameters; the downstream type mapping will resolve them to
+    # the real Cangjie types instead.
+    _CONCRETE_TYPE_NAME_BLACKLIST = frozenset({
+        # Java primitive wrappers & common JDK types
+        "String", "Integer", "Long", "Double", "Float", "Boolean",
+        "Short", "Byte", "Character", "Object", "Number",
+        # Cangjie primitive / std types
+        "Int", "Int8", "Int16", "Int32", "Int64",
+        "UInt", "UInt8", "UInt16", "UInt32", "UInt64",
+        "Float16", "Float32", "Float64",
+        "Bool", "Rune", "Unit", "Any", "Nothing",
+        "ArrayList", "HashMap", "HashSet", "LinkedList",
+    })
     deduped = []
     for param in params:
+        if param in _CONCRETE_TYPE_NAME_BLACKLIST:
+            continue
         if param not in deduped:
             deduped.append(param)
     return deduped
@@ -1101,6 +1123,18 @@ def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
     if 'AnyHashable' in skeleton:
         cangjie_imports.add(runtime_support.any_hashable_import(cjpm_name))
 
+    # Auto-import std.collection when the skeleton uses collection types
+    # (ArrayList / HashMap / HashSet / LinkedList / TreeMap / TreeSet etc.)
+    # that were emitted by get_cangjie_type() but live in std.collection and
+    # are not auto-visible at the package level. Without this import the
+    # skeleton fails to compile with "undeclared type name 'ArrayList'" etc.
+    _STD_COLLECTION_TYPES = (
+        "ArrayList", "HashMap", "HashSet", "LinkedList",
+        "TreeMap", "TreeSet", "LinkedHashMap", "LinkedHashSet",
+    )
+    if any(t in skeleton for t in _STD_COLLECTION_TYPES):
+        cangjie_imports.add("import std.collection.*")
+
     # Filter out custom types (they're in the same project, no import needed)
     filtered_imports = set()
     for imp in cangjie_imports:
@@ -1192,9 +1226,21 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map, java_type_i
                     for tid, tdata in frag_data.get('type_translations', {}).get(tv, {}).items():
                         imports_val = tdata.get('imports', '')
                         if imports_val and imports_val not in ('None', ''):
-                            for imp in imports_val.split('\n'):
+                            # The schema's `imports` field is occasionally a
+                            # comma-separated string of Java FQNs (e.g.
+                            # "java.util.stream.Stream, org.apache.commons.csv.CSVRecord")
+                            # rather than newline-separated Cangjie import lines.
+                            # Split on both newlines and commas so neither form
+                            # leaks an invalid bare-FQN line into the skeleton.
+                            raw_imports = imports_val.replace(',', '\n').split('\n')
+                            for imp in raw_imports:
                                 imp = imp.strip()
-                                if imp:
+                                # Only accept well-formed Cangjie import statements
+                                # (`import pkg.name[.Member]` or `import pkg.*`).
+                                # Bare Java FQNs (e.g. "java.util.stream.Stream")
+                                # have no Cangjie package equivalent and would
+                                # cause "expected declaration" parse errors.
+                                if imp.startswith('import '):
                                     cangjie_imports.add(imp)
                         value = (
                             tdata.get('translated_target_type')
@@ -1359,7 +1405,15 @@ def main(args):
     include_tests = _should_include_test_sources(args)
 
     # Load type mappings
-    type_map = build_default_type_map()
+    # universal_type_map_final.json contains project-agnostic Java→Cangjie
+    # mappings for common JDK types (List, Map, URL, Enum, etc.) that are
+    # not covered by PRIMITIVE_TYPE_MAP / java_base_type_map.json / generic
+    # type map. Without it, skeletons emit bare Java type names like `List`
+    # and `Map` which Cangjie cannot resolve, causing "undeclared type name"
+    # compile errors across every fragment.
+    type_map = build_default_type_map(
+        extra_paths=["data/java/type_resolution/universal_type_map_final.json"]
+    )
     merge_shim_type_map(type_map, args.project)
 
     # Phase 1: Build Global Context

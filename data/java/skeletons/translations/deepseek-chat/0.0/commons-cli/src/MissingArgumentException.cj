@@ -2,7 +2,7 @@
 package commons_cli
 
 // Imports Begin
-import stdx.crypto.x509.VerifyOption
+
 // Imports End
 
 public open class MissingArgumentException <: ParseException {
@@ -11,17 +11,20 @@ public open class MissingArgumentException <: ParseException {
     // Fields End
 
     // Methods Begin
-    public init(constructorId: Int32, message: String, option_param: Option) {
+    public init(constructorId: Int64, message: String, option_param: Option) {
         super()
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public static func MissingArgumentException1(constructorId: Int32, message: String, option_param: Option): MissingArgumentException {
-        throw Exception('TODO')
+    public static func MissingArgumentException1(constructorId: Int64, message: String, option_param: Option): MissingArgumentException {
+                if (constructorId == 1) {
+        return MissingArgumentException(constructorId, "Missing argument for option: " + option_param.getKey(), option_param)
+        }
+        return MissingArgumentException(constructorId, message, option_param)
     }
 
     public open func getOption(): Option {
-        throw Exception('TODO')
+                return this.option
     }
 
     // Methods End

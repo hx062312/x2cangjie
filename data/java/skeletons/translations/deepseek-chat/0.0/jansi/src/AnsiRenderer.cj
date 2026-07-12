@@ -2,9 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.io.ByteBuffer
-import std.io.StringWriter
-import stdx.crypto.x509.X509CertificateInfo
+
 // Imports End
 
 public open class AnsiRenderer {
@@ -18,27 +16,27 @@ public open class AnsiRenderer {
     // Fields End
 
     // Methods Begin
-    public static func render(input: String): String {
+    public static func render0(input: String): String {
         throw Exception('TODO')
     }
 
-    public static func render(input: String, target: StringWriter<ByteBuffer>): StringWriter<ByteBuffer> {
+    public static func render1(input: String, target: Any): Any {
         throw Exception('TODO')
     }
 
-    public static func render_1(text: String): String {
+    public static func render2(text: String): String {
         throw Exception('TODO')
     }
 
-    public static func renderCodes(): String {
+    public static func renderCodes0(): String {
         throw Exception('TODO')
     }
 
-    public static func renderCodes(codes: String): String {
+    public static func renderCodes1(codes: String): String {
         throw Exception('TODO')
     }
 
-    private static func render(ansi: Ansi): Ansi {
+    private static func render3(ansi: Ansi): Ansi {
         throw Exception('TODO')
     }
 
@@ -98,16 +96,12 @@ public open class Code {
     var UNDERLINE_OFF: Any = throw Exception('TODO')
     var BOLD: Any = throw Exception('TODO')
     var FAINT: Any = throw Exception('TODO')
-    var n: Any = throw Exception('TODO')
+    var n: Enum<Any> = throw Exception('TODO')
     var background: Bool = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    init(n: Any, background: Bool) {
-        throw Exception('TODO')
-    }
-
-    init(n: Any) {
+    init(n: Enum<Any>, background: Bool) {
         throw Exception('TODO')
     }
 

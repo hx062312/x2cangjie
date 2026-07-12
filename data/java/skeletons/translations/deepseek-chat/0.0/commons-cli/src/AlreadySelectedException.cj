@@ -2,35 +2,38 @@
 package commons_cli
 
 // Imports Begin
-import stdx.crypto.x509.VerifyOption
+
 // Imports End
 
 public open class AlreadySelectedException <: ParseException {
     // Fields Begin
-    var group: OptionGroup = throw Exception('TODO')
-    var option: Option = throw Exception('TODO')
+    let group: OptionGroup = throw Exception('TODO')
+    let option: Option = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
     public init(message: String, group_param: OptionGroup, option_param: Option) {
         super()
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func AlreadySelectedException0(message: String): AlreadySelectedException {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func AlreadySelectedException1(group_param: OptionGroup, option_param: Option): AlreadySelectedException {
-        throw Exception('TODO')
+                return AlreadySelectedException(
+        "The option '" + option_param.getKey() + "' was specified but an option from this group has already been selected: '" + group_param.getSelected() + "'",
+        group_param,
+        option_param)
     }
 
     public open func getOption(): Option {
-        throw Exception('TODO')
+                return this.option
     }
 
     public open func getOptionGroup(): OptionGroup {
-        throw Exception('TODO')
+                return this.group
     }
 
     // Methods End

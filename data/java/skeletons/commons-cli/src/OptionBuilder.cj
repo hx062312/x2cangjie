@@ -2,8 +2,7 @@
 package commons_cli
 
 // Imports Begin
-import std.reflect.TypeInfo
-import stdx.crypto.x509.VerifyOption
+
 // Imports End
 
 public class OptionBuilder {
@@ -12,8 +11,8 @@ public class OptionBuilder {
     static var description: String = throw Exception('TODO')
     static var argName: String = throw Exception('TODO')
     static var required: Bool = throw Exception('TODO')
-    static var argCount: Int32 = throw Exception('TODO')
-    static var type__: TypeInfo = throw Exception('TODO')
+    static var argCount: Int64 = throw Exception('TODO')
+    static var type__: Any = throw Exception('TODO')
     static var optionalArg: Bool = throw Exception('TODO')
     static var valueSeparator: Rune = throw Exception('TODO')
     static let INSTANCE: OptionBuilder = throw Exception('TODO')
@@ -51,7 +50,7 @@ public class OptionBuilder {
         throw Exception('TODO')
     }
 
-    public static func hasArgs1(num: Int32): OptionBuilder {
+    public static func hasArgs1(num: Int64): OptionBuilder {
         throw Exception('TODO')
     }
 
@@ -63,7 +62,7 @@ public class OptionBuilder {
         throw Exception('TODO')
     }
 
-    public static func hasOptionalArgs1(numArgs: Int32): OptionBuilder {
+    public static func hasOptionalArgs1(numArgs: Int64): OptionBuilder {
         throw Exception('TODO')
     }
 
@@ -91,7 +90,7 @@ public class OptionBuilder {
         throw Exception('TODO')
     }
 
-    public static func withType0(newType: TypeInfo): OptionBuilder {
+    public static func withType0(newType: Any): OptionBuilder {
         throw Exception('TODO')
     }
 

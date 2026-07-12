@@ -4,6 +4,8 @@ import os
 from src.java.rag import get_rag_engine
 from src.java.progressive_kb import get_progressive_kb
 from src.java.generics_rule_lib import get_generics_rule_lib
+from src.java.translation.grammar_prompt import get_grammar_prompt
+from src.java.rag.syntax_graph import get_syntax_graph_rag
 
 
 def find_class_key(classes_dict, class_name):
@@ -57,7 +59,8 @@ def render_translation_or_partial(translation, partial_translation):
 class PromptGenerator:
 
     def __init__(
-        self, is_feedback, args, fragment_details, feedback="", use_icl_pool=False
+        self, is_feedback, args, fragment_details, feedback="",
+        use_icl_pool=False, pseudocode="", _skip_prompt_build=False,
     ):
         self.is_feedback = is_feedback
         self.args = args
@@ -70,6 +73,37 @@ class PromptGenerator:
         self.generics_context: str = ""
         self.fragment_details = fragment_details
         self.signature = None
+        # Pre-populated so context loaders that read it before load_fragment()
+        # runs (or when _skip_prompt_build short-circuits the run) see "" instead
+        # of raising AttributeError; load_fragment() overwrites it with the real
+        # Java fragment text.
+        self.source_fragment_body: str = ""
+
+        # --- Semantic bridge context (set before build_base_prompt is called) ---
+        # Part 1: pseudocode intermediate layer (LLM-authored, language-agnostic).
+        # The translate() loop populates this when --use_pseudocode is enabled so
+        # the translator step focuses on target-language rendering rather than
+        # re-importing Java source patterns that have no Cangjie equivalent.
+        self.pseudocode_context: str = pseudocode or ""
+
+        # --- Part 2: Cangjie grammar / EBNF prompt injection ------------------
+        # When --use_grammar_prompt is on, the EBNF excerpt + runtime type
+        # mapping notes act as a hard-syntax reminder for a low-resource target
+        # language. Inspired by Grammar Prompting (Wang et al., ACL 2023) which
+        # shows that *just* including the grammar in the prompt — no constrained
+        # decoding needed — already substantially raises syntactic correctness.
+        self.grammar_context: str = ""
+        if getattr(args, 'use_grammar_prompt', 'false') == 'true':
+            try:
+                self.grammar_context = get_grammar_prompt()
+            except Exception as e:
+                print(f"[Grammar Prompt] Warning: grammar injection failed: {e}")
+
+        # --- Part 3: Syntax-graph RAG ---------------------------------------
+        # Placeholder; filled after load_fragment() runs (below) so the Java
+        # fragment text is available. Kept here as a declared field so the
+        # _skip_prompt_build short-circuit still leaves it set (to "").
+        self.syntax_graph_context: str = ""
 
         self.meta_data = {
             "deepseek-coder-33b-instruct-persona": "You are an AI programming assistant, utilizing the DeepSeek Coder model, developed by DeepSeek Company, and you only answer questions related to computer science. For politically sensitive questions, security and privacy issues, and other non-computer science questions, you will refuse to answer.",
@@ -118,9 +152,25 @@ Notes:
             },
         }
 
-        self.assert_map = json.load(open("data/java/type_resolution/assert_map.json", "r"))
+        # assert_map.json is an optional artifact produced by translate_types;
+        # not all projects/suffix paths emit it. Treat absence as an empty map
+        # (downstream `for x in self.assert_map` simply yields nothing).
+        try:
+            self.assert_map = json.load(open("data/java/type_resolution/assert_map.json", "r"))
+        except FileNotFoundError:
+            self.assert_map = {}
 
         self.load_fragment(fragment_details)
+
+        # Used by _generate_pseudocode() in compositional_translation_validation.py:
+        # we only want load_fragment() + the source-fragment assembly, NOT the
+        # expensive context loads (RAG/KB/generics/grammar/syntax-graph) nor the
+        # ICL pool / full prompt build. Skipping here avoids an extra round-trip
+        # of work and, importantly, avoids a second RAG fetch we would otherwise
+        # make just to throw away.
+        if _skip_prompt_build:
+            return
+
         self.construct_adaptive_icl()
 
         # RAG context injection
@@ -161,6 +211,22 @@ Notes:
             except Exception as e:
                 print(f"[Generics Rule Lib] Warning: rule injection failed: {e}")
 
+        # --- Part 3: Syntax-graph RAG ---------------------------------------
+        # When --use_syntax_rag is on, retrieve Cangjie corpus snippets whose
+        # CFG/DFG fingerprints are structurally similar to the Java fragment and
+        # inject them as few-shot structural examples. Inspired by CodeGRAG
+        # (Huang et al., 2024); pragmatic non-NN approximation using regex
+        # structural fingerprints + Jaccard similarity. Runs after load_fragment
+        # so source_fragment_body is populated.
+        if getattr(self.args, 'use_syntax_rag', 'false') == 'true':
+            try:
+                sgrag = get_syntax_graph_rag()
+                block = sgrag.inject(self.source_fragment_body or "", top_k=3)
+                if block:
+                    self.syntax_graph_context = block
+            except Exception as e:
+                print(f"[Syntax Graph RAG] Warning: injection failed: {e}")
+
         self.build_base_prompt()
 
     def build_base_prompt(self):
@@ -171,9 +237,25 @@ Notes:
         self.add_instruction()
         self.double_line_break()
 
+        # Part 2: Cangjie grammar reference — appears right after the task
+        # instruction and before the Java source, so the model reads the
+        # hard-syntax constraints first and frames the upcoming source code in
+        # their light.
+        if self.grammar_context:
+            self.prompt += self.grammar_context
+            self.double_line_break()
+
         # then Java source code
         self.add_source_code()
         self.double_line_break()
+
+        # Part 1: Semantic bridge (pseudocode intermediate layer) — appears after
+        # the source code so the translator can resolve ambiguities against the
+        # Java, but is guided to render the *intent* in idiomatic Cangjie rather
+        # than mimic Java syntax line-by-line.
+        if self.pseudocode_context:
+            self.add_pseudocode_bridge()
+            self.double_line_break()
 
         # then partial Cangjie translation (skeleton with dependencies)
         self.add_partial_translation()
@@ -193,6 +275,11 @@ Notes:
         if self.rag_context:
             self.prompt += "### Reference Cangjie documentation:\n"
             self.prompt += self.rag_context
+            self.double_line_break()
+
+        # Part 3: structural examples (CFG/DFG-matched Cangjie corpus snippets)
+        if self.syntax_graph_context:
+            self.prompt += self.syntax_graph_context
             self.double_line_break()
 
         # ICL examples after everything else
@@ -347,6 +434,29 @@ Notes:
     def add_source_code(self):
         self.prompt += (
             f"{self.args.from_lang} code:\n```\n{self.source_fragment_code}\n```"
+        )
+
+    def add_pseudocode_bridge(self):
+        """Part 1: Inject the LLM-authored pseudocode semantic bridge.
+
+        The translate() loop in compositional_translation_validation.py runs the
+        'Java → pseudocode' LLM call BEFORE constructing this PromptGenerator
+        (when --use_pseudocode is enabled) and passes the result in as the
+        `pseudocode=` kwarg. Render it here so the 'pseudocode → Cangjie' step
+        works from a language-agnostic description of intent + logic rather
+        than from raw Java, decoupling 'understand Java semantics' (errors in
+        source-syntax inheritance) from 'produce correct Cangjie syntax/API
+        usage' (errors in target-language rendering).
+        """
+        self.prompt += (
+            "### Semantic Bridge (pseudocode)\n"
+            "The pseudocode below captures the intent and logic of the Java "
+            "fragment without using Java-specific syntax. Use it as the "
+            "authoritative description of WHAT to translate; fall back to the "
+            "Java code only when the pseudocode is ambiguous.\n\n"
+            "```\n"
+            f"{self.pseudocode_context}\n"
+            "```"
         )
 
     def add_incorrect_translation(self):

@@ -3,213 +3,223 @@ package commons_cli
 
 // Imports Begin
 import std.collection.ArrayList
-import std.reflect.TypeInfo
-import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class Option {
     // Fields Begin
-    static let UNINITIALIZED: Int32 = throw Exception('TODO')
-    static let UNLIMITED_VALUES: Int32 = throw Exception('TODO')
-    var option: String = throw Exception('TODO')
+    static let UNINITIALIZED: Int64 = -1
+    static let UNLIMITED_VALUES: Int64 = -2
+    let option: String = throw Exception('TODO')
     var longOption: String = throw Exception('TODO')
     var argName: String = throw Exception('TODO')
     var description: String = throw Exception('TODO')
-    var required: Bool = throw Exception('TODO')
-    var optionalArg: Bool = throw Exception('TODO')
-    var argCount: Int32 = throw Exception('TODO')
-    var type__: TypeInfo = throw Exception('TODO')
-    var values: ArrayList<String> = throw Exception('TODO')
+    var required: Bool = false
+    var optionalArg: Bool = false
+    var argCount: Int64 = -1  // Already translated, compilation failed
+    var type__: Any = String()  // Already translated, compilation failed
+    var values: ArrayList<String> = ArrayList<String>()
     var valuesep: Rune = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
     public static func builder0(): Option_Builder {
-        throw Exception('TODO')
+                return builder1("")
     }
 
     public static func builder1(option_param: String): Option_Builder {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public init(constructorId: Int32, option_param: String, longOption_param: String, description_param: String, hasArg: Bool, builder: Option_Builder) {
-        throw Exception('TODO')
+    public init(constructorId: Int64, option_param: String, longOption_param: String, description_param: String, hasArg: Bool, builder: Option_Builder) {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func Option1(option_param: String, description_param: String): Option {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func Option2(option_param: String, hasArg: Bool, description_param: String): Option {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func acceptsArg(): Bool {
-        throw Exception('TODO')
+                return (hasArg() || hasArgs() || hasOptionalArg()) && (argCount <= 0 || values.size < argCount)
     }
 
     private func add(value: String): Unit {
-        throw Exception('TODO')
+                if (!acceptsArg()) {
+        throw Exception("Cannot add value, list full.")
+        }
+        values.add(value)
     }
 
     public open func addValue(value: String): Bool {
-        throw Exception('TODO')
+                throw Exception("The addValue method is not intended for client use. Subclasses should use the addValueForProcessing method instead.")
     }
 
     public open func addValueForProcessing(value: String): Unit {
-        throw Exception('TODO')
+                if (argCount == UNINITIALIZED) {
+        throw Exception("NO_ARGS_ALLOWED")
+        }
+        processValue(value)
     }
 
     public open func clearValues(): Unit {
-        throw Exception('TODO')
+                values.clear()
     }
 
     public open func clone(): Any {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func equals(obj: Any): Bool {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getArgName(): String {
-        throw Exception('TODO')
+                return argName
     }
 
-    public open func getArgs(): Int32 {
-        throw Exception('TODO')
+    public open func getArgs(): Int64 {
+                return argCount
     }
 
     public open func getDescription(): String {
-        throw Exception('TODO')
+                return this.description
     }
 
-    public open func getId(): Int32 {
-        throw Exception('TODO')
+    public open func getId(): Int64 {
+                return Int64(getKey()[0])
     }
 
     public open func getKey(): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getLongOpt(): String {
-        throw Exception('TODO')
+                return longOption
     }
 
     public open func getOpt(): String {
-        throw Exception('TODO')
+                return this.option
     }
 
     public open func getType(): Any {
-        throw Exception('TODO')
+                return type__
     }
 
     public open func getValue0(): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func getValue1(index: Int32): String {
-        throw Exception('TODO')
+    public open func getValue1(index: Int64): String {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getValue2(defaultValue: String): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func getValues(): Array<String> {
-        throw Exception('TODO')
+    public open func getValues(): Array<Any> {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func getValueSeparator(): Rune {
-        throw Exception('TODO')
+                return valuesep
     }
 
-    public open func getValuesList<String>(): ArrayList<String> {
-        throw Exception('TODO')
+    public open func getValuesList(): ArrayList<String> {
+                return this.values
     }
 
     public open func hasArg(): Bool {
-        throw Exception('TODO')
+                return argCount > 0 || argCount == UNLIMITED_VALUES
     }
 
     public open func hasArgName(): Bool {
-        throw Exception('TODO')
+                return argName != "" && !argName.isEmpty()
     }
 
     public open func hasArgs(): Bool {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
-    public open func hashCode(): Int32 {
-        throw Exception('TODO')
+    public open func hashCode(): Int64 {
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func hasLongOpt(): Bool {
-        throw Exception('TODO')
+                return longOption != ""
     }
 
     private func hasNoValues(): Bool {
-        throw Exception('TODO')
+                return values.isEmpty()
     }
 
     public open func hasOptionalArg(): Bool {
-        throw Exception('TODO')
+                return optionalArg
     }
 
     public open func hasValueSeparator(): Bool {
-        throw Exception('TODO')
+                return valuesep > Rune(0)
     }
 
     public open func isRequired(): Bool {
-        throw Exception('TODO')
+                return this.required
     }
 
     private func processValue(value: String): Unit {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func requiresArg(): Bool {
-        throw Exception('TODO')
+                if (optionalArg) {
+        return false
+        }
+        if (argCount == UNLIMITED_VALUES) {
+        return values.isEmpty()
+        }
+        return acceptsArg()
     }
 
     public open func setArgName(argName_param: String): Unit {
-        throw Exception('TODO')
+                this.argName = argName_param
     }
 
-    public open func setArgs(num: Int32): Unit {
-        throw Exception('TODO')
+    public open func setArgs(num: Int64): Unit {
+                this.argCount = num
     }
 
     public open func setDescription(description_param: String): Unit {
-        throw Exception('TODO')
+                this.description = description_param
     }
 
     public open func setLongOpt(longOpt: String): Unit {
-        throw Exception('TODO')
+                this.longOption = longOpt
     }
 
     public open func setOptionalArg(optionalArg_param: Bool): Unit {
-        throw Exception('TODO')
+                this.optionalArg = optionalArg_param
     }
 
     public open func setRequired(required_param: Bool): Unit {
-        throw Exception('TODO')
+                this.required = required_param
     }
 
-    public open func setType0(type___param: TypeInfo): Unit {
-        throw Exception('TODO')
+    public open func setType0(type___param: Any): Unit {
+                this.type__ = type___param
     }
 
     public open func setType1(type___param: Any): Unit {
-        throw Exception('TODO')
+                setType0(type___param as Any)
     }
 
     public open func setValueSeparator(sep: Rune): Unit {
-        throw Exception('TODO')
+                this.valuesep = sep
     }
 
     public open func toString(): String {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     // Methods End
@@ -225,11 +235,11 @@ public class Option_Builder {
     var description: String = throw Exception('TODO')
     var longOption: String = throw Exception('TODO')
     var argName: String = throw Exception('TODO')
-    var required: Bool = throw Exception('TODO')
+    var required: Bool = false
     var optionalArg: Bool = throw Exception('TODO')
-    var argCount: Int32 = throw Exception('TODO')
-    var type__: TypeInfo = throw Exception('TODO')
-    var valueSeparator: Rune = throw Exception('TODO')
+    var argCount: Int64 = throw Exception('TODO')
+    var type__: Any = throw Exception('TODO')
+    var valueSeparator: Rune = ':'
     // Fields End
 
     // Methods Begin
@@ -242,19 +252,23 @@ public class Option_Builder {
     }
 
     public open func build(): Option {
-        throw Exception('TODO')
+                if (option == "" && longOption == "") {
+        throw IllegalArgumentException("Either opt or longOpt must be specified")
+        }
+        return Option(3, "", "", "", false, this)
     }
 
     public open func desc(description_param: String): Option_Builder {
-        throw Exception('TODO')
+                this.description = description_param
+        return this
     }
 
     public open func hasArg0(): Option_Builder {
-        throw Exception('TODO')
+                return hasArg1(true)
     }
 
     public open func hasArg1(hasArg: Bool): Option_Builder {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func hasArgs(): Option_Builder {
@@ -262,11 +276,13 @@ public class Option_Builder {
     }
 
     public open func longOpt(longOpt: String): Option_Builder {
-        throw Exception('TODO')
+                this.longOption = longOpt
+        return this
     }
 
-    public open func numberOfArgs(numberOfArgs: Int32): Option_Builder {
-        throw Exception('TODO')
+    public open func numberOfArgs(numberOfArgs: Int64): Option_Builder {
+                this.argCount = numberOfArgs
+        return this
     }
 
     public open func option_method(option_param: String): Option_Builder {
@@ -278,23 +294,26 @@ public class Option_Builder {
     }
 
     public open func required0(): Option_Builder {
-        throw Exception('TODO')
+                return required1(true)
     }
 
     public open func required1(required_param: Bool): Option_Builder {
-        throw Exception('TODO')
+                this.required = required_param
+        return this
     }
 
-    public open func type_(type___param: TypeInfo): Option_Builder {
-        throw Exception('TODO')
+    public open func type_(type___param: Any): Option_Builder {
+                this.type__ = type___param
+        return this
     }
 
     public open func valueSeparator0(): Option_Builder {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public open func valueSeparator1(sep: Rune): Option_Builder {
-        throw Exception('TODO')
+                this.valueSeparator = sep
+        return this
     }
 
     // Methods End

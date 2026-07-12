@@ -10,11 +10,11 @@ public open class AnsiPrintStream {
     // Fields End
 
     // Methods Begin
-    public init(out: AnsiOutputStream, autoFlush: Bool) {
+    public init(out: AnsiOutputStream, autoFlush: Bool, args: Any) {
         throw Exception('TODO')
     }
 
-    public init(out: AnsiOutputStream, autoFlush: Bool, encoding: String) {
+    private static func determineEncoding(args: Any): String {
         throw Exception('TODO')
     }
 
@@ -59,7 +59,7 @@ public open class AnsiPrintStream {
     }
 
     public open func toString(): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

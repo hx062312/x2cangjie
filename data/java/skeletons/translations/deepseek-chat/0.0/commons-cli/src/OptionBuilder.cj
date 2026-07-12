@@ -2,8 +2,7 @@
 package commons_cli
 
 // Imports Begin
-import std.reflect.TypeInfo
-import stdx.crypto.x509.VerifyOption
+
 // Imports End
 
 public class OptionBuilder {
@@ -11,104 +10,127 @@ public class OptionBuilder {
     static var longOption: String = throw Exception('TODO')
     static var description: String = throw Exception('TODO')
     static var argName: String = throw Exception('TODO')
-    static var required: Bool = throw Exception('TODO')
-    static var argCount: Int32 = throw Exception('TODO')
-    static var type__: TypeInfo = throw Exception('TODO')
-    static var optionalArg: Bool = throw Exception('TODO')
+    static var required: Bool = false
+    static var argCount: Int64 = Option.UNINITIALIZED
+    static var type__: Any = throw Exception('TODO')
+    static var optionalArg: Bool = false
     static var valueSeparator: Rune = throw Exception('TODO')
-    static let INSTANCE: OptionBuilder = throw Exception('TODO')
+    static let INSTANCE: OptionBuilder = OptionBuilder()
     // Fields End
 
     // Static Initializer Begin
     static init() {
-        throw Exception('TODO')
+                reset()
     }
 
     // Static Initializer End
 
     // Methods Begin
     public static func create0(): Option {
-        throw Exception('TODO')
+                if (longOption == "") {
+        OptionBuilder.reset()
+        throw IllegalArgumentException("must specify longopt")
+        }
+        return create2("")
     }
 
     public static func create1(opt: Rune): Option {
-        throw Exception('TODO')
+                return create2(String(opt))
     }
 
     public static func create2(opt: String): Option {
-        throw Exception('TODO')
+                var option: Option = try {
+        Option.Option1(opt, description)
+        } catch (e: Exception) {
+        throw IllegalArgumentException(e.message)
+        }
+        try {
+        option.setLongOpt(longOption)
+        option.setRequired(required)
+        option.setOptionalArg(optionalArg)
+        option.setArgs(argCount)
+        option.setType0(type__)
+        option.setValueSeparator(valueSeparator)
+        option.setArgName(argName)
+        } finally {
+        OptionBuilder.reset()
+        }
+        return option
     }
 
     public static func hasArg0(): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.argCount = 1; return INSTANCE
     }
 
     public static func hasArg1(hasArg: Bool): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.argCount = if (hasArg) { 1 } else { Option.UNINITIALIZED }
+        return INSTANCE
     }
 
     public static func hasArgs0(): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.argCount = Option.UNLIMITED_VALUES; return INSTANCE
     }
 
-    public static func hasArgs1(num: Int32): OptionBuilder {
-        throw Exception('TODO')
+    public static func hasArgs1(num: Int64): OptionBuilder {
+                OptionBuilder.argCount = num; return INSTANCE
     }
 
     public static func hasOptionalArg(): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.argCount = 1; OptionBuilder.optionalArg = true; return INSTANCE
     }
 
     public static func hasOptionalArgs0(): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.argCount = Option.UNLIMITED_VALUES
+        OptionBuilder.optionalArg = true
+        return INSTANCE
     }
 
-    public static func hasOptionalArgs1(numArgs: Int32): OptionBuilder {
-        throw Exception('TODO')
+    public static func hasOptionalArgs1(numArgs: Int64): OptionBuilder {
+                OptionBuilder.argCount = numArgs; OptionBuilder.optionalArg = true; return INSTANCE
     }
 
     public static func isRequired0(): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.required = true; return INSTANCE
     }
 
     public static func isRequired1(newRequired: Bool): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.required = newRequired; return INSTANCE
     }
 
     private static func reset(): Unit {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func withArgName(name: String): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.argName = name; return INSTANCE
     }
 
     public static func withDescription(newDescription: String): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.description = newDescription; return INSTANCE
     }
 
     public static func withLongOpt(newLongopt: String): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.longOption = newLongopt; return INSTANCE
     }
 
-    public static func withType0(newType: TypeInfo): OptionBuilder {
-        throw Exception('TODO')
+    public static func withType0(newType: Any): OptionBuilder {
+                OptionBuilder.type__ = newType; return INSTANCE
     }
 
     public static func withType1(newType: Any): OptionBuilder {
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func withValueSeparator0(): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.valueSeparator = '='; return INSTANCE
     }
 
     public static func withValueSeparator1(sep: Rune): OptionBuilder {
-        throw Exception('TODO')
+                OptionBuilder.valueSeparator = sep; return INSTANCE
     }
 
     private init() {
-        throw Exception('TODO')
+                throw Exception("TODO")
     }
 
     // Methods End

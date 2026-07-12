@@ -221,6 +221,13 @@ def is_type_parameter(type_name: str) -> bool:
     stripped = type_name.strip()
     if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", stripped):
         return False
+    # Exclude known JDK type acronyms that would otherwise be misclassified
+    # as generic type parameters by the "short + uppercase" heuristic below.
+    # These are real Java types (java.net.URL, java.net.URI, ...) that must
+    # be looked up in the type map, not returned as-is.
+    _JDK_ACRONYM_TYPES = frozenset({"URL", "URI", "UUID", "URI"})
+    if stripped in _JDK_ACRONYM_TYPES:
+        return False
     if len(stripped) == 1 and stripped.isalpha() and stripped.isupper():
         return True
     if stripped.isupper() and len(stripped) <= 3:

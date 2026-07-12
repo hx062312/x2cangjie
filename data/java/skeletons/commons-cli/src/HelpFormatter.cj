@@ -2,9 +2,7 @@
 package commons_cli
 
 // Imports Begin
-import std.io.ByteBuffer
-import std.io.StringWriter
-import stdx.crypto.x509.VerifyOption
+
 // Imports End
 
 public open class HelpFormatter {
@@ -12,19 +10,19 @@ public open class HelpFormatter {
     static let DEFAULT_LONG_OPT_PREFIX: String = throw Exception('TODO')
     static let DEFAULT_LONG_OPT_SEPARATOR: String = throw Exception('TODO')
     static let DEFAULT_ARG_NAME: String = throw Exception('TODO')
-    var defaultWidth: Int32 = throw Exception('TODO')
-    var defaultLeftPad: Int32 = throw Exception('TODO')
-    var defaultDescPad: Int32 = throw Exception('TODO')
+    var defaultWidth: Int64 = throw Exception('TODO')
+    var defaultLeftPad: Int64 = throw Exception('TODO')
+    var defaultDescPad: Int64 = throw Exception('TODO')
     var defaultSyntaxPrefix: String = throw Exception('TODO')
     var defaultNewLine: String = throw Exception('TODO')
     var defaultOptPrefix: String = throw Exception('TODO')
     var defaultLongOptPrefix: String = throw Exception('TODO')
     var defaultArgName: String = throw Exception('TODO')
-    var optionComparator: (Option, Option) -> Int64 = throw Exception('TODO')
+    var optionComparator: (Option, Option) -> Ordering = throw Exception('TODO')
     var longOptSeparator: String = throw Exception('TODO')
-    static let DEFAULT_WIDTH: Int32 = throw Exception('TODO')
-    static let DEFAULT_LEFT_PAD: Int32 = throw Exception('TODO')
-    static let DEFAULT_DESC_PAD: Int32 = throw Exception('TODO')
+    static let DEFAULT_WIDTH: Int64 = throw Exception('TODO')
+    static let DEFAULT_LEFT_PAD: Int64 = throw Exception('TODO')
+    static let DEFAULT_DESC_PAD: Int64 = throw Exception('TODO')
     static let DEFAULT_SYNTAX_PREFIX: String = throw Exception('TODO')
     static let DEFAULT_OPT_PREFIX: String = throw Exception('TODO')
     // Fields End
@@ -38,11 +36,11 @@ public open class HelpFormatter {
         throw Exception('TODO')
     }
 
-    protected open func createPadding(len: Int32): String {
+    protected open func createPadding(len: Int64): String {
         throw Exception('TODO')
     }
 
-    protected open func findWrapPos(text: String, width: Int32, startPos: Int32): Int32 {
+    protected open func findWrapPos(text: String, width: Int64, startPos: Int64): Int64 {
         throw Exception('TODO')
     }
 
@@ -50,11 +48,11 @@ public open class HelpFormatter {
         throw Exception('TODO')
     }
 
-    public open func getDescPadding(): Int32 {
+    public open func getDescPadding(): Int64 {
         throw Exception('TODO')
     }
 
-    public open func getLeftPadding(): Int32 {
+    public open func getLeftPadding(): Int64 {
         throw Exception('TODO')
     }
 
@@ -70,7 +68,7 @@ public open class HelpFormatter {
         throw Exception('TODO')
     }
 
-    public open func getOptionComparator<Option>(): (Option, Option) -> Int64 {
+    public open func getOptionComparator(): (Option, Option) -> Ordering {
         throw Exception('TODO')
     }
 
@@ -82,23 +80,23 @@ public open class HelpFormatter {
         throw Exception('TODO')
     }
 
-    public open func getWidth(): Int32 {
+    public open func getWidth(): Int64 {
         throw Exception('TODO')
     }
 
-    public open func printHelp0(width: Int32, cmdLineSyntax: String, header: String, options: Options, footer: String): Unit {
+    public open func printHelp0(width: Int64, cmdLineSyntax: String, header: String, options: Options, footer: String): Unit {
         throw Exception('TODO')
     }
 
-    public open func printHelp1(width: Int32, cmdLineSyntax: String, header: String, options: Options, footer: String, autoUsage: Bool): Unit {
+    public open func printHelp1(width: Int64, cmdLineSyntax: String, header: String, options: Options, footer: String, autoUsage: Bool): Unit {
         throw Exception('TODO')
     }
 
-    public open func printHelp2(pw: StringWriter<ByteBuffer>, width: Int32, cmdLineSyntax: String, header: String, options: Options, leftPad: Int32, descPad: Int32, footer: String): Unit {
+    public open func printHelp2(pw: Any, width: Int64, cmdLineSyntax: String, header: String, options: Options, leftPad: Int64, descPad: Int64, footer: String): Unit {
         throw Exception('TODO')
     }
 
-    public open func printHelp3(pw: StringWriter<ByteBuffer>, width: Int32, cmdLineSyntax: String, header: String, options: Options, leftPad: Int32, descPad: Int32, footer: String, autoUsage: Bool): Unit {
+    public open func printHelp3(pw: Any, width: Int64, cmdLineSyntax: String, header: String, options: Options, leftPad: Int64, descPad: Int64, footer: String, autoUsage: Bool): Unit {
         throw Exception('TODO')
     }
 
@@ -118,35 +116,35 @@ public open class HelpFormatter {
         throw Exception('TODO')
     }
 
-    public open func printOptions(pw: StringWriter<ByteBuffer>, width: Int32, options: Options, leftPad: Int32, descPad: Int32): Unit {
+    public open func printOptions(pw: Any, width: Int64, options: Options, leftPad: Int64, descPad: Int64): Unit {
         throw Exception('TODO')
     }
 
-    public open func printUsage0(pw: StringWriter<ByteBuffer>, width: Int32, cmdLineSyntax: String): Unit {
+    public open func printUsage0(pw: Any, width: Int64, cmdLineSyntax: String): Unit {
         throw Exception('TODO')
     }
 
-    public open func printUsage1(pw: StringWriter<ByteBuffer>, width: Int32, app: String, options: Options): Unit {
+    public open func printUsage1(pw: Any, width: Int64, app: String, options: Options): Unit {
         throw Exception('TODO')
     }
 
-    public open func printWrapped0(pw: StringWriter<ByteBuffer>, width: Int32, nextLineTabStop: Int32, text: String): Unit {
+    public open func printWrapped0(pw: Any, width: Int64, nextLineTabStop: Int64, text: String): Unit {
         throw Exception('TODO')
     }
 
-    public open func printWrapped1(pw: StringWriter<ByteBuffer>, width: Int32, text: String): Unit {
+    public open func printWrapped1(pw: Any, width: Int64, text: String): Unit {
         throw Exception('TODO')
     }
 
-    protected open func renderOptions(sb: StringBuilder, width: Int32, options: Options, leftPad: Int32, descPad: Int32): StringBuilder {
+    protected open func renderOptions(sb: StringBuilder, width: Int64, options: Options, leftPad: Int64, descPad: Int64): StringBuilder {
         throw Exception('TODO')
     }
 
-    protected open func renderWrappedText(sb: StringBuilder, width: Int32, nextLineTabStop: Int32, text: String): StringBuilder {
+    protected open func renderWrappedText(sb: StringBuilder, width: Int64, nextLineTabStop: Int64, text: String): StringBuilder {
         throw Exception('TODO')
     }
 
-    private func renderWrappedTextBlock(sb: StringBuilder, width: Int32, nextLineTabStop: Int32, text: String): StringWriter<ByteBuffer> {
+    private func renderWrappedTextBlock(sb: StringBuilder, width: Int64, nextLineTabStop: Int64, text: String): Any {
         throw Exception('TODO')
     }
 
@@ -158,11 +156,11 @@ public open class HelpFormatter {
         throw Exception('TODO')
     }
 
-    public open func setDescPadding(padding: Int32): Unit {
+    public open func setDescPadding(padding: Int64): Unit {
         throw Exception('TODO')
     }
 
-    public open func setLeftPadding(padding: Int32): Unit {
+    public open func setLeftPadding(padding: Int64): Unit {
         throw Exception('TODO')
     }
 
@@ -178,7 +176,7 @@ public open class HelpFormatter {
         throw Exception('TODO')
     }
 
-    public open func setOptionComparator<Option>(comparator: (Option, Option) -> Int64): Unit {
+    public open func setOptionComparator(comparator: (Option, Option) -> Ordering): Unit {
         throw Exception('TODO')
     }
 
@@ -190,19 +188,19 @@ public open class HelpFormatter {
         throw Exception('TODO')
     }
 
-    public open func setWidth(width: Int32): Unit {
+    public open func setWidth(width: Int64): Unit {
         throw Exception('TODO')
     }
 
     // Methods End
 }
 
-open class HelpFormatter_OptionComparator {
+private open class HelpFormatter_OptionComparator {
     // Fields Begin
     // Fields End
 
     // Methods Begin
-    public open func compare(opt1: Option, opt2: Option): Int32 {
+    public open func compare(opt1: Option, opt2: Option): Int64 {
         throw Exception('TODO')
     }
 

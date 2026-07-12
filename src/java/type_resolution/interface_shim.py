@@ -484,7 +484,23 @@ def _render_entry(entry: dict[str, Any]) -> list[str]:
         f"public interface {interface_name} {{",
         "    // Methods Begin",
     ]
+    # Cangjie overloads are distinguished by parameter *types* only (parameter
+    # names do not affect the signature). The shim source often contains
+    # multiple Java overloads that collapse to the same Cangjie parameter-type
+    # tuple after type mapping (e.g. append(Object) / append(StringBuffer) both
+    # become append(Any)). Emitting duplicates triggers "overload conflicts"
+    # compile errors, so we deduplicate by (name, tuple-of-cangjie-param-types)
+    # and keep the first occurrence.
+    seen_method_sigs: set[tuple[str, tuple[str, ...]]] = set()
     for method in entry.get("methods", []):
+        name = _safe_identifier(method.get("name", "method"))
+        param_types = tuple(
+            (p.get("type") or "Any") for p in method.get("parameters", [])
+        )
+        sig_key = (name, param_types)
+        if sig_key in seen_method_sigs:
+            continue
+        seen_method_sigs.add(sig_key)
         lines.extend(_render_method(method, indent="    "))
         lines.append("")
     lines.extend(
@@ -496,7 +512,14 @@ def _render_entry(entry: dict[str, Any]) -> list[str]:
             "    public init() {}",
         ]
     )
+    seen_ctor_sigs: set[tuple[str, ...]] = set()
     for ctor in entry.get("constructors", []):
+        param_types = tuple(
+            (p.get("type") or "Any") for p in ctor.get("parameters", [])
+        )
+        if param_types in seen_ctor_sigs:
+            continue
+        seen_ctor_sigs.add(param_types)
         params = _render_params(ctor.get("parameters", []))
         if params:
             lines.append(f"    public init({params}) {{}}")

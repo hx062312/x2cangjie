@@ -7,21 +7,21 @@ package commons_cli
 
 public open class UnrecognizedOptionException <: ParseException {
     // Fields Begin
-    var option: String = throw Exception('TODO')
+    let option: String = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
     public init(message: String, option_param: String) {
         super()
-        throw Exception('TODO')
+        throw Exception('TODO')  // Already translated, compilation failed
     }
 
     public static func UnrecognizedOptionException1(message: String): UnrecognizedOptionException {
-        throw Exception('TODO')
+                return UnrecognizedOptionException(message, "")
     }
 
     public open func getOption(): String {
-        throw Exception('TODO')
+                return this.option
     }
 
     // Methods End

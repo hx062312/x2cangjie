@@ -3,12 +3,11 @@ package commons_cli
 
 // Imports Begin
 import std.collection.ArrayList
-import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class PosixParser <: Parser {
     // Fields Begin
-    var tokens: ArrayList<String> = throw Exception('TODO')
+    let tokens: ArrayList<String> = throw Exception('TODO')
     var eatTheRest: Bool = throw Exception('TODO')
     var currentOption: Option = throw Exception('TODO')
     var options_field: Options = throw Exception('TODO')
@@ -19,11 +18,11 @@ public open class PosixParser <: Parser {
         throw Exception('TODO')
     }
 
-    protected override func flatten(options_param: Options, arguments: Array<String>, stopAtNonOption: Bool): Array<String> {
+    protected override func flatten(options_param: Options, arguments: Array<Any>, stopAtNonOption: Bool): Array<Any> {
         throw Exception('TODO')
     }
 
-    private func gobble<String>(iter: Iterator<String>): Unit {
+    private func gobble(iter: Iterator<String>): Unit {
         throw Exception('TODO')
     }
 
