@@ -1,14 +1,5 @@
 # 三部分详细流程
 
-> 本文是 `docs/presentation_script.md` 的补充，给导师和同组同学讲清楚 Part 1/2/3 在 `translate()` 循环里到底怎么跑的。
-> 配套文件：
-> - `docs/work_report.md` — 完整工作汇报（论文 + 原理 + 实现 + 消融）
-> - `docs/presentation_script.md` — 演讲稿
-> - `docs/presentation_slides.md` — PPT markdown 版
-> - `docs/presentation.pptx` — PPT 文件
-
----
-
 ## 0. 全局视角：一个 fragment 的完整处理流程
 
 三部分都挂在 `compositional_translation_validation.py` 的 `translate()` 主循环里。按依赖顺序遍历 `traversal.json` 中的每个 fragment，对每个 fragment 执行以下步骤：
