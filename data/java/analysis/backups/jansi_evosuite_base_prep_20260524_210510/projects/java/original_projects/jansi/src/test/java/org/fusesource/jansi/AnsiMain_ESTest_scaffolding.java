@@ -1,0 +1,138 @@
+/*
+ * Copyright (C) 2009-2023 the original author(s).
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.fusesource.jansi;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.evosuite.runtime.annotation.EvoSuiteClassExclude;
+import org.evosuite.runtime.sandbox.Sandbox;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+
+@EvoSuiteClassExclude
+public class AnsiMain_ESTest_scaffolding {
+
+    @org.junit.Rule
+    public org.evosuite.runtime.vnet.NonFunctionalRequirementRule nfr =
+            new org.evosuite.runtime.vnet.NonFunctionalRequirementRule();
+
+    protected static ExecutorService executor;
+
+    private static final java.util.Properties defaultProperties =
+            (java.util.Properties) java.lang.System.getProperties().clone();
+
+    private org.evosuite.runtime.thread.ThreadStopper threadStopper = new org.evosuite.runtime.thread.ThreadStopper(
+            org.evosuite.runtime.thread.KillSwitchHandler.getInstance(), 3000);
+
+    @BeforeClass
+    public static void initEvoSuiteFramework() {
+        org.evosuite.runtime.RuntimeSettings.className = "org.fusesource.jansi.AnsiMain";
+        org.evosuite.runtime.GuiSupport.initialize();
+        org.evosuite.runtime.RuntimeSettings.maxNumberOfThreads = 100;
+        org.evosuite.runtime.RuntimeSettings.maxNumberOfIterationsPerLoop = 10000;
+        org.evosuite.runtime.RuntimeSettings.mockSystemIn = true;
+        org.evosuite.runtime.RuntimeSettings.sandboxMode = org.evosuite.runtime.sandbox.Sandbox.SandboxMode.RECOMMENDED;
+        org.evosuite.runtime.sandbox.Sandbox.initializeSecurityManagerForSUT();
+        executor = Executors.newCachedThreadPool();
+        org.evosuite.runtime.classhandling.JDKClassResetter.init();
+        setSystemProperties();
+        initializeClasses();
+        org.evosuite.runtime.Runtime.getInstance().resetRuntime();
+    }
+
+    @AfterClass
+    public static void clearEvoSuiteFramework() {
+        Sandbox.resetDefaultSecurityManager();
+        executor.shutdownNow();
+        java.lang.System.setProperties((java.util.Properties) defaultProperties.clone());
+    }
+
+    @Before
+    public void initTestCase() {
+        threadStopper.storeCurrentThreads();
+        threadStopper.startRecordingTime();
+        org.evosuite.runtime.jvm.ShutdownHookHandler.getInstance().initHandler();
+        org.evosuite.runtime.sandbox.Sandbox.goingToExecuteSUTCode();
+        setSystemProperties();
+        org.evosuite.runtime.GuiSupport.setHeadless();
+        org.evosuite.runtime.Runtime.getInstance().resetRuntime();
+        org.evosuite.runtime.agent.InstrumentingAgent.activate();
+    }
+
+    @After
+    public void doneWithTestCase() {
+        threadStopper.killAndJoinClientThreads();
+        org.evosuite.runtime.jvm.ShutdownHookHandler.getInstance().safeExecuteAddedHooks();
+        org.evosuite.runtime.classhandling.JDKClassResetter.reset();
+        resetClasses();
+        org.evosuite.runtime.sandbox.Sandbox.doneWithExecutingSUTCode();
+        org.evosuite.runtime.agent.InstrumentingAgent.deactivate();
+        org.evosuite.runtime.GuiSupport.restoreHeadlessMode();
+    }
+
+    public static void setSystemProperties() {
+
+        java.lang.System.setProperties((java.util.Properties) defaultProperties.clone());
+        java.lang.System.setProperty("java.io.tmpdir", "/tmp");
+        java.lang.System.setProperty("user.dir", "/home/ali/Documents/cleaned_final_projects_evosuite/jansi");
+        java.lang.System.setProperty("file.encoding", "UTF-8");
+    }
+
+    private static void initializeClasses() {
+        org.evosuite.runtime.classhandling.ClassStateSupport.initializeClasses(
+                AnsiMain_ESTest_scaffolding.class.getClassLoader(),
+                "org.fusesource.jansi.Ansi",
+                "org.fusesource.jansi.Ansi$NoAnsi",
+                "org.fusesource.jansi.io.AnsiProcessor",
+                "org.fusesource.jansi.AnsiMain",
+                "org.fusesource.jansi.io.WindowsAnsiProcessor",
+                "org.fusesource.jansi.io.AnsiOutputStream$WidthSupplier",
+                "org.fusesource.jansi.Ansi$1",
+                "org.fusesource.jansi.AnsiConsole",
+                "org.fusesource.jansi.AnsiPrintStream",
+                "org.fusesource.jansi.io.FastBufferedOutputStream",
+                "org.fusesource.jansi.internal.JansiLoader",
+                "org.fusesource.jansi.internal.OSInfo",
+                "org.fusesource.jansi.internal.CLibrary",
+                "org.fusesource.jansi.internal.Kernel32",
+                "org.fusesource.jansi.internal.CLibrary$WinSize");
+    }
+
+    private static void resetClasses() {
+        org.evosuite.runtime.classhandling.ClassResetter.getInstance()
+                .setClassLoader(AnsiMain_ESTest_scaffolding.class.getClassLoader());
+
+        org.evosuite.runtime.classhandling.ClassStateSupport.resetClasses(
+                "org.fusesource.jansi.AnsiMain",
+                "org.fusesource.jansi.internal.JansiLoader",
+                "org.fusesource.jansi.internal.OSInfo",
+                "org.fusesource.jansi.AnsiConsole",
+                "org.fusesource.jansi.internal.CLibrary",
+                "org.fusesource.jansi.AnsiType",
+                "org.fusesource.jansi.internal.Kernel32",
+                "org.fusesource.jansi.AnsiMode",
+                "org.fusesource.jansi.AnsiColors",
+                "org.fusesource.jansi.Ansi$1",
+                "org.fusesource.jansi.Ansi",
+                "org.fusesource.jansi.Ansi$Color",
+                "org.fusesource.jansi.Ansi$Attribute",
+                "org.fusesource.jansi.internal.CLibrary$WinSize",
+                "org.fusesource.jansi.io.FastBufferedOutputStream");
+    }
+}

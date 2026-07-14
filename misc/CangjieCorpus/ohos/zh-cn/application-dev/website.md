@@ -1,0 +1,1006 @@
+# OpenHarmony开发者文档（仓颉）
+
+<!--RP4-->
+- [应用开发导读](cj-start-application-development-overview.md)
+- 入门<!--RP4End-->
+    - 快速入门
+        - [开发准备](cj-start/start/quick-start/cj-quick-start-preparations.md)
+        - [构建第一个仓颉应用](cj-start/start/quick-start/cj-quick-start-first-cangjie-app.md)
+    - 开发基础知识
+        - 应用程序包基础知识
+            - [应用程序包概述](cj-start/basic-knowledge/application-package-overview.md)
+            - 应用程序包结构
+                - [Stage模型应用程序包结构](cj-start/basic-knowledge/application-package-structure-stage.md)
+            - 应用程序包开发与使用
+                - [HAP](cj-start/basic-knowledge/hap-package.md)
+                - [HAR](cj-start/basic-knowledge/har-package.md)
+            - 应用程序包安装卸载与更新
+                - [应用安装卸载与更新开发指导](cj-start/basic-knowledge/application-package-install-uninstall.md)
+                - [应用安装与更新一致性校验](cj-start/basic-knowledge/multi_module_installation_update_consistency_verification.md)
+        - 应用配置文件（Stage模型）
+            - [应用配置文件概述（Stage模型）](cj-start/basic-knowledge/application-configuration-file-overview-stage.md)
+            - [app.json5配置文件](cj-start/basic-knowledge/app-configuration-file.md)
+            - [module.json5配置文件](cj-start/basic-knowledge/module-configuration-file.md)
+        - [应用程序包常见问题](cj-start/basic-knowledge/common_problem_of_application.md)
+        - [应用程序包术语](cj-start/basic-knowledge/application-package-glossary.md)
+    - [资源分类与访问](cj-start/start/ide-resource-categories-and-access.md)
+    - 学习仓颉语言
+        - [初识仓颉语言](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/first_understanding/basic.md)
+        - 基本概念
+            - [标识符](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_programming_concepts/identifier.md)
+            - [程序结构](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_programming_concepts/program_structure.md)
+            - [表达式](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_programming_concepts/expression.md)
+            - [函数](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_programming_concepts/function.md)
+        - 基础数据类型
+            - [基本操作符](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/basic_operators.md)
+            - [整数类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/integer.md)
+            - [浮点类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/float.md)
+            - [布尔类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/bool.md)
+            - [字符类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/characters.md)
+            - [字符串类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/strings.md)
+            - [元组类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/tuple.md)
+            - [数组类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/array.md)
+            - [区间类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/range.md)
+            - [Unit 类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/unit.md)
+            - [Nothing 类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/basic_data_type/nothing.md)
+        - 函数
+            - [定义函数](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/define_functions.md)
+            - [调用函数](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/call_functions.md)
+            - [函数类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/first_class_citizen.md)
+            - [嵌套函数](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/nested_functions.md)
+            - [Lambda 表达式](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/lambda.md)
+            - [闭包](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/closure.md)
+            - [函数调用语法糖](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/function_call_desugar.md)
+            - [函数重载](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/function_overloading.md)
+            - [操作符重载](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/operator_overloading.md)
+            - [const 函数和常量求值](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/function/const_func_and_eval.md)
+        - 结构类型
+            - [定义 struct 类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/struct/define_struct.md)
+            - [创建 struct 实例](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/struct/create_instance.md)
+            - [mut 函数](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/struct/mut.md)
+        - 枚举类型和模式匹配
+            - [枚举类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/enum_and_pattern_match/enum.md)
+            - [Option 类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/enum_and_pattern_match/option_type.md)
+            - [模式概述](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/enum_and_pattern_match/pattern_overview.md)
+            - [模式的 Refutability](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/enum_and_pattern_match/pattern_refutability.md)
+            - [match 表达式](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/enum_and_pattern_match/match.md)
+            - [其他使用模式的地方](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/enum_and_pattern_match/other.md)
+        - 类和接口
+            - [类](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/class_and_interface/class.md)
+            - [接口](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/class_and_interface/interface.md)
+            - [属性](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/class_and_interface/prop.md)
+            - [子类型关系](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/class_and_interface/subtype.md)
+            - [类型转换](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/class_and_interface/typecast.md)
+        - 泛型
+            - [泛型概述](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/generic_overview.md)
+            - [泛型函数](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/generic_function.md)
+            - [泛型接口](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/generic_interface.md)
+            - [泛型类](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/generic_class.md)
+            - [泛型结构体](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/generic_struct.md)
+            - [泛型枚举](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/generic_enum.md)
+            - [泛型类型的子类型关系](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/generic_subtype.md)
+            - [类型别名](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/typealias.md)
+            - [泛型约束](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/generic/generic_constraint.md)
+        - 扩展
+            - [扩展概述](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/extension/extend_overview.md)
+            - [直接扩展](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/extension/direct_extension.md)
+            - [接口扩展](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/extension/interface_extension.md)
+            - [访问规则](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/extension/access_rules.md)
+        - Collection 类型
+            - [基础 Collection 类型概述](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/collections/collection_overview.md)
+            - [ArrayList](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/collections/collection_arraylist.md)
+            - [HashSet](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/collections/collection_hashset.md)
+            - [HashMap](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/collections/collection_hashmap.md)
+            - [Iterable 和 Collections](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/collections/collection_iterable_collections.md)
+        - 包
+            - [包的概述](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/package/package_overview.md)
+            - [包的声明](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/package/package_name.md)
+            - [顶层声明的可见性](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/package/toplevel_access.md)
+            - [包的导入](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/package/import.md)
+            - [程序入口](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/package/entry.md)
+        - 异常处理
+            - [定义异常](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/error_handle/exception_overview.md)
+            - [throw 和处理异常](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/error_handle/handle.md)
+            - [常见运行时异常](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/error_handle/common_runtime_exceptions.md)
+            - [使用 Option](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/error_handle/use_option.md)
+        - 并发编程
+            - [并发概述](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/concurrency/concurrency_overview.md)
+            - [创建线程](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/concurrency/create_thread.md)
+            - [访问线程](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/concurrency/use_thread.md)
+            - [终止线程](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/concurrency/terminal_thread.md)
+            - [同步机制](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/concurrency/sync.md)
+            - [线程睡眠指定时长 sleep](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/concurrency/sleep.md)
+        - 基础 I/O 操作
+            - [I/O 流概述](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Basic_IO/basic_IO_overview.md)
+            - [I/O 节点流](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Basic_IO/basic_IO_source_stream.md)
+            - [I/O 处理流](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Basic_IO/basic_IO_process_stream.md)
+        - 网络编程
+            - [网络编程概述](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Net/net_overview.md)
+            - [Socket 编程](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Net/net_socket.md)
+            - [HTTP 编程](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Net/net_http.md)
+            - [WebSocket 编程](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Net/net_websocket.md)
+        - 宏
+            - [宏的简介](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Macro/macro_introduction.md)
+            - [Tokens 相关类型和 quote 表达式](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Macro/Tokens_types_and_quote_expressions.md)
+            - [语法节点](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Macro/syntax_node.md)
+            - [宏的实现](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Macro/implementation_of_macros.md)
+            - [编译、报错与调试](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Macro/compiling_error_reporting_and_debugging.md)
+            - [宏包定义和导入](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Macro/defining_and_importing_macro_package.md)
+            - [内置编译标记](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Macro/builtin_compilation_flags.md)
+            - [实用案例](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Macro/practical_case.md)
+        - 反射和注解
+            - [动态特性](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/reflect_and_annotation/dynamic_feature.md)
+            - [注解](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/reflect_and_annotation/anno.md)
+        - 跨语言互操作
+            - [仓颉-C 互操作](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/FFI/cangjie-c.md)
+            - 仓颉-ArkTS 互操作
+                - 互操作入门
+                    - [构建第一个仓颉与ArkTS混合应用](learn-cj/FFI/cangjie-arkts/cj-quick-start-first-cangjie-hybrid-app.md)
+                    - [在已有ArkTS工程中增量使用仓颉](learn-cj/FFI/cangjie-arkts/cj-quick-start-first-cangjie-hybrid-module.md)
+                    - [在仓颉代码里导入ArkTS模块](learn-cj/FFI/cangjie-arkts/cangjie-load-arkts.md)
+                - [仓颉-ArkTS 互操作概述](learn-cj/FFI/cangjie-arkts/cangjie_arkts_overview.md)
+                - [仓颉-ArkTS 互操作场景](learn-cj/FFI/cangjie-arkts/interoperability_senario.md)
+                    - [ArkTS 应用中使用仓颉](learn-cj/FFI/cangjie-arkts/using_cangjie.md)
+                        - [增加仓颉页面](learn-cj/FFI/cangjie-arkts/add_cangjie_page.md)
+                        - [增加仓颉模块](learn-cj/FFI/cangjie-arkts/add_cangjie_module.md)
+                    - [仓颉应用中使用 ArkTS](learn-cj/FFI/cangjie-arkts/using_arkts.md)
+                - 互操作用法
+                    - [ArkTS 调用仓颉](learn-cj/FFI/cangjie-arkts/method_of_ArkTS_calling_cangjie.md)
+                        - 仓颉侧实现互操作代码
+                            - [仓颉-ArkTS 声明式互操作宏](learn-cj/FFI/cangjie-arkts/interoperability_macro.md)
+                            - [仓颉-ArkTS 互操作库](learn-cj/FFI/cangjie-arkts/interoperability_lib.md)
+                        - [ArkTS 侧使用互操作代码](learn-cj/FFI/cangjie-arkts/arkts_import_cangjie.md)
+                    - 仓颉调用 ArkTS
+                        - [ArkTS 侧获取互操作模块名](learn-cj/FFI/cangjie-arkts/prepare_arkts_module.md)
+                        - [仓颉侧调用 ArkTS 模块](learn-cj/FFI/cangjie-arkts/using_arkts_module.md)
+                - [互操作使用案例](learn-cj/FFI/cangjie-arkts/using_example.md)
+                    - [仓颉访问 ArkTS 数据](learn-cj/FFI/cangjie-arkts/operating_ArkTS_data.md)
+                    - [ArkTS 访问仓颉数据](learn-cj/FFI/cangjie-arkts/operating_cangjie_objects.md)
+                    - [仓颉多线程中使用互操作库](learn-cj/FFI/cangjie-arkts/using_interoperability_lib_multithread.md)
+                    - [仓颉调用ArkTS三方模块](learn-cj/FFI/cangjie-arkts/cj-quick-start-dts2cj-plugin-usage.md)
+                - [仓颉-ArkTS 互操作辅助库](learn-cj/FFI/cangjie-arkts/auxiliary_lib.md)
+                - [仓颉-ArkTS 互操作开发规范](learn-cj/FFI/cangjie-arkts/interop_guidelines.md)
+        - 编译和构建
+            - [`cjc` 使用](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/compile_and_build/cjc_usage.md)
+            - [`cjpm` 介绍](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/compile_and_build/cjpm_usage.md)
+            - [条件编译](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/compile_and_build/conditional_compilation.md)
+        - 附录
+            - [`cjc` 编译选项](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Appendix/compile_options.md)
+            - [关键字](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Appendix/keyword.md)
+            - [操作符](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Appendix/operator.md)
+            - [操作符函数](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Appendix/operator_function.md)
+            - [TokenKind 类型](https://gitcode.com/Cangjie/cangjie_docs/blob/main/docs/dev-guide/source_zh_cn/Appendix/tokenkind_type.md)
+- 开发
+    <!--RP5--><!--RP5End-->
+    - 应用框架
+        - Ability Kit（程序框架服务）
+            - [Ability Kit简介](application-models/cj-abilitykit-overview.md)
+            - [应用模型](application-models/cj-application-models.md)
+            - Stage模型开发指导
+                - Stage模型应用组件
+                    - [应用/组件级配置](application-models/cj-application-component-configuration-stage.md)
+                    - UIAbility组件
+                        - [UIAbility组件概述](application-models/cj-uiability-overview.md)
+                        - [UIAbility组件生命周期](application-models/cj-uiability-lifecycle.md)
+                        - [UIAbility组件启动模式](application-models/cj-uiability-launch-type.md)
+                        - [UIAbility组件基本用法](application-models/cj-uiability-usage.md)
+                        - [启动应用内的UIAbility组件](application-models/cj-uiability-intra-device-interaction.md)
+                    - 信息传递载体Want
+                        - [Want概述](application-models/cj-want-overview.md)
+                        - [显式Want与隐式Want匹配规则](application-models/cj-explicit-implicit-want-mappings.md)
+                        - [常见action与entities（不推荐使用）](application-models/cj-actions-entities.md)
+                - 应用间跳转
+                    - 拉起指定类型的应用
+                        - [拉起文件处理类应用（startAbility）](application-models/cj-file-processing-apps-startup.md)
+                - [Stage模型应用配置文件](application-models/cj-config-file-stage.md)
+        - ArkData（方舟数据管理）
+            - [ArkData简介](database/cj-data-mgmt-overview.md)
+            - 标准化数据定义
+              - [UTD预置列表](database/cj-uniform-data-type-list.md)
+            - 应用数据持久化
+                - [应用数据持久化概述](database/cj-app-data-persistence-overview.md)
+                - [通过用户首选项实现数据持久化](database/cj-data-persistence-by-preferences.md)
+                - [通过键值型数据库实现数据持久化](database/cj-data-persistence-by-kv-store.md)
+                - [通过关系型数据库实现数据持久化](database/cj-data-persistence-by-rdb-store.md)
+            - 同应用跨设备数据同步（分布式）
+                - [同应用跨设备数据同步概述](database/cj-sync-app-data-across-devices-overview.md)
+                - [关系型数据库跨设备数据同步](database/cj-data-sync-of-rdb-store.md)
+            - 数据可靠性与安全性
+                - [数据可靠性与安全性概述](database/cj-data-reliability-security-overview.md)
+                - [数据库备份与恢复](database/cj-data-backup-and-restore.md)
+                - [数据库加密](database/cj-data-encryption.md)
+                - [基于设备分类和数据分级的访问控制](database/cj-access-control-by-device-and-data-level.md)
+        - ArkUI（方舟UI框架）
+            - [ArkUI简介](arkui-cj/cj-overview.md)
+            - UI开发（仓颉声明式开发范式）
+                - [UI开发（仓颉声明式开发范式）概述](arkui-cj/cj-ui-development-overview.md)
+                - 学习UI范式基本语法
+                    - [基本语法概述](arkui-cj/paradigm/cj-basic-syntax-overview.md)
+                    - [声明式UI描述](arkui-cj/paradigm/cj-declarative-ui-description.md)
+                    - 自定义组件
+                        - [创建自定义组件](arkui-cj/paradigm/cj-create-custom-components.md)
+                        - [页面和自定义组件生命周期](arkui-cj/paradigm/cj-page-custom-components-lifecycle.md)
+                        - [自定义组件成员属性访问限定符使用限制](arkui-cj/paradigm/cj-custom-components-access-restrictions.md)
+                    - 组件扩展
+                        - [@Builder宏：自定义构建函数](arkui-cj/paradigm/cj-macro-builder.md)
+                        - [@BuilderParam宏：引用@Builder函数](arkui-cj/paradigm/cj-macro-builderparam.md)
+                        - [@Reusable宏：组件复用](arkui-cj/paradigm/cj-macro-reusable.md)
+                - 学习UI范式状态管理
+                    - [状态管理概述](arkui-cj/state_management/cj-state-management-overview.md)
+                    - [MVVM模式](arkui-cj/state_management/cj-mvvm.md)
+                    - 状态管理（V1）
+                        - 管理组件拥有的状态
+                            - [@State宏：组件内状态](arkui-cj/state_management/cj-macro-state.md)
+                            - [@Prop宏：父子单向同步](arkui-cj/state_management/cj-macro-prop.md)
+                            - [@Link宏：父子双向同步](arkui-cj/state_management/cj-macro-link.md)
+                            - [@Provide宏和@Consume宏：与后代组件双向同步](arkui-cj/state_management/cj-macro-provide-and-consume.md)
+                            - [@Observed宏和@Publish宏：嵌套类对象属性变化](arkui-cj/state_management/cj-macro-observed-and-publish.md)
+                        - 管理应用拥有的状态
+                            - [管理应用拥有的状态概述](arkui-cj/state_management/cj-application-state-management-overview.md)
+                            - [LocalStorage：页面级UI状态存储](arkui-cj/state_management/cj-localstorage.md)
+                            - [AppStorage：应用全局的UI状态存储](arkui-cj/state_management/cj-appstorage.md)
+                            - [PersistentStorage：持久化存储UI状态](arkui-cj/state_management/cj-persiststorage.md)
+                            - [Environment：设备环境查询](arkui-cj/state_management/cj-environment.md)
+                        - 其他状态管理
+                            - [其他状态管理概述](arkui-cj/state_management/cj-other-state-mgmt-functions-overview.md)
+                            - [@Watch宏：状态变量更改通知](arkui-cj/state_management/cj-macro-watch.md)
+                    - 状态管理优秀实践
+                        - [状态管理优秀实践](arkui-cj/state_management/cj-state-management-best-practices.md)
+                        - [状态管理合理使用开发指导](arkui-cj/state_management/cj-properly-use-state-management-to-develope.md)
+                - 学习UI范式渲染控制
+                    - [渲染控制概述](arkui-cj/rendering_control/cj-rendering-control-overview.md)
+                    - [if/else：条件渲染](arkui-cj/rendering_control/cj-rendering-control-ifelse.md)
+                    - [ForEach：循环渲染](arkui-cj/rendering_control/cj-rendering-control-foreach.md)
+                    - [LazyForEach：数据懒加载](arkui-cj/rendering_control/cj-rendering-control-lazyforeach.md)
+                - 设置组件导航和页面路由
+                    - [组件导航和页面路由概述](arkui-cj/cj-navigation-introduction.md)
+                    - [组件导航（Navigation）（推荐）](arkui-cj/cj-navigation-navigation.md)
+                    - [导航转场](arkui-cj/cj-navigation-transition.md)
+                - 组件布局
+                    - [布局概述](arkui-cj/cj-layout-development-overview.md)
+                    - 构建布局
+                        - [线性布局（Row/Column）](arkui-cj/cj-layout-development-linear.md)
+                        - [层叠布局（Stack）](arkui-cj/cj-layout-development-stack-layout.md)
+                        - [弹性布局（Flex）](arkui-cj/cj-layout-development-flex-layout.md)
+                        - [相对布局（RelativeContainer）](arkui-cj/cj-layout-development-relative-layout.md)
+                        - [栅格布局（GridRow/GridCol）](arkui-cj/cj-layout-development-grid-layout.md)
+                        - [创建列表（List）](arkui-cj/cj-layout-development-create-list.md)
+                        - [创建网格（Grid/GridItem）](arkui-cj/cj-layout-development-create-grid.md)
+                        - [创建轮播（Swiper）](arkui-cj/cj-layout-development-create-looping.md)
+                        - [选项卡（Tabs）](arkui-cj/cj-layout-development-tabs.md)
+                    <!--RP2--><!--RP2End-->
+                - 使用文本
+                    - [文本概述](arkui-cj/cj-text-introduction.md)
+                    - [文本显示（Text/Span）](arkui-cj/cj-common-components-text-display.md)
+                    - [文本输入（TextInput/TextArea）](arkui-cj/cj-common-components-text-input.md)
+                    - [富文本（RichEditor）](arkui-cj/cj-common-components-richeditor.md)
+                - 媒体展示
+                    - [显示图片（Image）](arkui-cj/cj-graphics-display.md)
+                    - [视频播放（Video）](arkui-cj/cj-common-components-video-player.md)
+                - 表单选择
+                    - [按钮（Button）](arkui-cj/cj-common-components-button.md)
+                    - [单选框（Radio）](arkui-cj/cj-common-components-radio-button.md)
+                    - [切换按钮（Toggle）](arkui-cj/cj-common-components-switch.md)
+                - 添加组件
+                    - [进度条（Progress）](arkui-cj/cj-common-components-progress-indicator.md)
+                - 使用弹窗
+                    - [弹窗概述](arkui-cj/cj-dialog-overview.md)
+                    - 弹出框（Dialog）
+                        - [弹出框概述](arkui-cj/cj-dialog-base-overview.md)
+                        - [不依赖UI组件的全局自定义弹出框（openCustomDialog）](arkui-cj/cj-uicontext-custom-dialog.md)
+                        - [基础自定义弹出框（CustomDialog）（不推荐）](arkui-cj/cj-common-components-custom-dialog.md)
+                        - [固定样式弹出框](arkui-cj/cj-fixes-style-dialog.md)
+                    - 菜单
+                        - [菜单控制（Menu）](arkui-cj/cj-popup-and-menu-components-menu.md)
+                    - 气泡提示
+                        - [气泡提示（Popup）](arkui-cj/cj-popup-and-menu-components-popup.md)
+                    - 绑定模态页面
+                        - [绑定模态页面概述](arkui-cj/cj-modal-overview.md)
+                        - [绑定半模态页面（bindSheet）](arkui-cj/cj-sheet-page.md)
+                        - [绑定全模态页面（bindContentCover）](arkui-cj/cj-contentcover-page.md)
+                    - [即时反馈（Toast）](arkui-cj/cj-create-toast.md)
+                - 几何图形绘制
+                    - [绘制几何图形（Shape）](arkui-cj/cj-shape-drawing.md)
+                - 支持交互事件
+                    - [交互事件概述](arkui-cj/cj-event-overview.md)
+                    - 使用通用事件
+                        - [事件分发](arkui-cj/cj-common-events-distribute.md)
+                        - [触屏事件](arkui-cj/cj-common-events-touch-screen-event.md)
+                        - [键鼠事件](arkui-cj/cj-common-events-device-input-event.md)
+                        - [焦点事件](arkui-cj/cj-common-events-focus-event.md)
+                - 使用动画
+                    - [动画概述](arkui-cj/cj-animation.md)
+                    - 属性动画
+                        - [属性动画概述](arkui-cj/cj-attribute-animation-overview.md)
+                        - [实现属性动画](arkui-cj/cj-attribute-animation-apis.md)
+                    - 转场动画
+                        - [转场动画概述](arkui-cj/cj-transition-overview.md)
+                        - [出现/消失转场](arkui-cj/cj-enter-exit-transition.md)
+                        - [模态转场](arkui-cj/cj-modal-transition.md)
+                        - [共享元素转场（一镜到底）](arkui-cj/cj-shared-element-transition.md)
+                        - [旋转屏动画](arkui-cj/cj-rotation-transition-animation.md)
+                        - [页面转场动画（不推荐）](arkui-cj/cj-page-transition-animation.md)
+                    - [组件动画](arkui-cj/cj-component-animation.md)
+                    - 动画曲线
+                        - [动画曲线概述](arkui-cj/cj-curve-overview.md)
+                        - [传统曲线](arkui-cj/cj-traditional-curve.md)
+                        - [弹簧曲线](arkui-cj/cj-spring-curve.md)
+                    - [动画衔接](arkui-cj/cj-animation-smoothing.md)
+                    - 动画效果
+                        - [模糊](arkui-cj/cj-blur-effect.md)
+                        - [阴影](arkui-cj/cj-shadow-effect.md)
+                        - [色彩](arkui-cj/cj-color-effect.md)
+                    - [帧动画（ohos.animator）](arkui-cj/cj-animator.md)
+                - 使用自定义能力
+                    - 自定义绘制
+                        - [使用画布绘制自定义图形（Canvas）](arkui-cj/cj-drawing-customization-on-canvas.md)
+                - [混合开发](arkui-cj/cj-appendix-hybrid.md)
+                - [使用镜像能力](arkui-cj/cj-mirroring-display.md)
+                <!--RP1--><!--RP1End-->
+                - 主题设置
+                    - [应用深浅色适配](arkui-cj/cj-ui-dark-light-color-adaptation.md)
+            - 窗口管理
+                - [管理应用窗口](windowmanager/application-window-stage.md)
+            - 屏幕管理
+                - [使用Display实现屏幕属性查询及状态监听](displaymanager/screenProperty-guideline.md)
+        - ArkWeb（方舟Web）
+            - [ArkWeb简介](web/cj-web-component-overview.md)
+            - 设置基本属性和事件
+                - [User-Agent开发指导](web/cj-web-default-userAgent.md)
+                - [设置深色模式](web/cj-web-set-dark-mode.md)
+            - 管理网页交互
+                - [Web组件嵌套滚动](web/cj-web-nested-scrolling.md)
+                - [Web页面显示内容滚动](web/cj-web-content-scrolling.md)
+            - 管理Web组件的网络安全与隐私
+                - [坚盾守护模式](web/cj-web-secure-shield-mode.md)
+            - 管理网页加载与浏览记录
+                - [使用Web组件加载页面](web/cj-web-page-loading-with-web-components.md)
+            - 处理网页内容
+                - [使用Web组件的PDF文档预览能力](web/cj-web-pdf-preview.md)
+                - [网页中安全区域计算和避让适配](web/cj-web-safe-area-insets.md)
+            - Web调试维测
+                - [使用DevTools工具调试前端页面](web/cj-web-debugging-with-devtools.md)
+                - [使用crashpad收集Web组件崩溃信息](web/cj-web-crashpad.md)
+        - Core File Kit（文件基础服务）
+            - [Core File Kit简介](file-management/cj-core-file-kit-intro.md)
+            - 应用文件
+                - [应用文件概述](file-management/cj-app-file-overview.md)
+                - [应用沙箱目录](file-management/cj-app-sandbox-directory.md)
+                - 应用文件访问与管理
+                    - [应用文件访问(仓颉)](file-management/cj-app-file-access.md)
+                <!--Del-->
+                - [向应用沙箱推送文件](file-management/cj-send-file-to-app-sandbox.md)
+                <!--DelEnd-->
+                - [应用文件分享](file-management/cj-share-app-file.md)
+            - 用户文件
+                - [用户文件概述](file-management/cj-user-file-overview.md)
+        - IPC Kit（进程间通信服务）
+            - [IPC Kit简介](ipc/cj-ipc-rpc-overview.md)
+        - Localization Kit（本地化开发服务）
+            - [国际化和本地化概述](internationalization/cj-i18n-l10n.md)
+            - 应用国际化
+                - [国际化界面设计](internationalization/cj-i18n-ui-design.md)
+                - [设置日历和历法](internationalization/cj-i18n-calendar.md)
+                - 时区与夏令时国际化
+                    - [夏令时跳变](internationalization/cj-i18n-dst-transition.md)
+                - 本地化名称
+                    - [本地化时区名称](internationalization/cj-i18n-time-zone-display.md)
+            - 应用本地化
+                - 提升可翻译性
+                    - [提供翻译场景](internationalization/cj-l10n-translation-scene.md)
+                    - [支持单复数](internationalization/cj-l10n-singular-plural.md)
+            - 本地化测试
+                - [语言测试](internationalization/cj-linguistic-testing.md)
+    - 系统
+        - 安全
+            - 程序访问控制
+                - [访问控制概述](security/AccessToken/cj-access-token-overview.md)
+                - 应用权限管控
+                    - [应用权限管控概述](security/AccessToken/cj-app-permission-mgmt-overview.md)
+                    - 申请应用权限
+                        - [选择申请权限的方式](security/AccessToken/cj-determine-application-mode.md)
+                        - [声明权限](security/AccessToken/cj-declare-permissions.md)
+                        - [向用户申请授权](security/AccessToken/cj-request-user-authorization.md)
+                        - [向用户申请单次授权](security/AccessToken/cj-one-time-authorization.md)
+                        - [申请使用受限权限](security/AccessToken/cj-declare-permissions-in-acl.md)
+                    - [应用权限列表](security/AccessToken/cj-app-permissions.md)
+                        - [开放权限（系统授权）](security/AccessToken/cj-permissions-for-all.md)
+                        - [开放权限（用户授权）](security/AccessToken/cj-permissions-for-all-user.md)
+                        - [受限开放权限](security/AccessToken/cj-restricted-permissions.md)
+                        <!--Del-->
+                        - [可ACL申请的系统应用可用权限（系统授权）](security/AccessToken/cj-permissions-for-system-apps.md)
+                        - [不可ACL申请的系统应用可用权限（系统授权）](security/AccessToken/cj-permissions-for-system-apps-no-acl.md)
+                        - [系统应用可用权限（用户授权）](security/AccessToken/cj-permissions-for-system-apps-user.md)
+                        <!--DelEnd-->
+                        - [企业类应用可用权限](security/AccessToken/cj-permissions-for-enterprise-apps.md)
+                        - [仅MDM应用可用权限](security/AccessToken/cj-permissions-for-mdm-apps.md)
+                    - [应用权限组列表](security/AccessToken/cj-app-permission-group-list.md)
+            - Crypto Architecture Kit（加解密算法框架服务）
+                - [Crypto Architecture Kit简介](security/CryptoArchitectureKit/cj-crypto-architecture-kit-intro.md)
+                - 密钥生成和转换
+                    - [密钥生成与转换介绍](security/CryptoArchitectureKit/cj-crypto-key-generation-conversion-overview.md)
+                    - 密钥生成和转换规格
+                        - [对称密钥生成和转换规格](security/CryptoArchitectureKit/cj-crypto-sym-key-generation-conversion-spec.md)
+                    - 密钥生成和转换开发指导
+                        - [随机生成对称密钥（仓颉）](security/CryptoArchitectureKit/cj-crypto-generate-sym-key-randomly.md)
+                        - [指定二进制数据转换对称密钥（仓颉）](security/CryptoArchitectureKit/cj-crypto-convert-binary-data-to-sym-key.md)
+                - 加解密
+                    - [加解密介绍](security/CryptoArchitectureKit/cj-crypto-encryption-decryption-overview.md)
+                    - 加解密算法规格
+                        - [对称密钥加解密算法规格](security/CryptoArchitectureKit/cj-crypto-sym-encrypt-decrypt-spec.md)
+                        - [非对称密钥加解密算法规格](security/CryptoArchitectureKit/cj-crypto-asym-encrypt-decrypt-spec.md)
+                        - [分段加解密说明](security/CryptoArchitectureKit/cj-crypto-encrypt-decrypt-by-segment.md)
+                    - 加解密开发指导
+                        - [使用AES对称密钥（GCM模式）加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-aes-sym-encrypt-decrypt-gcm.md)
+                        - [使用AES对称密钥（CCM模式）加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-aes-sym-encrypt-decrypt-ccm.md)
+                        - [使用AES对称密钥（CBC模式）加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-aes-sym-encrypt-decrypt-cbc.md)
+                        - [使用AES对称密钥（ECB模式）加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-aes-sym-encrypt-decrypt-ecb.md)
+                        - [使用AES对称密钥（GCM模式）分段加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-aes-sym-encrypt-decrypt-gcm-by-segment.md)
+                        - [使用3DES对称密钥（ECB模式）加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-3des-sym-encrypt-decrypt-ecb.md)
+                        - [使用SM4对称密钥（ECB模式）加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-sm4-sym-encrypt-decrypt-ecb.md)
+                        - [使用SM4对称密钥（CBC模式）加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-sm4-sym-encrypt-decrypt-cbc.md)
+                        - [使用SM4对称密钥（GCM模式）加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-sm4-sym-encrypt-decrypt-gcm.md)
+                        - [使用SM4对称密钥（GCM模式）分段加解密（仓颉）](security/CryptoArchitectureKit/cj-crypto-sm4-sym-encrypt-decrypt-gcm-by-segment.md)
+                - 消息摘要计算
+                    - [消息摘要计算介绍及算法规格](security/CryptoArchitectureKit/cj-crypto-generate-message-digest-overview.md)
+                    - 消息摘要计算开发指导
+                        - [消息摘要计算SHA256（仓颉）](security/CryptoArchitectureKit/cj-crypto-generate-message-digest.md)
+                        - [消息摘要计算MD5（仓颉）](security/CryptoArchitectureKit/cj-crypto-generate-message-digest-md5.md)
+                - 消息认证码
+                    - [消息认证码计算](security/CryptoArchitectureKit/cj-crypto-compute-mac.md)
+                - 随机数
+                    - [安全随机数生成](security/CryptoArchitectureKit/cj-crypto-generate-random-number.md)
+            - Universal Keystore Kit（密钥管理服务）
+                - [Universal Keystore Kit简介](security/UniversalKeystoreKit/cj-huks-overview.md)
+                - [通用密钥库基础概念](security/UniversalKeystoreKit/cj-huks-concepts.md)
+                - 密钥生成/导入
+                    - 密钥生成
+                        - [密钥生成介绍及算法规格](security/UniversalKeystoreKit/cj-huks-key-generation-overview.md)
+                        - 开发指导
+                            - [生成密钥（仓颉）](security/UniversalKeystoreKit/cj-huks-key-generation.md)
+                    - 密钥导入
+                        - [密钥导入介绍及算法规格](security/UniversalKeystoreKit/cj-huks-key-import-overview.md)
+                        - 开发指导
+                            - [明文导入密钥（仓颉）](security/UniversalKeystoreKit/cj-huks-import-key-in-plaintext.md)
+                            - [加密导入密钥（仓颉）](security/UniversalKeystoreKit/cj-huks-import-wrapped-key.md)
+                - 密钥使用
+                    - [密钥使用介绍及通用流程](security/UniversalKeystoreKit/cj-huks-key-use-overview.md)
+                    - 加密/解密
+                        - [加密/解密介绍及算法规格](security/UniversalKeystoreKit/cj-huks-encryption-decryption-overview.md)
+                        - 开发指导
+                            - [加解密（仓颉）](security/UniversalKeystoreKit/cj-huks-encryption-decryption.md)
+                    - 签名/验签
+                        - [签名/验签介绍及算法规格](security/UniversalKeystoreKit/cj-huks-signing-signature-verification-overview.md)
+                        - 开发指导
+                            - [签名/验签（仓颉）](security/UniversalKeystoreKit/cj-huks-signing-signature-verification.md)
+                    - 密钥协商
+                        - [密钥协商介绍及算法规格](security/UniversalKeystoreKit/cj-huks-key-agreement-overview.md)
+                        - 开发指导
+                            - [密钥协商（仓颉）](security/UniversalKeystoreKit/cj-huks-key-agreement.md)
+                    - 密钥派生
+                        - [密钥派生介绍及算法规格](security/UniversalKeystoreKit/cj-huks-key-derivation-overview.md)
+                        - 开发指导
+                            - [密钥派生（仓颉）](security/UniversalKeystoreKit/cj-huks-key-derivation.md)
+                    - HMAC
+                        - [HMAC介绍及算法规格](security/UniversalKeystoreKit/cj-huks-hmac-overview.md)
+                        - 开发指导
+                            - [HMAC（仓颉）](security/UniversalKeystoreKit/cj-huks-hmac.md)
+                - 密钥删除
+                    - [密钥删除（仓颉）](security/UniversalKeystoreKit/cj-huks-delete-key.md)
+                - 密钥证明
+                    - [密钥证明介绍及算法规格](security/UniversalKeystoreKit/cj-huks-key-attestation-overview.md)
+                    - 开发指导
+                        - [匿名密钥证明（仓颉）](security/UniversalKeystoreKit/cj-huks-key-anon-attestation.md)
+                        <!--Del-->
+                        - [非匿名密钥证明（仓颉）](security/UniversalKeystoreKit/cj-huks-key-attestation-arkts.md)
+                        <!--DelEnd-->
+                - 其他操作
+                    - 查询密钥是否存在
+                        - [查询密钥是否存在（仓颉）](security/UniversalKeystoreKit/cj-huks-check-key.md)
+                    - 获取密钥属性
+                        - [获取密钥属性（仓颉）](security/UniversalKeystoreKit/cj-huks-obtain-key-properties.md)
+                    - 密钥导出
+                        - [密钥导出（仓颉）](security/UniversalKeystoreKit/cj-huks-export-key.md)
+        - 网络
+            - Connectivity Kit（短距通信服务）
+                - [Connectivity Kit简介](connectivity/cj-connectivity-kit-intro.md)
+                - [Connectivity Kit术语](connectivity/terminology.md)
+                - 蓝牙
+                    - [蓝牙服务开发概述](connectivity/bluetooth/cj-bluetooth-overview.md)
+                    - [查找设备](connectivity/bluetooth/cj-ble-development-guide.md)
+                    - [通用属性协议开发指导](connectivity/bluetooth/cj-gatt-development-guide.md)
+            - Network Kit（网络服务）
+                - [Network Kit简介](network/cj-net-mgmt-overview.md)
+                - 访问网络
+                    - [HTTP数据请求](network/cj-http-request.md)
+                - 连接网络
+                    - [网络连接管理](network/cj-net-connection-manager.md)
+            - Telephony Kit（蜂窝通信服务）
+                - [拨打电话](telephony/cj-telephony-call.md)
+        - 基础功能
+            - Basic Services Kit（基础服务）
+                - [Basic Services Kit简介](basic-services/cj-basic-services-kit-overview.md)
+                - 进程线程通信
+                    - 使用公共事件进行进程间通信
+                        - [公共事件简介](basic-services/common-event/cj-common-event-overview.md)
+                        - [动态订阅公共事件](basic-services/common-event/cj-common-event-subscription.md)
+                        - [取消动态订阅公共事件](basic-services/common-event/cj-common-event-unsubscription.md)
+                        - [发布公共事件](basic-services/common-event/cj-common-event-publish.md)
+                - 上传下载
+                    - [应用文件上传下载](basic-services/request/cj-app-file-upload-download.md)
+        - 硬件
+            - Sensor Service Kit（传感器服务）
+                - [Sensor Service Kit开发简介](device/sensor/cj-sensorservice-kit-intro.md)
+                - 传感器
+                    - [传感器开发概述](device/sensor/cj-sensor-overview.md)
+                    - [传感器开发指导（仓颉）](device/sensor/cj-sensor-guidelines.md)
+        - 调测调优
+            - Performance Analysis Kit（性能分析服务）
+                - [Performance Analysis Kit简介](dfx/cj-performance-analysis-kit-overview.md)
+                - 故障检测
+                    - [分析Cangjie Crash（进程崩溃）](dfx/cj-cangjiecrash-guidelines.md)
+                    - [分析AppFreeze（应用无响应）](dfx/cj-appfreeze-guidelines.md)
+                - 日志打印
+                    - [使用HiLog打印日志（仓颉）](dfx/cj-hilog-guidelines.md)
+                - 事件订阅
+                    - [HiAppEvent介绍](dfx/cj-hiappevent-intro.md)
+                    - 使用HiAppEvent订阅事件
+                        - 应用事件
+                            - [订阅应用事件（仓颉）](dfx/cj-hiappevent-watcher-app-events.md)
+                        - 系统事件
+                            - 崩溃事件
+                                - [崩溃事件介绍](dfx/cj-hiappevent-watcher-crash-events.md)
+                                - [订阅崩溃事件（仓颉）](dfx/cj-hiappevent-watcher-crash-events-cangjie.md)
+                            - appfreeze事件
+                                - [appfreeze事件介绍](dfx/cj-hiappevent-watcher-freeze-events.md)
+                                - [订阅appfreeze事件（仓颉）](dfx/cj-hiappevent-watcher-freeze-events-cangjie.md)
+                    - [事件上报](dfx/cj-hiappevent-event-reporting.md)
+                - 性能跟踪
+                    - [查看HiTraceMeter日志](dfx/cj-hitracemeter-view.md)
+                - 错误管理
+                    - [错误管理开发指导](dfx/cj-errormanager-guidelines.md)
+                - 命令行工具<!--perform-command-line-utilities-->
+                    - [hdc](tools/cj-hdc.md)
+                    - [hilog](tools/cj-hilog.md)
+                    - [hidumper](tools/cj-hidumper.md)
+                    - [hitrace](tools/cj-hitrace.md)
+                    - [hiperf](tools/cj-hiperf.md)
+            - Test Kit（应用测试服务）
+                - [Test Kit简介](application-test/cj-test-kit-overview.md)
+                - [自动化测试框架使用指导](application-test/cj-arkxtest-guidelines.md)
+            - 调试命令
+                - [aa工具](tools/cj-aa-tool.md)
+                - [bm工具](tools/cj-bm-tool.md)
+                - 打包拆包工具
+                    - [打包工具](tools/cj-packing-tool.md)
+                    - [拆包工具](tools/cj-unpacking-tool.md)
+                - [扫描工具](tools/cj-app-check-tool.md)
+                - [cem工具](tools/cj-cem-tool.md)
+                - [anm工具](tools/cj-anm-tool.md)
+                - [restool工具](tools/cj-restool.md)
+                - [param工具](tools/cj-param-tool.md)
+                - [power-shell工具](tools/cj-power-shell.md)
+                - [atm工具](tools/cj-atm-tool.md)
+                <!--Del-->
+                - [acm工具](tools/cj-acm-tool.md)
+                <!--DelEnd-->
+                - 命令行工具
+                    - [toybox](tools/cj-toybox.md)
+                    - [mediatool工具](tools/cj-mediatool.md)
+                    - [devicedebug工具](tools/cj-devicedebug-tool.md)
+    - 媒体
+        - Camera Kit（相机服务）
+            - [Camera Kit简介](media/camera/cj-camera-overview.md)
+            - [开发准备](media/camera/cj-camera-preparation.md)
+            - 开发相机应用必选能力（仓颉）
+                - [相机管理（仓颉）](media/camera/cj-camera-device-management.md)
+                - [设备输入（仓颉）](media/camera/cj-camera-device-input.md)
+                - [会话管理（仓颉）](media/camera/cj-camera-session-management.md)
+            - 开发相机应用基础能力（仓颉）
+                - [手电筒使用](media/camera/cj-camera-torch-use.md)
+        - Image Kit（图片处理服务）
+            - [Image Kit简介](media/image/cj-image-overview.md)
+            - 图片开发指导
+                - 图片解码
+                    - [使用ImageSource完成图片解码](media/image/cj-image-decoding.md)
+                - 图片编辑和处理
+                    - [使用PixelMap完成图像变换](media/image/cj-image-transformation.md)
+                    - [使用PixelMap完成位图操作](media/image/cj-image-pixelmap-operation.md)
+                    - [编辑图片EXIF信息](media/image/cj-image-tool.md)
+                - 图片接收
+                    - [使用ImagePacker完成图片编码](media/image/cj-image-encoding.md)
+        - Media Kit（媒体服务）
+            - 媒体开发指导
+                - 媒体信息查询
+                    - [使用AVImageGenerator提取视频指定时间图像（仓颉）](media/media/cj-avimagegenerator.md)
+                - [AVCodec支持的格式](media/media/cj-avcodec-support-formats.md)
+        - Media Library Kit（媒体文件管理服务）
+            <!--RP6--><!--RP6End-->
+            - 受限开放能力
+                - [系统相册资源使用指导](media/medialibrary/cj-photoAccessHelper-systemAlbum-guidelines.md)
+    - 图形
+        - ArkGraphics 2D（方舟2D图形服务）
+            - [ArkGraphics 2D简介](graphics/cj-arkgraphics2D-introduction.md)
+            - 使用可变帧率能力定制不同内容的绘制帧率
+                - [可变帧率简介](graphics/cj-displaysync-overview.md)
+                - [请求动画绘制帧率](graphics/cj-displaysync-animation.md)
+    - 应用服务
+        - Location Kit（位置服务）
+            - [Location Kit简介](location/cj-location-kit-intro.md)
+            - [申请位置权限开发指导](location/cj-location-permission-guidelines.md)
+            - [获取设备的位置信息开发指导](location/cj-location-guidelines.md)
+- API参考
+    - API参考概述
+        - [开发说明](reference/cj-development-intro.md)
+        - [系统能力SystemCapability使用指南](reference/cj-syscap.md)
+        - 系统能力SystemCapability列表
+            - [Phone](reference/cj-phone-syscap-list.md)
+            - [Tablet](reference/cj-tablet-syscap-list.md)
+        - [API标签化管控](reference/cj-ifavailable.md)
+        - [通用错误码](reference/cj-errorcode-universal.md)
+    - 应用框架
+        - Ability Kit（程序框架服务）
+            - 仓颉API
+                - [ohos.app.ability.ui_ability](reference/AbilityKit/cj-apis-app-ability-ui_ability.md)
+                - [ohos.app.ability.want（Want）](reference/AbilityKit/cj-apis-app-ability-want.md)
+                - [ohos.ability_access_ctrl（程序访问控制管理）](reference/AbilityKit/cj-apis-ability_access_ctrl.md)
+                - [ohos.bundle.bundle_manager（bundleManager管理）](reference/AbilityKit/cj-apis-bundle_manager.md)
+                - [ohos.app.ability.ability_stage](reference/AbilityKit/cj-apis-app-ability-ability_stage.md)
+                - [ohos.app.ability.ability_result](reference/AbilityKit/cj-apis-ability-ability_result.md)
+                - [ohos.app.ability.app_recovery（应用故障恢复）](reference/AbilityKit/cj-apis-app-ability-app_recovery.md)
+                - [ohos.app.ability.ability_constant](reference/AbilityKit/cj-apis-app-ability-ability_constant.md)
+                - [ohos.app.ability.context_constant](reference/AbilityKit/cj-apis-app-ability-context_constant.md)
+                - [ohos.app.ability.dialog_request](reference/AbilityKit/cj-apis-app-ability-dialog_request.md)
+                - [ohos.app.ability.start_options](reference/AbilityKit/cj-apis-app-ability-start_options.md)
+                - [ohos.app.ability.want_constant（Want常量）](reference/AbilityKit/cj-apis-app-ability-want_constant.md)
+                - [ohos.app.ability](reference/AbilityKit/cj-apis-app-ability.md)
+                - [ohos.application.error_observer](reference/AbilityKit/cj-apis-application-error_observer.md)
+                - [ohos.application.test_runner](reference/AbilityKit/cj-apis-application-test_runner.md)
+                - [ohos.element_name](reference/AbilityKit/cj-apis-element_name.md)
+                - [ohos.metadata](reference/AbilityKit/cj-apis-metadata.md)
+                - [ohos.security.permission_request_result（PermissionRequestResult）](reference/AbilityKit/cj-apis-sercurity-permission_request_result.md)
+                - [ohos.security.skill](reference/AbilityKit/cj-apis-skill.md)
+                - [ohos.app.ability.error_manager（错误管理模块）](reference/AbilityKit/cj-apis-app-ability-error_manager.md)
+            - 错误码
+                - [元能力子系统错误码](reference/AbilityKit/cj-errorcode-ability.md)
+                - [包管理子系统通用错误码](reference/AbilityKit/cj-errorcode-bundle.md)
+                - [访问控制错误码](reference/AbilityKit/cj-errorcode-access-token.md)
+                - [锁屏敏感数据管理错误码](reference/AbilityKit/cj-errorcode-screen_lock_file_manager.md)
+        - ArkData（方舟数据管理）
+            - 仓颉API
+                - [ohos.data.data_share_predicates（数据共享谓词）](reference/ArkData/cj-apis-data_share_predicates.md)
+                - [ohos.data.distributed_kv_store（分布式键值数据库）](reference/ArkData/cj-apis-distributed_kv_store.md)
+                - [ohos.data.preferences（用户首选项）](reference/ArkData/cj-apis-preferences.md)
+                - [ohos.data.relational_store（关系型数据库）](reference/ArkData/cj-apis-relational_store.md)
+                - [ohos.data.values_bucket（数据集）](reference/ArkData/cj-apis-values_bucket.md)
+            - 错误码
+                - [关系型数据库错误码](reference/ArkData/cj-errorcode-data-rdb.md)
+                - [分布式键值数据库错误码](reference/ArkData/cj-errorcode-distributed_kv_store.md)
+                - [用户首选项错误码](reference/ArkData/cj-errorcode-preferences.md)
+        - ArkUI（方舟UI框架）
+            - 仓颉API
+                - UI界面
+                    - [ohos.component_utils（ComponentUtils）](reference/arkui-cj/cj-apis-componentutils.md)
+                    - [ohos.arkui.shape（形状）](reference/arkui-cj/cj-apis-shape.md)
+                    - [ohos.curves（插值计算）](reference/arkui-cj/cj-apis-curves.md)
+                    - ohos.ui_context（UIContext）
+                        - [AnimatorResult](reference/arkui-cj/cj-apis-uicontext-animator.md)
+                        - [ContextMenuController](reference/arkui-cj/cj-apis-uicontext-contextmenucontroller.md)
+                        - [Font](reference/arkui-cj/cj-apis-uicontext-font.md)
+                        - [MeasureUtils](reference/arkui-cj/cj-apis-uicontext-measureutils.md)
+                        - [PromptAction](reference/arkui-cj/cj-apis-uicontext-promptaction.md)
+                        - [Router](reference/arkui-cj/cj-apis-uicontext-router.md)
+                        - [UIContext](reference/arkui-cj/cj-apis-uicontext-uicontext.md)
+                - 窗口管理
+                    - [ohos.window（窗口）](reference/arkui-cj/cj-apis-window.md)
+                - 屏幕管理
+                    - [ohos.display（屏幕属性）](reference/arkui-cj/cj-apis-display.md)
+            - 仓颉组件
+                - [通用事件](reference/arkui-cj/cj-universal-events.md)
+                    - [点击事件](reference/arkui-cj/cj-universal-event-click.md)
+                    - [触摸事件](reference/arkui-cj/cj-universal-event-touch.md)
+                    - [挂载卸载事件](reference/arkui-cj/cj-universal-event-appear.md)
+                    - [按键事件](reference/arkui-cj/cj-universal-event-key.md)
+                    - [焦点事件](reference/arkui-cj/cj-universal-event-focus.md)
+                    - [鼠标事件](reference/arkui-cj/cj-universal-event-mouse.md)
+                    - [悬浮事件](reference/arkui-cj/cj-universal-event-hover.md)
+                    - [组件区域变化事件](reference/arkui-cj/cj-universal-event-areachange.md)
+                    - [组件可见区域变化事件](reference/arkui-cj/cj-universal-event-visibleareachange.md)
+                    - [组件快捷键事件](reference/arkui-cj/cj-universal-event-keyboardshortcut.md)
+                - [通用属性](reference/arkui-cj/cj-universal-attributes.md)
+                    - [尺寸设置](reference/arkui-cj/cj-universal-attribute-size.md)
+                    - [位置设置](reference/arkui-cj/cj-universal-attribute-location.md)
+                    - [布局约束](reference/arkui-cj/cj-universal-attribute-layoutconstraints.md)
+                    - [Flex布局](reference/arkui-cj/cj-universal-attribute-flexlayout.md)
+                    - [边框设置](reference/arkui-cj/cj-universal-attribute-border.md)
+                    - [背景设置](reference/arkui-cj/cj-universal-attribute-background.md)
+                    - [透明度设置](reference/arkui-cj/cj-universal-attribute-opacity.md)
+                    - [显隐控制](reference/arkui-cj/cj-universal-attribute-visibility.md)
+                    - [禁用控制](reference/arkui-cj/cj-universal-attribute-enable.md)
+                    - [浮层](reference/arkui-cj/cj-universal-attribute-overlay.md)
+                    - [Z序控制](reference/arkui-cj/cj-universal-attribute-zorder.md)
+                    - [图形变换](reference/arkui-cj/cj-universal-attribute-transform.md)
+                    - [图像效果](reference/arkui-cj/cj-universal-attribute-imageeffect.md)
+                    - [形状裁剪](reference/arkui-cj/cj-universal-attribute-shapclip.md)
+                    - [颜色渐变](reference/arkui-cj/cj-universal-attribute-gradientcolor.md)
+                    - [Popup控制](reference/arkui-cj/cj-universal-attribute-popup.md)
+                    - [菜单控制](reference/arkui-cj/cj-universal-attribute-menu.md)
+                    - [焦点控制](reference/arkui-cj/cj-universal-attribute-focus.md)
+                    - [组件标识](reference/arkui-cj/cj-universal-attribute-componentid.md)
+                    - [前景色设置](reference/arkui-cj/cj-universal-attribute-foregroundcolor.md)
+                    - [组件内容模糊](reference/arkui-cj/cj-universal-attribute-foregroundblurstyle.md)
+                    - 模态转场设置
+                        - [全屏模态转场](reference/arkui-cj/cj-universal-attribute-bindcontentcover.md)
+                        - [半模态转场](reference/arkui-cj/cj-universal-attribute-sheettransition.md)
+                    - [安全区域](reference/arkui-cj/cj-universal-attribute-expandsafearea.md)
+                    - [组件内容填充方式](reference/arkui-cj/cj-universal-attribute-renderfit.md)
+                    - [触摸热区设置](reference/arkui-cj/cj-universal-attribute-touchtarget.md)
+                - 行列与堆叠
+                    - [Flex](reference/arkui-cj/cj-row-column-stack-flex.md)
+                    - [Column](reference/arkui-cj/cj-row-column-stack-column.md)
+                    - [Row](reference/arkui-cj/cj-row-column-stack-row.md)
+                    - [Stack](reference/arkui-cj/cj-row-column-stack-stack.md)
+                    - [RelativeContainer](reference/arkui-cj/cj-row-column-stack-relativecontainer.md)
+                - 栅格与分栏
+                    - [GridRow](reference/arkui-cj/cj-grid-layout-gridrow.md)
+                    - [GridCol](reference/arkui-cj/cj-grid-layout-gridcol.md)
+                    - [RowSplit](reference/arkui-cj/cj-grid-layout-rowsplit.md)
+                    - [SideBarContainer](reference/arkui-cj/cj-grid-layout-sidebar.md)
+                - 滚动与滑动
+                    - [List](reference/arkui-cj/cj-scroll-swipe-list.md)
+                    - [ListItem](reference/arkui-cj/cj-scroll-swipe-listitem.md)
+                    - [ListItemGroup](reference/arkui-cj/cj-scroll-swipe-listgroup.md)
+                    - [Grid](reference/arkui-cj/cj-scroll-swipe-grid.md)
+                    - [GridItem](reference/arkui-cj/cj-scroll-swipe-griditem.md)
+                    - [Scroll](reference/arkui-cj/cj-scroll-swipe-scroll.md)
+                    - [Swiper](reference/arkui-cj/cj-scroll-swipe-swiper.md)
+                    - [ScrollBar](reference/arkui-cj/cj-scroll-swipe-scrollbar.md)
+                    - [Refresh](reference/arkui-cj/cj-scroll-swipe-refresh.md)
+                    - [滚动组件通用API](reference/arkui-cj/cj-scroll-swipe-common.md)
+                - 导航与切换
+                    - [Navigation](reference/arkui-cj/cj-navigation-switching-navigation.md)
+                    - [NavDestination](reference/arkui-cj/cj-navigation-switching-navdestination.md)
+                    - [Stepper](reference/arkui-cj/cj-navigation-switching-stepper.md)
+                    - [StepperItem](reference/arkui-cj/cj-navigation-switching-stepperitem.md)
+                    - [Tabs](reference/arkui-cj/cj-navigation-switching-tabs.md)
+                    - [TabContent](reference/arkui-cj/cj-navigation-switching-tabcontent.md)
+                - 按钮与选择
+                    - [Button](reference/arkui-cj/cj-button-picker-button.md)
+                    - [Toggle](reference/arkui-cj/cj-button-picker-toggle.md)
+                    - [Checkbox](reference/arkui-cj/cj-button-picker-checkbox.md)
+                    - [CheckboxGroup](reference/arkui-cj/cj-button-picker-checkboxgroup.md)
+                    - [DatePicker](reference/arkui-cj/cj-button-picker-datepicker.md)
+                    - [TextPicker](reference/arkui-cj/cj-button-picker-textpicker.md)
+                    - [Radio](reference/arkui-cj/cj-button-picker-radio.md)
+                    - [Rating](reference/arkui-cj/cj-button-picker-rating.md)
+                    - [Select](reference/arkui-cj/cj-button-picker-select.md)
+                    - [Slider](reference/arkui-cj/cj-button-picker-slider.md)
+                - 文本与输入
+                    - [Text](reference/arkui-cj/cj-text-input-text.md)
+                    - [TextArea](reference/arkui-cj/cj-text-input-textarea.md)
+                    - [TextInput](reference/arkui-cj/cj-text-input-textinput.md)
+                    - [RichEditor](reference/arkui-cj/cj-text-input-richeditor.md)
+                    - [Search](reference/arkui-cj/cj-text-input-search.md)
+                    - [Span](reference/arkui-cj/cj-text-input-span.md)
+                    - [ImageSpan](reference/arkui-cj/cj-text-input-imagespan.md)
+                    - [RichText](reference/arkui-cj/cj-text-input-richtext.md)
+                - 图片与视频
+                    - [Image](reference/arkui-cj/cj-image-video-image.md)
+                    - [Video](reference/arkui-cj/cj-image-video-video.md)
+                - 信息展示
+                    - [AlphabetIndexer](reference/arkui-cj/cj-information-display-alphabetindexer.md)
+                    - [Badge](reference/arkui-cj/cj-information-display-badge.md)
+                    - [DataPanel](reference/arkui-cj/cj-information-display-datapanel.md)
+                    - [Gauge](reference/arkui-cj/cj-information-display-gauge.md)
+                    - [LoadingProgress](reference/arkui-cj/cj-information-display-loadingprogress.md)
+                    - [PatternLock](reference/arkui-cj/cj-information-display-patternlock.md)
+                    - [Progress](reference/arkui-cj/cj-information-display-progress.md)
+                    - [QRCode](reference/arkui-cj/cj-information-display-qrcode.md)
+                    - [TextClock](reference/arkui-cj/cj-information-display-textclock.md)
+                    - [TextTimer](reference/arkui-cj/cj-information-display-texttimer.md)
+                    - [Counter](reference/arkui-cj/cj-information-display-counter.md)
+                - 空白与分隔
+                    - [Blank](reference/arkui-cj/cj-blank-divider-blank.md)
+                    - [Divider](reference/arkui-cj/cj-blank-divider-divider.md)
+                - 画布绘制
+                    - [Canvas](reference/arkui-cj/cj-canvas-drawing-canvas.md)
+                    - [CanvasRenderingContext2D](reference/arkui-cj/cj-canvas-drawing-canvasrenderingcontext2d.md)
+                    - [Matrix2D](reference/arkui-cj/cj-canvas-drawing-matrix2d.md)
+                    - [Path2D](reference/arkui-cj/cj-canvas-drawing-path2d.md)
+                    - [ImageBitmap](reference/arkui-cj/cj-canvas-drawing-imagebitmap.md)
+                    - [ImageData](reference/arkui-cj/cj-canvas-drawing-imagedata.md)
+                    - [CanvasPattern](reference/arkui-cj/cj-canvas-drawing-canvaspattern.md)
+                - 图形绘制
+                    - [Circle](reference/arkui-cj/cj-graphic-drawing-circle.md)
+                    - [Ellipse](reference/arkui-cj/cj-graphic-drawing-ellipse.md)
+                    - [Line](reference/arkui-cj/cj-graphic-drawing-line.md)
+                    - [Path](reference/arkui-cj/cj-graphic-drawing-path.md)
+                    - [Rect](reference/arkui-cj/cj-graphic-drawing-rect.md)
+                    - [Shape](reference/arkui-cj/cj-graphic-drawing-shape.md)
+                    - [图形绘制通用属性](reference/arkui-cj/cj-graphic-drawing-common.md)
+                - 菜单
+                    - [Menu](reference/arkui-cj/cj-menu-menu.md)
+                    - [MenuItem](reference/arkui-cj/cj-menu-menuitem.md)
+                    - [MenuItemGroup](reference/arkui-cj/cj-menu-menuitemgroup.md)
+                - 动画
+                    - [属性动画（animation）](reference/arkui-cj/cj-animation-animation.md)
+                    - [页面间转场（pageTransition）](reference/arkui-cj/cj-animation-pagetransition.md)
+                    - [组件内转场（transition）](reference/arkui-cj/cj-animation-transition.md)
+                    - [共享元素转场（sharedTransition）](reference/arkui-cj/cj-animation-sharedtransition.md)
+                    - [组件内隐式共享元素转场（geometryTransition）](reference/arkui-cj/cj-animation-geometrytransition.md)
+                - 弹窗
+                    - [警告弹窗（AlertDialog）](reference/arkui-cj/cj-dialog-alertdialog.md)
+                    - [列表选择弹窗（ActionSheet）](reference/arkui-cj/cj-dialog-actionsheet.md)
+                    - [自定义弹窗（CustomDialog）](reference/arkui-cj/cj-dialog-customdialog.md)
+                - Web
+                    - [Web](reference/arkui-cj/cj-web-web.md)
+                - 自定义组件
+                    - [自定义组件的生命周期](reference/arkui-cj/cj-custom-component-lifecycle.md)
+                - 状态管理与渲染控制
+                    - [ForEach](reference/arkui-cj/cj-state-rendering-foreach.md)
+                    - [LazyForEach](reference/arkui-cj/cj-state-rendering-lazyforeach.md)
+                    - [组件级变量的状态管理](reference/arkui-cj/cj-state-rendering-componentstatemanagement.md)
+                    - [应用级变量的状态管理](reference/arkui-cj/cj-state-rendering-appstatemanagement.md)
+                - 公共定义
+                    - [基础类型定义](reference/arkui-cj/cj-common-types.md)
+                    - [像素单位](reference/arkui-cj/cj-common-pixelunits.md)
+                - [线程控制](reference/arkui-cj/cj-appendix-thread.md)
+                - [框架接口](reference/arkui-cj/cj-ui-framework.md)
+            - 错误码
+                - UI界面
+                    - [动画错误码](reference/arkui-cj/cj-errorcode-animator.md)
+                - 图形图像
+                    - [屏幕错误码](reference/arkui-cj/cj-errorcode-display.md)
+                    - [窗口错误码](reference/arkui-cj/cj-errorcode-window.md)
+        - ArkWeb（方舟Web）
+            - 仓颉API
+                - [ohos.web.webview（Webview）](reference/ArkWeb/cj-apis-webview.md)
+            - 错误码
+                - [Webview错误码](reference/ArkWeb/cj-errorcode-webview.md)
+        - Core File Kit（文件基础服务）
+            - 仓颉API
+                - [ohos.file.fileuri（文件URI）](reference/CoreFileKit/cj-apis-file_fileuri.md)
+                - [ohos.file.fs（文件管理）](reference/CoreFileKit/cj-apis-file_fs.md)
+            - 错误码
+                - [文件管理错误码](reference/CoreFileKit/cj-errorcode-filemanagement.md)
+        - IPC Kit（进程间通信服务）
+            - 仓颉API
+                - [ohos.rpc（RPC通信）](reference/IPCKit/cj-apis-rpc.md)
+            - 错误码
+                - [RPC错误码](reference/IPCKit/cj-errorcode-rpc.md)
+        - Localization Kit（本地化开发服务）
+            - 仓颉API
+                - [ohos.i18n（国际化-I18n）](reference/LocalizationKit/cj-apis-i18n.md)
+                - [ohos.resource_manager（资源管理）](reference/LocalizationKit/cj-apis-resource_manager.md)
+                - [ohos.raw_file_descriptor](reference/LocalizationKit/cj-apis-raw_file_descriptor.md)
+                - [ohos.resource](reference/LocalizationKit/cj-apis-resource.md)
+            - 错误码
+                - [I18n错误码](reference/LocalizationKit/cj-errorcode-i18n.md)
+                - [资源管理错误码](reference/LocalizationKit/cj-errorcode-resource-manager.md)
+    - 系统
+        - 安全
+            - Crypto Architecture Kit（加解密算法框架服务）
+                - 仓颉API
+                    - [ohos.security.crypto_framework（加解密算法库框架）](reference/CryptoArchitectureKit/cj-apis-crypto.md)
+                - 错误码
+                    - [crypto framework错误码](reference/CryptoArchitectureKit/cj-errorcode-crypto.md)
+            - Universal Keystore Kit（密钥管理服务）
+                - 仓颉API
+                    - [ohos.security.huks（通用密钥库系统）](reference/UniversalKeystoreKit/cj-apis-security_huks.md)
+                - 错误码
+                    - [HUKS错误码](reference/UniversalKeystoreKit/cj-errorcode-huks.md)
+        - 网络
+            - Connectivity Kit（短距通信服务）
+                - 仓颉API
+                    - [ohos.bluetooth.a2dp（蓝牙a2dp模块）](reference/ConnectivityKit/cj-apis-bluetooth-a2dp.md)
+                    - [ohos.bluetooth.ble（蓝牙ble模块）](reference/ConnectivityKit/cj-apis-bluetooth-ble.md)
+                    - [ohos.bluetooth.base_profile（蓝牙baseProfile模块）](reference/ConnectivityKit/cj-apis-bluetooth-base_profile.md)
+                    - [ohos.bluetooth.constant（蓝牙constant模块）](reference/ConnectivityKit/cj-apis-bluetooth-constant.md)
+                    - [ohos.bluetooth.hfp（蓝牙hfp模块）](reference/ConnectivityKit/cj-apis-bluetooth-hfp.md)
+                    - [ohos.wifi_manager（WLAN）](reference/ConnectivityKit/cj-apis-wifi_manager.md)
+                - 错误码
+                    - [蓝牙服务子系统错误码](reference/ConnectivityKit/cj-errorcode-bluetooth_manager.md)
+                    - [WIFI错误码](reference/ConnectivityKit/cj-errorcode-wifi-manager.md)
+                    - [NFC错误码](reference/ConnectivityKit/cj-errorcode-nfc.md)
+                    - [SE（secureElement）错误码](reference/ConnectivityKit/cj-errorcode-secure_element.md)
+            - Network Kit（网络服务）
+                - 仓颉API
+                    - [ohos.net.connection（网络连接管理）](reference/NetworkKit/cj-apis-net-connection.md)
+                    - [ohos.net.http（数据请求）](reference/NetworkKit/cj-apis-net-http.md)
+                - 错误码
+                    - [HTTP错误码](reference/NetworkKit/cj-errorcode-net-http.md)
+                    - [网络连接管理错误码](reference/NetworkKit/cj-errorcode-net-connection.md)
+        - 基础功能
+            - Basic Services Kit（基础服务）
+                - 仓颉API
+                    - 设备管理
+                        - [ohos.battery_info（电量信息）](reference/BasicServicesKit/cj-apis-battery_info.md)
+                        - [ohos.device_info（设备信息）](reference/BasicServicesKit/cj-apis-device_info.md)
+                    - 数据文件处理
+                        - [ohos.request（上传下载）](reference/BasicServicesKit/cj-apis-request-agent.md)
+                    - 进程线程通信
+                        - [ohos.common_event_manager（公共事件模块）](reference/BasicServicesKit/cj-apis-common_event_manager.md)
+                    - 其他
+                        - [ohos.settings（设置数据项名称）](reference/BasicServicesKit/cj-apis-settings.md)
+                        - [ohos.system_date_time（系统时间、时区）](reference/BasicServicesKit/cj-apis-system_date_time.md)
+                        - [ohos.common_event_subscriber](reference/BasicServicesKit/cj-apis-common_event_subscriber.md)
+                        - [ohos.common_event_subscribe_info](reference/BasicServicesKit/cj-apis-common_event_subscribe_info.md)
+                        - [ohos.common_event_data](reference/BasicServicesKit/cj-apis-common_event_data.md)
+                        - [ohos.common_event_publish_data](reference/BasicServicesKit/cj-apis-common_event_publish_data.md)
+                        - [ohos.value_type](reference/BasicServicesKit/cj-apis-value_type.md)
+                - 错误码
+                    - [上传下载错误码](reference/BasicServicesKit/cj-errorcode-request.md)
+                    - [时间时区服务错误码](reference/BasicServicesKit/cj-errorcode-time.md)
+                    - [事件错误码](reference/BasicServicesKit/cj-errorcode-common_event_service.md)
+                    - [系统电源管理错误码](reference/BasicServicesKit/cj-errorcode-power.md)
+                    - [账号管理错误码](reference/BasicServicesKit/cj-errorcode-basic-account.md)
+                    - [设置数据项错误码](reference/BasicServicesKit/cj-errorcode-settings.md)
+        - 硬件
+            - Sensor Service Kit（传感器服务）
+                - 仓颉API
+                    - [ohos.sensor（传感器）](reference/SensorServiceKit/cj-apis-sensor.md)
+                - 错误码
+                    - [传感器错误码](reference/SensorServiceKit/cj-errorcode-sensor.md)
+            - Telephony Kit
+                - 仓颉API
+                    - [ohos.telephony.call（拨打电话）](reference/TelephonyKit/cj-apis-telephony-call.md)
+                - 错误码
+                    - [电话子系统错误码](reference/TelephonyKit/cj-errorcode-telephony.md)
+        - 调测调优
+            - Performance Analysis Kit（性能分析服务）
+                - 仓颉API
+                    - [ohos.hiviewdfx.hi_app_event（应用事件打点）](reference/PerformanceAnalysisKit/cj-apis-hiappevent.md)
+                    - [ohos.hilog（HiLog日志打印）](reference/PerformanceAnalysisKit/cj-apis-hilog.md)
+                    - [ohos.hi_trace_meter（性能打点）](reference/PerformanceAnalysisKit/cj-apis-hi_tracemeter.md)
+                - 错误码
+                    - [应用事件打点错误码](reference/PerformanceAnalysisKit/cj-errorcode-hiappevent.md)
+                    - [Hidebug CpuUsage错误码](reference/PerformanceAnalysisKit/cj-errorcode-hidebug-cpuusage.md)
+            - Test Kit（应用测试服务）
+                - 仓颉API
+                    - [ohos.app.ability.ability_delegator_registry（AbilityDelegatorRegistry）](reference/TestKit/cj-apis-ability_delegator_registry.md)
+                    - [ohos.ui_test（UI测试）](reference/TestKit/cj-apis-ui_test.md)
+                - 错误码
+                    - [uitest错误码](reference/TestKit/cj-errorcode-uitest.md)
+    - 媒体
+        - Camera Kit（相机服务）
+            - 仓颉API
+                - [ohos.multimedia.camera（相机管理）](reference/CameraKit/cj-apis-multimedia-camera.md)
+            - 错误码
+                - [Camera错误码](reference/CameraKit/cj-errorcode-multimedia-camera.md)
+        - Image Kit（图片处理服务）
+            - 仓颉API
+                - [ohos.multimedia.image（图片处理）](reference/ImageKit/cj-apis-image.md)
+            - 错误码
+                - [Image错误码](reference/ImageKit/cj-errorcode-image.md)
+        - Media Kit（媒体服务）
+            - 仓颉API
+                - [ohos.multimedia.media（媒体服务）](reference/MediaKit/cj-apis-multimedia_media.md)
+            - 错误码
+                - [Media错误码](reference/MediaKit/cj-errorcode-multimedia-media.md)
+        - Media Library Kit（媒体文件管理服务）
+            - 仓颉API
+                - [ohos.file.photo_access_helper（相册管理模块）](reference/MediaLibraryKit/cj-apis-file-photo_access_helper.md)
+    - 图形
+        - ArkGraphics2D（方舟2D图形服务）
+            - 仓颉API
+                - [ohos.graphics.color_space_manager（色彩管理）](reference/ArkGraphics2D/cj-apis-color_manager.md)
+            - 错误码
+                - [色彩管理错误码](reference/ArkGraphics2D/cj-errorcode-colorspace-manager.md)
+    - 应用服务
+        - Location Kit（位置服务）
+            - 仓颉API
+                - [ohos.geo_location_manager（位置服务）](reference/LocationKit/cj-apis-geo_location_manager.md)
+            - 错误码
+                - [位置服务错误码](reference/LocationKit/cj-errorcode-geo_location_manager.md)
+    - 仓颉与ArkTS互操作库
+        - 互操作API
+            - [ohos.ark_interop（ArkTS互操作库）](reference/arkinterop/cj-apis-ark_interop.md)
+            - [ohos.ark_interop_helper（ArkTS互操作公共辅助功能函数）](reference/arkinterop/cj-apis-ark_interop_helper.md)
+            - [ohos.business_exception（通用异常信息）](reference/arkinterop/cj-api-business_exception.md)
+            - [ohos.callback_invoke（通用回调信息）](reference/arkinterop/cj-api-callback_invoke.md)
+        - 错误码
+            - [ArkTS互操作库错误码](reference/arkinterop/cj-errorcode-ark_interop.md)
+    - 公共基础能力
+        - 仓颉API
+            - [SysCap（系统能力）](reference/arkui-cj/cj-apis-syscap.md)
+    - [仓颉编程语言标准库API](reference/cj-libs-api.md)

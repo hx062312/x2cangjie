@@ -1,0 +1,903 @@
+{
+  "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/test/java/org/apache/commons/cli/DefaultParserTest.java",
+  "imports": {
+    "20-20:import static org.junit.Assert.assertEquals;": {
+      "start": 20,
+      "end": 20,
+      "body": "import static org.junit.Assert.assertEquals;"
+    },
+    "22-22:import org.junit.Before;": {
+      "start": 22,
+      "end": 22,
+      "body": "import org.junit.Before;"
+    },
+    "23-23:import org.junit.Test;": {
+      "start": 23,
+      "end": 23,
+      "body": "import org.junit.Test;"
+    }
+  },
+  "classes": {
+    "25-136:DefaultParserTest": {
+      "start": 25,
+      "end": 136,
+      "is_abstract": false,
+      "is_interface": false,
+      "is_enum": false,
+      "modifiers": [
+        "public"
+      ],
+      "nested_inside": "",
+      "nests": [],
+      "implements": [],
+      "extends": [
+        "ParserTestCase"
+      ],
+      "methods": {
+        "27-32:setUp": {
+          "start": 27,
+          "end": 32,
+          "body": [
+            "@Override",
+            "    @Before",
+            "    public void setUp() {",
+            "        super.setUp();",
+            "        parser = new DefaultParser(2, false, null);",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Override",
+            "@Before"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "DefaultParser"
+          ],
+          "signature": "setUp()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "DefaultParser": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "34-42:testBuilder": {
+          "start": 34,
+          "end": 42,
+          "body": [
+            "@Test",
+            "    public void testBuilder() {",
+            "        parser =",
+            "                DefaultParser.builder()",
+            "                        .setStripLeadingAndTrailingQuotes(false)",
+            "                        .setAllowPartialMatching(false)",
+            "                        .build();",
+            "        assertEquals(DefaultParser.class, parser.getClass());",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "DefaultParser"
+          ],
+          "signature": "testBuilder()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "DefaultParser": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "44-55:testLongOptionQuoteHandlingWithoutStrip": {
+          "start": 44,
+          "end": 55,
+          "body": [
+            "@Test",
+            "    public void testLongOptionQuoteHandlingWithoutStrip() throws Exception {",
+            "        parser = DefaultParser.builder().setStripLeadingAndTrailingQuotes(false).build();",
+            "        final String[] args = {\"--bfile\", \"\\\"quoted string\\\"\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertEquals(",
+            "                \"Confirm --bfile \\\"arg\\\" keeps quotes\",",
+            "                \"\\\"quoted string\\\"\",",
+            "                cl.getOptionValue4(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testLongOptionQuoteHandlingWithoutStrip()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "57-66:testLongOptionQuoteHandlingWithStrip": {
+          "start": 57,
+          "end": 66,
+          "body": [
+            "@Test",
+            "    public void testLongOptionQuoteHandlingWithStrip() throws Exception {",
+            "        parser = DefaultParser.builder().setStripLeadingAndTrailingQuotes(true).build();",
+            "        final String[] args = {\"--bfile\", \"\\\"quoted string\\\"\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertEquals(",
+            "                \"Confirm --bfile \\\"arg\\\" strips quotes\", \"quoted string\", cl.getOptionValue4(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testLongOptionQuoteHandlingWithStrip()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "68-79:testLongOptionWithEqualsQuoteHandling": {
+          "start": 68,
+          "end": 79,
+          "body": [
+            "@Override",
+            "    @Test",
+            "    public void testLongOptionWithEqualsQuoteHandling() throws Exception {",
+            "        final String[] args = {\"--bfile=\\\"quoted string\\\"\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertEquals(",
+            "                \"Confirm --bfile=\\\"arg\\\" strips quotes\",",
+            "                \"\\\"quoted string\\\"\",",
+            "                cl.getOptionValue4(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Override",
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testLongOptionWithEqualsQuoteHandling()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "81-92:testLongOptionWithEqualsQuoteHandlingWithoutStrip": {
+          "start": 81,
+          "end": 92,
+          "body": [
+            "@Test",
+            "    public void testLongOptionWithEqualsQuoteHandlingWithoutStrip() throws Exception {",
+            "        parser = DefaultParser.builder().setStripLeadingAndTrailingQuotes(false).build();",
+            "        final String[] args = {\"--bfile=\\\"quoted string\\\"\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertEquals(",
+            "                \"Confirm --bfile=\\\"arg\\\" keeps quotes\",",
+            "                \"\\\"quoted string\\\"\",",
+            "                cl.getOptionValue4(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testLongOptionWithEqualsQuoteHandlingWithoutStrip()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "94-103:testLongOptionWithEqualsQuoteHandlingWithStrip": {
+          "start": 94,
+          "end": 103,
+          "body": [
+            "@Test",
+            "    public void testLongOptionWithEqualsQuoteHandlingWithStrip() throws Exception {",
+            "        parser = DefaultParser.builder().setStripLeadingAndTrailingQuotes(true).build();",
+            "        final String[] args = {\"--bfile=\\\"quoted string\\\"\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertEquals(",
+            "                \"Confirm --bfile=\\\"arg\\\" strips quotes\", \"quoted string\", cl.getOptionValue4(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testLongOptionWithEqualsQuoteHandlingWithStrip()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "105-114:testShortOptionConcatenatedQuoteHandling": {
+          "start": 105,
+          "end": 114,
+          "body": [
+            "@Override",
+            "    @Test",
+            "    public void testShortOptionConcatenatedQuoteHandling() throws Exception {",
+            "        final String[] args = {\"-b\\\"quoted string\\\"\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertEquals(",
+            "                \"Confirm -b\\\"arg\\\" keeps quotes\", \"\\\"quoted string\\\"\", cl.getOptionValue4(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Override",
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testShortOptionConcatenatedQuoteHandling()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "116-125:testShortOptionQuoteHandlingWithoutStrip": {
+          "start": 116,
+          "end": 125,
+          "body": [
+            "@Test",
+            "    public void testShortOptionQuoteHandlingWithoutStrip() throws Exception {",
+            "        parser = DefaultParser.builder().setStripLeadingAndTrailingQuotes(false).build();",
+            "        final String[] args = {\"-b\", \"\\\"quoted string\\\"\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertEquals(",
+            "                \"Confirm -b \\\"arg\\\" keeps quotes\", \"\\\"quoted string\\\"\", cl.getOptionValue4(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testShortOptionQuoteHandlingWithoutStrip()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "127-135:testShortOptionQuoteHandlingWithStrip": {
+          "start": 127,
+          "end": 135,
+          "body": [
+            "@Test",
+            "    public void testShortOptionQuoteHandlingWithStrip() throws Exception {",
+            "        parser = DefaultParser.builder().setStripLeadingAndTrailingQuotes(true).build();",
+            "        final String[] args = {\"-b\", \"\\\"quoted string\\\"\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertEquals(\"Confirm -b \\\"arg\\\" strips quotes\", \"quoted string\", cl.getOptionValue4(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testShortOptionQuoteHandlingWithStrip()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        }
+      },
+      "fields": {}
+    }
+  },
+  "cangjie_skeleton_path": "",
+  "cangjie_translations_skeleton_path": "",
+  "import_map": {
+    "assertEquals": "static org.junit.Assert.assertEquals",
+    "Before": "org.junit.Before",
+    "Test": "org.junit.Test"
+  }
+}

@@ -1,0 +1,31 @@
+# Performance Analysis Kit（性能分析服务）（Beta特性）
+
+- [Performance Analysis Kit简介](cj-performance-analysis-kit-overview.md)
+- 故障检测
+  - [分析Cangjie Crash（进程崩溃）](cj-cangjiecrash-guidelines.md)
+  - [分析AppFreeze（应用无响应）](cj-appfreeze-guidelines.md)
+- 日志打印
+  - [使用HiLog打印日志（仓颉）](cj-hilog-guidelines.md)
+- 事件订阅
+  - [HiAppEvent介绍](cj-hiappevent-intro.md)
+  - 使用HiAppEvent订阅事件
+    - 应用事件
+      - [订阅应用事件（仓颉）](cj-hiappevent-watcher-app-events.md)
+    - 系统事件
+      - 崩溃事件
+        - [崩溃事件介绍](cj-hiappevent-watcher-crash-events.md)
+        - [订阅崩溃事件（仓颉）](cj-hiappevent-watcher-crash-events-cangjie.md)
+      - appfreeze事件
+        - [appfreeze事件介绍](cj-hiappevent-watcher-freeze-events.md)
+        - [订阅appfreeze事件（仓颉）](cj-hiappevent-watcher-freeze-events-cangjie.md)
+  - [事件上报](cj-hiappevent-event-reporting.md)
+- 性能跟踪
+  - [查看HiTraceMeter日志](cj-hitracemeter-view.md)
+- 错误管理
+  - [错误管理开发指导](cj-errormanager-guidelines.md)
+- 命令行工具
+  - [hdc](../tools/cj-hdc.md)
+  - [hilog](../tools/cj-hilog.md)
+  - [hidumper](../tools/cj-hidumper.md)
+  - [hitrace](../tools/cj-hitrace.md)
+  - [hiperf](../tools/cj-hiperf.md)

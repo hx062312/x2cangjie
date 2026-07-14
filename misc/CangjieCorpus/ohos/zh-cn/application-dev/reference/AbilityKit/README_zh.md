@@ -1,0 +1,28 @@
+# Ability Kit（程序框架服务）（Beta特性）
+
+- 仓颉API
+    - [ohos.app.ability.ui_ability](cj-apis-app-ability-ui_ability.md)
+    - [ohos.app.ability.want（Want）](cj-apis-app-ability-want.md)
+    - [ohos.ability_access_ctrl（程序访问控制管理）](cj-apis-ability_access_ctrl.md)
+    - [ohos.bundle.bundle_manager（bundleManager管理）](cj-apis-bundle_manager.md)
+    - [ohos.app.ability.ability_stage](cj-apis-app-ability-ability_stage.md)
+    - [ohos.app.ability.ability_result](cj-apis-ability-ability_result.md)
+    - [ohos.app.ability.app_recovery（应用故障恢复）](cj-apis-app-ability-app_recovery.md)
+    - [ohos.app.ability.ability_constant](cj-apis-app-ability-ability_constant.md)
+    - [ohos.app.ability.context_constant](cj-apis-app-ability-context_constant.md)
+    - [ohos.app.ability.dialog_request](cj-apis-app-ability-dialog_request.md)
+    - [ohos.app.ability.start_options](cj-apis-app-ability-start_options.md)
+    - [ohos.app.ability.want_constant（Want常量）](cj-apis-app-ability-want_constant.md)
+    - [ohos.app.ability](cj-apis-app-ability.md)
+    - [ohos.application.error_observer](cj-apis-application-error_observer.md)
+    - [ohos.application.test_runner](cj-apis-application-test_runner.md)
+    - [ohos.element_name](cj-apis-element_name.md)
+    - [ohos.metadata](cj-apis-metadata.md)
+    - [ohos.security.permission_request_result（PermissionRequestResult）](cj-apis-sercurity-permission_request_result.md)
+    - [ohos.security.skill](cj-apis-skill.md)
+    - [ohos.app.ability.error_manager（错误管理模块）](cj-apis-app-ability-error_manager.md)
+- 错误码
+    - [元能力子系统错误码](cj-errorcode-ability.md)
+    - [包管理子系统通用错误码](cj-errorcode-bundle.md)
+    - [访问控制错误码](cj-errorcode-access-token.md)
+    - [锁屏敏感数据管理错误码](cj-errorcode-screen_lock_file_manager.md)

@@ -1,0 +1,332 @@
+{
+    "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/main/java/org/apache/commons/cli/GnuParser.java",
+    "imports": {
+        "20-20:import java.util.ArrayList;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.ArrayList;"
+        },
+        "21-21:import java.util.List;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.List;"
+        }
+    },
+    "classes": {
+        "29-92:GnuParser": {
+            "start": 29,
+            "end": 92,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@Deprecated",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "Parser"
+            ],
+            "methods": {
+                "48-91:flatten": {
+                    "start": 48,
+                    "end": 91,
+                    "body": [
+                        "@Override",
+                        "    protected String[] flatten(",
+                        "            final Options options_param, final String[] arguments, final boolean stopAtNonOption) {",
+                        "        final List<String> tokens = new ArrayList<>();",
+                        "",
+                        "        boolean eatTheRest = false;",
+                        "",
+                        "        for (int i = 0; i < arguments.length; i++) {",
+                        "            final String arg = arguments[i];",
+                        "",
+                        "            if (\"--\".equals(arg)) {",
+                        "                eatTheRest = true;",
+                        "                tokens.add(\"--\");",
+                        "            } else if (\"-\".equals(arg)) {",
+                        "                tokens.add(\"-\");",
+                        "            } else if (arg.startsWith(\"-\")) {",
+                        "                final String opt = Util.stripLeadingHyphens(arg);",
+                        "",
+                        "                if (options_param.hasOption(opt)) {",
+                        "                    tokens.add(arg);",
+                        "                } else if (opt.indexOf('=') != -1",
+                        "                        && options_param.hasOption(opt.substring(0, opt.indexOf('=')))) {",
+                        "                    tokens.add(arg.substring(0, arg.indexOf('='))); // --foo",
+                        "                    tokens.add(arg.substring(arg.indexOf('=') + 1)); // value",
+                        "                } else if (options_param.hasOption(arg.substring(0, 2))) {",
+                        "                    tokens.add(arg.substring(0, 2)); // -D",
+                        "                    tokens.add(arg.substring(2)); // property=value",
+                        "                } else {",
+                        "                    eatTheRest = stopAtNonOption;",
+                        "                    tokens.add(arg);",
+                        "                }",
+                        "            } else {",
+                        "                tokens.add(arg);",
+                        "            }",
+                        "",
+                        "            if (eatTheRest) {",
+                        "                for (i++; i < arguments.length; i++) { // NOPMD",
+                        "                    tokens.add(arguments[i]);",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "",
+                        "        return tokens.toArray(Util.EMPTY_STRING_ARRAY);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "protected"
+                    ],
+                    "return_types": [
+                        "String[]"
+                    ],
+                    "body_types": [
+                        "List<String>",
+                        "ArrayList<>",
+                        "boolean",
+                        "int",
+                        "String"
+                    ],
+                    "signature": "flatten(final Options options_param, final String[] arguments, final boolean stopAtNonOption)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Options",
+                            "name": "options_param"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String[]",
+                            "name": "arguments"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "stopAtNonOption"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Util",
+                            "21-64:Util",
+                            "51-63:stripLeadingHyphens"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "40-328:Options",
+                            "283-287:hasOption"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "indexOf(int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "substring(int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "toArray(java.lang.Object[])"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String[]": {
+                                "identifier": "String[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "String[]",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Array<String>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "List<String>": {
+                                "identifier": "List<String>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "List<String>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<String>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "ArrayList<>": {
+                                "identifier": "ArrayList<>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "ArrayList<>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Any",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": "Unresolved generic type; no dynamic translation path is enabled. reason=unresolved_generic"
+                            },
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "int": {
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int32",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Options|options_param": {
+                                "identifier": "final|Options|options_param",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "Options",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Options",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String[]|arguments": {
+                                "identifier": "final|String[]|arguments",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "String[]",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Array<String>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|boolean|stopAtNonOption": {
+                                "identifier": "final|boolean|stopAtNonOption",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-06-17 19:48:04",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": null,
+                    "model_name": null,
+                    "is_overload": false,
+                    "is_override": true,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    protected override func flatten(options_param: Options, arguments: Array<String>, stopAtNonOption: Bool): Array<String> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                }
+            },
+            "fields": {},
+            "cangjie_class_declaration": "public open class GnuParser <: Parser {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/GnuParser.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/GnuParser.cj",
+    "import_map": {
+        "ArrayList": "java.util.ArrayList",
+        "List": "java.util.List"
+    }
+}
