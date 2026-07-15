@@ -208,18 +208,10 @@ import demo.*
 import demo.runtime.*
 import std.unittest.*
 import std.unittest.testmacro.*
-import std.reflect.*
-
-private func __mockSelectConstructor<T>(): ConstructorInfo where T <: Object {
-    let classType = (TypeInfo.of<T>() as ClassTypeInfo).getOrThrow()
-    classType.constructors.toArray()[0]
-}
 
 private func __mockCreateViaIoc<T>(): T where T <: Object {
     SimpleIoc.default.unregister<T>()
-    let constructorInfo = __mockSelectConstructor<T>()
-    SimpleIoc.default.register<T>(constructorInfo, false)
-    let instance = SimpleIoc.default.getInstanceWithoutCaching<T>()
+    let instance = SimpleIoc.default.construct<T>()
     SimpleIoc.default.unregister<T>()
     instance
 }
@@ -250,18 +242,10 @@ import std.unittest.mock.*
 import std.unittest.mock.mockmacro.*
 import std.unittest.testmacro.*
 import demo.runtime.*
-import std.reflect.*
-
-private func __mockSelectConstructor<T>(): ConstructorInfo where T <: Object {
-    let classType = (TypeInfo.of<T>() as ClassTypeInfo).getOrThrow()
-    classType.constructors.toArray()[0]
-}
 
 private func __mockCreateViaIoc<T>(): T where T <: Object {
     SimpleIoc.default.unregister<T>()
-    let constructorInfo = __mockSelectConstructor<T>()
-    SimpleIoc.default.register<T>(constructorInfo, false)
-    let instance = SimpleIoc.default.getInstanceWithoutCaching<T>()
+    let instance = SimpleIoc.default.construct<T>()
     SimpleIoc.default.unregister<T>()
     instance
 }

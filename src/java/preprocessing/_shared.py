@@ -31,9 +31,9 @@ def extract_text_by_bytes(code, start_byte, end_byte):
 
 
 def _skip_dir(root):
-    """Check if a directory should be skipped (target/)."""
+    """Check if a directory should be skipped (target/, benchmarks/)."""
     parts = root.split(os.sep)
-    return 'target' in parts
+    return 'target' in parts or 'benchmarks' in parts
 
 
 def clean_target_dirs(output_dir):

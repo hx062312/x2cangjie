@@ -2,9 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.core.*
-import std.fs.*
-import std.io.*
+
 // Imports End
 
 public open class AnsiConsole {
@@ -28,12 +26,12 @@ public open class AnsiConsole {
     static let IS_CYGWIN: Bool = throw Exception('TODO')
     static let IS_MSYSTEM: Bool = throw Exception('TODO')
     static let IS_CONEMU: Bool = throw Exception('TODO')
-    static let ENABLE_VIRTUAL_TERMINAL_PROCESSING: Int64 = throw Exception('TODO')
-    static var STDOUT_FILENO: Int64 = throw Exception('TODO')
-    static var STDERR_FILENO: Int64 = throw Exception('TODO')
+    static let ENABLE_VIRTUAL_TERMINAL_PROCESSING: Int32 = throw Exception('TODO')
+    static var STDOUT_FILENO: Int32 = throw Exception('TODO')
+    static var STDERR_FILENO: Int32 = throw Exception('TODO')
     static var initialized: Bool = throw Exception('TODO')
-    static var installed: Int64 = throw Exception('TODO')
-    static var virtualProcessing: Int64 = throw Exception('TODO')
+    static var installed: Int32 = throw Exception('TODO')
+    static var virtualProcessing: Int32 = throw Exception('TODO')
     static let JANSI_MODE: String = throw Exception('TODO')
     static let JANSI_OUT_MODE: String = throw Exception('TODO')
     static let JANSI_ERR_MODE: String = throw Exception('TODO')
@@ -51,7 +49,7 @@ public open class AnsiConsole {
     // Static Initializer End
 
     // Methods Begin
-    public static func getTerminalWidth(): Int64 {
+    public static func getTerminalWidth(): Int32 {
         throw Exception('TODO')
     }
 
@@ -63,7 +61,7 @@ public open class AnsiConsole {
         throw Exception('TODO')
     }
 
-    private static func newPrintStream(out: AnsiOutputStream, enc: String): AnsiPrintStream {
+    private static func newPrintStream(out_param: AnsiOutputStream, enc: String): AnsiPrintStream {
         throw Exception('TODO')
     }
 

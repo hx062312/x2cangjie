@@ -316,3 +316,122 @@ templates:
     DEPENDENCIES:
     Below are the dependencies used in the JAVA SOURCE CODE which are not available in the EXECUTION TRACE. You need to consider them while generating the fixed CANGJIE TRANSLATION.
     {{ test_dependencies }}
+
+  # ------------------------------------------------------------------
+  # Part 1: Pseudocode intermediate layer (semantic bridge)
+  # Phase-1 prompt: Java fragment → annotated pseudocode (LLM call)
+  # ------------------------------------------------------------------
+  pseudocode_generation_system: |-
+    You are a code comprehension engine. Your job is to read a Java fragment and
+    describe its semantic intent and logic in language-agnostic pseudocode annotated
+    with natural-language comments. The pseudocode is later used as a translation
+    bridge to a target language. You must NOT use Java-specific syntax or APIs.
+    Express ALL operations in plain pseudo-statements and accompany each block with a
+    natural-language comment describing its purpose.
+
+  pseudocode_generation_user: |-
+    JAVA FRAGMENT ({{ fragment_type }} "{{ fragment_actual_name }}"):
+    ```
+    {{ java_source_code }}
+    ```
+
+    TASK: Produce a pseudocode description of the above fragment following these rules:
+    1. Output ONE block of pseudocode inside triple backticks.
+    2. Use plain control-flow keywords (FOR / WHILE / IF / ELSE / RETURN / BREAK) only.
+    3. Replace every Java API call with a high-level verb phrase describing intent.
+       Example: `Collections.sort(xs)` -> `sort xs in place`.
+       Example: `System.out.println(p)` -> `print p`.
+    4. Each logical block MUST be preceded by a single-line comment starting with `//`
+       that explains the intent in natural language.
+    5. Do NOT mention Cangjie, Python, or any other target language.
+    6. Keep the same control-flow order and variable names (when meaningful).
+
+    Pseudocode:
+    ```
+    < REPLACE THIS LINE WITH YOUR PSEUDOCODE >
+    ```
+
+  pseudocode_bridge_context: |-
+    ### Semantic Bridge (pseudocode)
+    The pseudocode below captures the intent and logic of the Java fragment without
+    using Java-specific syntax. Use it as the authoritative description of WHAT to
+    translate; fall back to the Java code only when the pseudocode is ambiguous.
+
+    ```
+    {{ pseudocode }}
+    ```
+
+  # ------------------------------------------------------------------
+  # Part 2: Cangjie grammar / EBNF injection
+  # ------------------------------------------------------------------
+  cangjie_grammar_context: |-
+    ### Cangjie Grammar Reference (EBNF excerpt — must obey in output)
+    The following grammar rules describe Cangjie syntax you MUST follow. Treat each
+    rule as a hard constraint on the generated Cangjie code; deviations cause compile
+    errors. The EBNF uses `|` for alternation, `[ ]` for optional, `{ }` for zero-or-more.
+
+    ########## Type & variable declarations ##########
+    var_decl      ::= "let" IDENT ":" TYPE "=" EXPR          # immutable
+                    | "var" IDENT ":" TYPE "=" EXPR          # mutable
+    TYPE          ::= IDENT [ "<" TYPE { "," TYPE } ">" ]
+    func_decl     ::= "func" IDENT "(" [ PARAMS ] ")" [ ":" TYPE ] "{" STMTS "}"
+    PARAMS        ::= PARAM { "," PARAM }
+    PARAM         ::= IDENT ":" TYPE
+    field_decl    ::= [ "public" | "private" | "protected" | "static" ] (var_decl | func_decl)
+
+    ########## Class / interface / enum ##########
+    class_decl    ::= ("class" | "abstract class" | "open class") IDENT [ GENERIC_PARAMS ] [ ":" SUPERTYPE { "," SUPERTYPE } ] "{" MEMBERS "}"
+    interface_decl::= "interface" IDENT [ GENERIC_PARAMS ] "{" MEMBER_SIGS "}"
+    GENERIC_PARAMS::= "<" TYPE_PARAM { "," TYPE_PARAM } ">"
+    TYPE_PARAM    ::= IDENT [ "where" IDENT "<:" TYPE ]
+
+    ########## Control flow ##########
+    if_stmt       ::= "if" "(" COND ")" BLOCK [ "else" BLOCK | "else if" "(" COND ")" BLOCK ]
+    while_stmt    ::= "while" "(" COND ")" BLOCK
+    for_stmt      ::= "for" "(" IDENT [ ":" TYPE ] "in" EXPR ")" BLOCK
+    match_stmt    ::= "match" "(" EXPR ")" "{" { CASE_PATTERN "=>" BLOCK } "}"
+    return_stmt   ::= "return" [ EXPR ]
+
+    ########## Hard semantic constraints (must satisfy to compile) ##########
+    G1. Generic bounds use `where T <: Bound`, NOT extends/super. There is no wildcard.
+    G2. Declaration-site variance via `out T` (covariant) / `in T` (contravariant);
+        use-site `?` / `~` is NOT supported — use type projection `~T` only on the
+        generic method side.
+    G3. `Any` does NOT satisfy `Hashable & Equatable<T>`. Whenever Any would appear as a
+        HashMap/HashSet key or element type, use `AnyHashable` instead
+        (import from the project's AnyHashable.cj).
+    G4. Integer / float literals carry type suffix to disambiguate from Int32 default;
+        prefer `Int64`/`UInt64`/`Float64` and annotate explicitly.
+    G5. Boolean type is `Bool`, not `boolean`. The nullability marker is `?` (e.g. `String?`).
+    G6. String interpolation: `"${expr}"`, not Java `"%" + x` or String.format.
+    G7. Unit (void) functions: declare return type `Unit` explicitly when side-effect free,
+        omit `return` or `return None`.
+    G8. Operator overloading uses `operator func`; equality is `func operator func ==(rhs: Self): Bool`.
+
+  cangjie_grammar_runtime_note: |-
+    RUNTIME NOTES (names you MUST NOT use; equivalent mappings):
+      Object (HashMap/HashSet key/elt)  -> AnyHashable
+      ThreadFactory                     -> () -> Thread
+      Runnable                          -> () -> Unit
+      Callable<V>                       -> () -> V
+      Function<T, R>                    -> (T) -> R
+      Consumer<T>                       -> (T) -> Unit
+      Supplier<T>                       -> () -> T
+      Predicate<T>                      -> (T) -> Bool
+      Comparator<T>                     -> (T, T) -> Int64
+      List<T>                           -> Array<T>
+      Map<K, V>                         -> HashMap<K, V>
+      Set<T>                            -> HashSet<T>
+
+  # ------------------------------------------------------------------
+  # Part 3: Syntax-graph RAG context (structural CFG/DFG examples)
+  # ------------------------------------------------------------------
+  syntax_graph_context: |-
+    ### Structural Examples (retrieved from CangjieCorpus)
+    The following Cangjie snippets have control-flow / data-flow graphs that are
+    structurally similar to the Java fragment being translated. Use them as idiomatic
+    templates for HOW to render the logic in Cangjie — particularly the surrounding
+    class skeleton, the function signature form, and the idiomatic use of match / let /
+    for-in. Do NOT copy them verbatim; adapt to the actual types and API calls.
+
+    {{ top_examples }}

@@ -11,11 +11,11 @@ public open class WindowsSupport {
 
     // Methods Begin
     public static func getLastErrorMessage(): String {
-                return Kernel32.getLastErrorMessage()
+        throw Exception('TODO')
     }
 
-    public static func getErrorMessage(errorCode: Int64): String {
-                return Kernel32.getErrorMessage(errorCode)
+    public static func getErrorMessage(errorCode: Int32): String {
+        throw Exception('TODO')
     }
 
     // Methods End

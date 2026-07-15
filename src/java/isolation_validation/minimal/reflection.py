@@ -17,45 +17,14 @@ def render_ioc_new_expr(cangjie_type: str) -> str:
 
 
 def required_imports() -> list[str]:
-    return [
-        "import std.reflect.*",
-    ]
+    return []
 
 
 def render_runtime_support() -> str:
     return r'''
-private func __mockSelectConstructor<T>(): ConstructorInfo where T <: Object {
-    let classType = (TypeInfo.of<T>() as ClassTypeInfo).getOrThrow()
-    let constructors = classType.constructors.toArray()
-
-    if (constructors.isEmpty()) {
-        throw Exception("mock reflection: no public constructor found for ${classType.name}")
-    }
-
-    for (constructorInfo in constructors) {
-        if (constructorInfo.parameters.isEmpty()) {
-            return constructorInfo
-        }
-    }
-
-    for (constructorInfo in constructors) {
-        if (constructorInfo.findAnnotation<Principal>().isSome()) {
-            return constructorInfo
-        }
-    }
-
-    if (constructors.size == 1) {
-        return constructors[0]
-    }
-
-    return constructors[0]
-}
-
 private func __mockCreateViaIoc<T>(): T where T <: Object {
     SimpleIoc.default.unregister<T>()
-    let constructorInfo = __mockSelectConstructor<T>()
-    SimpleIoc.default.register<T>(constructorInfo, false)
-    let instance = SimpleIoc.default.getInstanceWithoutCaching<T>()
+    let instance = SimpleIoc.default.construct<T>()
     SimpleIoc.default.unregister<T>()
     instance
 }

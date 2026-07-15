@@ -130,7 +130,7 @@ def main(args):
                     else:
                         print(f'Warning: No field details found in {button_name} {interface_class_url}')
 
-    with open(f'data/crawl/{args.module_name}_module_doc.json', 'w') as f:
+    with open(f'data/java/crawl/{args.module_name}_module_doc.json', 'w') as f:
         json.dump(java_module_documentation, f, indent=4)
 
 

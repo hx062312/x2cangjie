@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.core.*
+
 // Imports End
 
 public open class AnsiRenderer {
@@ -11,8 +11,8 @@ public open class AnsiRenderer {
     static let END_TOKEN: String = throw Exception('TODO')
     static let CODE_TEXT_SEPARATOR: String = throw Exception('TODO')
     static let CODE_LIST_SEPARATOR: String = throw Exception('TODO')
-    static let BEGIN_TOKEN_LEN: Int64 = throw Exception('TODO')
-    static let END_TOKEN_LEN: Int64 = throw Exception('TODO')
+    static let BEGIN_TOKEN_LEN: Int32 = throw Exception('TODO')
+    static let END_TOKEN_LEN: Int32 = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
@@ -96,12 +96,12 @@ public open class Code {
     var UNDERLINE_OFF: Any = throw Exception('TODO')
     var BOLD: Any = throw Exception('TODO')
     var FAINT: Any = throw Exception('TODO')
-    let n: Any = throw Exception('TODO')
-    let background: Bool = throw Exception('TODO')
+    var n: Enum<Any> = throw Exception('TODO')
+    var background: Bool = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    init(n: Any, background: Bool) {
+    init(n: Enum<Any>, background: Bool) {
         throw Exception('TODO')
     }
 

@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.core.*
+
 // Imports End
 
 public open class AnsiPrintStream {
@@ -46,7 +46,7 @@ public open class AnsiPrintStream {
         throw Exception('TODO')
     }
 
-    public open func getTerminalWidth(): Int64 {
+    public open func getTerminalWidth(): Int32 {
         throw Exception('TODO')
     }
 

@@ -6,6 +6,7 @@ Adapted from TRAM but targeting Cangjie instead of Python.
 import argparse
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -16,10 +17,22 @@ from src.java.utils.get_class_order import get_class_order
 from src.java.utils.get_custom_types import get_custom_type_translation_map, get_custom_types
 from src.java.utils.package_collapse import (
     compute_schema_effective_subpath_map as _compute_schema_effective_subpath_map,
-    extract_type_names as _extract_type_names,
+    compute_skeleton_sub_path as _compute_skeleton_sub_path,
     get_cangjie_package as _get_cangjie_package,
     get_effective_skeleton_sub_path as _get_effective_skeleton_sub_path,
     remove_collapsed_output_dirs as _remove_collapsed_output_dirs,
+)
+from src.java.type_resolution.interface_shim import (
+    merge_shim_type_map,
+    render_shim_file,
+)
+from src.java.type_resolution.type_expression import (
+    build_default_type_map,
+    get_cangjie_type as _deterministic_get_cangjie_type,
+    load_json_map as _load_json_type_map,
+    merge_truthy_type_map as _merge_truthy_type_map_normalized,
+    normalize_type_map_value,
+    split_generic_args,
 )
 
 
@@ -52,6 +65,24 @@ def _remove_generated_test_skeletons(*roots):
             test_file.unlink()
 
 
+def _clean_generated_skeleton_sources(*roots):
+    """Remove stale generated Cangjie sources before regenerating skeletons."""
+    for root in roots:
+        src_dir = Path(root) / "src"
+        if not src_dir.is_dir():
+            continue
+        for source_file in src_dir.rglob("*.cj"):
+            source_file.unlink()
+        for directory in sorted(
+                (path for path in src_dir.rglob("*") if path.is_dir()),
+                key=lambda path: len(path.parts),
+                reverse=True):
+            try:
+                directory.rmdir()
+            except OSError:
+                pass
+
+
 def _field_name_from_key(field_key):
     return field_key.split(':', 1)[1].strip() if ':' in field_key else field_key.strip()
 
@@ -59,6 +90,131 @@ def _field_name_from_key(field_key):
 def _is_framework_ignored_field(field_key, field_info=None):
     """Skip Java metadata fields that are not useful translation targets."""
     return _field_name_from_key(field_key).startswith("serialVersionUID")
+
+
+def _load_json_map(path):
+    return _load_json_type_map(path)
+
+
+def _merge_truthy_type_map(type_map, path):
+    _merge_truthy_type_map_normalized(type_map, path)
+
+
+def _stdx_static_path():
+    sdk_home = (
+        os.environ.get("CANGJIE_HOME")
+        or os.environ.get("CANGJIE_SDK_HOME")
+        or "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie"
+    )
+    return str(Path(sdk_home) / "linux_x86_64_cjnative" / "static" / "stdx")
+
+
+def _uses_stdx_imports(imports_text):
+    return any(
+        line.strip().startswith("import stdx.")
+        for line in str(imports_text).splitlines()
+    )
+
+
+def _stdx_link_option():
+    return (
+        "-lstdx.net.http -lstdx.net.tls -lstdx.net.tlsFFI -lstdx.net "
+        "-lstdx.log -lstdx.logger -lstdx.encoding.json.stream "
+        "-lstdx.encoding.json -lstdx.serialization.serialization"
+    )
+
+
+def _load_third_party_libraries(path="data/java/type_resolution/java_base_third_party_libraries.json"):
+    if not os.path.exists(path):
+        return {}
+    with open(path, 'r') as f:
+        data = json.load(f)
+    return data if isinstance(data, dict) else {}
+
+
+def _import_prefix(import_line):
+    text = str(import_line or '').strip()
+    if not text.startswith('import '):
+        return ''
+    target = text[len('import '):].strip()
+    if target.endswith('.*'):
+        target = target[:-2]
+    return target
+
+
+def _third_party_import_prefixes(lib_info):
+    prefixes = set()
+    for imp in _normalize_import_list(lib_info.get('validated_imports')):
+        prefix = _import_prefix(imp)
+        if prefix:
+            prefixes.add(prefix)
+    return prefixes
+
+
+def _detect_third_party_dependencies(imports_text, third_party_libraries):
+    used = set()
+    import_prefixes = [
+        prefix for prefix in (
+            _import_prefix(line) for line in str(imports_text or '').splitlines()
+        )
+        if prefix
+    ]
+    for lib_name, lib_info in third_party_libraries.items():
+        if not isinstance(lib_info, dict):
+            continue
+        for lib_prefix in _third_party_import_prefixes(lib_info):
+            for import_prefix in import_prefixes:
+                if import_prefix == lib_prefix or import_prefix.startswith(f"{lib_prefix}."):
+                    used.add(lib_name)
+                    break
+            if lib_name in used:
+                break
+    return used
+
+
+def _render_dependency_lines(third_party_libraries, used_third_party_libs):
+    lines = []
+    for lib_name in sorted(used_third_party_libs):
+        lib_info = third_party_libraries.get(lib_name, {})
+        dependency = lib_info.get('dependency', {}) if isinstance(lib_info, dict) else {}
+        git_url = dependency.get('git') or lib_info.get('url')
+        if git_url:
+            lines.append(f'{lib_name} = {{ git = "{git_url}" }}')
+    return lines
+
+
+def _generate_cjpm_content(cjpm_name, output_type, include_stdx,
+                           third_party_libraries=None, used_third_party_libs=None):
+    link_option = _stdx_link_option() if include_stdx else ""
+    dependency_lines = _render_dependency_lines(
+        third_party_libraries or {},
+        used_third_party_libs or set()
+    )
+    dependencies = "\n".join(dependency_lines)
+    stdx_dependency = ""
+    if include_stdx:
+        stdx_dependency = f"""
+[target.x86_64-unknown-linux-gnu]
+  [target.x86_64-unknown-linux-gnu.bin-dependencies]
+    path-option = ["{_stdx_static_path()}"]
+"""
+
+    return f"""[package]
+  cjc-version = "1.0.5"
+  name = "{cjpm_name}"
+  description = "nothing here"
+  version = "1.0.0"
+  src-dir = "src"
+  target-dir = "target"
+  output-type = "{output_type}"
+  compile-option = "-Woff unused --error-count-limit all"
+  override-compile-option = ""
+  link-option = "{link_option}"
+  package-configuration = {{}}
+
+[dependencies]
+{dependencies}
+{stdx_dependency}"""
 
 
 # ============================================================
@@ -150,76 +306,8 @@ _ERASED_GENERIC_TYPES = frozenset({'Any', 'Nothing'})
 
 
 def get_cangjie_type(java_type, type_map):
-    """
-    Convert Java type to Cangjie type using type_map.
-    Handles generic types like List<String> -> ArrayList<String>.
-
-    Replaces Any with AnyHashable in hash-container key/element positions.
-    """
-    if not java_type:
-        return "Any"
-
-    java_type = java_type.strip()
-
-    # Prefer exact mappings before decomposing generics. Some Java library types
-    # are intentionally mapped as a whole, e.g. Callable<Boolean> -> () -> Bool.
-    if java_type in type_map:
-        return type_map[java_type]
-
-    # Handle generics like ArrayList<String>
-    if '<' in java_type and java_type.endswith('>'):
-        base_type = java_type[:java_type.index('<')]
-        generic_part = java_type[java_type.index('<')+1:java_type.rindex('>')]
-        # Handle nested generics by splitting on comma at depth 0
-        generic_parts = []
-        depth = 0
-        current = ""
-        for c in generic_part:
-            if c == '<':
-                depth += 1
-                current += c
-            elif c == '>':
-                depth -= 1
-                current += c
-            elif c == ',' and depth == 0:
-                generic_parts.append(current.strip())
-                current = ""
-            else:
-                current += c
-        if current.strip():
-            generic_parts.append(current.strip())
-
-        resolved_parts = [get_cangjie_type(g, type_map) for g in generic_parts]
-
-        # Get base type translation
-        if base_type in type_map:
-            base_cangjie = type_map[base_type]
-            if base_cangjie in _ERASED_GENERIC_TYPES:
-                return base_cangjie
-            # If base_cangjie already has generic params, replace them
-            if '<' in base_cangjie:
-                base_cangjie = base_cangjie.split('<')[0]
-        else:
-            # Unknown base type, use as-is with Cangjie-style generics
-            base_cangjie = base_type
-
-        if base_cangjie in _HASH_KEY_CONTAINERS and resolved_parts:
-            if resolved_parts[0] == 'Any':
-                resolved_parts[0] = 'AnyHashable'
-        elif base_cangjie in _HASH_ELEMENT_CONTAINERS and resolved_parts:
-            if resolved_parts[0] == 'Any':
-                resolved_parts[0] = 'AnyHashable'
-
-        generic_cangjie = ', '.join(resolved_parts)
-        return f"{base_cangjie}<{generic_cangjie}>"
-
-    # Handle primitive arrays like int[] -> Array<Int64>
-    if java_type.endswith('[]'):
-        element_type = java_type[:-2]
-        return f"Array<{get_cangjie_type(element_type, type_map)}>"
-
-    # Default to Any for unknown types
-    return "Any"
+    """Convert a Java type expression to Cangjie using the shared resolver."""
+    return _deterministic_get_cangjie_type(java_type, type_map)
 
 
 def normalize_class_name(class_name, type_map):
@@ -233,11 +321,11 @@ def normalize_class_name(class_name, type_map):
     if '.' in class_name:
         short_name = class_name.split('.')[-1]
         if short_name in type_map:
-            return type_map[short_name]
+            return normalize_type_map_value(type_map[short_name]) or short_name
         return short_name
 
     if class_name in type_map:
-        return type_map[class_name]
+        return normalize_type_map_value(type_map[class_name]) or class_name
 
     return class_name
 
@@ -382,12 +470,15 @@ def get_field_modifiers(modifiers):
     """Build Cangjie field modifier prefix string.
 
     Returns e.g. 'static let ', 'static var ', 'let ', 'var '.
-    In Cangjie, final fields use 'let', mutable fields use 'var'.
+    Java instance final fields can be assigned in constructors. Skeletons
+    initialize fields with TODO placeholders, so instance fields must stay
+    mutable during fragment validation.
     """
     parts = []
-    if is_static(modifiers):
+    static_field = is_static(modifiers)
+    if static_field:
         parts.append('static')
-    if 'final' in modifiers:
+    if static_field and 'final' in modifiers:
         parts.append('let')
     else:
         parts.append('var')
@@ -423,6 +514,69 @@ def get_method_return_type(method_info, type_map, is_constructor=False):
     if rt.startswith('<') and rt.endswith('>') and len(return_types) > 1:
         rt = return_types[1]
     return get_cangjie_type(rt, type_map)
+
+
+def _parse_type_param_names(type_param_text):
+    """Extract bare type parameter names from a Java ``<T, U extends X>`` block."""
+    if not type_param_text:
+        return []
+    text = type_param_text.strip()
+    if text.startswith('<') and text.endswith('>'):
+        text = text[1:-1]
+    result = []
+    for part in split_generic_args(text):
+        name = re.split(r'\s+(?:extends|super)\s+|\s+', part.strip(), maxsplit=1)[0]
+        if name and re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]*', name):
+            result.append(name)
+    return result
+
+
+def get_method_type_params(method_info):
+    """Return method-level Java type parameters for Cangjie generic methods."""
+    params = []
+    for rt in method_info.get('return_types', []):
+        if isinstance(rt, str) and rt.strip().startswith('<') and rt.strip().endswith('>'):
+            params.extend(_parse_type_param_names(rt))
+
+    if not params:
+        for line in method_info.get('body', [])[:3]:
+            if not isinstance(line, str):
+                continue
+            match = re.search(
+                r'\b(?:public|protected|private)?\s*(?:static\s+)?<([^>]+)>\s+',
+                line.strip(),
+            )
+            if match:
+                params.extend(_parse_type_param_names(f"<{match.group(1)}>"))
+                break
+
+    # Java allows generic type-parameter names to shadow concrete types
+    # (e.g. `<String, Integer> Map<String, Integer> foo()`), but Cangjie
+    # does not — declaring `func foo<String, Integer>()` makes `String` and
+    # `Integer` refer to unconstrained generic parameters, shadowing
+    # `std.String` / `std.Int64` and breaking HashMap's `Hashable`
+    # constraint on the key type. Filter out names that collide with known
+    # Java/JDK/Cangjie type names so they are not emitted as Cangjie
+    # generic parameters; the downstream type mapping will resolve them to
+    # the real Cangjie types instead.
+    _CONCRETE_TYPE_NAME_BLACKLIST = frozenset({
+        # Java primitive wrappers & common JDK types
+        "String", "Integer", "Long", "Double", "Float", "Boolean",
+        "Short", "Byte", "Character", "Object", "Number",
+        # Cangjie primitive / std types
+        "Int", "Int8", "Int16", "Int32", "Int64",
+        "UInt", "UInt8", "UInt16", "UInt32", "UInt64",
+        "Float16", "Float32", "Float64",
+        "Bool", "Rune", "Unit", "Any", "Nothing",
+        "ArrayList", "HashMap", "HashSet", "LinkedList",
+    })
+    deduped = []
+    for param in params:
+        if param in _CONCRETE_TYPE_NAME_BLACKLIST:
+            continue
+        if param not in deduped:
+            deduped.append(param)
+    return deduped
 
 
 def generate_field_skeleton(field_info, field_key, type_map):
@@ -481,6 +635,7 @@ def generate_method_skeleton(method_info, method_key, type_map,
 
     param_strings = get_method_params(method_info, type_map)
     return_type = get_method_return_type(method_info, type_map, is_constructor)
+    type_params = get_method_type_params(method_info)
 
     mod_prefix = get_method_modifiers(
         modifiers,
@@ -493,7 +648,8 @@ def generate_method_skeleton(method_info, method_key, type_map,
     if is_constructor:
         method_sig = f"    {mod_prefix}init({params_str})"
     else:
-        method_sig = f"    {mod_prefix}func {method_name}({params_str})"
+        generic_suffix = f"<{', '.join(type_params)}>" if type_params else ""
+        method_sig = f"    {mod_prefix}func {method_name}{generic_suffix}({params_str})"
         if return_type:
             method_sig += f": {return_type}"
 
@@ -849,18 +1005,107 @@ def _parse_java_path(java_path):
 # ============================================================
 
 
-# Known Cangjie std lib type to import mappings.
+# Java library type to Cangjie import mappings.
 #
-# Types from std.core (Duration, Option, Iterator, Collection, StringBuilder,
-# Array, etc.) are auto-imported and must NOT appear in this mapping.
-# The mapping is loaded from data/java/type_resolution/std_type_imports.json
-# in main() and passed through the call chain.
+# The mapping is loaded from data/java/type_resolution/java_base_type_imports.json.
+# It is keyed by Java source type names rather than Cangjie target type names,
+# which lets skeleton generation use the schema import_map to resolve short
+# Java names before adding Cangjie imports.
+
+
+def _normalize_import_list(value):
+    if isinstance(value, str):
+        return [value] if value.strip() else []
+    if isinstance(value, list):
+        return [item for item in value if isinstance(item, str) and item.strip()]
+    return []
+
+
+def _load_java_type_imports(path):
+    """Load Java type -> Cangjie imports and add unambiguous simple-name aliases."""
+    if not os.path.exists(path):
+        return {}
+
+    with open(path, 'r') as f:
+        raw_imports = json.load(f)
+
+    java_type_imports = {}
+    simple_aliases = {}
+    for java_type, imports_value in raw_imports.items():
+        imports = tuple(_normalize_import_list(imports_value))
+        if not imports:
+            continue
+        java_type_imports[java_type] = list(imports)
+        if '.' in java_type:
+            simple_name = java_type.split('.')[-1]
+            simple_aliases.setdefault(simple_name, set()).add(imports)
+
+    for simple_name, imports_set in simple_aliases.items():
+        if len(imports_set) == 1 and simple_name not in java_type_imports:
+            java_type_imports[simple_name] = list(next(iter(imports_set)))
+
+    return java_type_imports
+
+
+def _strip_java_type_token(java_type):
+    text = str(java_type or '').strip()
+    for prefix in ('? extends ', '? super '):
+        if text.startswith(prefix):
+            text = text[len(prefix):].strip()
+            break
+    if text == '?':
+        return ''
+    while text.endswith('[]'):
+        text = text[:-2].strip()
+    return text
+
+
+def _iter_java_type_names(java_type_expr):
+    """Yield base Java type names from a Java type expression."""
+    java_type_expr = _strip_java_type_token(java_type_expr)
+    if not java_type_expr:
+        return
+
+    if '<' in java_type_expr and java_type_expr.endswith('>'):
+        base_type = java_type_expr[: java_type_expr.index('<')].strip()
+        if base_type:
+            yield base_type
+        generic_part = java_type_expr[java_type_expr.index('<') + 1 : java_type_expr.rindex('>')]
+        for arg in split_generic_args(generic_part):
+            yield from _iter_java_type_names(arg)
+        return
+
+    yield java_type_expr
+
+
+def _java_import_lookup_keys(java_type, import_map):
+    java_type = _strip_java_type_token(java_type)
+    if not java_type:
+        return []
+
+    keys = []
+    if java_type in import_map:
+        keys.append(import_map[java_type])
+    keys.append(java_type)
+
+    simple_name = java_type.split('.')[-1]
+    if simple_name in import_map:
+        keys.append(import_map[simple_name])
+    keys.append(simple_name)
+
+    result = []
+    seen = set()
+    for key in keys:
+        if key and key not in seen:
+            seen.add(key)
+            result.append(key)
+    return result
 
 
 def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
                                cjpm_name, type_map, class_to_package,
                                dependencies, custom_types, processed_classes,
-                               std_type_imports, skeleton='',
+                               java_type_imports, skeleton='',
                                collapsed_subpaths=None):
     """Build the complete import section for a skeleton file.
 
@@ -873,10 +1118,22 @@ def generate_imports_skeleton(schema, class_order, schema_fname, java_path,
                          java_path, cjpm_name, class_to_package,
                          collapsed_subpaths)
 
-    _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports, cjpm_name)
+    _add_lib_imports(cangjie_imports, schema, class_order, type_map, java_type_imports, cjpm_name)
 
     if 'AnyHashable' in skeleton:
         cangjie_imports.add(runtime_support.any_hashable_import(cjpm_name))
+
+    # Auto-import std.collection when the skeleton uses collection types
+    # (ArrayList / HashMap / HashSet / LinkedList / TreeMap / TreeSet etc.)
+    # that were emitted by get_cangjie_type() but live in std.collection and
+    # are not auto-visible at the package level. Without this import the
+    # skeleton fails to compile with "undeclared type name 'ArrayList'" etc.
+    _STD_COLLECTION_TYPES = (
+        "ArrayList", "HashMap", "HashSet", "LinkedList",
+        "TreeMap", "TreeSet", "LinkedHashMap", "LinkedHashSet",
+    )
+    if any(t in skeleton for t in _STD_COLLECTION_TYPES):
+        cangjie_imports.add("import std.collection.*")
 
     # Filter out custom types (they're in the same project, no import needed)
     filtered_imports = set()
@@ -932,11 +1189,12 @@ def _add_project_imports(cangjie_imports, dependencies, schema_fname,
             cangjie_imports.add(f"import {ref_pkg}.{ref_name}")
 
 
-def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_imports, cjpm_name):
+def _add_lib_imports(cangjie_imports, schema, class_order, type_map, java_type_imports, cjpm_name):
     """Add imports for library types (std + type_translations)."""
     uses_any_hashable = False
+    import_map = schema.get('import_map', {}) if isinstance(schema.get('import_map', {}), dict) else {}
 
-    # Scan all types for std imports
+    # Scan Java signature types and add imports from the Java-type import table.
     for class_key in class_order:
         if class_key not in schema.get('classes', {}):
             continue
@@ -945,16 +1203,17 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_im
             for t in field_info.get('types', []):
                 cangjie_type = get_cangjie_type(t, type_map)
                 uses_any_hashable = uses_any_hashable or 'AnyHashable' in cangjie_type
-                _add_std_import_for_type(cangjie_type, cangjie_imports, std_type_imports)
+                _add_java_type_imports(t, cangjie_imports, java_type_imports, import_map)
         for method_key, method_info in class_info.get('methods', {}).items():
             for rt in method_info.get('return_types', []):
                 cangjie_type = get_cangjie_type(rt, type_map)
                 uses_any_hashable = uses_any_hashable or 'AnyHashable' in cangjie_type
-                _add_std_import_for_type(cangjie_type, cangjie_imports, std_type_imports)
+                _add_java_type_imports(rt, cangjie_imports, java_type_imports, import_map)
             for p in method_info.get('parameters', []):
-                cangjie_type = get_cangjie_type(p.get('type', 'Any'), type_map)
+                source_type = p.get('type', 'Any')
+                cangjie_type = get_cangjie_type(source_type, type_map)
                 uses_any_hashable = uses_any_hashable or 'AnyHashable' in cangjie_type
-                _add_std_import_for_type(cangjie_type, cangjie_imports, std_type_imports)
+                _add_java_type_imports(source_type, cangjie_imports, java_type_imports, import_map)
 
     # Collect std imports from type_translations
     for class_key in class_order:
@@ -967,9 +1226,21 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_im
                     for tid, tdata in frag_data.get('type_translations', {}).get(tv, {}).items():
                         imports_val = tdata.get('imports', '')
                         if imports_val and imports_val not in ('None', ''):
-                            for imp in imports_val.split('\n'):
+                            # The schema's `imports` field is occasionally a
+                            # comma-separated string of Java FQNs (e.g.
+                            # "java.util.stream.Stream, org.apache.commons.csv.CSVRecord")
+                            # rather than newline-separated Cangjie import lines.
+                            # Split on both newlines and commas so neither form
+                            # leaks an invalid bare-FQN line into the skeleton.
+                            raw_imports = imports_val.replace(',', '\n').split('\n')
+                            for imp in raw_imports:
                                 imp = imp.strip()
-                                if imp:
+                                # Only accept well-formed Cangjie import statements
+                                # (`import pkg.name[.Member]` or `import pkg.*`).
+                                # Bare Java FQNs (e.g. "java.util.stream.Stream")
+                                # have no Cangjie package equivalent and would
+                                # cause "expected declaration" parse errors.
+                                if imp.startswith('import '):
                                     cangjie_imports.add(imp)
                         value = (
                             tdata.get('translated_target_type')
@@ -983,11 +1254,12 @@ def _add_lib_imports(cangjie_imports, schema, class_order, type_map, std_type_im
         cangjie_imports.add(runtime_support.any_hashable_import(cjpm_name))
 
 
-def _add_std_import_for_type(cangjie_type_name, cangjie_imports, std_type_imports):
-    """Add std lib import if any type name matches a known std type."""
-    for name in _extract_type_names(cangjie_type_name):
-        if name in std_type_imports:
-            cangjie_imports.add(std_type_imports[name])
+def _add_java_type_imports(java_type_expr, cangjie_imports, java_type_imports, import_map):
+    """Add Cangjie imports for Java source type names."""
+    for java_type in _iter_java_type_names(java_type_expr):
+        for key in _java_import_lookup_keys(java_type, import_map):
+            for imp in java_type_imports.get(key, []):
+                cangjie_imports.add(imp)
 
 
 # ============================================================
@@ -998,8 +1270,8 @@ def _add_std_import_for_type(cangjie_type_name, cangjie_imports, std_type_import
 def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, type_map,
                                 class_to_package, all_schema_classes, class_to_methods,
                                 dependencies, custom_types, skeletons_dir,
-                                translations_skeleton_dir, std_type_imports,
-                                collapsed_subpaths=None):
+                                translations_skeleton_dir, java_type_imports,
+                                collapsed_subpaths=None, third_party_libraries=None):
     """
     Generate Cangjie skeleton for one schema file.
 
@@ -1064,7 +1336,7 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
         schema, class_order, schema_fname, java_path,
         cjpm_name, type_map, class_to_package,
         dependencies, custom_types, processed_classes,
-        std_type_imports, skeleton, collapsed_subpaths
+        java_type_imports, skeleton, collapsed_subpaths
     )
     skeleton = skeleton.replace('__IMPORTS_PLACEHOLDER__\n', imports_str)
 
@@ -1117,7 +1389,11 @@ def generate_one_file_skeleton(schema, schema_fname, schema_path, cjpm_name, typ
     with open(schema_path, 'w') as f:
         json.dump(target_schema, f, indent=4)
 
-    return 'AnyHashable' in skeleton
+    return (
+        'AnyHashable' in skeleton,
+        _uses_stdx_imports(imports_str),
+        _detect_third_party_dependencies(imports_str, third_party_libraries or {}),
+    )
 
 
 # ============================================================
@@ -1129,25 +1405,18 @@ def main(args):
     include_tests = _should_include_test_sources(args)
 
     # Load type mappings
-    type_map = {}
+    # universal_type_map_final.json contains project-agnostic Java→Cangjie
+    # mappings for common JDK types (List, Map, URL, Enum, etc.) that are
+    # not covered by PRIMITIVE_TYPE_MAP / java_base_type_map.json / generic
+    # type map. Without it, skeletons emit bare Java type names like `List`
+    # and `Map` which Cangjie cannot resolve, causing "undeclared type name"
+    # compile errors across every fragment.
+    type_map = build_default_type_map(
+        extra_paths=["data/java/type_resolution/universal_type_map_final.json"]
+    )
+    merge_shim_type_map(type_map, args.project)
 
     # Phase 1: Build Global Context
-
-    # Load fixed_type_map.json
-    fixed_map_path = "data/java/type_resolution/fixed_type_map.json"
-    if os.path.exists(fixed_map_path):
-        with open(fixed_map_path, 'r') as f:
-            fixed_map = json.load(f)
-            type_map.update(fixed_map)
-
-    # Load universal_type_map_final.json (user-defined translations)
-    universal_map_path = "data/java/type_resolution/universal_type_map_final.json"
-    if os.path.exists(universal_map_path):
-        with open(universal_map_path, 'r') as f:
-            universal_map = json.load(f)
-            for k, v in universal_map.items():
-                if v:
-                    type_map[k] = v
 
     # Schema directory
     schema_dir = f"data/java/schemas{args.suffix}/{args.model}/{args.temperature}/{args.project}"
@@ -1170,6 +1439,7 @@ def main(args):
     os.makedirs(skeletons_dir, exist_ok=True)
     translations_skeleton_dir = f"data/java/skeletons/translations/{args.model}/{args.temperature}/{args.project}"
     os.makedirs(translations_skeleton_dir, exist_ok=True)
+    _clean_generated_skeleton_sources(skeletons_dir, translations_skeleton_dir)
     if not include_tests:
         _remove_generated_test_skeletons(skeletons_dir, translations_skeleton_dir)
 
@@ -1225,12 +1495,11 @@ def main(args):
             all_schema_classes[class_name] = {'extends': extends, 'methods': class_info.get('methods', {})}
             class_to_package[class_name] = cangjie_pkg
 
-    # Load std_type_imports.json
-    std_type_imports = {}
-    std_type_imports_path = "data/java/type_resolution/std_type_imports.json"
-    if os.path.exists(std_type_imports_path):
-        with open(std_type_imports_path, 'r') as f:
-            std_type_imports = json.load(f)
+    # Load Java base type imports.
+    java_type_imports = _load_java_type_imports(
+        "data/java/type_resolution/java_base_type_imports.json"
+    )
+    third_party_libraries = _load_third_party_libraries()
 
     # Phase 1b: Run annotate_method_flags on all schemas to populate needs_open flags
     for schema_fname, schema_path, schema in all_schemas:
@@ -1240,35 +1509,29 @@ def main(args):
 
     # Phase 2: Generate Skeletons (using Phase 1 schema data — no reload from disk)
     uses_any_hashable = False
+    uses_stdx = False
+    used_third_party_libs = set()
     for schema_fname, schema_path, schema in all_schemas:
         if 'package-info' in schema_fname or 'module-info' in schema_fname:
             continue
 
-        uses_any_hashable = generate_one_file_skeleton(
+        file_uses_any_hashable, file_uses_stdx, file_third_party_libs = generate_one_file_skeleton(
             schema, schema_fname, schema_path, cjpm_name, type_map,
             class_to_package, all_schema_classes, class_to_methods,
             dependencies, custom_types, skeletons_dir, translations_skeleton_dir,
-            std_type_imports, effective_subpaths
-        ) or uses_any_hashable
+            java_type_imports, effective_subpaths, third_party_libraries
+        )
+        uses_any_hashable = file_uses_any_hashable or uses_any_hashable
+        uses_stdx = file_uses_stdx or uses_stdx
+        used_third_party_libs.update(file_third_party_libs)
 
     # Phase 3: Generate cjpm.toml
     output_type = "static"
 
-    cjpm_content = f"""[package]
-  cjc-version = "1.0.5"
-  name = "{cjpm_name}"
-  description = "nothing here"
-  version = "1.0.0"
-  src-dir = "src"
-  target-dir = "target"
-  output-type = "{output_type}"
-  compile-option = "-Woff unused --error-count-limit all"
-  override-compile-option = ""
-  link-option = ""
-  package-configuration = {{}}
-
-[dependencies]
-"""
+    cjpm_content = _generate_cjpm_content(
+        cjpm_name, output_type, uses_stdx,
+        third_party_libraries, used_third_party_libs
+    )
     with open(f"{skeletons_dir}/cjpm.toml", 'w') as f:
         f.write(cjpm_content)
 
@@ -1279,6 +1542,9 @@ def main(args):
     if uses_any_hashable:
         runtime_support.inject_any_hashable(Path(skeletons_dir) / "src", cjpm_name)
         runtime_support.inject_any_hashable(Path(translations_skeleton_dir) / "src", cjpm_name)
+
+    if render_shim_file(args.project, cjpm_name, [skeletons_dir, translations_skeleton_dir]):
+        print(f"Generated compat interface shims for {args.project}")
 
     print(f"\nSkeleton generation complete: {skeletons_dir}")
 

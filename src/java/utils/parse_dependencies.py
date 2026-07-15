@@ -63,9 +63,11 @@ def parse_dependencies(project_name, suffix):
     os.system(
         f"jdeps -verbose -dotoutput {dependencies_dir} {project_dir / 'target/classes'}"
     )
-    os.system(
-        f"jdeps -verbose -dotoutput {dependencies_dir} {project_dir / 'target/test-classes'}"
-    )
+    test_classes_dir = project_dir / "target/test-classes"
+    if test_classes_dir.exists():
+        os.system(
+            f"jdeps -verbose -dotoutput {dependencies_dir} {test_classes_dir}"
+        )
     os.remove(dependencies_dir / "summary.dot")
 
     class_deps = os.listdir(dependencies_dir)
@@ -115,6 +117,9 @@ def parse_dependencies(project_name, suffix):
                     else:
                         current_class = current_class.split("$")[0]
                         class_dependencies.setdefault(current_class, [])
+
+                class_dependencies.setdefault(class_name, [])
+                class_dependencies.setdefault(current_class, [])
 
                 if class_name == current_class:
                     continue

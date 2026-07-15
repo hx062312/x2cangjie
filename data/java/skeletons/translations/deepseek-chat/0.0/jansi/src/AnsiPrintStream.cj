@@ -2,7 +2,7 @@
 package jansi
 
 // Imports Begin
-import std.core.*
+
 // Imports End
 
 public open class AnsiPrintStream {
@@ -11,55 +11,55 @@ public open class AnsiPrintStream {
 
     // Methods Begin
     public init(out: AnsiOutputStream, autoFlush: Bool, args: Any) {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private static func determineEncoding(args: Any): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     protected open func getOut(): AnsiOutputStream {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     public open func getType(): AnsiType {
-                return getOut().getType()
+        throw Exception('TODO')
     }
 
     public open func getColors(): AnsiColors {
-                return getOut().getColors()
+        throw Exception('TODO')
     }
 
     public open func getMode(): AnsiMode {
-                return getOut().getMode()
+        throw Exception('TODO')
     }
 
     public open func setMode(ansiMode: AnsiMode): Unit {
-                getOut().setMode(ansiMode)
+        throw Exception('TODO')
     }
 
     public open func isResetAtUninstall(): Bool {
-                return getOut().isResetAtUninstall()
+        throw Exception('TODO')
     }
 
     public open func setResetAtUninstall(resetAtClose: Bool): Unit {
-                getOut().setResetAtUninstall(resetAtClose)
+        throw Exception('TODO')
     }
 
-    public open func getTerminalWidth(): Int64 {
-                return getOut().getTerminalWidth()
+    public open func getTerminalWidth(): Int32 {
+        throw Exception('TODO')
     }
 
     public open func install(): Unit {
-                getOut().install()
+        throw Exception('TODO')
     }
 
     public open func uninstall(): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     public open func toString(): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

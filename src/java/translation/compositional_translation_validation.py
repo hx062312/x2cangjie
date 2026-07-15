@@ -16,6 +16,7 @@ from src.java.translation.cangjie_compilation_validation import cangjie_compilat
 from src.java.translation.get_reverse_traversal import get_reverse_traversal
 from src.java.translation.prompt_generator import PromptGenerator
 from src.java.rag import get_rag_engine
+from src.java.progressive_kb import get_progressive_kb
 from src.java.utils.get_custom_types import get_custom_type_translation_map
 from src.java.isolation_validation.test_runner import (
     run_mock_tests_for_fragment,
@@ -41,6 +42,110 @@ def _as_bool(value, default=False):
     if isinstance(value, bool):
         return value
     return str(value).strip().lower() == "true"
+
+
+def _reset_translation_skeletons_from_baseline(translation_dir):
+    """Start fragment validation from clean generated skeleton sources."""
+    copied = 0
+    for schema_path in Path(translation_dir).glob("*.json"):
+        try:
+            schema_data = json.loads(schema_path.read_text())
+        except Exception:
+            continue
+        source = schema_data.get("cangjie_skeleton_path")
+        target = schema_data.get("cangjie_translations_skeleton_path")
+        if not source or not target:
+            continue
+        source_path = Path(source)
+        target_path = Path(target)
+        if not source_path.is_file():
+            continue
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        target_path.write_text(source_path.read_text(), encoding="utf-8")
+        copied += 1
+    return copied
+
+
+def _store_translation_pair_to_kb(fragment, generation, args):
+    """
+    Store a verified translation pair into the Progressive KB.
+    
+    Called after successful compilation (and optionally mock-test) to
+    progressively build up the knowledge base for future few-shot retrieval.
+    
+    Only stores when use_progressive_kb is enabled.
+    """
+    if not _as_bool(getattr(args, 'use_progressive_kb', 'false')):
+        return
+    try:
+        kb = get_progressive_kb()
+
+        # The fragment dict itself doesn't carry "body" — we need to read
+        # the Java source and type info from the schema JSON file.
+        java_code = ""
+        java_types = []
+        cangjie_types = []
+        try:
+            schema_path = Path(f"{args.translation_dir}/{fragment['schema_name']}.json")
+            with open(schema_path, "r") as f:
+                schema_data = json.load(f)
+            class_key = find_class_key(schema_data.get("classes", {}), fragment.get("class_name", ""))
+            if class_key:
+                frag_dict = schema_data["classes"][class_key].get(
+                    f"{fragment.get('fragment_type', 'method')}s", {}
+                ).get(fragment.get("fragment_name", ""), {})
+                # Java source code
+                body_lines = frag_dict.get("body", [])
+                if isinstance(body_lines, list):
+                    java_code = "\n".join(str(l) for l in body_lines)
+                elif body_lines:
+                    java_code = str(body_lines)
+
+                # Java types from direct type fields (types, return_types, body_types)
+                java_types_set = set()
+                for variation in ("types", "return_types", "body_types"):
+                    type_list = frag_dict.get(variation, [])
+                    if isinstance(type_list, list):
+                        for t in type_list:
+                            if isinstance(t, dict):
+                                src = t.get("type", "")
+                            elif isinstance(t, str):
+                                src = t
+                            else:
+                                continue
+                            if src:
+                                java_types_set.add(src)
+                java_types = list(java_types_set)
+
+                # Cangjie types from type_translations (already translated types)
+                cangjie_types_set = set()
+                type_translations = frag_dict.get("type_translations", {})
+                for variation in ("types", "return_types", "body_types", "parameters"):
+                    var_data = type_translations.get(variation, {})
+                    for tid, tdata in var_data.items():
+                        if isinstance(tdata, dict) and tdata.get("translated"):
+                            tgt = tdata.get("translated_target_type", "")
+                            if tgt:
+                                cangjie_types_set.add(tgt)
+                cangjie_types = list(cangjie_types_set)
+        except Exception as e:
+            log_detail(args, "KB SCHEMA READ", f"Could not read schema for KB: {e}")
+
+        cangjie_code = "\n".join(generation) if isinstance(generation, list) else str(generation)
+        signature = f"{fragment.get('class_name', '')}.{fragment.get('fragment_name', '')}"
+        
+        kb.add_example(
+            java_code=java_code,
+            cangjie_code=cangjie_code,
+            signature=signature,
+            scenario="auto",
+            java_types=java_types,
+            cangjie_types=cangjie_types,
+            compile_pass=True,
+            source_project=getattr(args, 'project', ''),
+        )
+    except Exception as e:
+        log_detail(args, "KB WARNING", f"Failed to store translation pair: {e}")
 
 
 def _remove_generated_test_skeletons(project: str, model: str, temperature) -> None:
@@ -398,12 +503,21 @@ def prompt_model(model_info, client, prompt, total_input_tokens, args, response_
         frequency_penalty=0.0,
         presence_penalty=0.0,
     )
-    if response_format:
+
+    # Only pass response_format for models known to support JSON mode reliably.
+    # deepseek-chat via OpenRouter returns empty responses when forced into
+    # json_object mode — it's better to rely on the system prompt instruction
+    # ("You output only valid JSON") and let the model respond freely.
+    models_supporting_json_mode = {"gpt-4o-2024-11-20", "gpt-4o", "gpt-4"}
+    if response_format and args.model in models_supporting_json_mode:
         kwargs["response_format"] = response_format
 
     completion = client.chat.completions.create(**kwargs)
 
     generation = completion.choices[0].message.content
+
+    if not generation:
+        generation = ""
 
     if args.model == "deepseek-coder-33b-instruct":
         if generation.strip().startswith("```"):
@@ -412,9 +526,134 @@ def prompt_model(model_info, client, prompt, total_input_tokens, args, response_
             pass
         else:
             generation = prompt + generation.strip()
-            generation = generation[generation.find("### Response:") :]
+            generation = generation[generation.find("### Response"):]
 
     return generation
+
+
+# ---------------------------------------------------------------------------
+# Part 1: Pseudocode intermediate layer (Java → pseudocode semantic bridge)
+# ---------------------------------------------------------------------------
+#
+# Generates an LLM-authored, language-agnostic pseudocode + natural-language
+# annotation block that captures the *intent* of the Java fragment. The block is
+# later injected into the translation prompt (via PromptGenerator.pseudocode_context)
+# so the translator step focuses on the target-language rendering rather than
+# re-importing Java source patterns that do not map cleanly into Cangjie.
+#
+# Returns "" on any failure so callers can treat absence gracefully.
+
+
+PSEUDOCODE_SYSTEM_PROMPT = (
+    "You are a code comprehension engine. Your job is to read a Java fragment and "
+    "describe its semantic intent and logic in language-agnostic pseudocode "
+    "annotated with natural-language comments. The pseudocode is later used as a "
+    "translation bridge to a target language. You must NOT use Java-specific "
+    "syntax or APIs. Express ALL operations in plain pseudo-statements and "
+    "accompany each block with a natural-language comment describing its purpose."
+)
+
+
+def _extract_pseudocode(generation: str) -> str:
+    """Pull the pseudocode block out of an LLM response.
+
+    Accepts either a triple-backtick fenced block or a bare block; returns the
+    trimmed inner text. If no block is found, returns the whole generation so
+    the downstream steps can still see something useful.
+    """
+    if not generation:
+        return ""
+    stripped = generation.strip()
+    # Strip leading/trailing triple-backtick fences if present.
+    if stripped.startswith("```"):
+        # Drop the leading fence (and optional language tag).
+        first_nl = stripped.find("\n")
+        if first_nl != -1:
+            stripped = stripped[first_nl + 1:]
+        else:
+            stripped = ""
+    # Strip a trailing fence if present.
+    if stripped.rstrip().endswith("```"):
+        stripped = stripped.rstrip()
+        stripped = stripped[: stripped.rfind("```")].rstrip()
+    return stripped.strip()
+
+
+def _generate_pseudocode(fragment: dict, args, model_info, client) -> str:
+    """Phase-1 LLM call: Java fragment → annotated pseudocode bridge.
+
+    Returns the pseudocode block as a string; empty string on any failure
+    (network/JSON/empty). Failures are non-fatal — translation proceeds
+    without the semantic bridge.
+    """
+    try:
+        java_code = ""
+        frag_type = fragment.get("fragment_type", "method")
+        frag_name = fragment.get("fragment_name", "")
+        actual_name = frag_name.split(":")[-1] if ":" in frag_name else frag_name
+
+        # The fragment dict does not always carry "body" directly; reuse the
+        # same source-fragment assembly strategy as PromptGenerator for symmetry.
+        # We build a throwaway PromptGenerator solely to access the assembled
+        # source_fragment_code; we set _skip_prompt_build=True so the expensive
+        # context loads (RAG / KB / generics / grammar / syntax-graph) and the
+        # full prompt build are NOT triggered — we only need the Java source.
+        prompt_gen = PromptGenerator(
+            is_feedback=False,
+            args=args,
+            fragment_details=fragment,
+            feedback="",
+            pseudocode="",  # do not recurse into pseudocode generation
+            _skip_prompt_build=True,  # only need source_fragment_code, not the prompt
+        )
+        java_code = prompt_gen.source_fragment_code or ""
+
+        if not java_code.strip():
+            return ""
+
+        user_prompt = (
+            f'JAVA FRAGMENT ({frag_type} "{actual_name}"):\n```\n{java_code}\n```\n\n'
+            "TASK: Produce a pseudocode description of the above fragment following "
+            "these rules:\n"
+            "1. Output ONE block of pseudocode inside triple backticks.\n"
+            "2. Use plain control-flow keywords (FOR / WHILE / IF / ELSE / RETURN / "
+            "BREAK) only.\n"
+            "3. Replace every Java API call with a high-level verb phrase describing "
+            "intent. Example: `Collections.sort(xs)` -> `sort xs in place`.\n"
+            "4. Each logical block MUST be preceded by a single-line comment starting "
+            "with `//` that explains the intent in natural language.\n"
+            "5. Do NOT mention Cangjie, Python, or any other target language.\n"
+            "6. Keep the same control-flow order and variable names (when meaningful).\n"
+        )
+
+        total_input_tokens = get_total_input_tokens(
+            PSEUDOCODE_SYSTEM_PROMPT + user_prompt, args, model_info
+        )
+        max_new_tokens = min(
+            model_info[args.model]["max_new_tokens"],
+            model_info[args.model]["total"] - total_input_tokens,
+        )
+        if max_new_tokens <= 0:
+            return ""
+
+        completion = client.chat.completions.create(
+            model=model_info[args.model]["model_id"],
+            messages=[
+                {"role": "system", "content": PSEUDOCODE_SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt},
+            ],
+            max_tokens=max_new_tokens,
+            temperature=args.temperature,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+        )
+        generation = completion.choices[0].message.content or ""
+        log_detail(args, "PSEUDOCODE", generation)
+        return _extract_pseudocode(generation)
+    except Exception as e:  # non-fatal: translation proceeds without bridge
+        log_detail(args, "PSEUDOCODE-ERROR", str(e))
+        return ""
 
 
 def extract_json_translation(generation: str, fragment: dict, args) -> tuple:
@@ -428,8 +667,24 @@ def extract_json_translation(generation: str, fragment: dict, args) -> tuple:
       - "reasoning": (optional) model's reasoning
       - "imports": (optional) additional imports needed
     """
+    # Guard against empty/None generation before attempting JSON parse
+    if not generation or not generation.strip():
+        return False, None, "the model returned an empty response"
+
+    # Strip markdown code fences if present — models sometimes wrap JSON
+    # in ```json ... ``` when not in strict JSON mode.
+    stripped = generation.strip()
+    if stripped.startswith("```"):
+        # Remove opening ```json or ```
+        first_newline = stripped.find("\n")
+        if first_newline != -1:
+            stripped = stripped[first_newline + 1:]
+        # Remove closing ```
+        if stripped.endswith("```"):
+            stripped = stripped[:-3].rstrip()
+
     try:
-        response = json.loads(generation)
+        response = json.loads(stripped)
     except json.JSONDecodeError as e:
         return False, None, f"the model did not output valid JSON: {e}"
 
@@ -608,11 +863,20 @@ def translate(
         shared_attempt = shared_budget_total - budget.get("cangjie_compilation", shared_budget_total) + 1
         ############################ <TRANSLATION> ############################
         with redirect_stdout_to_body_log(args):
+            # --- Part 1: Pseudocode intermediate layer -------------------------
+            # When --use_pseudocode is on, run a Java → pseudocode LLM call here
+            # and pass the result to PromptGenerator so the actual translation
+            # prompt is built around the semantic bridge rather than raw Java.
+            pseudocode = ""
+            if _as_bool(getattr(args, 'use_pseudocode', 'false')):
+                pseudocode = _generate_pseudocode(fragment, args, model_info, client)
+
             prompt_gen = PromptGenerator(
                 is_feedback=True if feedback else False,
                 args=args,
                 fragment_details=fragment,
                 feedback=feedback,
+                pseudocode=pseudocode,
             )
             prompt = prompt_gen.generate_prompt()
 
@@ -798,6 +1062,7 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            _store_translation_pair_to_kb(fragment, generation, args)
             terminal_attempt("test", shared_attempt, shared_budget_total, True, "skipped")
             terminal_result(True, "llm")
             if fragment["is_test_method"]:
@@ -823,6 +1088,7 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            _store_translation_pair_to_kb(fragment, generation, args)
             terminal_result(True, "llm")
             break
 
@@ -848,6 +1114,7 @@ def translate(
                 elapsed_time=time.time() - start_time,
             )
             update_budget(fragment, args, budget, type_="final")
+            _store_translation_pair_to_kb(fragment, generation, args)
             terminal_result(True, "llm")
             break
 
@@ -921,6 +1188,7 @@ def main(args):
     processed_fragments, pending_fragments = get_pending_fragments(
         fragment_traversal, args
     )
+    _reset_translation_skeletons_from_baseline(args.translation_dir)
 
     session_inject(args.skeleton_dir)
     try:
@@ -1036,10 +1304,39 @@ if __name__ == "__main__":
         help="Enable RAG context on compilation errors (true/false)",
     )
     parser_.add_argument(
+        "--use_progressive_kb",
+        type=str,
+        default="false",
+        help="Enable Progressive Knowledge Base for few-shot examples from verified translations (true/false)",
+    )
+    parser_.add_argument(
         "--skip_mock",
         type=str,
         default="false",
         help="Skip mock-test validation after successful Cangjie compilation (true/false)",
+    )
+    parser_.add_argument(
+        "--use_pseudocode",
+        type=str,
+        default="false",
+        help="Part 1: enable pseudocode intermediate layer (Java→pseudocode→Cangjie) "
+        "two-phase translation. Decouples Java source-syntax inheritance from "
+        "Cangjie output rendering (true/false)",
+    )
+    parser_.add_argument(
+        "--use_grammar_prompt",
+        type=str,
+        default="false",
+        help="Part 2: inject Cangjie EBNF grammar + runtime type-mapping notes into "
+        "the translation prompt as a hard-syntax-constraint block (true/false)",
+    )
+    parser_.add_argument(
+        "--use_syntax_rag",
+        type=str,
+        default="false",
+        help="Part 3: retrieve Cangjie corpus snippets whose CFG/DFG graphs are "
+        "structurally similar to the Java fragment and inject as few-shot structural "
+        "examples (true/false)",
     )
     args = parser_.parse_args()
     main(args)

@@ -355,8 +355,8 @@ python -m src.java.rag.indexer
 bash scripts/java/translate_types.sh <project> <model_name> <temperature> <suffix>
 ```
 
-- **作用：** 提取 Java 类型并翻译为 Cangjie 类型，构建类型映射。
-- **RAG 注入：** 对每个待翻译的 Java 类型，从 CangjieCorpus 检索相关文档上下文并注入到 LLM Prompt 中（`--use_rag` 默认启用）。
+- **作用：** 使用确定性类型表、`import_map`、Progressive KB 缓存和 interface shim 解析 Java 类型，构建类型映射。
+- **说明：** 类型解析阶段不再调用 LLM/RAG；复杂泛型未命中确定性规则时会记录原因并降级到静态 fallback。
 - **Python 脚本：** `src/java/type_resolution/translate_type_rag.py`
 
 ---
@@ -550,7 +550,7 @@ rm -rf /tmp/cangjie_mock/<project>            # 重新采集 Java 端日志前�
 | 模块        | 路径                                                           | 功能                                          |
 | ----------- | -------------------------------------------------------------- | --------------------------------------------- |
 | Schema 生成 | `src/java/decomposition/create_schema.py`                      | tree-sitter 解析 Java AST                     |
-| 类型翻译    | `src/java/type_resolution/translate_type_rag.py`               | RAG-based 类型映射                            |
+| 类型翻译    | `src/java/type_resolution/translate_type_rag.py`               | 确定性类型解析、KB 缓存、interface shim       |
 | 骨架生成    | `src/java/translation/create_skeleton.py`                      | 生成 Cangjie 骨架文件                         |
 | 片段翻译    | `src/java/translation/compositional_translation_validation.py` | LLM 翻译与增量验证                            |
 | 编译验证    | `src/java/translation/cangjie_compilation_validation.py`       | cjpm build 验证                               |
@@ -616,7 +616,7 @@ x2cangjie/
 │   ├── decomposition/
 │   │   └── create_schema.py     # Schema 生成（tree-sitter）
 │   ├── type_resolution/
-│   │   └── translate_type_rag.py  # RAG 类型翻译
+│   │   └── translate_type_rag.py  # 确定性类型解析
 │   ├── translation/
 │   │   ├── create_skeleton.py    # 骨架生成
 │   │   ├── compositional_translation_validation.py  # 增量翻译验证（含 RAG）

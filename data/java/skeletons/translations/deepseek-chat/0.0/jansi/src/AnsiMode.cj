@@ -7,10 +7,10 @@ package jansi
 
 public open class AnsiMode {
     // Fields Begin
-    var Strip: Any = "Strip all ansi sequences"
-    var Default: Any = "Print ansi sequences if the stream is a terminal"
+    var Strip: Any = throw Exception('TODO')
+    var Default: Any = throw Exception('TODO')
     var Force: Any = throw Exception('TODO')
-    let description: String = ""  // Already translated, compilation failed
+    var description: String = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
@@ -19,13 +19,13 @@ public open class AnsiMode {
     }
 
     public open func getDescription(): String {
-                return this.description
+        throw Exception('TODO')
     }
 
     // Methods End
 
     protected init() {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 }
 

@@ -2,24 +2,22 @@
 package jansi
 
 // Imports Begin
-import std.collection.ArrayList
-import std.core.*
-import std.core.String
+
 // Imports End
 
 public open class Ansi {
     // Fields Begin
     static let DISABLE: String = throw Exception('TODO')
-    static var detector: Any = throw Exception('TODO')
-    static let holder: ThreadLocal<Bool> = throw Exception('TODO')
+    static var detector: () -> Bool = throw Exception('TODO')
+    static let holder: InheritableThreadLocal<Bool> = throw Exception('TODO')
     static let FIRST_ESC_CHAR: Rune = throw Exception('TODO')
     static let SECOND_ESC_CHAR: Rune = throw Exception('TODO')
-    let builder: Any = throw Exception('TODO')
-    let attributeOptions: ArrayList<Int64> = throw Exception('TODO')
+    var builder: Any = throw Exception('TODO')
+    var attributeOptions: ArrayList<Int32> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public static func setDetector(detector: Any): Unit {
+    public static func setDetector<Boolean>(detector_param: () -> Bool): Unit {
         throw Exception('TODO')
     }
 
@@ -39,11 +37,11 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public static func ansi1(builder: Any): Ansi {
+    public static func ansi1(builder_param: Any): Ansi {
         throw Exception('TODO')
     }
 
-    public static func ansi2(size: Int64): Ansi {
+    public static func ansi2(size: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -55,11 +53,11 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public static func Ansi2(size: Int64): Ansi {
+    public static func Ansi2(size: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public init(constructorId: Int64, builder: Any, parent: Ansi) {
+    public init(constructorId: Int32, builder_param: Any, parent: Ansi) {
         throw Exception('TODO')
     }
 
@@ -67,15 +65,15 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func fg1(color: Int64): Ansi {
+    public open func fg1(color: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func fgRgb0(color: Int64): Ansi {
+    public open func fgRgb0(color: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func fgRgb1(r: Int64, g: Int64, b: Int64): Ansi {
+    public open func fgRgb1(r: Int32, g: Int32, b: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -115,15 +113,15 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func bg1(color: Int64): Ansi {
+    public open func bg1(color: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func bgRgb0(color: Int64): Ansi {
+    public open func bgRgb0(color: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func bgRgb1(r: Int64, g: Int64, b: Int64): Ansi {
+    public open func bgRgb1(r: Int32, g: Int32, b: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -219,31 +217,31 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursor(row: Int64, column: Int64): Ansi {
+    public open func cursor(row: Int32, column: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursorToColumn(x: Int64): Ansi {
+    public open func cursorToColumn(x: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursorUp(y: Int64): Ansi {
+    public open func cursorUp(y: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursorDown(y: Int64): Ansi {
+    public open func cursorDown(y: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursorRight(x: Int64): Ansi {
+    public open func cursorRight(x: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursorLeft(x: Int64): Ansi {
+    public open func cursorLeft(x: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursorMove(x: Int64, y: Int64): Ansi {
+    public open func cursorMove(x: Int32, y: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -251,7 +249,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursorDownLine1(n: Int64): Ansi {
+    public open func cursorDownLine1(n: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -259,7 +257,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func cursorUpLine1(n: Int64): Ansi {
+    public open func cursorUpLine1(n: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -279,11 +277,11 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func scrollUp(rows: Int64): Ansi {
+    public open func scrollUp(rows: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func scrollDown(rows: Int64): Ansi {
+    public open func scrollDown(rows: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -339,7 +337,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func a4(value: Array<Rune>, offset: Int64, len: Int64): Ansi {
+    public open func a4(value: Array<Rune>, offset: Int32, len: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -347,11 +345,11 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func a6(value: String, start: Int64, end: Int64): Ansi {
+    public open func a6(value: Any, start: Int32, end: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func a7(value: String): Ansi {
+    public open func a7(value: Any): Ansi {
         throw Exception('TODO')
     }
 
@@ -363,7 +361,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func a10(value: Int64): Ansi {
+    public open func a10(value: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -375,7 +373,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func a13(value: StringBuilder): Ansi {
+    public open func a13(value: Any): Ansi {
         throw Exception('TODO')
     }
 
@@ -407,7 +405,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    private func appendEscapeSequence1(command: Rune, option: Int64): Ansi {
+    private func appendEscapeSequence1(command: Rune, option: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -423,19 +421,19 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func append(csq: String): Ansi {
+    public open func append(csq: Any): Ansi {
         throw Exception('TODO')
     }
 
-    public open func append0(csq: String): Ansi {
+    public open func append0(csq: Any): Ansi {
         throw Exception('TODO')
     }
 
-    public open func append(csq: String, start: Int64, end: Int64): Ansi {
+    public open func append(csq: Any, start: Int32, end: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func append1(csq: String, start: Int64, end: Int64): Ansi {
+    public open func append1(csq: Any, start: Int32, end: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -465,12 +463,12 @@ public open class Color {
     var CYAN: Any = throw Exception('TODO')
     var WHITE: Any = throw Exception('TODO')
     var DEFAULT: Any = throw Exception('TODO')
-    let value: Int64 = throw Exception('TODO')
-    let name: String = throw Exception('TODO')
+    var value: Int32 = throw Exception('TODO')
+    var name: String = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    init(index: Int64, name: String) {
+    init(index: Int32, name: String) {
         throw Exception('TODO')
     }
 
@@ -478,23 +476,23 @@ public open class Color {
         throw Exception('TODO')
     }
 
-    public open func value_method(): Int64 {
+    public open func value_method(): Int32 {
         throw Exception('TODO')
     }
 
-    public open func fg(): Int64 {
+    public open func fg(): Int32 {
         throw Exception('TODO')
     }
 
-    public open func bg(): Int64 {
+    public open func bg(): Int32 {
         throw Exception('TODO')
     }
 
-    public open func fgBright(): Int64 {
+    public open func fgBright(): Int32 {
         throw Exception('TODO')
     }
 
-    public open func bgBright(): Int64 {
+    public open func bgBright(): Int32 {
         throw Exception('TODO')
     }
 
@@ -513,8 +511,8 @@ public open class Attribute {
     var NEGATIVE_OFF: Any = throw Exception('TODO')
     var CONCEAL_OFF: Any = throw Exception('TODO')
     var STRIKETHROUGH_OFF: Any = throw Exception('TODO')
-    let value: Int64 = throw Exception('TODO')
-    let name: String = throw Exception('TODO')
+    var value: Int32 = throw Exception('TODO')
+    var name: String = throw Exception('TODO')
     var RESET: Any = throw Exception('TODO')
     var INTENSITY_BOLD: Any = throw Exception('TODO')
     var INTENSITY_FAINT: Any = throw Exception('TODO')
@@ -530,7 +528,7 @@ public open class Attribute {
     // Fields End
 
     // Methods Begin
-    init(index: Int64, name: String) {
+    init(index: Int32, name: String) {
         throw Exception('TODO')
     }
 
@@ -538,7 +536,7 @@ public open class Attribute {
         throw Exception('TODO')
     }
 
-    public open func value_method(): Int64 {
+    public open func value_method(): Int32 {
         throw Exception('TODO')
     }
 
@@ -554,12 +552,12 @@ public open class Erase {
     var FORWARD: Any = throw Exception('TODO')
     var BACKWARD: Any = throw Exception('TODO')
     var ALL: Any = throw Exception('TODO')
-    let value: Int64 = throw Exception('TODO')
-    let name: String = throw Exception('TODO')
+    var value: Int32 = throw Exception('TODO')
+    var name: String = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    init(index: Int64, name: String) {
+    init(index: Int32, name: String) {
         throw Exception('TODO')
     }
 
@@ -567,7 +565,7 @@ public open class Erase {
         throw Exception('TODO')
     }
 
-    public open func value_method(): Int64 {
+    public open func value_method(): Int32 {
         throw Exception('TODO')
     }
 
@@ -587,7 +585,7 @@ public interface Ansi_Consumer {
     // Methods End
 }
 
-private open class Ansi_NoAnsi <: Ansi {
+open class Ansi_NoAnsi <: Ansi {
     // Fields Begin
     // Fields End
 
@@ -617,19 +615,19 @@ private open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    public override func fg1(color: Int64): Ansi {
+    public override func fg1(color: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func fgRgb1(r: Int64, g: Int64, b: Int64): Ansi {
+    public override func fgRgb1(r: Int32, g: Int32, b: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func bg1(color: Int64): Ansi {
+    public override func bg1(color: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func bgRgb1(r: Int64, g: Int64, b: Int64): Ansi {
+    public override func bgRgb1(r: Int32, g: Int32, b: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -637,27 +635,27 @@ private open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursor(row: Int64, column: Int64): Ansi {
+    public override func cursor(row: Int32, column: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorToColumn(x: Int64): Ansi {
+    public override func cursorToColumn(x: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorUp(y: Int64): Ansi {
+    public override func cursorUp(y: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorRight(x: Int64): Ansi {
+    public override func cursorRight(x: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorDown(y: Int64): Ansi {
+    public override func cursorDown(y: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorLeft(x: Int64): Ansi {
+    public override func cursorLeft(x: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -665,7 +663,7 @@ private open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorDownLine1(n: Int64): Ansi {
+    public override func cursorDownLine1(n: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -673,7 +671,7 @@ private open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    public override func cursorUpLine1(n: Int64): Ansi {
+    public override func cursorUpLine1(n: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -693,11 +691,11 @@ private open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    public override func scrollUp(rows: Int64): Ansi {
+    public override func scrollUp(rows: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public override func scrollDown(rows: Int64): Ansi {
+    public override func scrollDown(rows: Int32): Ansi {
         throw Exception('TODO')
     }
 

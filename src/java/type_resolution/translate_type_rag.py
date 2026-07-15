@@ -1,18 +1,22 @@
 import argparse
-import contextlib
 import json
 import os
 import re
-import yaml
-import subprocess
-import tempfile
 from datetime import datetime
-from src.java.model.model import Model
-from jinja2 import Template
 
-from src.java.rag import get_rag_engine
+import yaml
+from openai import OpenAI
+
+from src.java.progressive_kb import get_progressive_kb
+from src.java.generics_rule_lib import get_generics_rule_lib
+from src.java.type_resolution.interface_shim import InterfaceShimRegistry
+from src.java.type_resolution.type_expression import (
+    build_default_type_map,
+    get_cangjie_type as deterministic_get_cangjie_type,
+    is_known_type_expression,
+    is_type_parameter,
+)
 from src.java.utils.get_custom_types import (
-    dedupe_preserve_order,
     get_custom_type_translation_map,
     get_custom_types,
     save_custom_types,
@@ -39,49 +43,6 @@ def _is_test_schema_name(schema_file):
     )
 
 
-class TypePromptGenerator:
-    def __init__(self, context_code_snippet, fragment_type, source_type, source_type_description, type_variation, prompt_type, source_language, target_language, feedback):
-        self.context_code_snippet = context_code_snippet
-        self.fragment_type = fragment_type
-        self.source_type = source_type if type_variation in ['FIELD TYPE', 'RETURN TYPE', 'METHOD BODY TYPE'] else source_type['type']
-        self.source_type_description = source_type_description
-        self.type_variation = type_variation
-        self.prompt_type = prompt_type
-        self.source_language = source_language
-        self.target_language = target_language
-        self.feedback = feedback
-        self.prompt = ''
-
-        self.prompt_template_config = yaml.safe_load(open('configs/prompt_templates.yaml', 'r'))
-
-    def generate_prompt(self):
-        self.prompt += self.add_instance_prompt()
-        self.prompt += '\n\n'
-        if self.feedback != '':
-            self.prompt += self.add_feedback_prompt()
-            self.prompt += '\n\n'
-        self.prompt += self.add_response_format_prompt()
-        return self.prompt
-
-    def add_instance_prompt(self):
-        template = Template(self.prompt_template_config['templates'][f'type_resolution_{self.prompt_type}_instance'])
-        return template.render(**self.__dict__)
-
-    def add_feedback_prompt(self):
-        template = Template(self.prompt_template_config['templates'][f'type_resolution_{self.prompt_type}_feedback'])
-        return template.render(**self.__dict__)
-
-    def add_response_format_prompt(self):
-        template = Template(self.prompt_template_config['templates'][f'type_resolution_{self.prompt_type}_response_format'])
-        return template.render(**self.__dict__)
-
-
-class Interaction:
-    def __init__(self, role, content):
-        self.role = role
-        self.content = content
-
-
 class Result:
     def __init__(self):
         self.identifier = ''
@@ -96,47 +57,6 @@ class Result:
         self.reasoning = ''
         self.prompt = ''
         self.feedback = ''
-
-
-class Parser:
-    def extract_imports(self, text):
-        pattern = re.search(r'CANGJIE IMPORTS:\s*```(?:cangjie)?\s*(.*?)\s*```', text, re.DOTALL)
-        return pattern.group(1).strip() if pattern else None
-
-    def extract_translation(self, text):
-        pattern = re.search(r'CANGJIE TRANSLATION:\s*```(?:cangjie)?\s*(.*?)\s*```', text, re.DOTALL)
-        return pattern.group(1).strip() if pattern else None
-
-    def extract_reasoning(self, text):
-        pattern = re.search(r'REASONING:\s*(.*?)(?=\n\n|$)', text, re.DOTALL)
-        return pattern.group(1).strip() if pattern else None
-
-    def parse_response(self, generation):
-        imports = self.extract_imports(generation)
-        translation = self.extract_translation(generation)
-        reasoning = self.extract_reasoning(generation)
-        return imports, translation, reasoning
-
-
-def get_source_type_description(source_type):
-    source_type = source_type.strip()
-    if '[' in source_type:
-        source_type = source_type.split('[')[0]
-    if '<' in source_type:
-        source_type = source_type.split('<')[0]
-    type_documentation = {}
-    with open('data/java/crawl/java.base_module_doc.json') as f:
-        type_documentation = json.load(f)
-
-    for module_name in type_documentation:
-        for package_name in type_documentation[module_name]:
-            for class_name in type_documentation[module_name][package_name]:
-                if source_type in type_documentation[module_name][package_name][class_name]:
-                    if 'description' in type_documentation[module_name][package_name][class_name][source_type]:
-                        return type_documentation[module_name][package_name][class_name][source_type]['description']
-                    return ''
-
-    return ''
 
 
 def append_result(data, class_, fragment_type, fragment, type_variation, type_, result):
@@ -203,154 +123,290 @@ def terminal_type_status(index, total, source_type, target_type, passed, reason)
     print(f'[type {index:0{width}d}/{total:0{width}d}] {icon} {source_type} -> {target} | {reason}', flush=True)
 
 
-def fallback_type_for(source_type):
-    if source_type and source_type.endswith('[]'):
-        return 'Array<Any>'
-    return 'Any'
+def _is_type_parameter(source_type):
+    """Backward-compatible wrapper around the shared type-parameter detector."""
+    return is_type_parameter(source_type)
 
 
-def _cangjie_stub_name(type_name):
-    simple_name = type_name.split('.')[-1]
-    simple_name = re.sub(r'[^0-9A-Za-z_]', '_', simple_name)
-    if not simple_name:
+def _has_balanced_generic_brackets(source_type):
+    """Return True when the type string contains a balanced generic argument list."""
+    if not source_type or '<' not in source_type or '>' not in source_type:
+        return False
+
+    depth = 0
+    saw_generic = False
+    for char in str(source_type):
+        if char == '<':
+            depth += 1
+            saw_generic = True
+        elif char == '>':
+            depth -= 1
+            if depth < 0:
+                return False
+    return saw_generic and depth == 0
+
+
+def _generic_complexity_reason(source_type):
+    """Classify generic syntax that should not be swallowed by interface shims."""
+    if not _has_balanced_generic_brackets(source_type):
         return ''
-    if simple_name[0].isdigit():
-        simple_name = f'_{simple_name}'
-    return simple_name
+
+    text = str(source_type).strip()
+    base = text.split('<', 1)[0].split('.')[-1].strip()
+    if re.search(r'<[^>]*\?[^>]*<|<[^>]*<[^>]*\?|\w+\s*<\s*\w+\s*<\s*\?', text):
+        return 'nested_wildcard'
+    if re.search(r'\?\s+extends\b', text):
+        return 'upper_bounded_wildcard'
+    if re.search(r'\?\s+super\b', text):
+        return 'lower_bounded_wildcard'
+    if re.search(r'<\s*\?\s*>', text):
+        return 'unbounded_wildcard'
+    if base == 'Class':
+        return 'type_token'
+    if base in {'Stream', 'Collector', 'Collectors', 'CompletableFuture'}:
+        return 'semantic_generic_api'
+    if re.search(r'\bextends\b[^<>&]*&', text):
+        return 'intersection_bound'
+    if re.search(r'\b([A-Z]\w*)\s+extends\s+Comparable\s*<\s*\1\s*>', text):
+        return 'recursive_bound'
+    return ''
 
 
-def update_universal_type_map(source_type, translated_type, map_file='data/java/type_resolution/universal_type_map_final.json'):
-    """
-    Update the universal type map with successful translations.
-    If a source type is already recorded, do not overwrite it.
+def _match_generics_rules(generics_lib, source_type, log_path):
+    """Return (matched_rules, reason) for unresolved generic types."""
+    if not generics_lib or not _has_balanced_generic_brackets(source_type):
+        return [], ''
 
-    Args:
-        source_type (str): Original Java type
-        translated_type (str): Translated Cangjie type
-        map_file (str): Path to the universal type map JSON file
-    """
-    # Load existing map
-    type_map = {}
-    if os.path.exists(map_file):
-        try:
-            with open(map_file, 'r') as f:
-                type_map = json.load(f)
-        except (json.JSONDecodeError, IOError):
-            type_map = {}
+    generics_rules = generics_lib.match_rules_for_type(source_type, top_k=2)
+    complexity_reason = _generic_complexity_reason(source_type)
+    if not generics_rules and complexity_reason:
+        generics_lib._ensure_loaded()
+        reason_to_subcategories = {
+            'upper_bounded_wildcard': {'upper_bounded_wildcard'},
+            'lower_bounded_wildcard': {'lower_bounded_wildcard'},
+            'unbounded_wildcard': {'unbounded_wildcard'},
+            'nested_wildcard': {'nested_wildcard'},
+            'intersection_bound': {'multi_constraint'},
+            'recursive_bound': {'recursive_constraint', 'recursive_bound'},
+        }
+        wanted = reason_to_subcategories.get(complexity_reason, set())
+        generics_rules = [
+            rule for rule in generics_lib.rules
+            if rule.get('subcategory') in wanted
+        ][:2]
 
-    # Only add if not already recorded
-    if source_type not in type_map:
-        type_map[source_type] = translated_type
-        # Ensure directory exists
-        os.makedirs(os.path.dirname(map_file), exist_ok=True)
-        # Save updated map
-        with open(map_file, 'w') as f:
-            json.dump(type_map, f, indent=4)
-    return type_map.get(source_type, translated_type)
+    if generics_rules:
+        log_detail(
+            log_path,
+            f'GENERICS RULE {source_type}',
+            f'Matched {len(generics_rules)} rules: {[r["id"] for r in generics_rules]}',
+        )
+    return generics_rules, complexity_reason
 
 
-def is_type_loadable(import_stmt, type_name, custom_classes=None):
-    """
-    Validates if a type can be loaded or used in the Cangjie type system
-    by attempting to compile a test program using cjc.
+def _strip_json_fence(text):
+    stripped = (text or '').strip()
+    if stripped.startswith('```'):
+        first_newline = stripped.find('\n')
+        if first_newline != -1:
+            stripped = stripped[first_newline + 1:]
+        if stripped.endswith('```'):
+            stripped = stripped[:-3].rstrip()
+    return stripped
 
-    Args:
-        import_stmt (str): The import statement needed to access the type, or empty if built-in
-        type_name (str): The name of the type to validate
-        custom_classes (list, optional): List of custom class names to treat as valid types
 
-    Returns:
-        tuple: (bool, str) indicating if the type can be loaded and an error message if applicable
-    """
-    if isinstance(type_name, str):
-        if "#" in type_name:
-            return False, 'invalid type name'
+def _build_complex_generic_prompt(
+    source_type,
+    fragment_body,
+    type_variation,
+    type_info,
+    generics_rules,
+    generic_reason,
+    generics_lib,
+):
+    rule_context = ''
+    if generics_rules and generics_lib:
+        rule_context = generics_lib.format_rule_prompt(generics_rules, max_rules=3)
 
-    type_name = type_name.strip() if type_name else ''
-    import_stmt = import_stmt.strip() if import_stmt else ''
-    custom_classes = custom_classes or []
+    type_location = type_variation
+    if isinstance(type_info, dict):
+        name = type_info.get('name', '')
+        modifier = type_info.get('modifier', '')
+        if name or modifier:
+            type_location = f'{type_variation}: {modifier} {name}'.strip()
 
-    if import_stmt == '' and type_name == '':
-        return False, 'no type translation has been provided'
+    return f"""You are translating one Java type expression to Cangjie for a Java-to-Cangjie type-resolution pipeline.
 
-    # Generate stub class definitions for custom types so cjc can resolve them
-    custom_stubs = ''
-    for simple_name in dedupe_preserve_order(
-        (_cangjie_stub_name(cls) for cls in custom_classes),
-    ):
-        if not simple_name:
-            continue
-        # Cangjie doesn't support nested classes; use only the simple name.
-        custom_stubs += f'class {simple_name} {{}}\n'
+Return ONLY valid JSON, no markdown.
 
-    # Generate Cangjie test program - simplified validation
-    cangjie_program = f"""package test
-
-{import_stmt}
-
-{custom_stubs}
-main(): Int64 {{
-    let _test_val: {type_name}
-    0
+JSON schema:
+{{
+  "target_type": "the Cangjie type expression to write into the schema",
+  "reasoning": "brief reason",
+  "imports": "optional imports, empty string if none"
 }}
+
+Source Java type:
+{source_type}
+
+Type location:
+{type_location}
+
+Complex generic reason:
+{generic_reason or "matched_generics_rule"}
+
+Java fragment context:
+```java
+{fragment_body}
+```
+
+{rule_context}
+
+Instructions:
+- Apply the matched generics rules when they fit.
+- Prefer Cangjie type syntax, not Java syntax.
+- For Java wildcard upper bounds such as List<? extends Number>, introduce a type variable when needed and preserve the bound in the returned type expression if it is representable.
+- For Java wildcard lower bounds such as List<? super Integer>, use the Cangjie projection form shown by the rules when applicable.
+- If the exact Java construct requires a method/class-level where clause and cannot be represented as a plain inline type, return the closest usable Cangjie type expression and explain the missing declaration-level constraint in reasoning.
+- Do not return a full method, field, or class.
 """
 
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.cj', delete=False, dir='/tmp') as f:
-        f.write(cangjie_program)
-        temp_file = f.name
+
+def _translate_complex_generic_with_llm(
+    source_type,
+    fragment_body,
+    type_variation,
+    type_info,
+    generics_rules,
+    generic_reason,
+    generics_lib,
+    model_client,
+    model_cfg,
+    args,
+    log_path,
+):
+    if model_client is None or model_cfg is None:
+        return None, 'model_not_initialized'
+
+    prompt = _build_complex_generic_prompt(
+        source_type=source_type,
+        fragment_body=fragment_body,
+        type_variation=type_variation,
+        type_info=type_info,
+        generics_rules=generics_rules,
+        generic_reason=generic_reason,
+        generics_lib=generics_lib,
+    )
+    messages = [
+        {
+            'role': 'system',
+            'content': 'You are a Java to Cangjie type translation expert. You output only valid JSON.',
+        },
+        {'role': 'user', 'content': prompt},
+    ]
+
+    kwargs = {
+        'model': model_cfg['model_id'],
+        'messages': messages,
+        'max_tokens': min(1024, model_cfg.get('max_new_tokens', 1024)),
+        'temperature': getattr(args, 'temperature', 0.0),
+        'top_p': 1.0,
+        'frequency_penalty': 0.0,
+        'presence_penalty': 0.0,
+    }
+    if args.model_name in {'gpt-4o-2024-11-20', 'gpt-4o', 'gpt-4'}:
+        kwargs['response_format'] = {'type': 'json_object'}
 
     try:
-        # Compile check using cjc (run in /tmp so main/test.cjo don't pollute project root)
-        result = subprocess.run(
-            ["cjc", temp_file],
-            capture_output=True,
-            timeout=60,
-            cwd="/tmp",
-        )
+        completion = model_client.chat.completions.create(**kwargs)
+        generation = completion.choices[0].message.content or ''
+    except Exception as exc:
+        return None, f'llm_request_failed: {exc}'
 
-        if result.returncode != 0:
-            error_output = result.stdout.decode('utf-8') if result.stdout else result.stderr.decode('utf-8') if result.stderr else "Unknown error"
-            return False, f'Cangjie compilation error: {error_output}'
+    log_detail(log_path, f'LLM COMPLEX GENERIC PROMPT {source_type}', prompt)
+    log_detail(log_path, f'LLM COMPLEX GENERIC GENERATION {source_type}', generation)
 
-        return True, ''
+    try:
+        parsed = json.loads(_strip_json_fence(generation))
+    except json.JSONDecodeError as exc:
+        return None, f'llm_invalid_json: {exc}'
 
-    except subprocess.CalledProcessError as e:
-        error_output = e.stdout.decode('utf-8') if e.stdout else e.stderr.decode('utf-8') if e.stderr else "Unknown error"
-        return False, f'Cangjie compilation error: {error_output}'
+    target_type = str(parsed.get('target_type') or parsed.get('type') or '').strip()
+    if not target_type:
+        return None, 'llm_empty_target_type'
 
-    except FileNotFoundError:
-        return False, 'cjc compiler not found - please ensure Cangjie SDK is installed'
+    return {
+        'target_type': target_type,
+        'reasoning': str(parsed.get('reasoning') or '').strip(),
+        'imports': str(parsed.get('imports') or '').strip(),
+        'generation': generation,
+        'prompt': prompt,
+    }, ''
 
-    except subprocess.TimeoutExpired:
-        return False, 'Cangjie compilation timed out'
 
-    finally:
-        if os.path.exists(temp_file):
-            os.remove(temp_file)
+def fallback_type_for(source_type):
+    """Determine a fallback Cangjie type for a Java type when no other mapping is available.
 
+    Deterministic type-expression translation uses the java.base map.
+    Generics language mechanisms that cannot be reduced to a concrete type
+    expression still fall back to Any when the LLM path is off or exhausted.
+    """
+    if not source_type:
+        return 'Any'
+
+    stripped = source_type.strip()
+    static_type_map = build_default_type_map()
+    if not is_known_type_expression(stripped, static_type_map):
+        return 'Any'
+    translated = deterministic_get_cangjie_type(stripped, static_type_map)
+    return translated or 'Any'
 
 def main(args):
     log_path = init_type_resolution_log(args)
 
-    # Load fixed type map from JSON (more accurate than old hardcoded JAVA_TO_CANGJIE_PRIMITIVES)
-    FIXED_TYPE_MAP = {}
-    fixed_map_path = "data/java/type_resolution/fixed_type_map.json"
-    if os.path.exists(fixed_map_path):
-        with open(fixed_map_path, 'r') as f:
-            FIXED_TYPE_MAP = json.load(f)
-    log_detail(log_path, 'CONFIG', f'Loaded {len(FIXED_TYPE_MAP)} entries from fixed_type_map.json')
+    STATIC_TYPE_MAP = build_default_type_map()
+    log_detail(log_path, 'CONFIG', f'Loaded {len(STATIC_TYPE_MAP)} deterministic type entries')
 
-    # Load universal type map as cache to avoid re-translating already-seen types
-    UNIVERSAL_TYPE_MAP = {}
-    universal_map_path = "data/java/type_resolution/universal_type_map_final.json"
-    if os.path.exists(universal_map_path):
-        with open(universal_map_path, 'r') as f:
-            UNIVERSAL_TYPE_MAP = json.load(f)
-    log_detail(log_path, 'CONFIG', f'Loaded {len(UNIVERSAL_TYPE_MAP)} entries from universal_type_map_final.json as cache')
+    model_client = None
+    model_cfg = None
+    try:
+        model_info = yaml.safe_load(open("configs/model_configs.yaml", "r"))["models"]
+        model_cfg = model_info.get(args.model_name)
+        if model_cfg:
+            model_client = OpenAI(
+                **{
+                    k: v
+                    for k, v in model_cfg.items()
+                    if k in ["api_key", "base_url", "default_headers"]
+                }
+            )
+            log_detail(log_path, 'CONFIG', f'LLM enabled for complex generics: {args.model_name}')
+        else:
+            log_detail(log_path, 'CONFIG', f'LLM config missing for model: {args.model_name}')
+    except Exception as e:
+        log_detail(log_path, 'CONFIG', f'LLM init failed for complex generics: {e}')
 
-    model_info = yaml.safe_load(open('configs/model_configs.yaml', 'r'))['models']
+    # Initialize Progressive Knowledge Base (if enabled)
+    kb = None
+    if getattr(args, 'use_progressive_kb', 'false') == 'true':
+        try:
+            kb = get_progressive_kb()
+            kb.ensure_dirs()
+            log_detail(log_path, 'CONFIG', f'Progressive KB enabled: {kb.pair_count} pairs, {kb.type_mapping_count} type mappings')
+        except Exception as e:
+            log_detail(log_path, 'CONFIG', f'Progressive KB init failed (will proceed without): {e}')
+            kb = None
+
+    # Initialize Generics Rule Library (always loaded; lightweight memoization)
+    generics_lib = None
+    try:
+        generics_lib = get_generics_rule_lib()
+        log_detail(log_path, 'CONFIG', f'Generics Rule Lib loaded: {generics_lib.rule_count} rules, {generics_lib.container_count} container mappings')
+    except Exception as e:
+        log_detail(log_path, 'CONFIG', f'Generics Rule Lib init failed (will proceed without): {e}')
+        generics_lib = None
+
     args.schema_dir = f'data/java/schemas{args.suffix}/{args.model_name}/{args.temperature}/{args.project_name}'
-    model = Model(model_info=model_info[args.model_name])
     include_tests = _should_include_test_sources(args)
     total_types = count_pending_type_translations(args.schema_dir, include_tests=include_tests)
     processed_types = 0
@@ -362,6 +418,12 @@ def main(args):
     save_custom_types(args.project_name, custom_types)
     log_detail(log_path, 'CUSTOM TYPES', f'Loaded {len(custom_types)} custom types')
 
+    shim_registry = InterfaceShimRegistry(
+        args.project_name,
+        cjpm_name=args.project_name.replace('-', '_'),
+        deterministic_type_map={**STATIC_TYPE_MAP, **custom_type_map},
+    )
+
     for schema_file in os.listdir(args.schema_dir):
         if _is_test_schema_name(schema_file) and not include_tests:
             continue
@@ -369,6 +431,13 @@ def main(args):
         data = {}
         with open(f'{args.schema_dir}/{schema_file}', 'r') as f:
             data = json.load(f)
+        import_map = data.get('import_map', {}) if isinstance(data.get('import_map', {}), dict) else {}
+        shim_registry.set_import_map(import_map)
+        schema_type_map = {**STATIC_TYPE_MAP, **custom_type_map}
+        for short_name, full_name in import_map.items():
+            mapped = deterministic_get_cangjie_type(full_name, schema_type_map)
+            if is_known_type_expression(full_name, schema_type_map):
+                schema_type_map.setdefault(short_name, mapped)
 
         for class_ in data['classes']:
             for fragment_type in ['field', 'method']:
@@ -384,9 +453,6 @@ def main(args):
                         elif fragment_type == 'method' and type_variation == 'types':
                             continue
 
-                        interaction_history = []
-                        feedback = ''
-                        budget = args.budget
                         i = 0
                         while i < len(data['classes'][class_][f'{fragment_type}s'][fragment][type_variation]):
 
@@ -395,40 +461,9 @@ def main(args):
 
                             if data['classes'][class_][f'{fragment_type}s'][fragment]['type_translations'][type_variation][type_identifier]['translated']:
                                 i += 1
-                                interaction_history = []
-                                feedback = ''
-                                budget = args.budget
                                 continue
 
                             source_type = type_ if type_variation in ['types', 'return_types', 'body_types'] else type_["type"]
-
-                            if budget == 0:
-                                fallback_type = fallback_type_for(source_type)
-                                result = Result()
-                                result.attempted = True
-                                result.identifier = type_identifier
-                                result.translated = True
-                                result.type_variation = type_variation
-                                result.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                                result.source_type = source_type
-                                result.translated_target_type = fallback_type
-                                result.feedback = feedback
-                                fallback_type = update_universal_type_map(source_type, fallback_type)
-                                result.translated_target_type = fallback_type
-                                append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
-                                save_results(data, args.schema_dir, schema_file)
-                                processed_types += 1
-                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:budget_exhausted')
-                                log_detail(log_path, f'FALLBACK budget_exhausted {source_type}', feedback)
-                                i += 1
-                                interaction_history = []
-                                feedback = ''
-                                budget = args.budget
-                                continue
-
-                            if interaction_history == []:
-                                initial_interaction = Interaction(role='system', content='You are a helpful assistant.')
-                                interaction_history.append(initial_interaction)
 
                             result = Result()
                             result.attempted = True
@@ -438,29 +473,38 @@ def main(args):
                             result.timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                             result.source_type = source_type
 
-                            # Check if it's a known fixed type, custom type, or already cached in universal map
-                            if source_type in custom_types or source_type in FIXED_TYPE_MAP or source_type in UNIVERSAL_TYPE_MAP:
+                            generics_rules, generic_reason = _match_generics_rules(
+                                generics_lib,
+                                source_type,
+                                log_path,
+                            )
+                            unresolved_generic = _has_balanced_generic_brackets(source_type)
+                            complex_generic = bool(generic_reason or generics_rules)
+
+                            deterministic_type = deterministic_get_cangjie_type(source_type, schema_type_map)
+                            has_deterministic_type = is_known_type_expression(source_type, schema_type_map)
+
+                            # Check if it's a known fixed/java.base type, custom type,
+                            # or a deterministic expression such as List<String> or int[].
+                            if (
+                                source_type in custom_types
+                                or source_type in STATIC_TYPE_MAP
+                                or has_deterministic_type
+                            ):
                                 result.translated = True
-                                if source_type in UNIVERSAL_TYPE_MAP:
-                                    result.translated_target_type = UNIVERSAL_TYPE_MAP[source_type]
-                                elif source_type in FIXED_TYPE_MAP:
-                                    result.translated_target_type = FIXED_TYPE_MAP.get(source_type)
+                                if source_type in STATIC_TYPE_MAP or has_deterministic_type:
+                                    result.translated_target_type = deterministic_type
                                 else:
                                     result.translated_target_type = custom_type_map.get(source_type, source_type)
-                                # Record successful translation
-                                result.translated_target_type = update_universal_type_map(source_type, result.translated_target_type)
                                 append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                                 i += 1
-                                interaction_history = []
-                                feedback = ''
-                                budget = args.budget
 
                                 save_results(data, args.schema_dir, schema_file)
                                 processed_types += 1
-                                if source_type in UNIVERSAL_TYPE_MAP:
-                                    reason = 'cached'
-                                elif source_type in FIXED_TYPE_MAP:
-                                    reason = 'fixed_map'
+                                if source_type in STATIC_TYPE_MAP:
+                                    reason = 'java_base_map'
+                                elif has_deterministic_type:
+                                    reason = 'deterministic_type_expression'
                                 else:
                                     reason = 'custom_type'
                                 terminal_type_status(processed_types, total_types, source_type, result.translated_target_type, True, reason)
@@ -468,139 +512,114 @@ def main(args):
 
                                 continue
 
-                            # Skip LLM translation if use_llm is false — only fixed_type_map and custom types are used
-                            if args.use_llm == 'false':
-                                fallback_type = fallback_type_for(source_type)
+                            if '|' in source_type or '&' in source_type:
                                 result.translated = True
-                                result.translated_target_type = fallback_type
-                                result.feedback = 'LLM translation disabled and no fixed/custom mapping was found'
-                                fallback_type = update_universal_type_map(source_type, fallback_type)
-                                result.translated_target_type = fallback_type
+                                result.translated_target_type = 'Any'
+                                result.feedback = 'Unsupported Java type expression; not a concrete type name for interface shim generation'
                                 append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                                 save_results(data, args.schema_dir, schema_file)
                                 processed_types += 1
-                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:llm_disabled')
-                                log_detail(log_path, f'FALLBACK llm_disabled {source_type}', result.feedback)
+                                terminal_type_status(processed_types, total_types, source_type, 'Any', False, 'fallback:unsupported_type_expression')
+                                log_detail(log_path, f'FALLBACK unsupported_type_expression {source_type}', result.feedback)
                                 i += 1
-                                interaction_history = []
-                                feedback = ''
-                                budget = args.budget
                                 continue
 
-                            source_type_description = get_source_type_description(source_type)
+                            # Unresolved generic expressions should not be swallowed by
+                            # interface shims. Concrete generic containers have already
+                            # been handled by deterministic_type_expression above; the
+                            # remaining generic cases are either semantic APIs, wildcard
+                            # forms, or unknown generic bases that need rule/LLM handling.
+                            if unresolved_generic:
+                                log_detail(
+                                    log_path,
+                                    f'SKIP SHIM generic {source_type}',
+                                    f'reason={generic_reason or ("generics_rule" if generics_rules else "unresolved_generic")}',
+                                )
 
-                            # RAG context injection for type resolution (only when both use_llm and use_rag are true)
-                            rag_context = ""
-                            if args.use_rag == 'true' and args.use_llm == 'true':
-                                try:
-                                    with open(log_path, 'a') as log_file, contextlib.redirect_stdout(log_file):
-                                        rag_engine = get_rag_engine()
-                                        rag_ctx = rag_engine.inject_type_context(source_type)
-                                    if rag_ctx:
-                                        rag_context = rag_ctx
-                                except Exception as e:
-                                    log_detail(log_path, f'RAG WARNING {source_type}', f'Type RAG injection failed: {e}')
+                                if generics_rules or generic_reason:
+                                    llm_result, llm_error = _translate_complex_generic_with_llm(
+                                        source_type=source_type,
+                                        fragment_body=fragment_body,
+                                        type_variation=type_variation,
+                                        type_info=type_,
+                                        generics_rules=generics_rules,
+                                        generic_reason=generic_reason,
+                                        generics_lib=generics_lib,
+                                        model_client=model_client,
+                                        model_cfg=model_cfg,
+                                        args=args,
+                                        log_path=log_path,
+                                    )
+                                    if llm_result:
+                                        result.translated = True
+                                        result.translated_target_type = llm_result['target_type']
+                                        result.reasoning = llm_result['reasoning']
+                                        result.imports = llm_result['imports']
+                                        result.generation = llm_result['generation']
+                                        result.prompt = llm_result['prompt']
+                                        append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
+                                        i += 1
+                                        save_results(data, args.schema_dir, schema_file)
+                                        processed_types += 1
+                                        terminal_type_status(processed_types, total_types, source_type, result.translated_target_type, True, 'llm:complex_generic')
+                                        log_detail(log_path, f'PASS llm:complex_generic {source_type}', f'{source_type} -> {result.translated_target_type}')
+                                        continue
+                                    log_detail(log_path, f'LLM COMPLEX GENERIC FAILED {source_type}', llm_error)
 
-                            prompt_generator = TypePromptGenerator(
-                                fragment_body,
-                                fragment_type,
-                                type_,
-                                source_type_description,
-                                type_variations[type_variation],
-                                args.prompt_type,
-                                args.source_language,
-                                args.target_language,
-                                feedback
-                            )
-                            prompt = prompt_generator.generate_prompt()
-                            if rag_context:
-                                prompt = rag_context + "\n\n" + prompt
+                            if not unresolved_generic:
+                                shim_type = shim_registry.translate_or_create(
+                                    source_type,
+                                    fragment_body=fragment_body,
+                                    type_variation=type_variation,
+                                    type_info=type_,
+                                )
+                                if shim_type:
+                                    result.translated = True
+                                    result.imports = shim_registry.import_line
+                                    result.translated_target_type = shim_type
+                                    result.reasoning = 'generated_interface_shim'
+                                    append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
+                                    i += 1
 
-                            interaction = Interaction(role='user', content=prompt)
-                            interaction_history.append(interaction)
+                                    save_results(data, args.schema_dir, schema_file)
+                                    processed_types += 1
+                                    terminal_type_status(processed_types, total_types, source_type, shim_type, True, 'generated_interface_shim')
+                                    log_detail(log_path, f'PASS generated_interface_shim {source_type}', f'{source_type} -> {shim_type}')
+                                    continue
 
-                            log_detail(log_path, f'PROMPT {source_type}', prompt)
+                            # --- Progressive KB: check verified type mapping cache ---
+                            if kb is not None:
+                                kb_mapping = kb.get_type_mapping(source_type)
+                                if kb_mapping and kb_mapping.verified:
+                                    result.translated = True
+                                    result.translated_target_type = kb_mapping.cangjie_type
+                                    result.imports = '\n'.join(kb_mapping.imports) if kb_mapping.imports else None
+                                    append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
+                                    i += 1
+                                    save_results(data, args.schema_dir, schema_file)
+                                    processed_types += 1
+                                    terminal_type_status(processed_types, total_types, source_type, result.translated_target_type, True, 'progressive_kb_cache')
+                                    log_detail(log_path, f'PASS progressive_kb_cache {source_type}', f'{source_type} -> {result.translated_target_type}')
+                                    continue
 
-                            messages = model.get_messages(interaction_history)
-                            with open(log_path, 'a') as log_file, contextlib.redirect_stdout(log_file):
-                                status, generation = model.prompt_model(messages)
-
-                            result.generation = generation
-                            result.prompt = prompt
-                            append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
-                            save_results(data, args.schema_dir, schema_file)
-
-                            if not status:
-                                fallback_type = fallback_type_for(source_type)
-                                result.translated = True
-                                result.translated_target_type = fallback_type
-                                result.feedback = generation
-                                fallback_type = update_universal_type_map(source_type, fallback_type)
-                                result.translated_target_type = fallback_type
-                                append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
-                                save_results(data, args.schema_dir, schema_file)
-                                processed_types += 1
-                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:model_error')
-                                log_detail(log_path, f'FALLBACK model_error {source_type}', generation)
-                                i += 1
-                                interaction_history = []
-                                feedback = ''
-                                budget = args.budget
-                                continue
-
-                            interaction = Interaction(role='system', content=generation)
-                            interaction_history.append(interaction)
-                            log_detail(log_path, f'GENERATION {source_type}', generation)
-
-                            try:
-                                imports, translation, reasoning = Parser().parse_response(generation)
-                            except BaseException:
-                                feedback = 'Your response did not follow the RESPONSE FORMAT guidelines. Make sure you follow the RESPONSE FORMAT in your new response.'
-                                log_detail(log_path, f'PARSE ERROR {source_type}', feedback)
-                                budget -= 1
-                                continue
-
-                            if imports is None and translation is None and reasoning is None:
-                                feedback = 'Your response did not follow the RESPONSE FORMAT guidelines. Make sure you follow the RESPONSE FORMAT in your new response.'
-                                log_detail(log_path, f'PARSE ERROR {source_type}', feedback)
-                                budget -= 1
-                                continue
-
-                            if isinstance(translation, str):
-                                if "#" in translation:
-                                    translation = translation.split('#', 1)[0].strip()
-
-                            # Validate type using Cangjie compilation
-                            validation_result, feedback = is_type_loadable(imports or '', translation, custom_classes=custom_types)
-                            if not validation_result:
-                                log_detail(log_path, f'CJC VALIDATION FAILED {source_type}', feedback)
-                                budget -= 1
-                                continue
-
-                            # Type validation passes
+                            fallback_type = fallback_type_for(source_type)
+                            fallback_is_meaningful = fallback_type != 'Any'
                             result.translated = True
-                            result.imports = imports
-                            result.translated_target_type = translation
-                            result.reasoning = reasoning
-
-                            # Record successful translation
-                            translation = update_universal_type_map(source_type, translation)
-                            result.translated_target_type = translation
-                            log_detail(
-                                log_path,
-                                f'PASS llm {source_type}',
-                                f'IMPORTS:\n{imports}\n\nTRANSLATION:\n{translation}\n\nREASONING:\n{reasoning}',
-                            )
-
+                            result.translated_target_type = fallback_type
+                            if unresolved_generic:
+                                result.feedback = f'Unresolved generic type; no dynamic translation path is enabled. reason={generic_reason or "unresolved_generic"}'
+                            else:
+                                result.feedback = 'No deterministic, Progressive KB, or interface shim mapping was found'
                             append_result(data, class_, fragment_type, fragment, type_variation, type_, result)
                             i += 1
-                            interaction_history = []
-                            feedback = ''
-                            budget = args.budget
-
                             save_results(data, args.schema_dir, schema_file)
                             processed_types += 1
-                            terminal_type_status(processed_types, total_types, source_type, translation, True, 'llm')
+                            if fallback_is_meaningful:
+                                terminal_type_status(processed_types, total_types, source_type, fallback_type, True, 'rule_lib:static_map')
+                                log_detail(log_path, f'PASS rule_lib:static_map {source_type}', f'{source_type} -> {fallback_type}')
+                            else:
+                                terminal_type_status(processed_types, total_types, source_type, fallback_type, False, 'fallback:no_type_mapping')
+                                log_detail(log_path, f'FALLBACK no_type_mapping {source_type}', result.feedback)
 
 
 if __name__ == '__main__':
@@ -610,12 +629,7 @@ if __name__ == '__main__':
     parser.add_argument('--temperature', type=float, dest='temperature', help='temperature for generation')
     parser.add_argument('--suffix', type=str, dest='suffix', help='suffix for schema files')
     parser.add_argument('--debug', action='store_true', dest='debug', help='debug mode')
-    parser.add_argument('--prompt_type', type=str, dest='prompt_type', help='prompt type')
-    parser.add_argument('--source_language', type=str, dest='source_language', help='source language')
-    parser.add_argument('--target_language', type=str, dest='target_language', help='target language')
-    parser.add_argument('--budget', type=int, dest='budget', help='budget for each type translation')
-    parser.add_argument('--use_llm', type=str, default='true', help='Enable LLM translation for unknown types (true/false). If false, only fixed_type_map and custom types are used.')
-    parser.add_argument('--use_rag', type=str, default='false', help='Enable RAG context injection for type resolution (true/false). Only takes effect when use_llm is also true.')
+    parser.add_argument('--use_progressive_kb', type=str, default='false', help='Enable Progressive Knowledge Base type mapping cache (true/false).')
     parser.add_argument('--translate_tests', type=str, default='false', help='Include src/test Java schemas in type translation (true/false).')
     args = parser.parse_args()
     main(args)

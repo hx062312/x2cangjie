@@ -183,6 +183,8 @@ def remove_invalid_content(content):
                 "intArray0[1] = 2463",
                 "CLibrary.tcsetattr",
                 'urlValidator0.countToken("", "")',
+                'Languages.getInstance1("ch")',
+                'Lang.loadFromResource("ch"',
             )):
                 method_has_bad_content = True
 
