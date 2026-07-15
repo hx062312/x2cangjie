@@ -41,19 +41,68 @@ _TEMPLATE_PATH = os.path.normpath(_TEMPLATE_PATH)
 
 _FALLBACK_GRAMMAR = """\
 ### Cangjie Grammar Reference (EBNF excerpt — must obey in output)
-var_decl      ::= "let" IDENT ":" TYPE "=" EXPR | "var" IDENT ":" TYPE "=" EXPR
-func_decl     ::= "func" IDENT "(" [ PARAMS ] ")" [ ":" TYPE ] "{" STMTS "}"
-class_decl    ::= ("class" | "abstract class" | "open class") IDENT [ GENERICS ] [ ":" SUPERTYPES ] "{" MEMBERS "}"
-GENERICS      ::= "<" TYPE_PARAM { "," TYPE_PARAM } ">"
-TYPE_PARAM    ::= IDENT [ "where" IDENT "<:" TYPE ]
-match_stmt    ::= "match" "(" EXPR ")" "{" { CASE "=>" BLOCK } "}"
+# Distilled from Cangjie language spec Appendix A (official BNF, v0.53.12).
+
+# Type
+type         ::= arrowType | tupleType | prefixType | atomicType
+arrowType    ::= "(" [ type { "," type } ] ")" "->" type
+prefixType   ::= "?" type
+atomicType   ::= numericType | "Rune" | "Bool" | "Unit" | "Nothing" | "This" | userType
+numericType  ::= "Int8" | "Int16" | "Int32" | "Int64" | "IntNative"
+              | "UInt8" | "UInt16" | "UInt32" | "UInt64" | "UIntNative"
+              | "Float16" | "Float32" | "Float64"
+userType     ::= (identifier ".")* identifier ["<" type { "," type } ">"]
+
+# Variable
+var_decl     ::= variableModifier* ("let" | "var" | "const") IDENT [":" type] ["=" expression]
+
+# Function
+func_def     ::= funcModifier* "func" identifier [typeParameters] functionParameters [":" type] [genericConstraints] [block]
+funcParams   ::= "(" [unnamedParam {"," unnamedParam} ["," namedParam {"," namedParam}]] ")"
+unnamedParam ::= (identifier | "_") ":" type
+namedParam   ::= identifier "!" ":" type
+genericConstraints ::= "where" (identifier | "This") "<:" type { "&" type }
+
+# Class / interface / struct / enum
+class_def    ::= classModifier* "class" identifier [typeParameters] ["<:" superClassOrInterfaces] [genericConstraints] classBody
+classModifier::= "public" | "protected" | "internal" | "private" | "abstract" | "open"
+interface_def::= interfaceModifier* "interface" identifier [typeParameters] ["<:" superInterfaces] [genericConstraints] interfaceBody
+interfaceModifier ::= "public" | "protected" | "internal" | "private" | "open"
+struct_def   ::= structModifier* "struct" identifier [typeParameters] ["<:" superInterfaces] [genericConstraints] structBody
+enum_def     ::= enumModifier* "enum" identifier [typeParameters] ["<:" superInterfaces] [genericConstraints] "{" enumBody "}"
+
+# Constructor
+class_init   ::= (classNonStaticMemberModifier | "const")? "init" functionParameters block
+
+# Control flow
+if_expr      ::= "if" "(" [ "let" deconstructPattern "<-" ]? expression ")" block ["else" (if_expr | block)]
+for_in_expr  ::= "for" "(" patternsMaybeIrrefutable "in" expression [patternGuard] ")" block
+while_expr   ::= "while" "(" [ "let" deconstructPattern "<-" ]? expression ")" block
+do_while_expr::= "do" block "while" "(" expression ")"
+try_expr     ::= "try" block ("catch" "(" catchPattern ")" block)+ ["finally" block]
+match_expr   ::= "match" "(" expression ")" "{" matchCase+ "}"
+matchCase    ::= "case" pattern [patternGuard] "=>" expressionOrDeclaration
+return_expr  ::= "return" [expression]
+
+# Lambda (Cangjie uses => not Java ->)
+lambda_expr  ::= "{" [lambdaParameters] "=>" expressionOrDeclarations? "}"
+lambdaParameter ::= (identifier | "_") [":" type]
+
+# Patterns
+pattern      ::= constantPattern | "_" | identifier | tuplePattern | typePattern | enumPattern
+tuplePattern ::= "(" pattern ("," pattern)+ ")"
+typePattern  ::= ("_" | identifier) ":" type
+enumPattern  ::= [(userType ".") identifier enumPatternParams?]
+
 Constraints:
   G1. Generic bounds: `where T <: Bound` (NOT extends/super). No wildcards.
-  G2. Annotation-site variance: `out T` / `in T`.
+  G2. Declaration-site variance: `out T` / `in T`.
   G3. `Any` does NOT satisfy `Hashable & Equatable<T>` — use `AnyHashable` for any
       HashMap key / HashSet element type.
   G4. Boolean type is `Bool` (not `boolean`); `Unit` for void functions.
   G5. String interpolation: `"${expr}"`, not Java String.format / `"%" + x`.
+  G6. In match expression: `case pattern => body` (DOUBLE_ARROW), NOT `case x: body`.
+  G7. Lambda uses `=>` inside `{ }`: `{ params => body }`. Java `->` is for function types only.
 """
 
 _FALLBACK_RUNTIME = """\
