@@ -366,34 +366,89 @@ templates:
   # ------------------------------------------------------------------
   cangjie_grammar_context: |-
     ### Cangjie Grammar Reference (EBNF excerpt — must obey in output)
-    The following grammar rules describe Cangjie syntax you MUST follow. Treat each
-    rule as a hard constraint on the generated Cangjie code; deviations cause compile
-    errors. The EBNF uses `|` for alternation, `[ ]` for optional, `{ }` for zero-or-more.
+    The following grammar rules are distilled from the Cangjie language spec
+    Appendix A (official BNF, v0.53.12). Treat each rule as a hard constraint on the
+    generated Cangjie code; deviations cause compile errors. The EBNF uses `|` for
+    alternation, `[ ]` for optional, `{ }` for zero-or-more, `( )` for grouping.
 
-    ########## Type & variable declarations ##########
-    var_decl      ::= "let" IDENT ":" TYPE "=" EXPR          # immutable
-                    | "var" IDENT ":" TYPE "=" EXPR          # mutable
-    TYPE          ::= IDENT [ "<" TYPE { "," TYPE } ">" ]
-    func_decl     ::= "func" IDENT "(" [ PARAMS ] ")" [ ":" TYPE ] "{" STMTS "}"
-    PARAMS        ::= PARAM { "," PARAM }
-    PARAM         ::= IDENT ":" TYPE
-    field_decl    ::= [ "public" | "private" | "protected" | "static" ] (var_decl | func_decl)
+    ########## Variable declaration (var / let / const) ##########
+    var_decl      ::= variableModifier* ("let" | "var" | "const") IDENT [":" type]
+                      [ "=" expression ]
+    variableModifier ::= "public" | "private" | "protected" | "internal" | "static"
 
-    ########## Class / interface / enum ##########
-    class_decl    ::= ("class" | "abstract class" | "open class") IDENT [ GENERIC_PARAMS ] [ ":" SUPERTYPE { "," SUPERTYPE } ] "{" MEMBERS "}"
-    interface_decl::= "interface" IDENT [ GENERIC_PARAMS ] "{" MEMBER_SIGS "}"
-    GENERIC_PARAMS::= "<" TYPE_PARAM { "," TYPE_PARAM } ">"
-    TYPE_PARAM    ::= IDENT [ "where" IDENT "<:" TYPE ]
+    ########## Type (including generic instantiation) ##########
+    type          ::= arrowType | tupleType | prefixType | atomicType
+    arrowType     ::= "(" [ type { "," type } ] ")" "->" type        # function type
+    tupleType     ::= "(" type ("," type)+ ")"                       # 2+ element tuple
+    prefixType    ::= "?" type                                       # Option<T> sugar
+    atomicType    ::= numericType | "Rune" | "Bool" | "Unit" | "Nothing" | "This" | userType
+    numericType   ::= "Int8" | "Int16" | "Int32" | "Int64" | "IntNative"
+                    | "UInt8" | "UInt16" | "UInt32" | "UInt64" | "UIntNative"
+                    | "Float16" | "Float32" | "Float64"
+    userType      ::= (identifier ".")* identifier ["<" type { "," type } ">"]
 
-    ########## Control flow ##########
-    if_stmt       ::= "if" "(" COND ")" BLOCK [ "else" BLOCK | "else if" "(" COND ")" BLOCK ]
-    while_stmt    ::= "while" "(" COND ")" BLOCK
-    for_stmt      ::= "for" "(" IDENT [ ":" TYPE ] "in" EXPR ")" BLOCK
-    match_stmt    ::= "match" "(" EXPR ")" "{" { CASE_PATTERN "=>" BLOCK } "}"
-    return_stmt   ::= "return" [ EXPR ]
+    ########## Function definition ##########
+    func_def      ::= funcModifier* "func" identifier [typeParameters]
+                      functionParameters [":" type] [genericConstraints] [block]
+    operatorFunc  ::= funcModifier* "operator" "func" overloadedOperator [typeParameters]
+                      functionParameters [":" type] [genericConstraints] [block]
+    funcParams    ::= "(" [unnamedParam { "," unnamedParam } ["," namedParam { "," namedParam }]] ")"
+                    | "(" [namedParam { "," namedParam }] ")"
+    unnamedParam  ::= (identifier | "_") ":" type
+    namedParam    ::= identifier "!" ":" type            # "!" = named (not positional)
+    funcModifier  ::= "public" | "private" | "protected" | "internal"
+                    | "static" | "open" | "override" | "redef" | "abstract" | "foreign"
+
+    ########## Class / interface / struct / enum ##########
+    class_def     ::= classModifier* "class" identifier [typeParameters]
+                      ["<:" superClassOrInterfaces] [genericConstraints] classBody
+    interface_def ::= interfaceModifier* "interface" identifier [typeParameters]
+                      ["<:" superInterfaces] [genericConstraints] interfaceBody
+    struct_def    ::= structModifier* "struct" identifier [typeParameters]
+                      ["<:" superInterfaces] [genericConstraints] structBody
+    enum_def      ::= enumModifier* "enum" identifier [typeParameters]
+                      ["<:" superInterfaces] [genericConstraints] "{" enumBody "}"
+    typeParameters::= "<" identifier { "," identifier } ">"
+    genericConstraints ::= "where" (identifier | "This") "<:" upperBounds
+                              { "," (identifier | "This") "<:" upperBounds }
+    upperBounds   ::= type { "&" type }
+    classModifier ::= "public" | "protected" | "internal" | "private" | "abstract" | "open"
+    interfaceModifier ::= "public" | "protected" | "internal" | "private" | "open"
+
+    ########## Constructor ##########
+    class_init    ::= (classNonStaticMemberModifier | "const")? "init" functionParameters block
+    struct_init   ::= (structNonStaticMemberModifier | "const")? "init" functionParameters block
+
+    ########## Control flow expressions ##########
+    if_expr       ::= "if" "(" [ "let" deconstructPattern "<-" ]? expression ")" block
+                      [ "else" (if_expr | block) ]
+    for_in_expr   ::= "for" "(" patternsMaybeIrrefutable "in" expression [patternGuard] ")" block
+    while_expr    ::= "while" "(" [ "let" deconstructPattern "<-" ]? expression ")" block
+    do_while_expr ::= "do" block "while" "(" expression ")"
+    try_expr      ::= "try" block ("catch" "(" catchPattern ")" block)+ ["finally" block]
+                    | "try" "(" resourceSpecifications ")" block ("catch" "(" catchPattern ")" block)* ["finally" block]
+    match_expr    ::= "match" "(" expression ")" "{" matchCase+ "}"
+                    | "match" "{" ("case" (expression | "_") "=>" expressionOrDeclaration end+)+ "}"
+    matchCase     ::= "case" pattern [patternGuard] "=>" expressionOrDeclaration (end+ expressionOrDeclaration?)*
+    patternGuard  ::= "where" expression
+    return_expr   ::= "return" [expression]
+    throw_expr    ::= "throw" expression
+
+    ########## Lambda / closures ##########
+    lambda_expr   ::= "{" [lambdaParameters] "=>" expressionOrDeclarations? "}"
+    lambdaParams  ::= lambdaParameter { "," lambdaParameter }
+    lambdaParameter ::= (identifier | "_") [":" type]    # Cangjie uses "=>" NOT Java "->"
+
+    ########## Patterns (for match / for-in) ##########
+    pattern       ::= constantPattern | "_" | identifier | tuplePattern | typePattern | enumPattern
+    tuplePattern  ::= "(" pattern ("," pattern)+ ")"
+    typePattern   ::= ("_" | identifier) ":" type
+    enumPattern   ::= [(userType ".") identifier enumPatternParams?]
+                      { "|" [(userType ".") identifier enumPatternParams?] }
+    enumPatternParams ::= "(" pattern { "," pattern } ")"
 
     ########## Hard semantic constraints (must satisfy to compile) ##########
-    G1. Generic bounds use `where T <: Bound`, NOT extends/super. There is no wildcard.
+    G1. Generic bounds use `where T <: Bound`, NOT Java `extends`/`super`. No wildcard `?`.
     G2. Declaration-site variance via `out T` (covariant) / `in T` (contravariant);
         use-site `?` / `~` is NOT supported — use type projection `~T` only on the
         generic method side.
@@ -402,11 +457,15 @@ templates:
         (import from the project's AnyHashable.cj).
     G4. Integer / float literals carry type suffix to disambiguate from Int32 default;
         prefer `Int64`/`UInt64`/`Float64` and annotate explicitly.
-    G5. Boolean type is `Bool`, not `boolean`. The nullability marker is `?` (e.g. `String?`).
-    G6. String interpolation: `"${expr}"`, not Java `"%" + x` or String.format.
+    G5. Boolean type is `Bool`, NOT `boolean`. The nullability marker is `?` (e.g. `String?`).
+    G6. String interpolation: `"${expr}"`, NOT Java `"%" + x` or String.format.
     G7. Unit (void) functions: declare return type `Unit` explicitly when side-effect free,
         omit `return` or `return None`.
     G8. Operator overloading uses `operator func`; equality is `func operator func ==(rhs: Self): Bool`.
+    G9. In match expression, `case` is followed by a pattern then `=>` (DOUBLE_ARROW),
+        NOT Java `:`. Match arms are separated by newlines, not commas.
+    G10. Lambda uses `=>` inside `{ }` braces: `{ params => body }`. Java arrow `->` is NOT used
+        for lambdas; `->` is reserved for function types `(T) -> R`.
 
   cangjie_grammar_runtime_note: |-
     RUNTIME NOTES (names you MUST NOT use; equivalent mappings):
