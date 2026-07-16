@@ -10,6 +10,7 @@ Adapted from progressive_kb_reference.py with production integration changes:
 import json
 import re
 import hashlib
+import os
 from pathlib import Path
 from dataclasses import dataclass, field, asdict
 from typing import Optional
@@ -610,14 +611,19 @@ class ProgressiveKB:
 # ==============================================================
 
 _global_kb: ProgressiveKB | None = None
+_global_kb_storage_dir: str | None = None
 
 
 def get_progressive_kb(
-    storage_dir: str = "data/java/progressive_kb",
+    storage_dir: str | None = None,
 ) -> ProgressiveKB:
     """Get or create the global ProgressiveKB singleton."""
-    global _global_kb
-    if _global_kb is None:
-        _global_kb = ProgressiveKB(storage_dir=storage_dir)
+    global _global_kb, _global_kb_storage_dir
+    resolved_dir = storage_dir or os.environ.get(
+        "X2CANGJIE_PROGRESSIVE_KB_DIR", "data/java/progressive_kb"
+    )
+    if _global_kb is None or _global_kb_storage_dir != resolved_dir:
+        _global_kb = ProgressiveKB(storage_dir=resolved_dir)
         _global_kb.ensure_dirs()
+        _global_kb_storage_dir = resolved_dir
     return _global_kb

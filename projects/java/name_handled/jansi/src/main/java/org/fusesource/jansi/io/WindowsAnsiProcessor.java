@@ -26,7 +26,6 @@ import static org.fusesource.jansi.internal.Kernel32.BACKGROUND_BLUE;
 import static org.fusesource.jansi.internal.Kernel32.BACKGROUND_GREEN;
 import static org.fusesource.jansi.internal.Kernel32.BACKGROUND_INTENSITY;
 import static org.fusesource.jansi.internal.Kernel32.BACKGROUND_RED;
-import static org.fusesource.jansi.internal.Kernel32.Kernel32_CHAR_INFO;
 import static org.fusesource.jansi.internal.Kernel32.FOREGROUND_BLUE;
 import static org.fusesource.jansi.internal.Kernel32.FOREGROUND_GREEN;
 import static org.fusesource.jansi.internal.Kernel32.FOREGROUND_INTENSITY;
@@ -35,6 +34,7 @@ import static org.fusesource.jansi.internal.Kernel32.FillConsoleOutputAttribute;
 import static org.fusesource.jansi.internal.Kernel32.FillConsoleOutputCharacterW;
 import static org.fusesource.jansi.internal.Kernel32.GetConsoleScreenBufferInfo;
 import static org.fusesource.jansi.internal.Kernel32.GetStdHandle;
+import static org.fusesource.jansi.internal.Kernel32.Kernel32_CHAR_INFO;
 import static org.fusesource.jansi.internal.Kernel32.Kernel32_SMALL_RECT;
 import static org.fusesource.jansi.internal.Kernel32.STD_ERROR_HANDLE;
 import static org.fusesource.jansi.internal.Kernel32.STD_OUTPUT_HANDLE;
@@ -97,9 +97,9 @@ public final class WindowsAnsiProcessor extends AnsiProcessor {
     private short savedX = -1;
     private short savedY = -1;
 
-    public WindowsAnsiProcessor(OutputStream ps, long console) throws IOException {
+    public WindowsAnsiProcessor(OutputStream ps, long console_param) throws IOException {
         super(ps);
-        this.console = console;
+        this.console = console_param;
         getConsoleInfo();
         originalColors = info.attributes;
     }

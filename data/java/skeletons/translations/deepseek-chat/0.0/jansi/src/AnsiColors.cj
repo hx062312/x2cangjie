@@ -19,7 +19,7 @@ public open class AnsiColors {
     }
 
     public open func getDescription(): String {
-                return this.description
+        throw Exception('TODO')
     }
 
     // Methods End

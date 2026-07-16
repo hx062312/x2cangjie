@@ -55,10 +55,6 @@ public open class CLibrary {
         throw Exception('TODO')
     }
 
-    public static func ioctl(filedes: Int32, request: Int64, params: Array<Int32>): Int32 {
-        throw Exception('TODO')
-    }
-
     public static func ioctl(filedes: Int32, request: Int64, params: CLibrary_WinSize): Int32 {
         throw Exception('TODO')
     }
@@ -87,15 +83,15 @@ public open class CLibrary_WinSize {
         throw Exception('TODO')
     }
 
-    public init() {
-        throw Exception('TODO')
-    }
-
-    public init(ws_row: Int16, ws_col: Int16) {
+    public init(ws_row_param: Int16, ws_col_param: Int16) {
         throw Exception('TODO')
     }
 
     // Methods End
+
+    protected init() {
+        throw Exception('TODO')
+    }
 }
 
 public open class CLibrary_Termios {

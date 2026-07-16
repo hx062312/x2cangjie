@@ -86,38 +86,40 @@
                     "type_translations": {
                         "return_types": {
                             "OptionGroup": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "OptionGroup",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "OptionGroup",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "OptionGroup",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {
                             "final|Option|option": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "final|Option|option",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "Option",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Option",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
                     },
-                    "translation": "optionMap[option.getKey()] = option\nreturn this",
+                    "translation": "this.optionMap[option.getKey()] = option\nreturn this",
                     "translation_status": "completed",
                     "syntactic_validation": "pending",
                     "cangjie_compilation": {
@@ -125,13 +127,13 @@
                         "message": "Compilation successful"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 6.00470757484436,
-                    "generation_timestamp": "2026-05-25T16:09:16.143914",
+                    "elapsed_time": 9.471484422683716,
+                    "generation_timestamp": "2026-07-16T16:28:10.378595",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
                     "needs_open": false,
-                    "partial_translation": "optionMap[option.getKey()] = option\nreturn this",
+                    "partial_translation": "this.optionMap[option.getKey()] = option\nreturn this",
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -139,7 +141,7 @@
                     },
                     "final_budget": {
                         "syntactic": 4,
-                        "cangjie_compilation": 2,
+                        "cangjie_compilation": 3,
                         "test_execution": 4
                     }
                 },
@@ -172,24 +174,25 @@
                     "type_translations": {
                         "return_types": {
                             "Collection<String>": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Collection<String>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "Collection<String>",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "ArrayList<String>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {},
                         "types": {}
                     },
-                    "translation": "return optionMap.keys().toArray()",
+                    "translation": "return ArrayList<String>(this.optionMap.keys())",
                     "translation_status": "completed",
                     "syntactic_validation": "pending",
                     "cangjie_compilation": {
@@ -197,13 +200,13 @@
                         "message": "Compilation successful"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 2.107064723968506,
-                    "generation_timestamp": "2026-05-25T16:09:18.280428",
+                    "elapsed_time": 6.174139499664307,
+                    "generation_timestamp": "2026-07-16T16:28:16.582376",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
                     "needs_open": false,
-                    "partial_translation": "return optionMap.keys().toArray()",
+                    "partial_translation": "return ArrayList<String>(this.optionMap.keys())",
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -244,38 +247,47 @@
                     "type_translations": {
                         "return_types": {
                             "Collection<Option>": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Collection<Option>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "Collection<Option>",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "ArrayList<Option>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {},
                         "types": {}
                     },
-                    "translation": "return optionMap.values()",
-                    "translation_status": "completed",
+                    "translation": [
+                        "    public open func getOptions<Option>(): ArrayList<Option> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
                     "cangjie_compilation": {
-                        "outcome": "success",
-                        "message": "Compilation successful"
+                        "outcome": "error",
+                        "message": "Compilation failed: --- cjc stderr ---\n\u001b[31merror\u001b[0m: expected declaration, found keyword 'return'\n \u001b[36m==>\u001b[0m /tmp/tmpiod3029v.cj:1:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m1\u001b[0m \u001b[36m| \u001b[0mreturn ArrayList<Option>(this.optionMap.values())\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n1 error generated, 1 error printed.\n\n--- cjc stdout ---\n"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 2.0033669471740723,
-                    "generation_timestamp": "2026-05-25T16:09:20.312298",
+                    "elapsed_time": 16.138667345046997,
+                    "generation_timestamp": "2026-07-16T16:28:32.746062",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
                     "needs_open": false,
-                    "partial_translation": "return optionMap.values()",
+                    "partial_translation": [
+                        "    public open func getOptions<Option>(): ArrayList<Option> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
                     "original_budget": {
                         "syntactic": 4,
                         "cangjie_compilation": 4,
@@ -283,7 +295,7 @@
                     },
                     "final_budget": {
                         "syntactic": 4,
-                        "cangjie_compilation": 4,
+                        "cangjie_compilation": 1,
                         "test_execution": 4
                     }
                 },
@@ -310,17 +322,18 @@
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
@@ -335,8 +348,8 @@
                         "message": "Compilation successful"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 1.9372990131378174,
-                    "generation_timestamp": "2026-05-25T16:09:22.278918",
+                    "elapsed_time": 15.705959558486938,
+                    "generation_timestamp": "2026-07-16T16:28:48.472737",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -376,17 +389,18 @@
                     "type_translations": {
                         "return_types": {
                             "boolean": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
@@ -401,8 +415,8 @@
                         "message": "Compilation successful"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 1.9764182567596436,
-                    "generation_timestamp": "2026-05-25T16:09:24.283896",
+                    "elapsed_time": 5.194039821624756,
+                    "generation_timestamp": "2026-07-16T16:28:53.687750",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -448,33 +462,35 @@
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {
                             "final|boolean|required_param": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "final|boolean|required_param",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -487,8 +503,8 @@
                         "message": "Compilation successful"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 2.167734146118164,
-                    "generation_timestamp": "2026-05-25T16:09:26.476340",
+                    "elapsed_time": 5.285179138183594,
+                    "generation_timestamp": "2026-07-16T16:28:58.998483",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -558,33 +574,35 @@
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {
                             "final|Option|option": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "final|Option|option",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "Option",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Option",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -598,11 +616,11 @@
                     "syntactic_validation": "pending",
                     "cangjie_compilation": {
                         "outcome": "error",
-                        "message": "Compilation failed: error: invalid binary operator '==' on type 'Class-Option' and 'Class-Option'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:42:28:\n   | \n42 |                 if (option == Option()) {\n   |                            ^^ \n   | \n   # note: you may want to implement 'operator func ==(right: Class-Option)' for type 'Class-Option'\nerror: extra arguments given for parameter list '()' in call\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:47:39:\n   | \n47 |         throw AlreadySelectedException(this, option)\n   |                                       ^^^^^^^^^^^^^^ expected 0 arguments, found 2\n   | \nnote: found candidate\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/AlreadySelectedException.cj:41:15:\n   |"
+                        "message": "Compilation failed: error: invalid binary operator '==' on type 'Class-Option' and 'Class-Option'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:44:28:\n   | \n44 |                 if (option == Option()) {\n   |                            ^^ \n   | \n   # note: you may want to implement 'operator func ==(right: Class-Option)' for type 'Class-Option'\nerror: the object thrown must derive from `core.Exception`\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:49:9:\n   | \n49 |         throw AlreadySelectedException.AlreadySelectedException1(this, option)\n   |         ^ \n   |"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 11.544028043746948,
-                    "generation_timestamp": "2026-05-25T16:26:35.117800",
+                    "elapsed_time": 19.78738808631897,
+                    "generation_timestamp": "2026-07-16T17:11:03.462105",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -733,58 +751,62 @@
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "StringBuilder": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "StringBuilder",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "StringBuilder",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "StringBuilder",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Iterator<Option>": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Iterator<Option>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "Iterator<Option>",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Iterator<Option>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Option": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Option",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "Option",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Option",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -799,11 +821,11 @@
                     "syntactic_validation": "pending",
                     "cangjie_compilation": {
                         "outcome": "error",
-                        "message": "Compilation failed: error: 'hasNext' is not a member of class 'Iterator<Class-Option>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:49:21:\n   | \n49 |         while (iter.hasNext()) {\n   |                     ^^^^^^^ \n   |\nerror: 'getOpt' is not a member of enum 'Option<Class-Option>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:51:20:\n   | \n51 |         if (option.getOpt() != null) {\n   |                    ^^^^^^ \n   |\nerror: undeclared identifier 'null'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:51:32:\n   | \n51 |         if (option.getOpt() != null) {\n   |                                ^ \n   |\nerror: 'getOpt' is not a member of enum 'Option<Class-Option>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:53:28:\n   | \n53 |         buff.append(option.getOpt())\n   |                            ^^^^^^ \n   |\nerror: 'getLongOpt' is not a member of enum 'Option<Class-Option>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:56:28:\n   | \n56 |         buff.append(option.getLongOpt())\n   |                            ^^^^^^^^^^ \n   |"
+                        "message": "Compilation failed: error: unable to infer generic argument of this function\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:49:23:\n   | \n49 |         let options = getOptions()\n   |                       ^^^^^^^^^^ \n   | \nnote: no information known for type variable 'Generics-Option'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:27:33:\n   |"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 11.322728395462036,
-                    "generation_timestamp": "2026-05-25T16:09:37.821691",
+                    "elapsed_time": 32.956449031829834,
+                    "generation_timestamp": "2026-07-16T16:29:31.974243",
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
@@ -847,17 +869,18 @@
                         "parameters": {},
                         "types": {
                             "long": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "long",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "long",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int64",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -892,21 +915,22 @@
                         "parameters": {},
                         "types": {
                             "Map<String, Option>": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Map<String, Option>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "Map<String, Option>",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "HashMap<String, Option>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
-                    "translation": "let optionMap: HashMap<String, Option> = HashMap<String, Option>()",
+                    "translation": "var optionMap: HashMap<String, Option> = HashMap<String, Option>()",
                     "translation_status": "completed",
                     "syntactic_validation": "pending",
                     "cangjie_compilation": {
@@ -914,10 +938,10 @@
                         "message": "Compilation successful"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 4.3092286586761475,
-                    "generation_timestamp": "2026-05-25T16:09:06.127758",
+                    "elapsed_time": 9.572457551956177,
+                    "generation_timestamp": "2026-07-16T16:27:49.141333",
                     "model_name": "",
-                    "partial_translation": "let optionMap: HashMap<String, Option> = HashMap<String, Option>()",
+                    "partial_translation": "var optionMap: HashMap<String, Option> = HashMap<String, Option>()",
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -948,21 +972,22 @@
                         "parameters": {},
                         "types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
-                    "translation": "var selected: String = throw Exception('TODO')",
+                    "translation": "var selected: String = \"\"",
                     "translation_status": "completed",
                     "syntactic_validation": "pending",
                     "cangjie_compilation": {
@@ -970,10 +995,10 @@
                         "message": "Compilation successful"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 1.8006832599639893,
-                    "generation_timestamp": "2026-05-25T16:09:08.003489",
+                    "elapsed_time": 4.1006505489349365,
+                    "generation_timestamp": "2026-07-16T16:27:53.300484",
                     "model_name": "",
-                    "partial_translation": "var selected: String = throw Exception('TODO')",
+                    "partial_translation": "var selected: String = \"\"",
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
@@ -1004,39 +1029,44 @@
                         "parameters": {},
                         "types": {
                             "boolean": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:57",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
-                    "translation": "var required: Bool = false",
-                    "translation_status": "completed",
+                    "translation": [
+                        "    var required: Bool = throw Exception('TODO')\n"
+                    ],
+                    "translation_status": "attempted",
                     "syntactic_validation": "pending",
                     "cangjie_compilation": {
-                        "outcome": "success",
-                        "message": "Compilation successful"
+                        "outcome": "error",
+                        "message": "the 'method' field in JSON output is empty"
                     },
                     "test_execution": "pending",
-                    "elapsed_time": 2.0496795177459717,
-                    "generation_timestamp": "2026-05-25T16:09:10.116806",
+                    "elapsed_time": 7.478323459625244,
+                    "generation_timestamp": "2026-07-16T16:28:00.877117",
                     "model_name": "",
-                    "partial_translation": "var required: Bool = false",
+                    "partial_translation": [
+                        "    var required: Bool = throw Exception('TODO')\n"
+                    ],
                     "original_budget": {
                         "syntactic": 2,
                         "cangjie_compilation": 2,
                         "test_execution": 2
                     },
                     "final_budget": {
-                        "syntactic": 2,
+                        "syntactic": 1,
                         "cangjie_compilation": 2,
                         "test_execution": 2
                     }

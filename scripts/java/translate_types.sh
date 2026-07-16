@@ -5,6 +5,11 @@
 # translate_tests: "true" or "false" (default: false)
 # use_progressive_kb: "true" or "false" (default: true). Enables Progressive KB for few-shot type translation.
 
+set -uo pipefail
+
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+cd "$ROOT"
+
 if [ $# -lt 4 ]; then
   echo "Usage: ./scripts/java/translate_types.sh <project> <model_name> <temperature> <suffix> [translate_tests] [use_progressive_kb]"
   exit 1
@@ -28,7 +33,7 @@ if [ "$use_progressive_kb" != "true" ] && [ "$use_progressive_kb" != "false" ]; 
 fi
 
 echo "Translating types for $project (translate_tests=$translate_tests, use_progressive_kb=$use_progressive_kb)"
-export PYTHONPATH=$(pwd)
+export PYTHONPATH="$ROOT"
 python src/java/type_resolution/translate_type_rag.py \
     --project_name=$project \
     --model_name=$model_name \

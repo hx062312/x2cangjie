@@ -353,9 +353,10 @@ templates:
 
   pseudocode_bridge_context: |-
     ### Semantic Bridge (pseudocode)
-    The pseudocode below captures the intent and logic of the Java fragment without
-    using Java-specific syntax. Use it as the authoritative description of WHAT to
-    translate; fall back to the Java code only when the pseudocode is ambiguous.
+    The pseudocode below is supplementary guidance for understanding the Java fragment.
+    The partial Cangjie skeleton is authoritative for declarations and types, and the
+    Java source is authoritative for behavior. Ignore any pseudocode detail that conflicts
+    with either source.
 
     ```
     {{ pseudocode }}
@@ -392,36 +393,23 @@ templates:
     match_stmt    ::= "match" "(" EXPR ")" "{" { CASE_PATTERN "=>" BLOCK } "}"
     return_stmt   ::= "return" [ EXPR ]
 
-    ########## Hard semantic constraints (must satisfy to compile) ##########
+    ########## Syntax constraints (must satisfy to compile) ##########
     G1. Generic bounds use `where T <: Bound`, NOT extends/super. There is no wildcard.
     G2. Declaration-site variance via `out T` (covariant) / `in T` (contravariant);
         use-site `?` / `~` is NOT supported — use type projection `~T` only on the
         generic method side.
-    G3. `Any` does NOT satisfy `Hashable & Equatable<T>`. Whenever Any would appear as a
-        HashMap/HashSet key or element type, use `AnyHashable` instead
-        (import from the project's AnyHashable.cj).
-    G4. Integer / float literals carry type suffix to disambiguate from Int32 default;
-        prefer `Int64`/`UInt64`/`Float64` and annotate explicitly.
-    G5. Boolean type is `Bool`, not `boolean`. The nullability marker is `?` (e.g. `String?`).
-    G6. String interpolation: `"${expr}"`, not Java `"%" + x` or String.format.
-    G7. Unit (void) functions: declare return type `Unit` explicitly when side-effect free,
-        omit `return` or `return None`.
-    G8. Operator overloading uses `operator func`; equality is `func operator func ==(rhs: Self): Bool`.
+    G3. Preserve the exact declaration and generic syntax already present in the partial
+        Cangjie skeleton. Do not invent or replace type names.
+    G4. String interpolation uses `"${expr}"`.
+    G5. Operator overload declarations use the `operator func` form.
 
   cangjie_grammar_runtime_note: |-
-    RUNTIME NOTES (names you MUST NOT use; equivalent mappings):
-      Object (HashMap/HashSet key/elt)  -> AnyHashable
-      ThreadFactory                     -> () -> Thread
-      Runnable                          -> () -> Unit
-      Callable<V>                       -> () -> V
-      Function<T, R>                    -> (T) -> R
-      Consumer<T>                       -> (T) -> Unit
-      Supplier<T>                       -> () -> T
-      Predicate<T>                      -> (T) -> Bool
-      Comparator<T>                     -> (T, T) -> Int64
-      List<T>                           -> Array<T>
-      Map<K, V>                         -> HashMap<K, V>
-      Set<T>                            -> HashSet<T>
+    TYPE AUTHORITY:
+      Field types, parameter types, return types, generic arguments, and imports in the
+      partial Cangjie skeleton are generated from schema `translated_target_type` values.
+      They are authoritative. Preserve them exactly and ignore any conflicting type names
+      suggested by Java source, pseudocode, retrieved examples, or general language knowledge.
+      This grammar block describes syntax only; it must never perform Java-to-Cangjie type mapping.
 
   # ------------------------------------------------------------------
   # Part 3: Syntax-graph RAG context (structural CFG/DFG examples)

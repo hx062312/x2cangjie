@@ -176,36 +176,49 @@
                             "name": "console_param"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.AnsiProcessor",
+                            "33-559:AnsiProcessor",
+                            "37-39:AnsiProcessor"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {},
                         "body_types": {},
                         "parameters": {
                             "|OutputStream|ps": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|OutputStream|ps",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "OutputStream",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "OutputStream",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|long|console_param": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|long|console_param",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "long",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int64",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -222,7 +235,7 @@
                     "is_override": false,
                     "needs_open": false,
                     "partial_translation": [
-                        "    public init(ps: Any, console_param: Int64) {",
+                        "    public init(ps: OutputStream, console_param: Int64) {",
                         "        super()\n        throw Exception('TODO')",
                         "    }\n"
                     ]
@@ -259,64 +272,79 @@
                             "name": "stdout"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "182-182:GetStdHandle"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "100-105:WindowsAnsiProcessor"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "WindowsAnsiProcessor": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "WindowsAnsiProcessor",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "WindowsAnsiProcessor",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "WindowsAnsiProcessor",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "WindowsAnsiProcessor": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "WindowsAnsiProcessor",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "WindowsAnsiProcessor",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "WindowsAnsiProcessor",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|OutputStream|ps": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|OutputStream|ps",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "OutputStream",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "OutputStream",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|boolean|stdout": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|boolean|stdout",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -333,7 +361,7 @@
                     "is_override": false,
                     "needs_open": false,
                     "partial_translation": [
-                        "    public open func WindowsAnsiProcessor0(ps: Any, stdout: Bool): WindowsAnsiProcessor {",
+                        "    public open func WindowsAnsiProcessor0(ps: OutputStream, stdout: Bool): WindowsAnsiProcessor {",
                         "        throw Exception('TODO')",
                         "    }\n"
                     ]
@@ -363,37 +391,45 @@
                             "name": "ps"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "107-109:WindowsAnsiProcessor0"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "WindowsAnsiProcessor": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "WindowsAnsiProcessor",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "WindowsAnsiProcessor",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "WindowsAnsiProcessor",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {
                             "|OutputStream|ps": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|OutputStream|ps",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "OutputStream",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "OutputStream",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -410,7 +446,7 @@
                     "is_override": false,
                     "needs_open": false,
                     "partial_translation": [
-                        "    public open func WindowsAnsiProcessor1(ps: Any): WindowsAnsiProcessor {",
+                        "    public open func WindowsAnsiProcessor1(ps: OutputStream): WindowsAnsiProcessor {",
                         "        throw Exception('TODO')",
                         "    }\n"
                     ]
@@ -442,36 +478,69 @@
                     ],
                     "signature": "getConsoleInfo()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "flush()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "176-177:GetConsoleScreenBufferInfo"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "523-526:getLastErrorMessage"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "makeConcatWithConstants(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.IOException",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "136-144:invertAttributeColors"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "IOException": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "IOException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "IOException",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Exception",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -523,49 +592,78 @@
                     ],
                     "signature": "applyAttribute()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "flush()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "136-144:invertAttributeColors"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "101-101:SetConsoleTextAttribute"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "523-526:getLastErrorMessage"
+                        ],
+                        [
+                            "library",
+                            "java.io.IOException",
+                            "<init>(java.lang.String)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "IOException": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "IOException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "IOException",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Exception",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -626,60 +724,64 @@
                     "type_translations": {
                         "return_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "int": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|short|attributes": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|short|attributes",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -724,36 +826,59 @@
                     ],
                     "signature": "applyCursorPosition()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "103-123:Kernel32_COORD",
+                            "117-122:copy"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "187-187:SetConsoleCursorPosition"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "523-526:getLastErrorMessage"
+                        ],
+                        [
+                            "library",
+                            "java.io.IOException",
+                            "<init>(java.lang.String)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "IOException": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "IOException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "IOException",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Exception",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -835,77 +960,108 @@
                             "name": "eraseOption"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "65-96:Kernel32_SMALL_RECT",
+                            "84-86:height"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "198-199:FillConsoleOutputAttribute"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "192-193:FillConsoleOutputCharacterW"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "103-123:Kernel32_COORD",
+                            "117-122:copy"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "int[]": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int[]",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Array<Int32>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "int": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Kernel32_COORD": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_COORD",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "Kernel32_COORD",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_COORD",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|eraseOption": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|eraseOption",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -982,77 +1138,103 @@
                             "name": "eraseOption"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "103-123:Kernel32_COORD",
+                            "117-122:copy"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "198-199:FillConsoleOutputAttribute"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "192-193:FillConsoleOutputCharacterW"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "int[]": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int[]",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Array<Int32>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "int": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Kernel32_COORD": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_COORD",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "Kernel32_COORD",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_COORD",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|eraseOption": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|eraseOption",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1106,51 +1288,70 @@
                             "name": "count"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "max(int,int)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|count": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|count",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1204,51 +1405,75 @@
                             "name": "count"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "65-96:Kernel32_SMALL_RECT",
+                            "80-82:width"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "min(int,int)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|count": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|count",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1302,51 +1527,75 @@
                             "name": "count"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "max(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "min(int,int)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|count": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|count",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1400,51 +1649,70 @@
                             "name": "count"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "max(int,int)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|count": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|count",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1504,64 +1772,94 @@
                             "name": "col"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "min(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "max(int,int)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "65-96:Kernel32_SMALL_RECT",
+                            "80-82:width"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|row": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|row",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|int|col": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|col",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1615,51 +1913,80 @@
                             "name": "x"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "65-96:Kernel32_SMALL_RECT",
+                            "80-82:width"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "min(int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "max(int,int)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|x": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|x",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1714,51 +2041,70 @@
                             "name": "count"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "max(int,int)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|count": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|count",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1813,51 +2159,70 @@
                             "name": "count"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Math",
+                            "max(int,int)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|count": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|count",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1918,64 +2283,74 @@
                             "name": "bright"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "125-134:applyAttribute"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|color": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|color",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|boolean|bright": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|boolean|bright",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -2025,51 +2400,65 @@
                             "name": "paletteIndex"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.Colors",
+                            "23-167:Colors",
+                            "84-90:roundColor0"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "271-278:processSetForegroundColor1"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "int": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|paletteIndex": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|paletteIndex",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -2129,77 +2518,93 @@
                             "name": "b"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.Colors",
+                            "23-167:Colors",
+                            "92-94:roundRgbColor"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "271-278:processSetForegroundColor1"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "int": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|r": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|r",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|int|g": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|g",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|int|b": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|b",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -2260,64 +2665,74 @@
                             "name": "bright"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "125-134:applyAttribute"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|color": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|color",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|boolean|bright": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|boolean|bright",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -2367,51 +2782,65 @@
                             "name": "paletteIndex"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.Colors",
+                            "23-167:Colors",
+                            "84-90:roundColor0"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "292-299:processSetBackgroundColor1"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "int": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|paletteIndex": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|paletteIndex",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -2471,77 +2900,93 @@
                             "name": "b"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.Colors",
+                            "23-167:Colors",
+                            "92-94:roundRgbColor"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "292-299:processSetBackgroundColor1"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "int": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|r": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|r",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|int|g": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|g",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "|int|b": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|b",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -2589,36 +3034,44 @@
                     ],
                     "signature": "processDefaultTextColor()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "125-134:applyAttribute"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -2667,36 +3120,44 @@
                     ],
                     "signature": "processDefaultBackgroundColor()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "125-134:applyAttribute"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -2745,36 +3206,44 @@
                     ],
                     "signature": "processAttributeReset()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "125-134:applyAttribute"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -2858,51 +3327,60 @@
                             "name": "attribute"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "125-134:applyAttribute"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|attribute": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|attribute",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -2948,21 +3426,28 @@
                     "body_types": [],
                     "signature": "processSaveCursorPosition()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
@@ -3014,21 +3499,33 @@
                     "body_types": [],
                     "signature": "processRestoreCursorPosition()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.OutputStream",
+                            "flush()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "146-150:applyCursorPosition"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
@@ -3097,103 +3594,136 @@
                             "name": "optionInt"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "65-96:Kernel32_SMALL_RECT",
+                            "88-95:copy"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "264-269:ScrollConsoleScreenBuffer"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "523-526:getLastErrorMessage"
+                        ],
+                        [
+                            "library",
+                            "java.io.IOException",
+                            "<init>(java.lang.String)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "Kernel32_SMALL_RECT": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_SMALL_RECT",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "Kernel32_SMALL_RECT",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_SMALL_RECT",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Kernel32_COORD": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_COORD",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "Kernel32_COORD",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_COORD",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Kernel32_CHAR_INFO": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_CHAR_INFO",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "Kernel32_CHAR_INFO",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_CHAR_INFO",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "IOException": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "IOException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "IOException",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Exception",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|optionInt": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|optionInt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -3260,103 +3790,136 @@
                             "name": "optionInt"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.io.WindowsAnsiProcessor",
+                            "55-424:WindowsAnsiProcessor",
+                            "115-123:getConsoleInfo"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "65-96:Kernel32_SMALL_RECT",
+                            "88-95:copy"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "264-269:ScrollConsoleScreenBuffer"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "523-526:getLastErrorMessage"
+                        ],
+                        [
+                            "library",
+                            "java.io.IOException",
+                            "<init>(java.lang.String)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "Kernel32_SMALL_RECT": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_SMALL_RECT",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "Kernel32_SMALL_RECT",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_SMALL_RECT",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Kernel32_COORD": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_COORD",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "Kernel32_COORD",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_COORD",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Kernel32_CHAR_INFO": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_CHAR_INFO",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "Kernel32_CHAR_INFO",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_CHAR_INFO",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "IOException": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "IOException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "IOException",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Exception",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|int|optionInt": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|int|optionInt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -3406,37 +3969,45 @@
                             "name": "label"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.Kernel32",
+                            "26-538:Kernel32",
+                            "227-227:SetConsoleTitle"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {
                             "|String|label": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|String|label",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:09",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -3480,17 +4051,18 @@
                         "parameters": {},
                         "types": {
                             "long": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "long",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "long",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int64",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3527,17 +4099,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3574,17 +4147,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3621,17 +4195,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3668,17 +4243,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3715,17 +4291,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3762,17 +4339,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3809,17 +4387,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3856,17 +4435,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3903,17 +4483,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -3950,17 +4531,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -4006,17 +4588,18 @@
                         "parameters": {},
                         "types": {
                             "short[]": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short[]",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Array<Int16>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -4062,17 +4645,18 @@
                         "parameters": {},
                         "types": {
                             "short[]": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short[]",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Array<Int16>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -4108,17 +4692,18 @@
                         "parameters": {},
                         "types": {
                             "Kernel32_CONSOLE_SCREEN_BUFFER_INFO": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Kernel32_CONSOLE_SCREEN_BUFFER_INFO",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "Kernel32_CONSOLE_SCREEN_BUFFER_INFO",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Kernel32_CONSOLE_SCREEN_BUFFER_INFO",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -4154,17 +4739,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -4199,17 +4785,18 @@
                         "parameters": {},
                         "types": {
                             "boolean": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -4244,17 +4831,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -4289,17 +4877,18 @@
                         "parameters": {},
                         "types": {
                             "short": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "short",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:08",
+                                "source_type": "short",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int16",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -4319,8 +4908,8 @@
             "cangjie_class_declaration": "public class WindowsAnsiProcessor <: AnsiProcessor {\n"
         }
     },
-    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/WindowsAnsiProcessor.cj",
-    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/WindowsAnsiProcessor.cj",
+    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/io_WindowsAnsiProcessor.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/io_WindowsAnsiProcessor.cj",
     "import_map": {
         "IOException": "java.io.IOException",
         "OutputStream": "java.io.OutputStream",

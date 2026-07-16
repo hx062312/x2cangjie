@@ -3,6 +3,7 @@ package jansi
 
 // Imports Begin
 import charset4cj.*
+import std.collection.*
 import std.collection.ArrayList
 import std.io.OutputStream
 // Imports End
@@ -46,7 +47,7 @@ public open class AnsiOutputStream {
     // Fields End
 
     // Methods Begin
-    public init(os: OutputStream, width: AnsiOutputStream_WidthSupplier, mode: AnsiMode, processor: AnsiProcessor, type__: AnsiType, colors: AnsiColors, cs: Charset, installer: AnsiOutputStream_IoRunnable, uninstaller: AnsiOutputStream_IoRunnable, resetAtUninstall: Bool) {
+    public init(os: OutputStream, width_param: AnsiOutputStream_WidthSupplier, mode_param: AnsiMode, processor_param: AnsiProcessor, type___param: AnsiType, colors_param: AnsiColors, cs_param: Charset, installer_param: AnsiOutputStream_IoRunnable, uninstaller_param: AnsiOutputStream_IoRunnable, resetAtUninstall_param: Bool) {
         throw Exception('TODO')
     }
 
@@ -66,7 +67,7 @@ public open class AnsiOutputStream {
         throw Exception('TODO')
     }
 
-    public open func setMode(mode: AnsiMode): Unit {
+    public open func setMode(mode_param: AnsiMode): Unit {
         throw Exception('TODO')
     }
 
@@ -74,7 +75,7 @@ public open class AnsiOutputStream {
         throw Exception('TODO')
     }
 
-    public open func setResetAtUninstall(resetAtUninstall: Bool): Unit {
+    public open func setResetAtUninstall(resetAtUninstall_param: Bool): Unit {
         throw Exception('TODO')
     }
 
@@ -107,7 +108,7 @@ public open class AnsiOutputStream {
     }
 
     public open func close(): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

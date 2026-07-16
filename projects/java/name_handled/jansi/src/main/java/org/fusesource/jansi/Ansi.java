@@ -160,9 +160,9 @@ public class Ansi implements Appendable {
 
     private static Callable<Boolean> detector = () -> !Boolean.getBoolean(DISABLE);
 
-    public static void setDetector(final Callable<Boolean> detector) {
-        if (detector == null) throw new IllegalArgumentException();
-        Ansi.detector = detector;
+    public static void setDetector(final Callable<Boolean> detector_param) {
+        if (detector_param == null) throw new IllegalArgumentException();
+        Ansi.detector = detector_param;
     }
 
     public static boolean isDetected() {
@@ -196,11 +196,11 @@ public class Ansi implements Appendable {
         }
     }
 
-    public static Ansi ansi1(StringBuilder builder) {
+    public static Ansi ansi1(StringBuilder builder_param) {
         if (isEnabled()) {
-            return new Ansi(0, builder, null);
+            return new Ansi(0, builder_param, null);
         } else {
-            return new Ansi_NoAnsi(builder);
+            return new Ansi_NoAnsi(builder_param);
         }
     }
 
@@ -392,9 +392,9 @@ public class Ansi implements Appendable {
         return new Ansi(0, new StringBuilder(size), null);
     }
 
-    public Ansi(int constructorId, StringBuilder builder, Ansi parent) {
+    public Ansi(int constructorId, StringBuilder builder_param, Ansi parent) {
 
-        this.builder = builder;
+        this.builder = builder_param;
 
         if (constructorId == 1) {
             attributeOptions.addAll(parent.attributeOptions);

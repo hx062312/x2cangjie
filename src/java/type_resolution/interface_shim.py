@@ -17,6 +17,8 @@ from pathlib import Path
 from typing import Any
 
 from src.java.type_resolution.type_expression import (
+    JAVA_BASE_TYPE_MAP_PATH,
+    REPO_ROOT,
     get_cangjie_type as deterministic_get_cangjie_type,
     is_known_type_expression,
     is_type_parameter,
@@ -29,8 +31,8 @@ from src.java.type_resolution.type_expression import (
 )
 
 
-JAVA_DOC_PATH = Path("data/java/crawl/java.base_module_doc.json")
-SHIM_DIR = Path("data/java/type_resolution/generated_interface_shims")
+JAVA_DOC_PATH = REPO_ROOT / "data/java/crawl/java.base_module_doc.json"
+SHIM_DIR = REPO_ROOT / "data/java/type_resolution/generated_interface_shims"
 
 _IDENT_RE = re.compile(r"[^0-9A-Za-z_]")
 _RESERVED = {
@@ -166,7 +168,7 @@ class InterfaceShimRegistry:
         cjpm_name: str | None = None,
         deterministic_type_map: dict[str, Any] | None = None,
         import_map: dict[str, str] | None = None,
-        java_base_map_path: str | os.PathLike[str] = "data/java/type_resolution/java_base_type_map.json",
+        java_base_map_path: str | os.PathLike[str] = JAVA_BASE_TYPE_MAP_PATH,
         doc_path: str | os.PathLike[str] = JAVA_DOC_PATH,
     ) -> None:
         self.project_name = project_name

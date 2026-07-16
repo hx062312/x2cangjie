@@ -20,6 +20,11 @@ def test_build_grammar_prompt_returns_nonempty_block_with_ebnf_marker():
     # The authoritative template lives in configs/prompt_templates.yaml; both
     # that and the fallback inline excerpt lead with the EBNF-excerpt header.
     assert "Grammar Reference" in text or "var_decl" in text
+    assert "translated_target_type" in text
+    assert "List<T> ->" not in text
+    assert "Map<K,V> ->" not in text
+    assert "Map<K, V>" not in text
+    assert "Callable<V>" not in text
 
 
 def test_get_grammar_prompt_is_cached():

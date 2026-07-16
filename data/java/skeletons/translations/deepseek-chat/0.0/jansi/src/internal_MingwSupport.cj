@@ -33,7 +33,7 @@ public open class MingwSupport {
     }
 
     private func getRedirect(fd: FileDescriptor): JavaLangProcessBuilderRedirect {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

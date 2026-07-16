@@ -15,8 +15,10 @@ from pathlib import Path
 from typing import Any
 
 
+REPO_ROOT = Path(__file__).resolve().parents[3]
 ERASED_GENERIC_TYPES = frozenset({"Any", "Nothing", "TypeInfo"})
-JAVA_GENERIC_TYPE_MAP_PATH = "data/java/type_resolution/java_generic_type_map.json"
+JAVA_GENERIC_TYPE_MAP_PATH = REPO_ROOT / "data/java/type_resolution/java_generic_type_map.json"
+JAVA_BASE_TYPE_MAP_PATH = REPO_ROOT / "data/java/type_resolution/java_base_type_map.json"
 
 PRIMITIVE_TYPE_MAP = {
     "byte": "Int8",
@@ -393,9 +395,9 @@ def is_known_type_expression(java_type: str, type_map: dict[str, Any]) -> bool:
         base_type = java_type[: java_type.index("<")].strip()
         generic_part = java_type[java_type.index("<") + 1 : java_type.rindex(">")]
         generic_parts = split_generic_args(generic_part)
-        if not generic_parts:
-            return False
         generic = _generic_entry(base_type, type_map)
+        if not generic_parts:
+            return bool(generic and not generic_part.strip())
         if not (generic or _lookup_type(base_type, type_map) or _functional_entry(base_type)):
             return False
         return all(is_known_type_expression(part, type_map) for part in generic_parts)
@@ -437,6 +439,8 @@ def get_cangjie_type(java_type: str, type_map: dict[str, Any]) -> str:
 
         generic = _generic_entry(base_type, type_map)
         if generic:
+            if not generic_parts and not generic_part.strip():
+                return _translate_raw_generic(generic)
             return _translate_parameterized_generic(generic, generic_parts, type_map)
 
         resolved_parts = [get_cangjie_type(part, type_map) for part in generic_parts]
@@ -469,14 +473,14 @@ def build_default_type_map(extra_paths: list[str] | None = None) -> dict[str, st
     type_map: dict[str, str] = {}
     for key, value in PRIMITIVE_TYPE_MAP.items():
         type_map[key] = value
-    merge_java_base_type_map(type_map, "data/java/type_resolution/java_base_type_map.json")
+    merge_java_base_type_map(type_map, JAVA_BASE_TYPE_MAP_PATH)
     type_map.update(load_java_generic_type_map())
     for path in extra_paths or []:
         merge_truthy_type_map(type_map, path)
     return type_map
 
 
-def load_java_base_mapping(path: str | Path = "data/java/type_resolution/java_base_type_map.json") -> dict[str, str]:
+def load_java_base_mapping(path: str | Path = JAVA_BASE_TYPE_MAP_PATH) -> dict[str, str]:
     result: dict[str, str] = {}
     merge_java_base_type_map(result, path)
     return result

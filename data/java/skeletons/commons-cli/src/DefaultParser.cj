@@ -2,8 +2,11 @@
 package commons_cli
 
 // Imports Begin
+import commons_cli.runtime.AnyHashable
+import std.collection.*
 import std.collection.ArrayList
 import std.collection.HashMap
+import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class DefaultParser <: CommandLineParser {
@@ -15,8 +18,8 @@ public open class DefaultParser <: CommandLineParser {
     var currentOption: Option = throw Exception('TODO')
     var skipParsing: Bool = throw Exception('TODO')
     var expectedOpts: ArrayList<Any> = throw Exception('TODO')
-    let allowPartialMatching: Bool = throw Exception('TODO')
-    let stripLeadingAndTrailingQuotes: Bool = throw Exception('TODO')
+    var allowPartialMatching: Bool = throw Exception('TODO')
+    var stripLeadingAndTrailingQuotes: Bool = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
@@ -24,7 +27,7 @@ public open class DefaultParser <: CommandLineParser {
         throw Exception('TODO')
     }
 
-    public init(constructorId: Int64, allowPartialMatching_param: Bool, stripLeadingAndTrailingQuotes_param: Bool) {
+    public init(constructorId: Int32, allowPartialMatching_param: Bool, stripLeadingAndTrailingQuotes_param: Bool) {
         throw Exception('TODO')
     }
 
@@ -64,7 +67,7 @@ public open class DefaultParser <: CommandLineParser {
         throw Exception('TODO')
     }
 
-    private func handleProperties(properties: HashMap<String, String>): Unit {
+    private func handleProperties(properties: HashMap<AnyHashable, Any>): Unit {
         throw Exception('TODO')
     }
 
@@ -104,19 +107,19 @@ public open class DefaultParser <: CommandLineParser {
         throw Exception('TODO')
     }
 
-    public open func parse0(options_param: Options, arguments: Array<Any>): CommandLine {
+    public open func parse0(options_param: Options, arguments: Array<String>): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse1(options_param: Options, arguments: Array<Any>, stopAtNonOption_param: Bool): CommandLine {
+    public open func parse1(options_param: Options, arguments: Array<String>, stopAtNonOption_param: Bool): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse2(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>): CommandLine {
+    public open func parse2(options_param: Options, arguments: Array<String>, properties: HashMap<AnyHashable, Any>): CommandLine {
         throw Exception('TODO')
     }
 
-    public open func parse3(options_param: Options, arguments: Array<Any>, properties: HashMap<String, String>, stopAtNonOption_param: Bool): CommandLine {
+    public open func parse3(options_param: Options, arguments: Array<String>, properties: HashMap<AnyHashable, Any>, stopAtNonOption_param: Bool): CommandLine {
         throw Exception('TODO')
     }
 

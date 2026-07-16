@@ -28,18 +28,16 @@ public class WindowsAnsiProcessor <: AnsiProcessor {
     // Fields End
 
     // Methods Begin
-    public init(ps: OutputStream, console: Int64) {
+    public init(ps: OutputStream, console_param: Int64) {
         super()
         throw Exception('TODO')
     }
 
-    public init(ps: OutputStream, stdout: Bool) {
-        super()
+    public open func WindowsAnsiProcessor0(ps: OutputStream, stdout: Bool): WindowsAnsiProcessor {
         throw Exception('TODO')
     }
 
-    public init(ps: OutputStream) {
-        super()
+    public open func WindowsAnsiProcessor1(ps: OutputStream): WindowsAnsiProcessor {
         throw Exception('TODO')
     }
 
@@ -99,27 +97,27 @@ public class WindowsAnsiProcessor <: AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected override func processSetForegroundColor(color: Int32, bright: Bool): Unit {
+    protected override func processSetForegroundColor1(color: Int32, bright: Bool): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetForegroundColorExt(paletteIndex: Int32): Unit {
+    protected override func processSetForegroundColorExt0(paletteIndex: Int32): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetForegroundColorExt(r: Int32, g: Int32, b: Int32): Unit {
+    protected override func processSetForegroundColorExt1(r: Int32, g: Int32, b: Int32): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetBackgroundColor(color: Int32, bright: Bool): Unit {
+    protected override func processSetBackgroundColor1(color: Int32, bright: Bool): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetBackgroundColorExt(paletteIndex: Int32): Unit {
+    protected override func processSetBackgroundColorExt0(paletteIndex: Int32): Unit {
         throw Exception('TODO')
     }
 
-    protected override func processSetBackgroundColorExt(r: Int32, g: Int32, b: Int32): Unit {
+    protected override func processSetBackgroundColorExt1(r: Int32, g: Int32, b: Int32): Unit {
         throw Exception('TODO')
     }
 

@@ -2,13 +2,13 @@
 package commons_cli
 
 // Imports Begin
-
+import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class AlreadySelectedException <: ParseException {
     // Fields Begin
-    let group: OptionGroup = throw Exception('TODO')
-    let option: Option = throw Exception('TODO')
+    var group: OptionGroup = throw Exception('TODO')
+    var option: Option = throw Exception('TODO')
     // Fields End
 
     // Methods Begin

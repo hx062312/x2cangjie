@@ -10,7 +10,7 @@ public open class BasicParser <: Parser {
     // Fields End
 
     // Methods Begin
-    protected override func flatten(options_param: Options, arguments: Array<Any>, stopAtNonOption: Bool): Array<Any> {
+    protected override func flatten(options_param: Options, arguments: Array<String>, stopAtNonOption: Bool): Array<String> {
         throw Exception('TODO')
     }
 

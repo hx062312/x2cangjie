@@ -72,7 +72,7 @@ public open class JansiLoader {
     }
 
     public static func getVersion(): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

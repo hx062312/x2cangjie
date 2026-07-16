@@ -2,7 +2,9 @@
 package jansi
 
 // Imports Begin
-
+import std.io.ByteBuffer
+import std.io.StringWriter
+import stdx.crypto.x509.X509CertificateInfo
 // Imports End
 
 public open class AnsiRenderer {
@@ -20,7 +22,7 @@ public open class AnsiRenderer {
         throw Exception('TODO')
     }
 
-    public static func render1(input: String, target: Any): Any {
+    public static func render1(input: String, target: StringWriter<ByteBuffer>): StringWriter<ByteBuffer> {
         throw Exception('TODO')
     }
 
@@ -96,12 +98,12 @@ public open class Code {
     var UNDERLINE_OFF: Any = throw Exception('TODO')
     var BOLD: Any = throw Exception('TODO')
     var FAINT: Any = throw Exception('TODO')
-    var n: Enum<Any> = throw Exception('TODO')
+    var n: Any = throw Exception('TODO')
     var background: Bool = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    init(n: Enum<Any>, background: Bool) {
+    init(n: Any, background: Bool) {
         throw Exception('TODO')
     }
 

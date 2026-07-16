@@ -1,20 +1,4 @@
-﻿<?xml version="1.0"?>
-<!--
- Licensed to the Apache Software Foundation (ASF) under one or more
- contributor license agreements.  See the NOTICE file distributed with
- this work for additional information regarding copyright ownership.
- The ASF licenses this file to You under the Apache License, Version 2.0
- (the "License"); you may not use this file except in compliance with
- the License.  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
+<?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -28,7 +12,6 @@
   <url>https://commons.apache.org/proper/commons-csv/</url>
   <inceptionYear>2005</inceptionYear>
   <description>The Apache Commons CSV library provides a simple interface for reading and writing CSV files of various types.</description>
-
   <dependencies>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -71,15 +54,7 @@
       <version>4.13.2</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.evosuite</groupId>
-      <artifactId>evosuite-standalone-runtime</artifactId>
-      <version>1.2.0</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/../../../../misc/evosuite-standalone-runtime-1.2.0.jar</systemPath>
-    </dependency>
   </dependencies>
-
   <developers>
     <developer>
       <id>bayard</id>
@@ -111,7 +86,7 @@
       <email>ggregory at apache.org</email>
       <url>https://www.garygregory.com</url>
       <organization>The Apache Software Foundation</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>      
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -138,23 +113,19 @@
       <name>Bob Smith</name>
     </contributor>
   </contributors>
-
   <scm>
     <connection>scm:git:http://gitbox.apache.org/repos/asf/commons-csv.git</connection>
     <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/commons-csv.git</developerConnection>
     <url>https://gitbox.apache.org/repos/asf?p=commons-csv.git</url>
   </scm>
-
   <issueManagement>
     <system>jira</system>
     <url>https://issues.apache.org/jira/browse/CSV</url>
   </issueManagement>
-
   <ciManagement>
     <system>github</system>
     <url>https://github.com/apache/commons-csv/actions</url>
   </ciManagement>
-
   <distributionManagement>
     <site>
       <id>apache.website</id>
@@ -162,11 +133,9 @@
       <url>scm:svn:https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-csv/</url>
     </site>
   </distributionManagement>
-
   <properties>
     <commons.release.version>1.10.0</commons.release.version>
     <commons.release.desc>(Java 8)</commons.release.desc>
-    <!-- The RC version used in the staging repository URL. -->
     <commons.rc.version>RC2</commons.rc.version>
     <commons.bc.version>1.9.0</commons.bc.version>
     <commons.componentid>csv</commons.componentid>
@@ -176,61 +145,56 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <commons.javadoc.java.link>http://docs.oracle.com/javase/8/docs/api/</commons.javadoc.java.link>
-    <!-- Ensure copies work OK (can be removed later when this is in parent POM) -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <commons.encoding>UTF-8</commons.encoding>
-
     <checkstyle.header.file>${basedir}/src/site/resources/checkstyle/checkstyle-header.txt</checkstyle.header.file>
     <checkstyle.config.file>${basedir}/src/site/resources/checkstyle/checkstyle.xml</checkstyle.config.file>
     <checkstyle.suppress.file>${basedir}/src/site/resources/checkstyle/checkstyle-suppressions.xml</checkstyle.suppress.file>
     <checkstyle.resourceExcludes>LICENSE.txt, NOTICE.txt, **/maven-archiver/pom.properties</checkstyle.resourceExcludes>
-
     <japicmp.skip>false</japicmp.skip>
-
     <commons.release.isDistModule>true</commons.release.isDistModule>
     <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
     <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
   </properties>
-
   <build>
     <defaultGoal>clean verify apache-rat:check japicmp:cmp checkstyle:check spotbugs:check pmd:check pmd:cpd-check javadoc:javadoc</defaultGoal>
     <pluginManagement>
       <plugins>
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-jar-plugin</artifactId>
-    <version>3.2.0</version>
-    <configuration>
-        <excludes>
-            <exclude>module-info.class</exclude>
-        </excludes>
-    </configuration>
-    <executions>
-        <execution>
-            <goals>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.0</version>
+          <configuration>
+            <excludes>
+              <exclude>module-info.class</exclude>
+            </excludes>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
                 <goal>test-jar</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-jar-plugin</artifactId>
-    <version>3.2.0</version>
-    <configuration>
-        <excludes>
-            <exclude>module-info.class</exclude>
-        </excludes>
-    </configuration>
-    <executions>
-        <execution>
-            <goals>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.2.0</version>
+          <configuration>
+            <excludes>
+              <exclude>module-info.class</exclude>
+            </excludes>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
                 <goal>test-jar</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
@@ -253,15 +217,11 @@
             </rulesets>
           </configuration>
         </plugin>
-        <!-- We need to add our test data files to rat exclusions -->
-        <!-- Needed for command-line access, e.g mvn apache-rat:rat and mvn apache-rat:check -->
         <plugin>
           <groupId>org.apache.rat</groupId>
           <artifactId>apache-rat-plugin</artifactId>
-          <!-- Should agree with config in reporting section -->
           <configuration>
             <excludes>
-              <!-- These files are used as test data and test result specifications. -->
               <exclude>src/test/resources/org/apache/commons/csv/empty.txt</exclude>
               <exclude>src/test/resources/org/apache/commons/csv/CSV-141/csv-141.csv</exclude>
               <exclude>src/test/resources/org/apache/commons/csv/csv-167/sample1.csv</exclude>
@@ -276,7 +236,6 @@
               <exclude>src/test/resources/org/apache/commons/csv/CSVFileParser/testCSV85.csv</exclude>
               <exclude>src/test/resources/org/apache/commons/csv/CSVFileParser/testCSV85_default.txt</exclude>
               <exclude>src/test/resources/org/apache/commons/csv/CSVFileParser/testCSV85_ignoreEmpty.txt</exclude>
-              <!-- The ferc.gov files are included discussion in https://issues.apache.org/jira/browse/LEGAL-175. -->
               <exclude>src/test/resources/org/apache/commons/csv/ferc.gov/contract.txt</exclude>
               <exclude>src/test/resources/org/apache/commons/csv/ferc.gov/transaction.txt</exclude>
               <exclude>src/test/resources/**/*.bin</exclude>
@@ -303,8 +262,8 @@
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <descriptors>
-             <descriptor>src/assembly/bin.xml</descriptor>
-             <descriptor>src/assembly/src.xml</descriptor>
+            <descriptor>src/assembly/bin.xml</descriptor>
+            <descriptor>src/assembly/src.xml</descriptor>
           </descriptors>
           <tarLongFileMode>gnu</tarLongFileMode>
         </configuration>
@@ -327,7 +286,6 @@
           </archive>
         </configuration>
       </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -338,7 +296,7 @@
           </includes>
           <excludes>
             <exclude>**/perf/PerformanceTest.java</exclude>
-          </excludes>          
+          </excludes>
         </configuration>
         <dependencies>
           <dependency>
@@ -348,8 +306,6 @@
           </dependency>
         </dependencies>
       </plugin>
-
-      <!-- Allow checkstyle to be run interactively; keep in sync with report config below -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -361,17 +317,14 @@
           <excludeFilterFile>${basedir}/src/site/resources/spotbugs/spotbugs-exclude-filter.xml</excludeFilterFile>
         </configuration>
       </plugin>
-      <!-- Allow pmd to be run interactively; keep in sync with report config below -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
       </plugin>
-
       <plugin>
         <groupId>org.apache.rat</groupId>
         <artifactId>apache-rat-plugin</artifactId>
       </plugin>
-
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -391,17 +344,13 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
   </build>
-
   <reporting>
     <plugins>
-      <!-- Keep in sync with build config above -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <!-- We need to specify reportSets because 2.9.1 creates two reports -->
         <reportSets>
           <reportSet>
             <reports>
@@ -472,12 +421,9 @@
       </plugin>
     </plugins>
   </reporting>
-
   <profiles>
-    <!-- Profile to build and run the benchmarks. Use 'mvn test -Pbenchmark', and add '-Dbenchmark=foo' to run only the foo benchmark -->
     <profile>
       <id>benchmark</id>
-
       <dependencies>
         <dependency>
           <groupId>org.openjdk.jmh</groupId>
@@ -485,71 +431,54 @@
           <version>1.36</version>
           <scope>test</scope>
         </dependency>
-
         <dependency>
           <groupId>org.openjdk.jmh</groupId>
           <artifactId>jmh-generator-annprocess</artifactId>
           <version>1.36</version>
           <scope>test</scope>
         </dependency>
-
         <dependency>
           <groupId>genjava</groupId>
           <artifactId>gj-csv</artifactId>
           <version>1.0</version>
           <scope>test</scope>
         </dependency>
-
         <dependency>
           <groupId>net.sourceforge.javacsv</groupId>
           <artifactId>javacsv</artifactId>
           <version>2.0</version>
           <scope>test</scope>
         </dependency>
-
         <dependency>
           <groupId>com.opencsv</groupId>
           <artifactId>opencsv</artifactId>
           <version>5.7.1</version>
           <scope>test</scope>
         </dependency>
-
         <dependency>
           <groupId>net.sf.supercsv</groupId>
           <artifactId>super-csv</artifactId>
           <version>2.4.0</version>
           <scope>test</scope>
         </dependency>
-
-        <!-- 
-             Not in Maven Central, download manually from http://kasparov.skife.org/csv/csv-1.0.jar and install with:
-             mkdir C:\Java\skife.org\
-             curl https://repo.marketcetera.org/maven/org/skife/kasparov/csv/1.0/csv-1.0.jar -o C:\Java\skife.org\csv-1.0.jar
-             mvn install:install-file -Dfile=C:/Java/skife.org/csv-1.0.jar -DgroupId=org.skife.kasparov -DartifactId=csv -Dversion=1.0 -Dpackaging=jar 
-         -->
         <dependency>
           <groupId>org.skife.kasparov</groupId>
           <artifactId>csv</artifactId>
           <version>1.0</version>
           <scope>provided</scope>
         </dependency>
-
         <dependency>
           <groupId>org.apache.commons</groupId>
           <artifactId>commons-lang3</artifactId>
           <version>3.12.0</version>
         </dependency>
-
       </dependencies>
-
       <properties>
         <skipTests>true</skipTests>
         <benchmark>org.apache</benchmark>
       </properties>
-
       <build>
         <plugins>
-          <!-- Enable the compilation of the benchmarks -->
           <plugin>
             <artifactId>maven-compiler-plugin</artifactId>
             <version>${commons.compiler.version}</version>
@@ -559,8 +488,6 @@
               </testIncludes>
             </configuration>
           </plugin>
-
-          <!-- Hook the benchmarks to the test phase -->
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
@@ -576,7 +503,7 @@
                   <executable>java</executable>
                   <arguments>
                     <argument>-classpath</argument>
-                    <classpath/>
+                    <classpath />
                     <argument>org.openjdk.jmh.Main</argument>
                     <argument>-rf</argument>
                     <argument>json</argument>
@@ -591,17 +518,14 @@
         </plugins>
       </build>
     </profile>
-
-     <profile>
+    <profile>
       <id>java9</id>
       <activation>
         <jdk>9</jdk>
       </activation>
       <properties>
-        <!-- coverall version 4.3.0 does not work with java 9, see https://github.com/trautonen/coveralls-maven-plugin/issues/112 -->
         <coveralls.skip>true</coveralls.skip>
       </properties>
     </profile>
   </profiles>
-
 </project>

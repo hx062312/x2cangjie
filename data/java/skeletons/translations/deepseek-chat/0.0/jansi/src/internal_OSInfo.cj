@@ -2,6 +2,7 @@
 package jansi
 
 // Imports Begin
+import std.collection.*
 import std.collection.HashMap
 import std.io.InputStream
 // Imports End
@@ -63,7 +64,7 @@ public open class OSInfo {
     }
 
     static func translateArchNameToFolderName(archName: String): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

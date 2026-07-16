@@ -150,7 +150,7 @@ public open class Kernel32 {
     }
 
     public static func getErrorMessage(errorCode: Int32): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     // Methods End

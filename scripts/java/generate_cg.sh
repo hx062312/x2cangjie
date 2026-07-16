@@ -21,9 +21,22 @@ cd "$project_dir" || exit 1
 
 TARGET_DIR="target"
 
-MAIN_JAR=$(find "$TARGET_DIR" -type f -name "*[^-tests].jar" | grep -v "merged" | head -n 1)
+MAIN_JAR=$(find "$TARGET_DIR" -maxdepth 1 -type f -name "*.jar" \
+  ! -name "*-tests.jar" ! -name "*-sources.jar" \
+  ! -name "*-test-sources.jar" ! -name "*-javadoc.jar" \
+  ! -name "*-merged.jar" ! -name "original-*.jar" -print -quit)
+
+if [ -z "$MAIN_JAR" ]; then
+  echo "Error: Main JAR file not found in $TARGET_DIR."
+  exit 1
+fi
 
 MERGED_JAR="$TARGET_DIR/$(basename "$MAIN_JAR" .jar)-merged.jar"
+
+if [ ! -f "$MERGED_JAR" ]; then
+  echo "Error: Merged JAR file not found: $MERGED_JAR"
+  exit 1
+fi
 
 JAVACG_PATH="$script_dir/../../misc/java-callgraph/target/javacg-0.1-SNAPSHOT-static.jar"
 
@@ -33,7 +46,18 @@ if [ ! -f "$JAVACG_PATH" ]; then
 fi
 
 echo "Generating call graph for $MERGED_JAR..."
-java -jar "$JAVACG_PATH" "$MERGED_JAR" > callgraph.txt
+CALLGRAPH_TMP="callgraph.txt.tmp"
+if ! java -jar "$JAVACG_PATH" "$MERGED_JAR" > "$CALLGRAPH_TMP"; then
+  rm -f "$CALLGRAPH_TMP"
+  echo "Error: Java call graph generation failed."
+  exit 1
+fi
+if [ ! -s "$CALLGRAPH_TMP" ]; then
+  rm -f "$CALLGRAPH_TMP"
+  echo "Error: Java call graph generation produced no output."
+  exit 1
+fi
+mv "$CALLGRAPH_TMP" callgraph.txt
 
 echo "Call graph saved to callgraph.txt."
 

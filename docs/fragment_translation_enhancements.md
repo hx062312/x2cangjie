@@ -447,18 +447,18 @@ bash scripts/java/translate_fragment.sh jansi "$model" "$suffix" "$temp" \
 
 # 消融测试（ablation）
 
-为量化三部分各自的翻译增益，提供了消融测试工具链：对 2³ = 8 种 flag 组合逐一运行 fragment 翻译、采样 schema 数据，再对翻译通过率等指标做横向对比 + 显著性检验。
+为量化三部分各自的翻译增益，提供了消融测试工具链：在关闭 Progressive KB 的固定条件下，运行全关、三个单独开启和全开共 5 组 fragment 翻译，采样 schema 数据，再对翻译通过率等指标做横向对比 + 显著性检验。
 
 ## 涉及文件
 
 | 文件 | 用途 |
 |---|---|
-| `scripts/java/run_ablation.sh` | 一键跑 8 组组合：每组先重建 skeleton、再 translate_fragment、再 snapshot schema 到 per-run 子目录 |
-| `src/java/analysis/ablation_compare.py` | 读取 8 个 per-run schema 快照、计算指标、生成 Markdown 报告 + metrics.csv + significance.csv |
+| `scripts/java/run_ablation.sh` | 一键跑 5 组组合：每组先重建 skeleton、再 translate_fragment、再 snapshot schema 到 per-run 子目录 |
+| `src/java/analysis/ablation_compare.py` | 读取 5 个 per-run schema 快照、计算指标、生成 Markdown 报告 + metrics.csv + significance.csv |
 | `tests/test_ablation_compare.py` | 单元测试：Fisher exact、stats_to_metrics、generate_markdown_report smoke |
 | 旧文件 `src/java/analysis/analyze_errors.py`、`scripts/java/analyze_errors.sh` | 未改动。新代码 `import` `analyze_project()` 复用，不修改 |
 
-## 8 种 run-tag
+## 5 种 run-tag
 
 | run-tag | use_pseudocode | use_grammar_prompt | use_syntax_rag |
 |---|---|---|---|
@@ -466,9 +466,6 @@ bash scripts/java/translate_fragment.sh jansi "$model" "$suffix" "$temp" \
 | `pseudo` | true | false | false |
 | `grammar` | false | true | false |
 | `syntax` | false | false | true |
-| `pseudo+grammar` | true | true | false |
-| `pseudo+syntax` | true | false | true |
-| `grammar+syntax` | false | true | true |
 | `all` | true | true | true |
 
 run-tag 由 `run_ablation.sh` 自动写入，名称固定不可改（`ablation_compare.py` 中的 `RUN_TAGS` 数组必须与此保持一致）。
@@ -493,24 +490,25 @@ model=deepseek-chat
 suffix=_evosuite_cleaned_base
 temp=0.0
 
-# 一键：跑 8 组 + 快照 + 自动出报告
+# 一键：关闭 Progressive KB，跑 5 组 + 快照 + 自动出报告
 bash scripts/java/run_ablation.sh \
     "$project" "$model" "$suffix" "$temp" \
-    true true false true     # use_rag skip_mock translate_tests use_progressive_kb
+    true true false          # use_rag skip_mock translate_tests
 ```
 
 输出：
 
 ```
 data/java/ablation/<project>_<model>_<temp><suffix>/
-├── baseline/              ├── pseudo+grammar/
-├── pseudo/                ├── pseudo+syntax/
-├── grammar/               ├── grammar+syntax/
-├── syntax/                ├── all/
-│   ├── *.json             │   ├── *.json
-│   └── skeletons/         │   └── skeletons/
+├── baseline/
+├── pseudo/
+├── grammar/
+├── syntax/
+├── all/
+│   ├── *.json
+│   └── skeletons/
 ├── report.md              ← 主报告（Markdown，含横向对比表 + 显著性表）
-├── metrics.csv            ← 8 行 flat 字段 table
+├── metrics.csv            ← 5 行 flat 字段 table
 └── significance.csv       ← run_tag × metric 的 odds ratio / p 值表
 ```
 
@@ -518,10 +516,10 @@ data/java/ablation/<project>_<model>_<temp><suffix>/
 
 ### 手动分步（当你只想跑部分组合或已存在的快照不重新翻译）
 
-如果你已有 schema 快照并且不想再跑 8 次翻译，直接调一次性分析：
+如果你已有 schema 快照并且不想再跑 5 次翻译，直接调一次性分析：
 
 ```bash
-# 假设你之前手动跑了 8 次 + 快照到
+# 假设你之前手动跑了 5 次 + 快照到
 # data/java/ablation/<project>_<model>_<temp><suffix>/<tag>/ 下
 
 python -m src.java.analysis.ablation_compare \
@@ -540,11 +538,11 @@ ablation_root 路径下至少要有 `baseline/` 子目录（报告才能给出 d
 
 ```text
 bash scripts/java/run_ablation.sh <project> <model> <suffix> <temperature> \
-    [use_rag] [skip_mock] [translate_tests] [use_progressive_kb]
+    [use_rag] [skip_mock] [translate_tests]
 ```
 
 - 前 4 个位置参数与 `translate_fragment.sh` 完全一致；
-- 后 4 个参数控制每组翻译时的"非增强"复用行为（为所有 8 组共享，即不在 ablation 维度内取差异），建议保持稳定（如 `true true false true` 即 RAG=true、跳过 mock 测试、不翻译测试方法、开启 Progressive KB）；
+- 后 3 个参数控制每组翻译时的"非增强"复用行为（为所有 5 组共享，即不在 ablation 维度内取差异），建议保持稳定（如 `true true false` 即 RAG=true、跳过 mock 测试、不翻译测试方法）；Progressive KB 在脚本内固定关闭，不能通过参数打开；
 - `skip_mock=true` 跳过 mock 测试阶段：消融主要关注编译通过率与翻译完成率，测试执行通常慢且需 mock 语料，建议先 `skip_mock=true` 出第一批数据，再针对部分组关掉 skip_mock 做第二轮。
 
 `ablation_compare.py` 直接调用时的参数：
@@ -554,7 +552,7 @@ bash scripts/java/run_ablation.sh <project> <model> <suffix> <temperature> \
 --model               模型名（必填）
 --temperature         温度（必填）
 --suffix              schema 后缀（默认 ""）
---ablation-root       8 个 run-tag 快照子目录的父目录（必填）
+--ablation-root       5 个 run-tag 快照子目录的父目录（必填）
 --output              Markdown 报告输出路径（默认 <ablation-root>/report.md）
 --csv                 metrics.csv 输出路径（默认 <ablation-root>/metrics.csv）
 --skip-significance   跳过 Fisher exact 显著性检验（fragment 数太少时使用）
@@ -587,8 +585,8 @@ bash scripts/java/run_ablation.sh <project> <model> <suffix> <temperature> \
 1. **样本一致性**：所有组的 `total_fragments` 必须相同（翻译器对所有 fragment 都尝试）。如果在你跑的某组不一致，说明该组中途崩溃或被 out_of_context 截断，需查 schema json。
 2. **cjpm 不可用时**：可改用一个固定 mock_dir 让验证失败 + propagate error feedback，但消融数据会被编译排序一侧吞掉——这种情况下 `compiled_pass=0` 的对比无意义，只能看 `completed`。
 3. **`create_skeleton` 消耗**：循环每组开头都会重建 skeleton，这会消耗额外的 LLM token（每多一组多一次 skeleton 的元数据写入，影响很小）。
-4. **LLM 不稳定性**：`temperature != 0` 的 ablation 每次跑都会不同，单次结果的"增益"可能是在噪声范围内。建议 `temperature=0.0`：现在 8 组都是 deterministic prompt + deterministic 模型时增益才是真实可信的。如温度升高，需要多跑几轮取期望。
-5. **总成本估算**：比单跑翻译慢约 9 倍（baseline + 7 enhancement 组）+ 8 次 skeleton 重建。LLM token 成本上升同步。
+4. **LLM 不稳定性**：`temperature != 0` 的 ablation 每次跑都会不同，单次结果的"增益"可能是在噪声范围内。建议 `temperature=0.0`：5 组都使用 deterministic prompt + deterministic 模型时结果才更可比。如温度升高，需要多跑几轮取期望。
+5. **总成本估算**：比单跑翻译慢约 5 倍（baseline + 3 个单独开启 + all）并执行 5 次 skeleton 重建。LLM token 成本上升同步。
 
 ## 单元测试
 

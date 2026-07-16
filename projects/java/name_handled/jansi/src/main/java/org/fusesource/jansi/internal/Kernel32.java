@@ -459,7 +459,8 @@ public class Kernel32 {
     /**
      * Return console input events.
      */
-    public static Kernel32_INPUT_RECORD[] readConsoleInputHelper(long handle, int count, boolean peek) throws IOException {
+    public static Kernel32_INPUT_RECORD[] readConsoleInputHelper(long handle, int count, boolean peek)
+            throws IOException {
         int[] length = new int[1];
         int res;
         long inputRecordPtr = 0;
@@ -480,7 +481,8 @@ public class Kernel32 {
             Kernel32_INPUT_RECORD[] records = new Kernel32_INPUT_RECORD[length[0]];
             for (int i = 0; i < records.length; i++) {
                 records[i] = new Kernel32_INPUT_RECORD();
-                Kernel32_INPUT_RECORD.memmove(records[i], inputRecordPtr + i * Kernel32_INPUT_RECORD.SIZEOF, Kernel32_INPUT_RECORD.SIZEOF);
+                Kernel32_INPUT_RECORD.memmove(
+                        records[i], inputRecordPtr + i * Kernel32_INPUT_RECORD.SIZEOF, Kernel32_INPUT_RECORD.SIZEOF);
             }
             return records;
         } finally {

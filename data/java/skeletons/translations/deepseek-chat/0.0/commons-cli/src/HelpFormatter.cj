@@ -2,124 +2,112 @@
 package commons_cli
 
 // Imports Begin
-
+import std.io.ByteBuffer
+import std.io.StringWriter
+import stdx.crypto.x509.VerifyOption
 // Imports End
 
 public open class HelpFormatter {
     // Fields Begin
-    static let DEFAULT_LONG_OPT_PREFIX: String = "--"
-    static let DEFAULT_LONG_OPT_SEPARATOR: String = " "
-    static let DEFAULT_ARG_NAME: String = "arg"
-    var defaultWidth: Int64 = DEFAULT_WIDTH
-    var defaultLeftPad: Int64 = DEFAULT_LEFT_PAD
-    var defaultDescPad: Int64 = DEFAULT_DESC_PAD
-    var defaultSyntaxPrefix: String = DEFAULT_SYNTAX_PREFIX
-    var defaultNewLine: String = throw Exception('TODO')  // Already translated, compilation failed
-    var defaultOptPrefix: String = DEFAULT_OPT_PREFIX
-    var defaultLongOptPrefix: String = DEFAULT_LONG_OPT_PREFIX
-    var defaultArgName: String = DEFAULT_ARG_NAME
-    var optionComparator: (Option, Option) -> Ordering = throw Exception('TODO')  // Already translated, compilation failed
-    var longOptSeparator: String = DEFAULT_LONG_OPT_SEPARATOR
-    static let DEFAULT_WIDTH: Int64 = 74
-    static let DEFAULT_LEFT_PAD: Int64 = 1
-    static let DEFAULT_DESC_PAD: Int64 = 3
-    static let DEFAULT_SYNTAX_PREFIX: String = "usage: "
-    static let DEFAULT_OPT_PREFIX: String = "-"
+    static let DEFAULT_LONG_OPT_PREFIX: String = throw Exception('TODO')
+    static let DEFAULT_LONG_OPT_SEPARATOR: String = throw Exception('TODO')
+    static let DEFAULT_ARG_NAME: String = throw Exception('TODO')
+    var defaultWidth: Int32 = throw Exception('TODO')
+    var defaultLeftPad: Int32 = throw Exception('TODO')
+    var defaultDescPad: Int32 = throw Exception('TODO')
+    var defaultSyntaxPrefix: String = throw Exception('TODO')
+    var defaultNewLine: String = throw Exception('TODO')
+    var defaultOptPrefix: String = throw Exception('TODO')
+    var defaultLongOptPrefix: String = throw Exception('TODO')
+    var defaultArgName: String = throw Exception('TODO')
+    var optionComparator: (Option, Option) -> Int64 = throw Exception('TODO')
+    var longOptSeparator: String = throw Exception('TODO')
+    static let DEFAULT_WIDTH: Int32 = throw Exception('TODO')
+    static let DEFAULT_LEFT_PAD: Int32 = throw Exception('TODO')
+    static let DEFAULT_DESC_PAD: Int32 = throw Exception('TODO')
+    static let DEFAULT_SYNTAX_PREFIX: String = throw Exception('TODO')
+    static let DEFAULT_OPT_PREFIX: String = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
     private func appendOption(buff: StringBuilder, option: Option, required: Bool): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     private func appendOptionGroup(buff: StringBuilder, group: OptionGroup): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
-    protected open func createPadding(len: Int64): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+    protected open func createPadding(len: Int32): String {
+        throw Exception('TODO')
     }
 
-    protected open func findWrapPos(text: String, width: Int64, startPos: Int64): Int64 {
-        throw Exception('TODO')  // Already translated, compilation failed
+    protected open func findWrapPos(text: String, width: Int32, startPos: Int32): Int32 {
+        throw Exception('TODO')
     }
 
     public open func getArgName(): String {
-                return defaultArgName
+        throw Exception('TODO')
     }
 
-    public open func getDescPadding(): Int64 {
-                return defaultDescPad
+    public open func getDescPadding(): Int32 {
+        throw Exception('TODO')
     }
 
-    public open func getLeftPadding(): Int64 {
-                return defaultLeftPad
+    public open func getLeftPadding(): Int32 {
+        throw Exception('TODO')
     }
 
     public open func getLongOptPrefix(): String {
-                return defaultLongOptPrefix
+        throw Exception('TODO')
     }
 
     public open func getLongOptSeparator(): String {
-                return longOptSeparator
+        throw Exception('TODO')
     }
 
     public open func getNewLine(): String {
-                return defaultNewLine
+        throw Exception('TODO')
     }
 
-    public open func getOptionComparator(): (Option, Option) -> Ordering {
-                return optionComparator
+    public open func getOptionComparator<Option>(): (Option, Option) -> Int64 {
+        throw Exception('TODO')
     }
 
     public open func getOptPrefix(): String {
-                return defaultOptPrefix
+        throw Exception('TODO')
     }
 
     public open func getSyntaxPrefix(): String {
-                return defaultSyntaxPrefix
+        throw Exception('TODO')
     }
 
-    public open func getWidth(): Int64 {
-                return defaultWidth
+    public open func getWidth(): Int32 {
+        throw Exception('TODO')
     }
 
-    public open func printHelp0(width: Int64, cmdLineSyntax: String, header: String, options: Options, footer: String): Unit {
-                printHelp1(width, cmdLineSyntax, header, options, footer, false)
+    public open func printHelp0(width: Int32, cmdLineSyntax: String, header: String, options: Options, footer: String): Unit {
+        throw Exception('TODO')
     }
 
-    public open func printHelp1(width: Int64, cmdLineSyntax: String, header: String, options: Options, footer: String, autoUsage: Bool): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public open func printHelp1(width: Int32, cmdLineSyntax: String, header: String, options: Options, footer: String, autoUsage: Bool): Unit {
+        throw Exception('TODO')
     }
 
-    public open func printHelp2(pw: Any, width: Int64, cmdLineSyntax: String, header: String, options: Options, leftPad: Int64, descPad: Int64, footer: String): Unit {
-                printHelp3(pw, width, cmdLineSyntax, header, options, leftPad, descPad, footer, false)
+    public open func printHelp2(pw: StringWriter<ByteBuffer>, width: Int32, cmdLineSyntax: String, header: String, options: Options, leftPad: Int32, descPad: Int32, footer: String): Unit {
+        throw Exception('TODO')
     }
 
-    public open func printHelp3(pw: Any, width: Int64, cmdLineSyntax: String, header: String, options: Options, leftPad: Int64, descPad: Int64, footer: String, autoUsage: Bool): Unit {
-                if (cmdLineSyntax == "" || cmdLineSyntax.isEmpty()) {
-        throw IllegalArgumentException("cmdLineSyntax not provided")
-        }
-        if (autoUsage) {
-        printUsage1(pw, width, cmdLineSyntax, options)
-        } else {
-        printUsage0(pw, width, cmdLineSyntax)
-        }
-        if (header != "" && !header.isEmpty()) {
-        printWrapped1(pw, width, header)
-        }
-        printOptions(pw, width, options, leftPad, descPad)
-        if (footer != "" && !footer.isEmpty()) {
-        printWrapped1(pw, width, footer)
-        }
+    public open func printHelp3(pw: StringWriter<ByteBuffer>, width: Int32, cmdLineSyntax: String, header: String, options: Options, leftPad: Int32, descPad: Int32, footer: String, autoUsage: Bool): Unit {
+        throw Exception('TODO')
     }
 
     public open func printHelp4(cmdLineSyntax: String, options: Options): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     public open func printHelp5(cmdLineSyntax: String, options: Options, autoUsage: Bool): Unit {
-                printHelp1(getWidth(), cmdLineSyntax, "", options, "", autoUsage)
+        throw Exception('TODO')
     }
 
     public open func printHelp6(cmdLineSyntax: String, header: String, options: Options, footer: String): Unit {
@@ -127,95 +115,95 @@ public open class HelpFormatter {
     }
 
     public open func printHelp7(cmdLineSyntax: String, header: String, options: Options, footer: String, autoUsage: Bool): Unit {
-                printHelp1(getWidth(), cmdLineSyntax, header, options, footer, autoUsage)
+        throw Exception('TODO')
     }
 
-    public open func printOptions(pw: Any, width: Int64, options: Options, leftPad: Int64, descPad: Int64): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public open func printOptions(pw: StringWriter<ByteBuffer>, width: Int32, options: Options, leftPad: Int32, descPad: Int32): Unit {
+        throw Exception('TODO')
     }
 
-    public open func printUsage0(pw: Any, width: Int64, cmdLineSyntax: String): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public open func printUsage0(pw: StringWriter<ByteBuffer>, width: Int32, cmdLineSyntax: String): Unit {
+        throw Exception('TODO')
     }
 
-    public open func printUsage1(pw: Any, width: Int64, app: String, options: Options): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public open func printUsage1(pw: StringWriter<ByteBuffer>, width: Int32, app: String, options: Options): Unit {
+        throw Exception('TODO')
     }
 
-    public open func printWrapped0(pw: Any, width: Int64, nextLineTabStop: Int64, text: String): Unit {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public open func printWrapped0(pw: StringWriter<ByteBuffer>, width: Int32, nextLineTabStop: Int32, text: String): Unit {
+        throw Exception('TODO')
     }
 
-    public open func printWrapped1(pw: Any, width: Int64, text: String): Unit {
-                printWrapped0(pw, width, 0, text)
+    public open func printWrapped1(pw: StringWriter<ByteBuffer>, width: Int32, text: String): Unit {
+        throw Exception('TODO')
     }
 
-    protected open func renderOptions(sb: StringBuilder, width: Int64, options: Options, leftPad: Int64, descPad: Int64): StringBuilder {
-        throw Exception('TODO')  // Already translated, compilation failed
+    protected open func renderOptions(sb: StringBuilder, width: Int32, options: Options, leftPad: Int32, descPad: Int32): StringBuilder {
+        throw Exception('TODO')
     }
 
-    protected open func renderWrappedText(sb: StringBuilder, width: Int64, nextLineTabStop: Int64, text: String): StringBuilder {
-        throw Exception('TODO')  // Already translated, compilation failed
+    protected open func renderWrappedText(sb: StringBuilder, width: Int32, nextLineTabStop: Int32, text: String): StringBuilder {
+        throw Exception('TODO')
     }
 
-    private func renderWrappedTextBlock(sb: StringBuilder, width: Int64, nextLineTabStop: Int64, text: String): Any {
-        throw Exception('TODO')  // Already translated, compilation failed
+    private func renderWrappedTextBlock(sb: StringBuilder, width: Int32, nextLineTabStop: Int32, text: String): StringWriter<ByteBuffer> {
+        throw Exception('TODO')
     }
 
     protected open func rtrim(s: String): String {
-        throw Exception('TODO')  // Already translated, compilation failed
+        throw Exception('TODO')
     }
 
     public open func setArgName(name: String): Unit {
-                this.defaultArgName = name
+        throw Exception('TODO')
     }
 
-    public open func setDescPadding(padding: Int64): Unit {
-                this.defaultDescPad = padding
+    public open func setDescPadding(padding: Int32): Unit {
+        throw Exception('TODO')
     }
 
-    public open func setLeftPadding(padding: Int64): Unit {
-                this.defaultLeftPad = padding
+    public open func setLeftPadding(padding: Int32): Unit {
+        throw Exception('TODO')
     }
 
     public open func setLongOptPrefix(prefix: String): Unit {
-                this.defaultLongOptPrefix = prefix
+        throw Exception('TODO')
     }
 
     public open func setLongOptSeparator(longOptSeparator_param: String): Unit {
-                this.longOptSeparator = longOptSeparator_param
+        throw Exception('TODO')
     }
 
     public open func setNewLine(newline: String): Unit {
-                this.defaultNewLine = newline
+        throw Exception('TODO')
     }
 
-    public open func setOptionComparator(comparator: (Option, Option) -> Ordering): Unit {
+    public open func setOptionComparator<Option>(comparator: (Option, Option) -> Int64): Unit {
         throw Exception('TODO')
     }
 
     public open func setOptPrefix(prefix: String): Unit {
-                this.defaultOptPrefix = prefix
+        throw Exception('TODO')
     }
 
     public open func setSyntaxPrefix(prefix: String): Unit {
-                this.defaultSyntaxPrefix = prefix
+        throw Exception('TODO')
     }
 
-    public open func setWidth(width: Int64): Unit {
-                this.defaultWidth = width
+    public open func setWidth(width: Int32): Unit {
+        throw Exception('TODO')
     }
 
     // Methods End
 }
 
-private open class HelpFormatter_OptionComparator {
+open class HelpFormatter_OptionComparator {
     // Fields Begin
     // Fields End
 
     // Methods Begin
-    public open func compare(opt1: Option, opt2: Option): Int64 {
-        throw Exception('TODO')  // Already translated, compilation failed
+    public open func compare(opt1: Option, opt2: Option): Int32 {
+        throw Exception('TODO')
     }
 
     // Methods End

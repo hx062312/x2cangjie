@@ -7,7 +7,7 @@ package commons_cli
 
 public open class UnrecognizedOptionException <: ParseException {
     // Fields Begin
-    let option: String = throw Exception('TODO')
+    var option: String = throw Exception('TODO')
     // Fields End
 
     // Methods Begin

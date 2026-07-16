@@ -2,6 +2,7 @@
 package jansi
 
 // Imports Begin
+import std.collection.*
 import std.collection.ArrayList
 import std.io.OutputStream
 // Imports End
@@ -12,20 +13,20 @@ public open class ColorsAnsiProcessor <: AnsiProcessor {
     // Fields End
 
     // Methods Begin
-    public init(os: OutputStream, colors: AnsiColors) {
+    public init(os_param: OutputStream, colors_param: AnsiColors) {
         super()
         throw Exception('TODO')
     }
 
-    protected override func processEscapeCommand<Object>(options: ArrayList<Any>, command: Int32): Bool {
+    protected override func processEscapeCommand(options: ArrayList<Any>, command: Int32): Bool {
         throw Exception('TODO')
     }
 
-    protected override func processOperatingSystemCommand<Object>(options: ArrayList<Any>): Bool {
+    protected override func processOperatingSystemCommand(options: ArrayList<Any>): Bool {
         throw Exception('TODO')
     }
 
-    protected override func processCharsetSelect<Object>(options: ArrayList<Any>): Bool {
+    protected override func processCharsetSelect0(options: ArrayList<Any>): Bool {
         throw Exception('TODO')
     }
 

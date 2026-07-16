@@ -2,6 +2,7 @@
 package jansi
 
 // Imports Begin
+import std.collection.*
 import std.collection.ArrayList
 import std.io.OutputStream
 // Imports End
@@ -40,31 +41,31 @@ public open class AnsiProcessor {
     // Fields End
 
     // Methods Begin
-    public init(os: OutputStream) {
+    public init(os_param: OutputStream) {
         throw Exception('TODO')
     }
 
-    protected open func getNextOptionInt<Object>(optionsIterator: Iterator<Any>): Int32 {
+    protected open func getNextOptionInt(optionsIterator: Iterator<Any>): Int32 {
         throw Exception('TODO')
     }
 
-    protected open func processEscapeCommand<Object>(options: ArrayList<Any>, command: Int32): Bool {
+    protected open func processEscapeCommand(options: ArrayList<Any>, command: Int32): Bool {
         throw Exception('TODO')
     }
 
-    protected open func processOperatingSystemCommand<Object>(options: ArrayList<Any>): Bool {
+    protected open func processOperatingSystemCommand(options: ArrayList<Any>): Bool {
         throw Exception('TODO')
     }
 
-    protected open func processCharsetSelect<Object>(options: ArrayList<Any>): Bool {
+    protected open func processCharsetSelect0(options: ArrayList<Any>): Bool {
         throw Exception('TODO')
     }
 
-    private func optionInt<Object>(options: ArrayList<Any>, index: Int32): Int32 {
+    private func optionInt0(options: ArrayList<Any>, index: Int32): Int32 {
         throw Exception('TODO')
     }
 
-    private func optionInt<Object>(options: ArrayList<Any>, index: Int32, defaultValue: Int32): Int32 {
+    private func optionInt1(options: ArrayList<Any>, index: Int32, defaultValue: Int32): Int32 {
         throw Exception('TODO')
     }
 
@@ -104,35 +105,35 @@ public open class AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected open func processSetForegroundColor(color: Int32): Unit {
+    protected open func processSetForegroundColor0(color: Int32): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetForegroundColor(color: Int32, bright: Bool): Unit {
+    protected open func processSetForegroundColor1(color: Int32, bright: Bool): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetForegroundColorExt(paletteIndex: Int32): Unit {
+    protected open func processSetForegroundColorExt0(paletteIndex: Int32): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetForegroundColorExt(r: Int32, g: Int32, b: Int32): Unit {
+    protected open func processSetForegroundColorExt1(r: Int32, g: Int32, b: Int32): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetBackgroundColor(color: Int32): Unit {
+    protected open func processSetBackgroundColor0(color: Int32): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetBackgroundColor(color: Int32, bright: Bool): Unit {
+    protected open func processSetBackgroundColor1(color: Int32, bright: Bool): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetBackgroundColorExt(paletteIndex: Int32): Unit {
+    protected open func processSetBackgroundColorExt0(paletteIndex: Int32): Unit {
         throw Exception('TODO')
     }
 
-    protected open func processSetBackgroundColorExt(r: Int32, g: Int32, b: Int32): Unit {
+    protected open func processSetBackgroundColorExt1(r: Int32, g: Int32, b: Int32): Unit {
         throw Exception('TODO')
     }
 
@@ -180,7 +181,7 @@ public open class AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected open func processUnknownExtension<Object>(options: ArrayList<Any>, command: Int32): Unit {
+    protected open func processUnknownExtension(options: ArrayList<Any>, command: Int32): Unit {
         throw Exception('TODO')
     }
 
@@ -200,7 +201,7 @@ public open class AnsiProcessor {
         throw Exception('TODO')
     }
 
-    protected open func processCharsetSelect(set: Int32, seq: Rune): Unit {
+    protected open func processCharsetSelect1(set: Int32, seq: Rune): Unit {
         throw Exception('TODO')
     }
 

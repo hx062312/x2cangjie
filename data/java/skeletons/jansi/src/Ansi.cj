@@ -2,22 +2,25 @@
 package jansi
 
 // Imports Begin
-
+import std.collection.*
+import std.collection.ArrayList
+import std.core.ThreadLocal
+import stdx.crypto.x509.X509CertificateInfo
 // Imports End
 
 public open class Ansi {
     // Fields Begin
     static let DISABLE: String = throw Exception('TODO')
     static var detector: () -> Bool = throw Exception('TODO')
-    static let holder: InheritableThreadLocal<Bool> = throw Exception('TODO')
+    static let holder: ThreadLocal<Bool> = throw Exception('TODO')
     static let FIRST_ESC_CHAR: Rune = throw Exception('TODO')
     static let SECOND_ESC_CHAR: Rune = throw Exception('TODO')
-    var builder: Any = throw Exception('TODO')
+    var builder: StringBuilder = throw Exception('TODO')
     var attributeOptions: ArrayList<Int32> = throw Exception('TODO')
     // Fields End
 
     // Methods Begin
-    public static func setDetector<Boolean>(detector_param: () -> Bool): Unit {
+    public static func setDetector(detector_param: () -> Bool): Unit {
         throw Exception('TODO')
     }
 
@@ -37,7 +40,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public static func ansi1(builder_param: Any): Ansi {
+    public static func ansi1(builder_param: StringBuilder): Ansi {
         throw Exception('TODO')
     }
 
@@ -57,7 +60,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public init(constructorId: Int32, builder_param: Any, parent: Ansi) {
+    public init(constructorId: Int32, builder_param: StringBuilder, parent: Ansi) {
         throw Exception('TODO')
     }
 
@@ -345,11 +348,11 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func a6(value: Any, start: Int32, end: Int32): Ansi {
+    public open func a6(value: String, start: Int32, end: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func a7(value: Any): Ansi {
+    public open func a7(value: String): Ansi {
         throw Exception('TODO')
     }
 
@@ -373,7 +376,7 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func a13(value: Any): Ansi {
+    public open func a13(value: StringBuilder): Ansi {
         throw Exception('TODO')
     }
 
@@ -421,19 +424,19 @@ public open class Ansi {
         throw Exception('TODO')
     }
 
-    public open func append(csq: Any): Ansi {
+    public open func append(csq: String): Ansi {
         throw Exception('TODO')
     }
 
-    public open func append0(csq: Any): Ansi {
+    public open func append0(csq: String): Ansi {
         throw Exception('TODO')
     }
 
-    public open func append(csq: Any, start: Int32, end: Int32): Ansi {
+    public open func append(csq: String, start: Int32, end: Int32): Ansi {
         throw Exception('TODO')
     }
 
-    public open func append1(csq: Any, start: Int32, end: Int32): Ansi {
+    public open func append1(csq: String, start: Int32, end: Int32): Ansi {
         throw Exception('TODO')
     }
 
@@ -595,7 +598,7 @@ open class Ansi_NoAnsi <: Ansi {
         throw Exception('TODO')
     }
 
-    private static func determineStringBuilder(args: Any): Any {
+    private static func determineStringBuilder(args: Any): StringBuilder {
         throw Exception('TODO')
     }
 

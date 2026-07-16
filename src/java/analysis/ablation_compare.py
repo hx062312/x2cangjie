@@ -3,15 +3,12 @@ Ablation analysis for the three fragment-translation enhancements (Part 1/2/3).
 
 This module compares the translation pass-rate, compilation pass-rate,
 test-execution pass-rate, residual-TODO rate, and average elapsed time across
-the 2^3 = 8 combinations of the enhancement flags:
+five runs with Progressive KB disabled:
 
     baseline   (none)
     +pseudo    (use_pseudocode)
     +grammar   (use_grammar_prompt)
     +syntax    (use_syntax_rag)
-    +pseudo+grammar
-    +pseudo+syntax
-    +grammar+syntax
     +all       (pseudo+grammar+syntax)
 
 It REUSES the existing stats extractor from `analyze_errors.py` — it does NOT
@@ -40,9 +37,6 @@ specifier. The recommended run-tag naming convention is:
     data/java/ablation/<project>_<model>_<temp><suffix>/pseudo/
     data/java/ablation/<project>_<model>_<temp><suffix>/grammar/
     data/java/ablation/<project>_<model>_<temp><suffix>/syntax/
-    data/java/ablation/<project>_<model>_<temp><suffix>/pseudo+grammar/
-    data/java/ablation/<project>_<model>_<temp><suffix>/pseudo+syntax/
-    data/java/ablation/<project>_<model>_<temp><suffix>/grammar+syntax/
     data/java/ablation/<project>_<model>_<temp><suffix>/all/
 
 Each subdirectory must contain the per-schema JSON files (= the contents of
@@ -50,8 +44,8 @@ data/java/schemas<suffix>/<model>/<temp>/<project>/ after a translate_fragment
 run with the indicated flags).
 
 You can either manually `cp -r` the schema dir into each tag subdir, or use
-the convenience wrapper `scripts/java/run_ablation.sh` which runs the 8
-translate_fragment invocations and snapshots the schemas between each.
+the convenience wrappers which run the five translate_fragment invocations
+and snapshot the schemas between each.
 
 CLI:
 
@@ -83,7 +77,7 @@ from src.java.analysis.analyze_errors import count_todos_in_skeletons
 
 
 # ---------------------------------------------------------------------------
-# Run-tag definitions — keep in sync with scripts/java/run_ablation.sh
+# Run-tag definitions — keep in sync with both ablation shell entry points
 # ---------------------------------------------------------------------------
 
 RUN_TAGS: list[str] = [
@@ -91,9 +85,6 @@ RUN_TAGS: list[str] = [
     "pseudo",
     "grammar",
     "syntax",
-    "pseudo+grammar",
-    "pseudo+syntax",
-    "grammar+syntax",
     "all",
 ]
 
@@ -102,9 +93,6 @@ FLAG_LABELS: dict[str, str] = {
     "pseudo": "+Part1",
     "grammar": "+Part2",
     "syntax": "+Part3",
-    "pseudo+grammar": "+Part1+2",
-    "pseudo+syntax": "+Part1+3",
-    "grammar+syntax": "+Part2+3",
     "all": "+Part1+2+3",
 }
 
@@ -261,11 +249,13 @@ def fisher_exact_2x2(table: tuple[tuple[int, int], tuple[int, int]]) -> tuple[fl
     if p_two > 1.0:
         p_two = 1.0
 
-    # Odds ratio (Haldane-Anscombe 0.5 correction when a cell is 0)
+    # Odds ratio for row 1 relative to row 0. Ablation reports pass
+    # (baseline, alternative), so values above 1 mean the alternative improved.
+    # Apply the Haldane-Anscombe 0.5 correction when a cell is 0.
     a_f, b_f, c_f, d_f = float(a), float(b), float(c), float(d)
-    if b == 0 or c == 0:
+    if 0 in (a, b, c, d):
         a_f, b_f, c_f, d_f = a_f + 0.5, b_f + 0.5, c_f + 0.5, d_f + 0.5
-    odds_ratio = (a_f * d_f) / (b_f * c_f)
+    odds_ratio = (b_f * c_f) / (a_f * d_f)
 
     return odds_ratio, p_two
 
@@ -460,25 +450,6 @@ def generate_markdown_report(
                 f"{sr['alt_pass']}/{sr['alt_total']} | {orval} | {pval} | {sig} |"
             )
 
-    # Per-Part additivity sanity
-    pairs_two = ("pseudo+grammar", "pseudo+syntax", "grammar+syntax")
-    if "baseline" in by_tag and all(p in by_tag for p in pairs_two):
-        lines.append("")
-        lines.append("## Pairwise ablation (two-Part combinations)")
-        lines.append("")
-        lines.append("| Run tag | Δ Completed | Δ Compiled | Δ Test pass | Δ TODOs | Δ Elapsed(s) |")
-        lines.append("|---|---:|---:|---:|---:|---:|")
-        for tag in pairs_two:
-            r = by_tag[tag]
-            lines.append(
-                f"| `{r['run_tag']}` | "
-                f"{_fmt_delta(r['completed'], base['completed'])} | "
-                f"{_fmt_delta(r['compiled_pass'], base['compiled_pass'])} | "
-                f"{_fmt_delta(r['test_pass'], base['test_pass'])} | "
-                f"{_fmt_delta(r['residual_todos'], base['residual_todos'])} | "
-                f"{_fmt_delta(r['elapsed_mean_s'], base['elapsed_mean_s'])} |"
-            )
-
     # Notes section
     lines.append("")
     lines.append("## Notes")
@@ -497,7 +468,7 @@ def generate_markdown_report(
                  "[pass, fail] x [baseline, alternative], with totals row/column fixed.")
     lines.append("- **Ablation runs MUST each be a separate copy of the schema dir** because "
                  "translate_fragment.sh overwrites the same schema JSON files between runs. Use "
-                 "`scripts/java/run_ablation.sh` to snapshot automatically; see "
+                 "an ablation shell entry point to snapshot automatically; see "
                  "`docs/fragment_translation_enhancements.md` for the full procedure.")
 
     return "\n".join(lines) + "\n"
@@ -603,8 +574,8 @@ def main():
     parser.add_argument(
         "--ablation-root",
         required=True,
-        help="Subdirectory containing run-tag subdirs (baseline/, pseudo/, grammar/, syntax/, "
-        "pseudo+grammar/, pseudo+syntax/, grammar+syntax/, all/)",
+        help="Subdirectory containing run-tag subdirs "
+        "(baseline/, pseudo/, grammar/, syntax/, all/)",
     )
     parser.add_argument(
         "--output",
@@ -646,7 +617,7 @@ def main():
     if missing_tags:
         print(f"[WARN] Missing run tags: {', '.join(missing_tags)}", file=sys.stderr)
 
-    # Significance test — compare each single-Part run / pairwise / all vs baseline
+    # Significance test — compare each single-Part run and all vs baseline
     significance_rows: list[dict] = []
     if not args.skip_significance and "baseline" in {r["run_tag"] for r in rows}:
         # Build (run_tag, metric) test list; only test compile and test pass-rate

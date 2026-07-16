@@ -361,10 +361,30 @@ def fallback_type_for(source_type):
     translated = deterministic_get_cangjie_type(stripped, static_type_map)
     return translated or 'Any'
 
+
+def validate_deterministic_type_map(type_map):
+    """Fail before mutating schemas when core generic mappings are unavailable."""
+    required = {
+        'List<String>': 'ArrayList<String>',
+        'Map<String, String>': 'HashMap<String, String>',
+    }
+    failures = []
+    for source_type, expected_type in required.items():
+        actual_type = deterministic_get_cangjie_type(source_type, type_map)
+        if not is_known_type_expression(source_type, type_map) or actual_type != expected_type:
+            failures.append(f'{source_type}: expected {expected_type}, got {actual_type}')
+    if failures:
+        raise RuntimeError(
+            'Core deterministic type mappings are unavailable. '
+            'Check java_generic_type_map.json and the repository root. '
+            + '; '.join(failures)
+        )
+
 def main(args):
     log_path = init_type_resolution_log(args)
 
     STATIC_TYPE_MAP = build_default_type_map()
+    validate_deterministic_type_map(STATIC_TYPE_MAP)
     log_detail(log_path, 'CONFIG', f'Loaded {len(STATIC_TYPE_MAP)} deterministic type entries')
 
     model_client = None

@@ -98,25 +98,25 @@ public class AnsiOutputStream extends FilterOutputStream {
 
     public AnsiOutputStream(
             OutputStream os,
-            AnsiOutputStream_WidthSupplier width,
-            AnsiMode mode,
-            AnsiProcessor processor,
-            AnsiType type__,
-            AnsiColors colors,
-            Charset cs,
-            AnsiOutputStream_IoRunnable installer,
-            AnsiOutputStream_IoRunnable uninstaller,
-            boolean resetAtUninstall) {
+            AnsiOutputStream_WidthSupplier width_param,
+            AnsiMode mode_param,
+            AnsiProcessor processor_param,
+            AnsiType type___param,
+            AnsiColors colors_param,
+            Charset cs_param,
+            AnsiOutputStream_IoRunnable installer_param,
+            AnsiOutputStream_IoRunnable uninstaller_param,
+            boolean resetAtUninstall_param) {
         super(os);
-        this.width = width;
-        this.processor = processor;
-        this.type__ = type__;
-        this.colors = colors;
-        this.installer = installer;
-        this.uninstaller = uninstaller;
-        this.resetAtUninstall = resetAtUninstall;
-        this.cs = cs;
-        setMode(mode);
+        this.width = width_param;
+        this.processor = processor_param;
+        this.type__ = type___param;
+        this.colors = colors_param;
+        this.installer = installer_param;
+        this.uninstaller = uninstaller_param;
+        this.resetAtUninstall = resetAtUninstall_param;
+        this.cs = cs_param;
+        setMode(mode_param);
     }
 
     public int getTerminalWidth() {
@@ -135,19 +135,19 @@ public class AnsiOutputStream extends FilterOutputStream {
         return mode;
     }
 
-    public void setMode(AnsiMode mode) {
-        ap = mode == AnsiMode.Strip
+    public void setMode(AnsiMode mode_param) {
+        ap = mode_param == AnsiMode.Strip
                 ? new AnsiProcessor(out)
-                : mode == AnsiMode.Force || processor == null ? new ColorsAnsiProcessor(out, colors) : processor;
-        this.mode = mode;
+                : mode_param == AnsiMode.Force || processor == null ? new ColorsAnsiProcessor(out, colors) : processor;
+        this.mode = mode_param;
     }
 
     public boolean isResetAtUninstall() {
         return resetAtUninstall;
     }
 
-    public void setResetAtUninstall(boolean resetAtUninstall) {
-        this.resetAtUninstall = resetAtUninstall;
+    public void setResetAtUninstall(boolean resetAtUninstall_param) {
+        this.resetAtUninstall = resetAtUninstall_param;
     }
 
     /**

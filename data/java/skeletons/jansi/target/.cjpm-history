@@ -72,6 +72,36 @@
         "platformPaths": [
           {
             "_0": "package.src-dir",
+            "_1": "/home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/jansi/src/compat"
+          }
+        ]
+      },
+      "fullName": "jansi.compat",
+      "isMacroPackage": false,
+      "output-type": "static",
+      "compile-option": "-Woff unused --error-count-limit all",
+      "native-compile-option": "",
+      "customized-option": {},
+      "link-option": "-lstdx.net.http -lstdx.net.tls -lstdx.net.tlsFFI -lstdx.net -lstdx.log -lstdx.logger -lstdx.encoding.json.stream -lstdx.encoding.json -lstdx.serialization.serialization",
+      "native-link-option": "",
+      "requires": [],
+      "std-requires": [
+        "std.collection"
+      ],
+      "c_libs": {},
+      "hasTestFiles": false,
+      "hasProdFiles": true,
+      "hasTestsInProdFiles": false,
+      "accessLevel": "public"
+    },
+    {
+      "rootPackageName": "jansi",
+      "modulePath": ".",
+      "packagePath": {
+        "commonPaths": [],
+        "platformPaths": [
+          {
+            "_0": "package.src-dir",
             "_1": "/home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/jansi/src/runtime"
           }
         ]
@@ -86,10 +116,6 @@
       "native-link-option": "",
       "requires": [],
       "std-requires": [
-        "std.collection",
-        "std.convert",
-        "std.io",
-        "std.random",
         "std.reflect"
       ],
       "c_libs": {},
@@ -411,10 +437,11 @@
       "native-link-option": "",
       "requires": [
         "charset4cj",
+        "jansi.compat",
+        "jansi.runtime",
         "stdx.crypto.x509"
       ],
       "std-requires": [
-        "std.ast",
         "std.collection",
         "std.core",
         "std.fs",
@@ -427,49 +454,24 @@
       "hasProdFiles": true,
       "hasTestsInProdFiles": false,
       "accessLevel": "public"
-    },
-    {
-      "rootPackageName": "jansi",
-      "modulePath": ".",
-      "packagePath": {
-        "commonPaths": [],
-        "platformPaths": [
-          {
-            "_0": "package.src-dir",
-            "_1": "/home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/jansi/src/test"
-          }
-        ]
-      },
-      "fullName": "jansi.test",
-      "isMacroPackage": false,
-      "output-type": "static",
-      "compile-option": "-Woff unused --error-count-limit all",
-      "native-compile-option": "",
-      "customized-option": {},
-      "link-option": "-lstdx.net.http -lstdx.net.tls -lstdx.net.tlsFFI -lstdx.net -lstdx.log -lstdx.logger -lstdx.encoding.json.stream -lstdx.encoding.json -lstdx.serialization.serialization",
-      "native-link-option": "",
-      "requires": [
-        "jansi",
-        "jansi.runtime"
-      ],
-      "std-requires": [
-        "std.collection",
-        "std.io",
-        "std.unittest",
-        "std.unittest.mock",
-        "std.unittest.mock.mockmacro",
-        "std.unittest.testmacro"
-      ],
-      "c_libs": {},
-      "hasTestFiles": true,
-      "hasProdFiles": false,
-      "hasTestsInProdFiles": false,
-      "accessLevel": "public"
     }
   ],
   "binDeps": {
     "jansi": {
       "package-requires": {
+        "stdx.encoding.json": {
+          "isMacroPackage": false,
+          "requires": [
+            "stdx.serialization.serialization"
+          ],
+          "std-requires": [
+            "std.collection",
+            "std.convert"
+          ],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.encoding.json"
+        },
         "stdx.aspectCJ": {
           "isMacroPackage": false,
           "requires": [],
@@ -478,13 +480,13 @@
           "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
           "libName": "stdx.aspectCJ"
         },
-        "stdx.unittest": {
+        "stdx.crypto": {
           "isMacroPackage": false,
           "requires": [],
           "std-requires": [],
           "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
           "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.unittest"
+          "libName": "stdx.crypto"
         },
         "stdx.serialization": {
           "isMacroPackage": false,
@@ -494,6 +496,85 @@
           "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
           "libName": "stdx.serialization"
         },
+        "stdx.encoding": {
+          "isMacroPackage": false,
+          "requires": [],
+          "std-requires": [],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.encoding"
+        },
+        "stdx.crypto.crypto": {
+          "isMacroPackage": false,
+          "requires": [
+            "stdx.crypto.digest"
+          ],
+          "std-requires": [
+            "std.crypto.cipher",
+            "std.io",
+            "std.math",
+            "std.sync"
+          ],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.crypto.crypto"
+        },
+        "stdx": {
+          "isMacroPackage": false,
+          "requires": [],
+          "std-requires": [],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx"
+        },
+        "stdx.unittest.data": {
+          "isMacroPackage": false,
+          "requires": [
+            "stdx.encoding.json",
+            "stdx.serialization.serialization"
+          ],
+          "std-requires": [
+            "std.collection",
+            "std.convert",
+            "std.fs",
+            "std.io",
+            "std.math",
+            "std.unittest.common"
+          ],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.unittest.data"
+        },
+        "stdx.net.http": {
+          "isMacroPackage": false,
+          "requires": [
+            "stdx.crypto.crypto",
+            "stdx.crypto.x509",
+            "stdx.encoding.base64",
+            "stdx.encoding.url",
+            "stdx.log",
+            "stdx.logger",
+            "stdx.net.tls"
+          ],
+          "std-requires": [
+            "std.collection",
+            "std.collection.concurrent",
+            "std.console",
+            "std.convert",
+            "std.env",
+            "std.fs",
+            "std.io",
+            "std.net",
+            "std.process",
+            "std.sort",
+            "std.sync",
+            "std.time",
+            "std.unicode"
+          ],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.net.http"
+        },
         "stdx.compress": {
           "isMacroPackage": false,
           "requires": [],
@@ -501,6 +582,68 @@
           "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
           "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
           "libName": "stdx.compress"
+        },
+        "stdx.fuzz": {
+          "isMacroPackage": false,
+          "requires": [],
+          "std-requires": [],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.fuzz"
+        },
+        "stdx.crypto.digest": {
+          "isMacroPackage": false,
+          "requires": [],
+          "std-requires": [
+            "std.crypto.digest"
+          ],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.crypto.digest"
+        },
+        "stdx.crypto.keys": {
+          "isMacroPackage": false,
+          "requires": [
+            "stdx.crypto.digest",
+            "stdx.crypto.x509"
+          ],
+          "std-requires": [
+            "std.crypto.digest",
+            "std.io",
+            "std.math.numeric",
+            "std.sync"
+          ],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.crypto.keys"
+        },
+        "stdx.fuzz.fuzz": {
+          "isMacroPackage": false,
+          "requires": [],
+          "std-requires": [
+            "std.collection",
+            "std.convert",
+            "std.process"
+          ],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.fuzz.fuzz"
+        },
+        "stdx.net": {
+          "isMacroPackage": false,
+          "requires": [],
+          "std-requires": [],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.net"
+        },
+        "stdx.unittest": {
+          "isMacroPackage": false,
+          "requires": [],
+          "std-requires": [],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.unittest"
         },
         "stdx.encoding.url": {
           "isMacroPackage": false,
@@ -593,18 +736,21 @@
           "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
           "libName": "stdx.encoding.json.stream"
         },
-        "stdx.encoding.json": {
+        "stdx.encoding.hex": {
           "isMacroPackage": false,
-          "requires": [
-            "stdx.serialization.serialization"
-          ],
-          "std-requires": [
-            "std.collection",
-            "std.convert"
-          ],
+          "requires": [],
+          "std-requires": [],
           "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
           "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.encoding.json"
+          "libName": "stdx.encoding.hex"
+        },
+        "stdx.encoding.base64": {
+          "isMacroPackage": false,
+          "requires": [],
+          "std-requires": [],
+          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
+          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
+          "libName": "stdx.encoding.base64"
         },
         "stdx.net.tls": {
           "isMacroPackage": false,
@@ -623,163 +769,6 @@
           "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
           "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
           "libName": "stdx.net.tls"
-        },
-        "stdx.encoding.base64": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.encoding.base64"
-        },
-        "stdx.encoding.hex": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.encoding.hex"
-        },
-        "stdx.fuzz": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.fuzz"
-        },
-        "stdx": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx"
-        },
-        "stdx.crypto.digest": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [
-            "std.crypto.digest"
-          ],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.crypto.digest"
-        },
-        "stdx.unittest.data": {
-          "isMacroPackage": false,
-          "requires": [
-            "stdx.encoding.json",
-            "stdx.serialization.serialization"
-          ],
-          "std-requires": [
-            "std.collection",
-            "std.convert",
-            "std.fs",
-            "std.io",
-            "std.math",
-            "std.unittest.common"
-          ],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.unittest.data"
-        },
-        "stdx.encoding": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.encoding"
-        },
-        "stdx.fuzz.fuzz": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [
-            "std.collection",
-            "std.convert",
-            "std.process"
-          ],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.fuzz.fuzz"
-        },
-        "stdx.crypto.keys": {
-          "isMacroPackage": false,
-          "requires": [
-            "stdx.crypto.digest",
-            "stdx.crypto.x509"
-          ],
-          "std-requires": [
-            "std.crypto.digest",
-            "std.io",
-            "std.math.numeric",
-            "std.sync"
-          ],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.crypto.keys"
-        },
-        "stdx.net": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.net"
-        },
-        "stdx.crypto.crypto": {
-          "isMacroPackage": false,
-          "requires": [
-            "stdx.crypto.digest"
-          ],
-          "std-requires": [
-            "std.crypto.cipher",
-            "std.io",
-            "std.math",
-            "std.sync"
-          ],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.crypto.crypto"
-        },
-        "stdx.crypto": {
-          "isMacroPackage": false,
-          "requires": [],
-          "std-requires": [],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.crypto"
-        },
-        "stdx.net.http": {
-          "isMacroPackage": false,
-          "requires": [
-            "stdx.crypto.crypto",
-            "stdx.crypto.x509",
-            "stdx.encoding.base64",
-            "stdx.encoding.url",
-            "stdx.log",
-            "stdx.logger",
-            "stdx.net.tls"
-          ],
-          "std-requires": [
-            "std.collection",
-            "std.collection.concurrent",
-            "std.console",
-            "std.convert",
-            "std.env",
-            "std.fs",
-            "std.io",
-            "std.net",
-            "std.process",
-            "std.sort",
-            "std.sync",
-            "std.time",
-            "std.unicode"
-          ],
-          "cjPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static",
-          "libPath": "/home/lin/Downloads/cangjie-sdk-linux-x64-1.0.5/cangjie/linux_x86_64_cjnative/static/stdx",
-          "libName": "stdx.net.http"
         }
       },
       "packageRequiresSort": [

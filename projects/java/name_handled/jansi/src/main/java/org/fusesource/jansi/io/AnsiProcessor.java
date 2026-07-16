@@ -34,8 +34,8 @@ import java.util.Iterator;
 public class AnsiProcessor {
     protected final OutputStream os;
 
-    public AnsiProcessor(OutputStream os) {
-        this.os = os;
+    public AnsiProcessor(OutputStream os_param) {
+        this.os = os_param;
     }
 
     /**

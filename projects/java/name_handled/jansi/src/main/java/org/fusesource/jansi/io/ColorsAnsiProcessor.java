@@ -29,9 +29,9 @@ public class ColorsAnsiProcessor extends AnsiProcessor {
 
     private final AnsiColors colors;
 
-    public ColorsAnsiProcessor(OutputStream os, AnsiColors colors) {
-        super(os);
-        this.colors = colors;
+    public ColorsAnsiProcessor(OutputStream os_param, AnsiColors colors_param) {
+        super(os_param);
+        this.colors = colors_param;
     }
 
     @Override

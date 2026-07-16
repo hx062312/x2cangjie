@@ -13,10 +13,15 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.java.analysis.ablation_compare import (  # noqa: E402
+    RUN_TAGS,
     fisher_exact_2x2,
     stats_to_metrics,
 )
 from collections import Counter
+
+
+def test_run_tags_match_five_case_design():
+    assert RUN_TAGS == ["baseline", "pseudo", "grammar", "syntax", "all"]
 
 
 def test_fisher_identity_table_p_is_one():

@@ -50,20 +50,15 @@ match_stmt    ::= "match" "(" EXPR ")" "{" { CASE "=>" BLOCK } "}"
 Constraints:
   G1. Generic bounds: `where T <: Bound` (NOT extends/super). No wildcards.
   G2. Annotation-site variance: `out T` / `in T`.
-  G3. `Any` does NOT satisfy `Hashable & Equatable<T>` — use `AnyHashable` for any
-      HashMap key / HashSet element type.
-  G4. Boolean type is `Bool` (not `boolean`); `Unit` for void functions.
-  G5. String interpolation: `"${expr}"`, not Java String.format / `"%" + x`.
+  G3. Preserve declaration and generic syntax from the partial Cangjie skeleton.
+  G4. String interpolation uses `"${expr}"`.
 """
 
 _FALLBACK_RUNTIME = """\
-RUNTIME NOTES (names you MUST NOT use; equivalent mappings):
-  Object (HashMap/HashSet key/elt)  -> AnyHashable
-  Runnable -> () -> Unit   Callable<V> -> () -> V   Function<T,R> -> (T) -> R
-  Consumer<T> -> (T) -> Unit   Supplier<T> -> () -> T
-  Predicate<T> -> (T) -> Bool   Comparator<T> -> (T, T) -> Int64
-  ThreadFactory -> () -> Thread
-  List<T> -> Array<T>   Map<K,V> -> HashMap<K,V>   Set<T> -> HashSet<T>
+TYPE AUTHORITY:
+  Types and imports in the partial Cangjie skeleton come from schema
+  `translated_target_type` values and are authoritative. Preserve them exactly.
+  This grammar block describes syntax only and must not map Java types.
 """
 
 

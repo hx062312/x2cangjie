@@ -3,6 +3,7 @@
 import os
 import re
 import argparse
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 evosuite_replacements = {
@@ -49,6 +50,40 @@ required_imports = {
     "LocalDateTime": "import java.time.LocalDateTime;\n",
     "ZonedDateTime": "import java.time.ZonedDateTime;\n",
 }
+
+
+def remove_evosuite_runtime_dependency(project_path: Path):
+    """Remove the obsolete EvoSuite runtime dependency from a Maven project."""
+    pom_path = project_path / "pom.xml"
+    if not pom_path.is_file():
+        return False
+
+    tree = ET.parse(pom_path)
+    root = tree.getroot()
+    namespace = root.tag.partition("}")[0].lstrip("{") if "}" in root.tag else ""
+    prefix = f"{{{namespace}}}" if namespace else ""
+    if namespace:
+        ET.register_namespace("", namespace)
+
+    removed = False
+    for dependencies in root.iter(f"{prefix}dependencies"):
+        for dependency in list(dependencies.findall(f"{prefix}dependency")):
+            group_id = dependency.find(f"{prefix}groupId")
+            artifact_id = dependency.find(f"{prefix}artifactId")
+            if (
+                group_id is not None
+                and artifact_id is not None
+                and group_id.text == "org.evosuite"
+                and artifact_id.text == "evosuite-standalone-runtime"
+            ):
+                dependencies.remove(dependency)
+                removed = True
+
+    if removed:
+        ET.indent(tree, space="  ")
+        tree.write(pom_path, encoding="utf-8", xml_declaration=True)
+        print(f"Removed obsolete EvoSuite runtime dependency: {pom_path}")
+    return removed
 
 
 def remove_invalid_content(content):
@@ -268,10 +303,12 @@ def main():
 
     if (input_root / "src/test/java").exists():
         process_project(input_root, output_root)
+        remove_evosuite_runtime_dependency(output_root)
     else:
         for project_dir in input_root.iterdir():
             if project_dir.is_dir():
                 process_project(project_dir, output_root)
+                remove_evosuite_runtime_dependency(output_root / project_dir.name)
 
 if __name__ == "__main__":
     main()

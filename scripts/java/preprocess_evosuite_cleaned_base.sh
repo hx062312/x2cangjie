@@ -109,7 +109,10 @@ if echo "$JAVA11_PROJECTS" | grep -qw "$PROJECT"; then
   cd "$ROOT"
 
   TARGET_DIR="$project_dir/target"
-  MAIN_JAR=$(find "$TARGET_DIR" -type f -name "*[^-tests].jar" | grep -v "merged" | head -n 1)
+  MAIN_JAR=$(find "$TARGET_DIR" -maxdepth 1 -type f -name "*.jar" \
+    ! -name "*-tests.jar" ! -name "*-sources.jar" \
+    ! -name "*-test-sources.jar" ! -name "*-javadoc.jar" \
+    ! -name "*-merged.jar" ! -name "original-*.jar" -print -quit)
   TEST_JAR=$(find "$TARGET_DIR" -type f -name "*-tests.jar" | head -n 1 || true)
   if [ -z "$MAIN_JAR" ]; then
     echo "ERROR: Could not find main JAR in $TARGET_DIR"
@@ -139,7 +142,10 @@ elif echo "$JAVA11_RUNTIME_PROJECTS" | grep -qw "$PROJECT"; then
   cd "$ROOT"
 
   TARGET_DIR="$project_dir/target"
-  MAIN_JAR=$(find "$TARGET_DIR" -type f -name "*[^-tests].jar" | grep -v "merged" | head -n 1)
+  MAIN_JAR=$(find "$TARGET_DIR" -maxdepth 1 -type f -name "*.jar" \
+    ! -name "*-tests.jar" ! -name "*-sources.jar" \
+    ! -name "*-test-sources.jar" ! -name "*-javadoc.jar" \
+    ! -name "*-merged.jar" ! -name "original-*.jar" -print -quit)
   TEST_JAR=$(find "$TARGET_DIR" -type f -name "*-tests.jar" | head -n 1 || true)
   if [ -z "$MAIN_JAR" ]; then
     echo "ERROR: Could not find main JAR in $TARGET_DIR"

@@ -310,6 +310,46 @@ def get_cangjie_type(java_type, type_map):
     return _deterministic_get_cangjie_type(java_type, type_map)
 
 
+def get_fragment_cangjie_type(fragment_info, type_variation, source_type,
+                              type_map, identifier=None):
+    """Resolve a fragment type from type_resolution output, then fall back."""
+    translations = fragment_info.get('type_translations', {})
+    variation_translations = translations.get(type_variation, {})
+    if not isinstance(variation_translations, dict):
+        variation_translations = {}
+
+    lookup_key = identifier if identifier is not None else source_type
+    translation = variation_translations.get(lookup_key)
+    if isinstance(translation, dict):
+        translated_source = str(translation.get('source_type') or '').strip()
+        translated_target = str(
+            translation.get('translated_target_type') or ''
+        ).strip()
+        if (
+            _as_bool(translation.get('translated'))
+            and translated_target
+            and (not translated_source or translated_source == source_type)
+        ):
+            return translated_target
+
+    return get_cangjie_type(source_type, type_map)
+
+
+def _parameter_type_identifier(param):
+    return '|'.join(str(param.get(key, '')) for key in ('modifier', 'type', 'name'))
+
+
+def get_parameter_cangjie_type(method_info, param, type_map):
+    source_type = param.get('type', 'Any')
+    return get_fragment_cangjie_type(
+        method_info,
+        'parameters',
+        source_type,
+        type_map,
+        identifier=_parameter_type_identifier(param),
+    )
+
+
 def normalize_class_name(class_name, type_map):
     """Normalize a class name using type map."""
     if not class_name:
@@ -494,8 +534,7 @@ def get_method_params(method_info, type_map):
     result = []
     for param in params:
         param_name = param.get('name', 'arg')
-        param_type = param.get('type', 'Any')
-        cangjie_type = get_cangjie_type(param_type, type_map)
+        cangjie_type = get_parameter_cangjie_type(method_info, param, type_map)
         result.append(f"{param_name}: {cangjie_type}")
     return result
 
@@ -513,7 +552,9 @@ def get_method_return_type(method_info, type_map, is_constructor=False):
     rt = return_types[0]
     if rt.startswith('<') and rt.endswith('>') and len(return_types) > 1:
         rt = return_types[1]
-    return get_cangjie_type(rt, type_map)
+    return get_fragment_cangjie_type(
+        method_info, 'return_types', rt, type_map
+    )
 
 
 def _parse_type_param_names(type_param_text):
@@ -592,7 +633,9 @@ def generate_field_skeleton(field_info, field_key, type_map):
     types = field_info.get('types', [])
     if types:
         source_type = types[0]
-        field_type = get_cangjie_type(source_type, type_map)
+        field_type = get_fragment_cangjie_type(
+            field_info, 'types', source_type, type_map
+        )
     else:
         field_type = 'Any'
 
@@ -784,7 +827,7 @@ def generate_class_skeleton(class_info, class_name, type_map, schema_fname,
         is_constructor = method_info.get('is_constructor', False)
         cangjie_method_name = 'init' if is_constructor else custom_method_name
         cangjie_param_types = tuple(
-            get_cangjie_type(p.get('type', 'Any'), type_map)
+            get_parameter_cangjie_type(method_info, p, type_map)
             for p in method_info.get('parameters', [])
         )
         sig_key = (cangjie_method_name, cangjie_param_types)
@@ -864,7 +907,7 @@ def generate_interface_skeleton(class_info, class_name, type_map, schema_fname, 
         is_constructor = method_info.get('is_constructor', False)
         cangjie_method_name = 'init' if is_constructor else method_name
         cangjie_param_types = tuple(
-            get_cangjie_type(p.get('type', 'Any'), type_map)
+            get_parameter_cangjie_type(method_info, p, type_map)
             for p in method_info.get('parameters', [])
         )
         sig_key = (cangjie_method_name, cangjie_param_types)

@@ -1,39 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  Copyright (C) 2009-2017 the original author(s).
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.fusesource</groupId>
         <artifactId>fusesource-pom</artifactId>
         <version>1.12</version>
     </parent>
-
     <groupId>org.fusesource.jansi</groupId>
     <artifactId>jansi</artifactId>
     <version>2.4.2-SNAPSHOT</version>
     <packaging>jar</packaging>
-
     <name>Jansi</name>
     <description>Jansi is a java library for generating and interpreting ANSI escape sequences.</description>
-
     <url>http://fusesource.github.io/jansi</url>
     <inceptionYear>2009</inceptionYear>
-
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -41,7 +21,6 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-
     <developers>
         <developer>
             <id>chirino</id>
@@ -57,7 +36,6 @@
             <timezone>GMT+1</timezone>
         </developer>
     </developers>
-
     <mailingLists>
         <mailingList>
             <name>Discussion List</name>
@@ -74,19 +52,16 @@
             <archive>http://groups.google.com/group/jansi-commits</archive>
         </mailingList>
     </mailingLists>
-
     <scm>
         <connection>scm:git:git://github.com/fusesource/jansi.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/fusesource/jansi.git</developerConnection>
         <tag>HEAD</tag>
         <url>https://github.com/fusesource/jansi</url>
     </scm>
-
     <issueManagement>
         <system>jira</system>
         <url>https://github.com/fusesource/jansi/issues</url>
     </issueManagement>
-
     <distributionManagement>
         <repository>
             <id>sonatype-nexus-staging</id>
@@ -99,19 +74,16 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
-
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <maven.compiler.release>11</maven.compiler.release>
-
         <javadocSource>11</javadocSource>
         <jdkTarget>11</jdkTarget>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j-version>1.6.1</slf4j-version>
         <project.build.outputTimestamp>2023-10-12T08:38:56Z</project.build.outputTimestamp>
     </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -131,24 +103,13 @@
             <version>4.5.2</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.9</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.evosuite</groupId>
-            <artifactId>evosuite-standalone-runtime</artifactId>
-            <version>1.2.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../../../../misc/evosuite-standalone-runtime-1.2.0.jar</systemPath>
-        </dependency>
-
     </dependencies>
-
     <repositories>
         <repository>
             <snapshots>
@@ -159,9 +120,7 @@
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
     </repositories>
-
     <build>
-
         <resources>
             <resource>
                 <filtering>true</filtering>
@@ -178,7 +137,6 @@
                 </excludes>
             </resource>
         </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -214,7 +172,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -234,7 +191,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -292,7 +248,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -336,12 +291,10 @@
                     <includes>
                         <include>**/*Test*.java</include>
                     </includes>
-
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     <forkCount>1</forkCount>
                     <reuseForks>true</reuseForks>
                 </configuration>
-
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.surefire</groupId>
@@ -349,7 +302,6 @@
                         <version>3.0.0-M5</version>
                     </dependency>
                 </dependencies>
-
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -484,7 +436,6 @@
             </extension>
         </extensions>
     </build>
-
     <profiles>
         <profile>
             <id>sign</id>
@@ -513,5 +464,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>

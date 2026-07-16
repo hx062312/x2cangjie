@@ -121,24 +121,14 @@ Cangjie language features:
 - Type inference (automatic type inference)
 - Null safety (?, !)
 
-Java to Cangjie common mappings:
-- List<T> -> Array<T>
-- Map<K,V> -> HashMap<K,V>
-- public/private/protected -> pub/priv/protected
-- System.out.println -> println()
-- null -> None
-- try-catch -> try-catch (similar)
-- instanceof -> match (pattern matching)
-- Generics <T> -> <T>
-
-IMPORTANT: Cangjie HashMap/HashSet key and element types MUST satisfy Hashable & Equatable.
-The top type Any does NOT satisfy these constraints. Therefore:
-- HashMap<Object, V> -> HashMap<AnyHashable, V>  (NOT HashMap<Any, V>)
-- HashSet<Object> -> HashSet<AnyHashable>         (NOT HashSet<Any>)
-- Use AnyHashable (from import <project>.runtime.AnyHashable) whenever Any would
-  appear as a HashMap key or HashSet element type.
-- To create an AnyHashable from a value: AnyHashable(value) or AnyHashable.of<T>(value)
-- To extract the original value: anyHashableValue.unwrap()
+Type authority:
+- Field types, parameter types, return types, generic arguments, and imports in the
+  partial Cangjie translation are generated from schema translated_target_type values.
+- Preserve those Cangjie declarations exactly. Do not infer or remap their types from
+  Java source, pseudocode, retrieved examples, or general language knowledge.
+- The Java source is authoritative for behavior, control flow, values, and API intent.
+- Pseudocode and retrieved examples are supplementary guidance only. Ignore them when
+  they conflict with the Java source or partial Cangjie translation.
 
 Notes:
 1. Keep the original Java code logic unchanged
@@ -442,18 +432,16 @@ Notes:
         The translate() loop in compositional_translation_validation.py runs the
         'Java → pseudocode' LLM call BEFORE constructing this PromptGenerator
         (when --use_pseudocode is enabled) and passes the result in as the
-        `pseudocode=` kwarg. Render it here so the 'pseudocode → Cangjie' step
-        works from a language-agnostic description of intent + logic rather
-        than from raw Java, decoupling 'understand Java semantics' (errors in
-        source-syntax inheritance) from 'produce correct Cangjie syntax/API
-        usage' (errors in target-language rendering).
+        `pseudocode=` kwarg. The bridge is supplementary: exact declarations
+        come from the partial skeleton and behavior comes from the Java source.
         """
         self.prompt += (
             "### Semantic Bridge (pseudocode)\n"
-            "The pseudocode below captures the intent and logic of the Java "
-            "fragment without using Java-specific syntax. Use it as the "
-            "authoritative description of WHAT to translate; fall back to the "
-            "Java code only when the pseudocode is ambiguous.\n\n"
+            "The pseudocode below is supplementary guidance for understanding "
+            "the Java fragment. The partial Cangjie skeleton is authoritative "
+            "for declarations and types, and the Java source is authoritative "
+            "for behavior. Ignore any pseudocode detail that conflicts with "
+            "either source.\n\n"
             "```\n"
             f"{self.pseudocode_context}\n"
             "```"

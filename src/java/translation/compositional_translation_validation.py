@@ -35,6 +35,12 @@ SUCCESS = "success"
 FAILURE = "failure"
 NOT_EXERCISED = "not-exercised"
 
+_TOKEN_ENCODINGS = {}
+_FAILED_TOKENIZER_MODELS = set()
+_TOKEN_COUNT_NOTICES = set()
+_TOKENIZER_LOAD_ATTEMPTS = 3
+_TOKENIZER_RETRY_DELAY_SECONDS = 0.5
+
 
 def _as_bool(value, default=False):
     if value is None:
@@ -476,15 +482,76 @@ def get_adaptive_budget(fragment, args, feedback=False):
     return 4 if not feedback else 1
 
 
-def get_total_input_tokens(prompt, args, model_info):
-    if args.model == "gpt-4o-2024-11-20":
-        encoding = tiktoken.encoding_for_model("gpt-4o")
-        total_tokens = len(encoding.encode(prompt))
-    else:
-        encoding = tiktoken.encoding_for_model("gpt-4o")
-        total_tokens = len(encoding.encode(prompt))
+def _estimate_input_tokens(prompt):
+    """Conservatively estimate tokens without a model-specific tokenizer."""
+    return max(1, math.ceil(len(prompt.encode("utf-8")) / 3))
 
-    return total_tokens
+
+def _tiktoken_model_name(args, model_info):
+    model_config = model_info.get(args.model, {})
+    explicit_name = model_config.get("tiktoken_model")
+    if explicit_name:
+        return explicit_name
+
+    model_id = str(model_config.get("model_id") or args.model)
+    if model_id.startswith("gpt-4o"):
+        return "gpt-4o"
+    if model_id.startswith("gpt-"):
+        return model_id
+    return None
+
+
+def _token_count_notice(args, key, message):
+    if key in _TOKEN_COUNT_NOTICES:
+        return
+    _TOKEN_COUNT_NOTICES.add(key)
+    print(f"[tokenizer] {message}", flush=True)
+    log_detail(args, "TOKENIZER", message)
+
+
+def _load_token_encoding(tokenizer_model, args):
+    if tokenizer_model in _TOKEN_ENCODINGS:
+        return _TOKEN_ENCODINGS[tokenizer_model]
+    if tokenizer_model in _FAILED_TOKENIZER_MODELS:
+        return None
+
+    last_error = None
+    for attempt in range(1, _TOKENIZER_LOAD_ATTEMPTS + 1):
+        try:
+            encoding = tiktoken.encoding_for_model(tokenizer_model)
+            _TOKEN_ENCODINGS[tokenizer_model] = encoding
+            return encoding
+        except Exception as exc:
+            last_error = exc
+            if attempt < _TOKENIZER_LOAD_ATTEMPTS:
+                time.sleep(_TOKENIZER_RETRY_DELAY_SECONDS * attempt)
+
+    _FAILED_TOKENIZER_MODELS.add(tokenizer_model)
+    _token_count_notice(
+        args,
+        ("fallback", tokenizer_model),
+        f"Failed to load {tokenizer_model} tokenizer after "
+        f"{_TOKENIZER_LOAD_ATTEMPTS} attempts; using offline token estimate. "
+        f"Last error: {last_error}",
+    )
+    return None
+
+
+def get_total_input_tokens(prompt, args, model_info):
+    tokenizer_model = _tiktoken_model_name(args, model_info)
+    if tokenizer_model:
+        encoding = _load_token_encoding(tokenizer_model, args)
+        if encoding is not None:
+            return len(encoding.encode(prompt))
+    else:
+        _token_count_notice(
+            args,
+            ("estimate", args.model),
+            f"No local tokenizer configured for {args.model}; "
+            "using conservative offline token estimate.",
+        )
+
+    return _estimate_input_tokens(prompt)
 
 
 def prompt_model(model_info, client, prompt, total_input_tokens, args, response_format=None):
@@ -548,7 +615,8 @@ PSEUDOCODE_SYSTEM_PROMPT = (
     "You are a code comprehension engine. Your job is to read a Java fragment and "
     "describe its semantic intent and logic in language-agnostic pseudocode "
     "annotated with natural-language comments. The pseudocode is later used as a "
-    "translation bridge to a target language. You must NOT use Java-specific "
+    "supplementary translation aid. Preserve the source fragment's behavior, "
+    "control-flow order, variable names, and declared type intent. You must NOT use Java-specific "
     "syntax or APIs. Express ALL operations in plain pseudo-statements and "
     "accompany each block with a natural-language comment describing its purpose."
 )
@@ -859,18 +927,18 @@ def translate(
     shared_budget_total = budget.get("cangjie_compilation", get_adaptive_budget(fragment, args))
     start_time = time.time()
 
+    # Keep the semantic bridge stable across compilation-feedback retries. A
+    # retry repairs the previous candidate against the same interpretation of
+    # the Java source instead of receiving newly sampled pseudocode.
+    pseudocode = ""
+    if _as_bool(getattr(args, 'use_pseudocode', 'false')):
+        with redirect_stdout_to_body_log(args):
+            pseudocode = _generate_pseudocode(fragment, args, model_info, client)
+
     while budget[current_budget] > 0:
         shared_attempt = shared_budget_total - budget.get("cangjie_compilation", shared_budget_total) + 1
         ############################ <TRANSLATION> ############################
         with redirect_stdout_to_body_log(args):
-            # --- Part 1: Pseudocode intermediate layer -------------------------
-            # When --use_pseudocode is on, run a Java → pseudocode LLM call here
-            # and pass the result to PromptGenerator so the actual translation
-            # prompt is built around the semantic bridge rather than raw Java.
-            pseudocode = ""
-            if _as_bool(getattr(args, 'use_pseudocode', 'false')):
-                pseudocode = _generate_pseudocode(fragment, args, model_info, client)
-
             prompt_gen = PromptGenerator(
                 is_feedback=True if feedback else False,
                 args=args,

@@ -88,37 +88,65 @@
                             "name": "args"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "117-119:getOSName"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "print(java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "194-208:getArchName"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "113-115:getNativeLibFolderPathForCurrentOS"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "void": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "void",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "void",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Unit",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {
                             "|String[]|args": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|String[]|args",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String[]",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Array<String>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -133,7 +161,8 @@
                     "model_name": "",
                     "is_overload": false,
                     "is_override": false,
-                    "needs_open": false
+                    "needs_open": false,
+                    "partial_translation": []
                 },
                 "113-115:getNativeLibFolderPathForCurrentOS": {
                     "start": 113,
@@ -155,21 +184,38 @@
                     "body_types": [],
                     "signature": "getNativeLibFolderPathForCurrentOS()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "117-119:getOSName"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "194-208:getArchName"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "makeConcatWithConstants(java.lang.String,java.lang.String)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
@@ -213,21 +259,33 @@
                     "body_types": [],
                     "signature": "getOSName()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "210-224:translateOSNameToFolderName"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
@@ -271,21 +329,38 @@
                     "body_types": [],
                     "signature": "isAndroid()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String,java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toLowerCase()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "contains(java.lang.CharSequence)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "boolean": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
@@ -341,49 +416,93 @@
                     ],
                     "signature": "isAlpine()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.nio.file.Paths",
+                            "get(java.lang.String,java.lang.String[])"
+                        ],
+                        [
+                            "library",
+                            "java.nio.file.Files",
+                            "readAllLines(java.nio.file.Path)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toLowerCase(java.util.Locale)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "contains(java.lang.CharSequence)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "boolean": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "boolean",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Bool",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Throwable": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Throwable",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "Throwable",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Exception",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -442,62 +561,112 @@
                     ],
                     "signature": "getHardwareName()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Runtime",
+                            "getRuntime()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Runtime",
+                            "exec(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Process",
+                            "waitFor()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Process",
+                            "getInputStream()"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "155-163:readFully"
+                        ],
+                        [
+                            "library",
+                            "java.io.InputStream",
+                            "close()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Throwable",
+                            "getMessage()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "makeConcatWithConstants(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.io.PrintStream",
+                            "println(java.lang.String)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "Process": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Process",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "Process",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Process",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "InputStream": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "InputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "InputStream",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "InputStream",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "Throwable": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "Throwable",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "Throwable",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Exception",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -557,90 +726,117 @@
                             "name": "in__"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.io.InputStream",
+                            "read(byte[],int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "write(byte[],int,int)"
+                        ],
+                        [
+                            "library",
+                            "java.io.ByteArrayOutputStream",
+                            "toString()"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "int": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "int",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "int",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int32",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "ByteArrayOutputStream": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "ByteArrayOutputStream",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "ByteArrayOutputStream",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "ByteBuffer",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "byte[]": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "byte[]",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "byte[]",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Array<Int8>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             },
                             "byte": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "byte",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "byte",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "Int8",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {
                             "|InputStream|in__": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|InputStream|in__",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "InputStream",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "InputStream",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -657,7 +853,7 @@
                     "is_override": false,
                     "needs_open": false,
                     "partial_translation": [
-                        "    private static func readFully(in__: Any): String {",
+                        "    private static func readFully(in__: InputStream): String {",
                         "        throw Exception('TODO')",
                         "    }\n"
                     ]
@@ -708,36 +904,64 @@
                     ],
                     "signature": "resolveArmArchType()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "contains(java.lang.CharSequence)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "138-153:getHardwareName"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "equals(java.lang.Object)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -794,36 +1018,79 @@
                     ],
                     "signature": "getArchName()",
                     "parameters": [],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.System",
+                            "getProperty(java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "121-123:isAndroid"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "165-192:resolveArmArchType"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toLowerCase(java.util.Locale)"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashMap",
+                            "containsKey(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashMap",
+                            "get(java.lang.Object)"
+                        ],
+                        [
+                            "jansi.src.main.org.fusesource.jansi.internal.OSInfo",
+                            "46-229:OSInfo",
+                            "226-228:translateArchNameToFolderName"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "parameters": {},
@@ -883,37 +1150,50 @@
                             "name": "osName"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "contains(java.lang.CharSequence)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "replaceAll(java.lang.String,java.lang.String)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {
                             "|String|osName": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|String|osName",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -960,37 +1240,45 @@
                             "name": "archName"
                         }
                     ],
-                    "calls": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "replaceAll(java.lang.String,java.lang.String)"
+                        ]
+                    ],
                     "type_translations": {
                         "return_types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "body_types": {},
                         "parameters": {
                             "|String|archName": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "|String|archName",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         },
                         "types": {}
@@ -1035,17 +1323,18 @@
                         "parameters": {},
                         "types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -1082,17 +1371,18 @@
                         "parameters": {},
                         "types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -1129,17 +1419,18 @@
                         "parameters": {},
                         "types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -1176,17 +1467,18 @@
                         "parameters": {},
                         "types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -1223,17 +1515,18 @@
                         "parameters": {},
                         "types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -1270,17 +1563,18 @@
                         "parameters": {},
                         "types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -1317,17 +1611,18 @@
                         "parameters": {},
                         "types": {
                             "String": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "String",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "String",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -1364,17 +1659,18 @@
                         "parameters": {},
                         "types": {
                             "HashMap<String, String>": {
-                                "identifier": "",
-                                "translated": false,
-                                "attempted": false,
-                                "type_variation": "",
-                                "timestamp": "",
-                                "source_type": "",
+                                "identifier": "HashMap<String, String>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:28:07",
+                                "source_type": "HashMap<String, String>",
                                 "generation": "",
                                 "imports": "",
-                                "translated_target_type": "",
+                                "translated_target_type": "HashMap<String, String>",
                                 "reasoning": "",
-                                "prompt": ""
+                                "prompt": "",
+                                "feedback": ""
                             }
                         }
                     },
@@ -1456,8 +1752,8 @@
             "cangjie_class_declaration": "public open class OSInfo {\n"
         }
     },
-    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/OSInfo.cj",
-    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/OSInfo.cj",
+    "cangjie_skeleton_path": "data/java/skeletons/jansi/src/internal_OSInfo.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/jansi/src/internal_OSInfo.cj",
     "import_map": {
         "ByteArrayOutputStream": "java.io.ByteArrayOutputStream",
         "IOException": "java.io.IOException",

@@ -16,11 +16,11 @@ public open class FastBufferedOutputStream {
         throw Exception('TODO')
     }
 
-    public open func write(b: Int32): Unit {
+    public open func write0(b: Int32): Unit {
         throw Exception('TODO')
     }
 
-    public open func write(b: Int8, off: Int32, len: Int32): Unit {
+    public open func write1(b: Int8, off: Int32, len: Int32): Unit {
         throw Exception('TODO')
     }
 

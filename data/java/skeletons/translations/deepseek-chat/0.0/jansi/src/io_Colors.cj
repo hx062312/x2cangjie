@@ -13,7 +13,7 @@ public open class Colors {
     // Fields End
 
     // Methods Begin
-    public static func roundColor(col: Int32, max: Int32): Int32 {
+    public static func roundColor0(col: Int32, max: Int32): Int32 {
         throw Exception('TODO')
     }
 
@@ -21,7 +21,7 @@ public open class Colors {
         throw Exception('TODO')
     }
 
-    private static func roundColor(color: Int32, colors: Array<Int32>, max: Int32): Int32 {
+    private static func roundColor1(color: Int32, colors: Array<Int32>, max: Int32): Int32 {
         throw Exception('TODO')
     }
 
@@ -37,11 +37,11 @@ public open class Colors {
         throw Exception('TODO')
     }
 
-    private static func rgb2cielab(color: Int32): Array<Float64> {
+    private static func rgb2cielab0(color: Int32): Array<Float64> {
         throw Exception('TODO')
     }
 
-    private static func rgb2cielab(rgb: Array<Float64>): Array<Float64> {
+    private static func rgb2cielab1(rgb: Array<Float64>): Array<Float64> {
         throw Exception('TODO')
     }
 
@@ -62,7 +62,7 @@ public open class Colors {
     }
 
     private static func sqr(n: Float64): Float64 {
-                return n * n
+        throw Exception('TODO')
     }
 
     // Methods End

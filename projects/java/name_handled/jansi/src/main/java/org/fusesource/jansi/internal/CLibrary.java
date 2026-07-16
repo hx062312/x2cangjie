@@ -88,7 +88,8 @@ public class CLibrary {
      * @return 0 on success
      * @see <a href="http://man7.org/linux/man-pages/man3/openpty.3.html">OPENPTY(3) man-page</a>
      */
-    public static native int openpty(int[] amaster, int[] aslave, byte[] name, CLibrary_Termios termios, CLibrary_WinSize winsize);
+    public static native int openpty(
+            int[] amaster, int[] aslave, byte[] name, CLibrary_Termios termios, CLibrary_WinSize winsize);
 
     public static native int tcgetattr(int filedes, CLibrary_Termios termios);
 
@@ -124,9 +125,9 @@ public class CLibrary {
         public short ws_xpixel;
         public short ws_ypixel;
 
-        public CLibrary_WinSize(short ws_row, short ws_col) {
-            this.ws_row = ws_row;
-            this.ws_col = ws_col;
+        public CLibrary_WinSize(short ws_row_param, short ws_col_param) {
+            this.ws_row = ws_row_param;
+            this.ws_col = ws_col_param;
         }
     }
 

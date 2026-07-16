@@ -281,14 +281,15 @@ public class AnsiConsole {
             final long console = GetStdHandle(stdout ? STD_OUTPUT_HANDLE : STD_ERROR_HANDLE);
             final int[] mode = new int[1];
             final boolean isConsole = GetConsoleMode(console, mode) != 0;
-            final AnsiOutputStream.AnsiOutputStream_WidthSupplier kernel32Width = new AnsiOutputStream.AnsiOutputStream_WidthSupplier() {
-                @Override
-                public int getTerminalWidth() {
-                    Kernel32_CONSOLE_SCREEN_BUFFER_INFO info = new Kernel32_CONSOLE_SCREEN_BUFFER_INFO();
-                    GetConsoleScreenBufferInfo(console, info);
-                    return info.windowWidth();
-                }
-            };
+            final AnsiOutputStream.AnsiOutputStream_WidthSupplier kernel32Width =
+                    new AnsiOutputStream.AnsiOutputStream_WidthSupplier() {
+                        @Override
+                        public int getTerminalWidth() {
+                            Kernel32_CONSOLE_SCREEN_BUFFER_INFO info = new Kernel32_CONSOLE_SCREEN_BUFFER_INFO();
+                            GetConsoleScreenBufferInfo(console, info);
+                            return info.windowWidth();
+                        }
+                    };
 
             if (isConsole && SetConsoleMode(console, mode[0] | ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0) {
                 SetConsoleMode(console, mode[0]); // set it back for now, but we know it works
@@ -443,15 +444,15 @@ public class AnsiConsole {
                 cs.name());
     }
 
-    private static AnsiPrintStream newPrintStream(AnsiOutputStream out, String enc) {
+    private static AnsiPrintStream newPrintStream(AnsiOutputStream out_param, String enc) {
         if (enc != null) {
             try {
-                return new AnsiPrintStream(out, true, enc);
+                return new AnsiPrintStream(out_param, true, enc);
             } catch (UnsupportedEncodingException e) {
             }
         }
         try {
-            return new AnsiPrintStream(out, true, null);
+            return new AnsiPrintStream(out_param, true, null);
         } catch (UnsupportedEncodingException e) {
         }
         return null;
