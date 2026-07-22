@@ -41,10 +41,7 @@ fi
 
 TARGET_DIR="target"
 
-MAIN_JAR=$(find "$TARGET_DIR" -maxdepth 1 -type f -name "*.jar" \
-  ! -name "*-tests.jar" ! -name "*-sources.jar" \
-  ! -name "*-test-sources.jar" ! -name "*-javadoc.jar" \
-  ! -name "*-merged.jar" ! -name "original-*.jar" -print -quit)
+MAIN_JAR=$(find "$TARGET_DIR" -type f -name "*[^-tests].jar" | grep -v "merged" | head -n 1)
 TEST_JAR=$(find "$TARGET_DIR" -type f -name "*-tests.jar" | head -n 1)
 
 MERGED_JAR="$TARGET_DIR/$(basename "$MAIN_JAR" .jar)-merged.jar"

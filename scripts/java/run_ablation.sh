@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# Run a five-case ablation sweep for the Part 1/2/3 enhancement flags with
-# Progressive KB disabled. After each translate_fragment.sh run, the
+# Run a full ablation sweep (2^3 = 8 combinations of Part 1/2/3 enhancement
+# flags) for a single <project>. After each translate_fragment.sh run, the
 # schema JSON directory is snapshotted into a per-run-tag subdirectory so
 # that `ablation_compare.py` can compare pass-rates across configurations.
 #
 # Usage:
 #   bash scripts/java/run_ablation.sh <project> <model> <suffix> <temperature> \
-#       [use_rag] [skip_mock] [translate_tests]
+#       [use_rag] [skip_mock] [translate_tests] [use_progressive_kb]
 #
 # Example:
 #   bash scripts/java/run_ablation.sh jansi deepseek-chat _evosuite_cleaned_base 0.0 \
-#       true true false
+#       true true false true
 #
 # Outputs:
 #   data/java/ablation/<project>_<model>_<temp><suffix>/<run-tag>/   (schema JSON snapshot)
@@ -29,13 +29,8 @@ cd "$ROOT"
 export PYTHONPATH="$(pwd)"
 
 if [ $# -lt 4 ]; then
-  echo "Usage: $0 <project> <model> <suffix> <temperature> [use_rag] [skip_mock] [translate_tests]"
+  echo "Usage: $0 <project> <model> <suffix> <temperature> [use_rag] [skip_mock] [translate_tests] [use_progressive_kb]"
   exit 1
-fi
-if [ $# -gt 7 ]; then
-  echo "Too many arguments: Progressive KB is fixed to false for ablation runs."
-  echo "Usage: $0 <project> <model> <suffix> <temperature> [use_rag] [skip_mock] [translate_tests]"
-  exit 2
 fi
 
 project="$1"
@@ -45,7 +40,7 @@ temp="$4"
 use_rag="${5:-true}"
 skip_mock="${6:-true}"
 translate_tests="${7:-false}"
-use_progressive_kb="false"
+use_progressive_kb="${8:-true}"
 
 schema_dir="data/java/schemas${suffix}/${model}/${temp}/${project}"
 if [ ! -d "$schema_dir" ]; then
@@ -56,7 +51,6 @@ fi
 out_root="data/java/ablation/${project}_${model}_${temp}${suffix}"
 rm -rf "$out_root"
 mkdir -p "$out_root"
-echo "[ablation] Progressive KB is disabled for all five runs"
 
 # Special baseline tag uses all enhancement flags = false, then snapshots
 # the schema dir; this provides the comparator. Note: each run starts from the
@@ -106,6 +100,9 @@ run_one "baseline"           false false false
 run_one "pseudo"             true  false false
 run_one "grammar"            false true  false
 run_one "syntax"             false false true
+run_one "pseudo+grammar"     true  true  false
+run_one "pseudo+syntax"     true  false true
+run_one "grammar+syntax"    false true  true
 run_one "all"                true  true  true
 
 echo "[ablation] all runs complete; generating comparison report ..."

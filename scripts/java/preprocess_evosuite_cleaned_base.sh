@@ -45,6 +45,7 @@ EVO_SRC="projects/java/cleaned_final_projects${EVO_SUFFIX}/${PROJECT}"
 AUTO="projects/java/automated_reduced_projects/${PROJECT}"
 KEYWORD="projects/java/keyword_handled/${PROJECT}"
 NAME="projects/java/name_handled/${PROJECT}"
+REDUCED="projects/java/reduced_libs/${PROJECT}"
 DST="projects/java/cleaned_final_projects${SUFFIX}/${PROJECT}"
 
 echo "============================================================"
@@ -109,10 +110,7 @@ if echo "$JAVA11_PROJECTS" | grep -qw "$PROJECT"; then
   cd "$ROOT"
 
   TARGET_DIR="$project_dir/target"
-  MAIN_JAR=$(find "$TARGET_DIR" -maxdepth 1 -type f -name "*.jar" \
-    ! -name "*-tests.jar" ! -name "*-sources.jar" \
-    ! -name "*-test-sources.jar" ! -name "*-javadoc.jar" \
-    ! -name "*-merged.jar" ! -name "original-*.jar" -print -quit)
+  MAIN_JAR=$(find "$TARGET_DIR" -type f -name "*[^-tests].jar" | grep -v "merged" | head -n 1)
   TEST_JAR=$(find "$TARGET_DIR" -type f -name "*-tests.jar" | head -n 1 || true)
   if [ -z "$MAIN_JAR" ]; then
     echo "ERROR: Could not find main JAR in $TARGET_DIR"
@@ -142,10 +140,7 @@ elif echo "$JAVA11_RUNTIME_PROJECTS" | grep -qw "$PROJECT"; then
   cd "$ROOT"
 
   TARGET_DIR="$project_dir/target"
-  MAIN_JAR=$(find "$TARGET_DIR" -maxdepth 1 -type f -name "*.jar" \
-    ! -name "*-tests.jar" ! -name "*-sources.jar" \
-    ! -name "*-test-sources.jar" ! -name "*-javadoc.jar" \
-    ! -name "*-merged.jar" ! -name "original-*.jar" -print -quit)
+  MAIN_JAR=$(find "$TARGET_DIR" -type f -name "*[^-tests].jar" | grep -v "merged" | head -n 1)
   TEST_JAR=$(find "$TARGET_DIR" -type f -name "*-tests.jar" | head -n 1 || true)
   if [ -z "$MAIN_JAR" ]; then
     echo "ERROR: Could not find main JAR in $TARGET_DIR"
@@ -186,7 +181,7 @@ echo ">>> Step 7/8: Copy to cleaned_final_projects_evosuite_cleaned_base"
 
 rm -rf "$DST"
 mkdir -p "$(dirname "$DST")"
-cp -r "$NAME" "$DST"
+cp -r "$REDUCED" "$DST"
 
 echo "    Done: $DST"
 

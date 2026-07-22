@@ -1,21 +1,15 @@
 import os
 import re
+import shutil
 import sys
 
-source_code_path = "."
-
 standard_java_packages = [
-    "java.util",
-    "java.text",
-    "java.lang",
-    "java.io",
-    "java.nio",
-    "java.net",
-    "java.time",
-    "java.math",
+    "java.",
+    "javax.",
     "org.junit.",
-    "org.opentest4j",
     "junit.",
+    "org.opentest4j",
+    "org.hamcrest",
     "org.slf4j.Logger",
 ]
 
@@ -688,7 +682,6 @@ def identify_third_party_dependencies(
                     classes_to_remove.add(dependent_class)
 
         for caller_method, callee_method in call_graph:
-
             callee_class = callee_method.split(":")[0]
             for callee_param in method_param_map[callee_method]:
                 if (callee_param in classes_to_remove) or (
@@ -1184,27 +1177,33 @@ def refactor_code(
 def main(project):
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    repo_root = os.path.dirname(os.path.dirname(os.path.dirname(script_dir)))
 
-    project_dir = (
-        os.path.dirname(os.path.dirname(os.path.dirname(script_dir)))
-        + f"/projects/java/name_handled/{project}"
-    )
+    input_dir = os.path.join(repo_root, "projects", "java", "name_handled", project)
+    output_dir = os.path.join(repo_root, "projects", "java", "reduced_libs", project)
 
-    if not os.path.isdir(project_dir):
-        print(f"Error: Reduced Project directory '{project_dir}' does not exist.")
+    if not os.path.isdir(input_dir):
+        print(f"Error: Input directory '{input_dir}' does not exist.")
         sys.exit(1)
+
+    callgraph_src = os.path.join(input_dir, "callgraph.txt")
+    if not os.path.isfile(callgraph_src):
+        print(f"Error: 'callgraph.txt' not found in {input_dir}.")
+        sys.exit(1)
+
+    # Copy project to output directory (non-destructive)
+    if os.path.exists(output_dir):
+        shutil.rmtree(output_dir)
+    shutil.copytree(input_dir, output_dir)
+    print(f"Copied project to: {output_dir}")
+
     try:
-        os.chdir(project_dir)
-    except FileNotFoundError:
-        print(f"Error: Directory '{project_dir}' does not exist.")
-        sys.exit(1)
+        os.chdir(output_dir)
     except PermissionError:
-        print(f"Error: Permission denied for directory '{project_dir}'.")
+        print(f"Error: Permission denied for directory '{output_dir}'.")
         sys.exit(1)
 
-    if not os.path.isfile("callgraph.txt"):
-        print(f"Error: 'callgraph.txt' not found in {project_dir}.")
-        sys.exit(1)
+    source_code_path = "."
 
     current_project_packages = identify_current_project_packages(source_code_path)
     class_package_map, third_party_packages, third_party_exceptions = (
@@ -1242,6 +1241,7 @@ def main(project):
         source_code_path, dependent_methods, third_party_packages, classes_to_remove
     )
     print("Refactored code to remove third-party dependencies and their dependents.")
+    print(f"Output: {output_dir}")
 
 
 if __name__ == "__main__":
