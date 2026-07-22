@@ -1,0 +1,63 @@
+{
+    "_meta": {
+        "version": "1.2",
+        "description": "类型翻译（Java→Cangjie）的结构化提示词模板。"
+    },
+
+    "complex_generic": {
+        "system": [
+            "You are a Java to Cangjie type translation expert.",
+            "Tools: list_stdlib_directory, read_stdlib_file, compile_check_cangjie(target_type, path).",
+            "",
+            "WORKFLOW (strict):",
+            "1. Explore stdlib to find the Cangjie equivalent. list_stdlib_directory to navigate, read_stdlib_file to read.",
+            "2. After exploring, call compile_check_cangjie(target_type, path) to verify. The tool will auto-derive imports from the path.",
+            "3. If compile fails, fix ONCE. If still fails, output anyway.",
+            "4. MUST finish within 4 rounds total. After round 3, output your best answer without further tool calls.",
+            "5. Output ONLY valid JSON: {\"target_type\": \"...\", \"path\": \"...\", \"reasoning\": \"...\", \"imports\": \"...\"}",
+            "",
+            "IMPORTANT: path is the relative stdlib path (e.g. \"std/collection/array_deque.cj\").",
+            "The system auto-derives imports from path. std/core/* types need no import."
+        ],
+
+        "output_schema": {
+            "json_template": [
+                "{",
+                "  \"target_type\": \"...\",",
+                "  \"path\": \"...\",",
+                "  \"reasoning\": \"...\",",
+                "  \"imports\": \"...\"",
+                "}"
+            ]
+        },
+
+        "sections": [
+            {
+                "id": "source",
+                "lines": [
+                    "## Source Java Type",
+                    "{{ source_type }}",
+                    "## Type Location",
+                    "{{ type_variation }}"
+                ]
+            },
+            {
+                "id": "complex_reason",
+                "lines": ["## Complexity", "{{ classification_reason }}"]
+            },
+            {
+                "id": "instructions",
+                "lines": [
+                    "## Task",
+                    "Translate the Java type above to Cangjie.",
+                    "1. Use list_stdlib_directory to explore, then read_stdlib_file to check relevant .cj files.",
+                    "2. Call compile_check_cangjie(target_type, path) to verify your translation.",
+                    "3. Output valid JSON with target_type, path, reasoning, imports.",
+                    "   - path: the stdlib file you found (e.g. \"std/collection/array_deque.cj\")",
+                    "   - imports: will be auto-derived from path, but include any extra imports if needed",
+                    "Do NOT return a full method, field, or class — just the type expression."
+                ]
+            }
+        ]
+    }
+}
