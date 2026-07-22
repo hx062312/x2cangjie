@@ -143,7 +143,7 @@ def slide_background(prs):
     tf = _add_textbox(slide, 0.6, 1.2, 11.5, 1.0)
     _set_para(tf.paragraphs[0], "目标：把 Java 库自动翻译成仓颉（Cangjie）语言", size=18, color=_WHITE, bold=True)
     p = tf.add_paragraph()
-    _set_para(p, "Pipeline: preprocess → create_schema → get_dependencies → translate_types → create_skeleton → build_mock_corpus → translate_fragment → analyze_errors", size=12, color=_LIGHT)
+    "Pipeline: preprocess → create_schema → parse_dependencies → translate_types → create_skeleton → build_mock_corpus → translate_fragment → analyze_errors"
     p2 = tf.add_paragraph()
     _set_para(p2, "核心是第 7 步 translate_fragment：LLM 逐个 fragment 翻译，每填一个跑 cjpm build 编译验证，失败带错误反馈重试", size=14, color=_LIGHT)
 

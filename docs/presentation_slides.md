@@ -23,8 +23,9 @@
 **目标**：把 Java 库自动翻译成仓颉（Cangjie）语言
 
 **Pipeline（8 步）**：
+
 ```
-preprocess → create_schema → get_dependencies → translate_types
+preprocess → create_schema → parse_dependencies → translate_types
 → create_skeleton → build_mock_corpus → translate_fragment → analyze_errors
 ```
 
@@ -32,9 +33,9 @@ preprocess → create_schema → get_dependencies → translate_types
 
 **观察到的两类系统性错误**：
 
-| 错误类型 | 表现 | 根因 |
-|---|---|---|
-| **A: 错误继承 Java 源语法/API** | LLM 照搬 Java 的 stream API / checked exception / for-each lambda，Cangjie 不支持 | LLM 模仿源码结构而非理解意图后用目标语言惯用法重写 |
+| 错误类型                           | 表现                                                                                  | 根因                                                  |
+| ---------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| **A: 错误继承 Java 源语法/API**    | LLM 照搬 Java 的 stream API / checked exception / for-each lambda，Cangjie 不支持     | LLM 模仿源码结构而非理解意图后用目标语言惯用法重写    |
 | **B: 使用错误的 Cangjie 语法/API** | 泛型用 `extends` 而非 `where T <: Bound`、`Any` 当 HashMap key、`boolean` 而非 `Bool` | Cangjie 是新语言，LLM 训练数据中几乎没有 Cangjie 代码 |
 
 **针对 A/B 两类错误，做了三件事（Part 1/2/3），互相独立、可单独或组合开关**
@@ -45,11 +46,11 @@ preprocess → create_schema → get_dependencies → translate_types
 
 **参考论文**
 
-| 论文 | 出处 | 核心思想 |
-|---|---|---|
+| 论文                                      | 出处                   | 核心思想                                       |
+| ----------------------------------------- | ---------------------- | ---------------------------------------------- |
 | **A1: Pseudocode-based Code Translation** | arXiv:2510.00920, 2025 | 模拟人类"语义翻译"策略：源→伪代码→目标，两阶段 |
-| A3: NL in the Middle | CASCON 2025 | 自然语言中间表示效果最好（比零样本 +13.8%） |
-| A6: Assessing Intermediate Languages | arXiv:2407.05411 | 警示：伪代码收益可能部分来自 CoT 多步推理效应 |
+| A3: NL in the Middle                      | CASCON 2025            | 自然语言中间表示效果最好（比零样本 +13.8%）    |
+| A6: Assessing Intermediate Languages      | arXiv:2407.05411       | 警示：伪代码收益可能部分来自 CoT 多步推理效应  |
 
 **论文原理（A1）**
 
@@ -76,10 +77,10 @@ preprocess → create_schema → get_dependencies → translate_types
 
 **参考论文**
 
-| 论文 | 出处 | 核心思想 |
-|---|---|---|
+| 论文                      | 出处                  | 核心思想                                                                   |
+| ------------------------- | --------------------- | -------------------------------------------------------------------------- |
 | **B2: Grammar Prompting** | Wang et al., ACL 2023 | 将目标语言 BNF 语法规则注入 prompt，**仅 prompt 注入就显著提升语法正确率** |
-| B1: DocCGen | EMNLP 2024 | 从文档提取 grammar/schema 做约束解码，对 OOD 场景效果显著 |
+| B1: DocCGen               | EMNLP 2024            | 从文档提取 grammar/schema 做约束解码，对 OOD 场景效果显著                  |
 
 **论文原理（B2）**
 
@@ -96,12 +97,12 @@ preprocess → create_schema → get_dependencies → translate_types
 
 **第一部分：EBNF 语法摘要 + 8 条硬约束（G1-G8）**
 
-| 约束 | 对应典型错误 |
-|---|---|
-| G1 泛型用 `where T <: Bound` | Java `? extends T` |
+| 约束                                         | 对应典型错误                  |
+| -------------------------------------------- | ----------------------------- |
+| G1 泛型用 `where T <: Bound`                 | Java `? extends T`            |
 | G3 `Any` 不满足 `Hashable`，用 `AnyHashable` | `HashMap<Object, V>` 编译报错 |
-| G5 布尔类型是 `Bool` 不是 `boolean` | Java `boolean` |
-| G6 字符串插值 `"${expr}"` | Java `String.format` |
+| G5 布尔类型是 `Bool` 不是 `boolean`          | Java `boolean`                |
+| G6 字符串插值 `"${expr}"`                    | Java `String.format`          |
 
 **第二部分：运行时 API 映射表**（`Object` → `AnyHashable`、`Runnable` → `() -> Unit` 等）
 
@@ -115,27 +116,28 @@ preprocess → create_schema → get_dependencies → translate_types
 
 **参考论文**
 
-| 论文 | 出处 | 核心思想 |
-|---|---|---|
-| **B3: CodeGRAG** | Huang et al., arXiv:2405.02355, 2024 | 从代码提取 CFG+DFG 融合图，用 GNN + 跨语言检索，检索结构相似代码片段 |
-| B4: Syntax-Aware RAG | EMNLP 2023 Findings | 在 RAG 中引入语法感知——不只用语义相似检索，还用语法结构相似度 |
+| 论文                 | 出处                                 | 核心思想                                                             |
+| -------------------- | ------------------------------------ | -------------------------------------------------------------------- |
+| **B3: CodeGRAG**     | Huang et al., arXiv:2405.02355, 2024 | 从代码提取 CFG+DFG 融合图，用 GNN + 跨语言检索，检索结构相似代码片段 |
+| B4: Syntax-Aware RAG | EMNLP 2023 Findings                  | 在 RAG 中引入语法感知——不只用语义相似检索，还用语法结构相似度        |
 
 **论文原理（B3 CodeGRAG）**
 
 1. **提取**：从代码提取控制流图（CFG）和数据流图（DFG），融合为"组合语法图"
 2. **检索**：用混合 GNN + 预训练跨语言代码搜索模型计算相似度，检索结构相似代码块
 3. **注入**：检索到的语法图作为 LLM 上下文，辅助生成
+
 - 关键发现：**语法图作为跨语言桥梁**——不同语言的控制流/数据流结构相似，可跨语言检索
 
 **项目实现（实用化简化）**
 
 纯正则结构指纹 + Jaccard 相似度，无 NN/CUDA/额外依赖：
 
-| 维度 | 内容 |
-|---|---|
-| `shape_bag` | 12 个操作类别计数（cf_if / cf_loop / op_call / op_index 等），桶化为 0-3 |
-| `call_names` | 方法调用点标识符集合 |
-| `container_types` | 命中集合类型名（list/array/map/set 等） |
+| 维度              | 内容                                                                     |
+| ----------------- | ------------------------------------------------------------------------ |
+| `shape_bag`       | 12 个操作类别计数（cf_if / cf_loop / op_call / op_index 等），桶化为 0-3 |
+| `call_names`      | 方法调用点标识符集合                                                     |
+| `container_types` | 命中集合类型名（list/array/map/set 等）                                  |
 
 检索：Jaccard 加权相似度 = `0.6×shape_sim + 0.25×call_sim + 0.15×container_sim`，返回 top-3
 
@@ -164,12 +166,12 @@ bash scripts/java/translate_fragment.sh <project> <model> <suffix> <temp> \
     <use_pseudocode> <use_grammar_prompt> <use_syntax_rag>
 ```
 
-| 场景 | use_pseudocode | use_grammar_prompt | use_syntax_rag |
-|---|---|---|---|
-| 仅修 Java→Cangjie API 模式继承错 | true | false | false |
-| 不熟悉 Cangjie 语法（多为编译报语法错） | false | true | false |
-| 需要 few-shot 结构模板 | false | false | true |
-| **全开（增益最高）** | true | true | true |
+| 场景                                    | use_pseudocode | use_grammar_prompt | use_syntax_rag |
+| --------------------------------------- | -------------- | ------------------ | -------------- |
+| 仅修 Java→Cangjie API 模式继承错        | true           | false              | false          |
+| 不熟悉 Cangjie 语法（多为编译报语法错） | false          | true               | false          |
+| 需要 few-shot 结构模板                  | false          | false              | true           |
+| **全开（增益最高）**                    | true           | true               | true           |
 
 **设计逻辑**：grammar 在最前（先读规则再读代码）；伪代码在源码后（理解意图后再翻译）；结构示例在 RAG 文档后、ICL 前（作为"怎么写"的模板参考）
 
@@ -199,14 +201,14 @@ bash scripts/java/translate_fragment.sh <project> <model> <suffix> <temp> \
 
 **关键代码入口**
 
-| 想了解 | 读这个文件 |
-|---|---|
-| 翻译主循环 | `compositional_translation_validation.py` 的 `translate()` |
-| prompt 组装 | `prompt_generator.py` 的 `build_base_prompt()` |
+| 想了解            | 读这个文件                                                            |
+| ----------------- | --------------------------------------------------------------------- |
+| 翻译主循环        | `compositional_translation_validation.py` 的 `translate()`            |
+| prompt 组装       | `prompt_generator.py` 的 `build_base_prompt()`                        |
 | Part 1 伪代码生成 | `compositional_translation_validation.py` 的 `_generate_pseudocode()` |
-| Part 2 语法规则 | `configs/prompt_templates.yaml` 搜 `cangjie_grammar_context` |
-| Part 3 结构指纹 | `src/java/rag/syntax_graph.py` 的 `infer_structural_signature()` |
-| 消融报告 | `src/java/analysis/ablation_compare.py` |
+| Part 2 语法规则   | `configs/prompt_templates.yaml` 搜 `cangjie_grammar_context`          |
+| Part 3 结构指纹   | `src/java/rag/syntax_graph.py` 的 `infer_structural_signature()`      |
+| 消融报告          | `src/java/analysis/ablation_compare.py`                               |
 
 ---
 
@@ -218,18 +220,19 @@ A6 论文警告：伪代码中间层的收益可能部分来自 CoT 多步推理
 
 **8 种 run-tag（2^3 = 8）**
 
-| run-tag | use_pseudocode | use_grammar_prompt | use_syntax_rag |
-|---|---|---|---|
-| baseline | false | false | false |
-| pseudo | true | false | false |
-| grammar | false | true | false |
-| syntax | false | false | true |
-| pseudo+grammar | true | true | false |
-| pseudo+syntax | true | false | true |
-| grammar+syntax | false | true | true |
-| all | true | true | true |
+| run-tag        | use_pseudocode | use_grammar_prompt | use_syntax_rag |
+| -------------- | -------------- | ------------------ | -------------- |
+| baseline       | false          | false              | false          |
+| pseudo         | true           | false              | false          |
+| grammar        | false          | true               | false          |
+| syntax         | false          | false              | true           |
+| pseudo+grammar | true           | true               | false          |
+| pseudo+syntax  | true           | false              | true           |
+| grammar+syntax | false          | true               | true           |
+| all            | true           | true               | true           |
 
 **实验配置**
+
 - 项目：commons-csv（381 个 fragment）
 - 模型：gpt-4o-2024-11-20
 - 温度：0.0（确保可复现）
@@ -243,16 +246,16 @@ A6 论文警告：伪代码中间层的收益可能部分来自 CoT 多步推理
 
 **8 组总览（commons-csv / gpt-4o / 381 fragments）**
 
-| Run tag | 完成 | 完成率 | Δ vs baseline |
-|---|---:|---:|---:|
-| `baseline` | 241 | 63.3% | — |
-| `pseudo` (Part 1) | 249 | 65.4% | +2.1pp |
-| `grammar` (Part 2) | 255 | 66.9% | +3.7pp |
-| `syntax` (Part 3) | 258 | 67.7% | +4.5pp |
-| `pseudo+grammar` (1+2) | 259 | 68.0% | +4.7pp |
-| `pseudo+syntax` (1+3) | 260 | 68.2% | +5.0pp |
-| `grammar+syntax` (2+3) | 260 | 68.2% | +5.0pp |
-| `all` (1+2+3) | 260 | 68.2% | +5.0pp |
+| Run tag                | 完成 | 完成率 | Δ vs baseline |
+| ---------------------- | ---: | -----: | ------------: |
+| `baseline`             |  241 |  63.3% |             — |
+| `pseudo` (Part 1)      |  249 |  65.4% |        +2.1pp |
+| `grammar` (Part 2)     |  255 |  66.9% |        +3.7pp |
+| `syntax` (Part 3)      |  258 |  67.7% |        +4.5pp |
+| `pseudo+grammar` (1+2) |  259 |  68.0% |        +4.7pp |
+| `pseudo+syntax` (1+3)  |  260 |  68.2% |        +5.0pp |
+| `grammar+syntax` (2+3) |  260 |  68.2% |        +5.0pp |
+| `all` (1+2+3)          |  260 |  68.2% |        +5.0pp |
 
 **单部分独立效应排序**：Part 3 (syntax, +4.5pp) > Part 2 (grammar, +3.7pp) > Part 1 (pseudo, +2.1pp)
 
@@ -289,13 +292,12 @@ A6 论文警告：伪代码中间层的收益可能部分来自 CoT 多步推理
 
 ## Slide 11 — 参考论文速查
 
-| ID | 论文 | 对应 Part |
-|---|---|---|
-| A1 | Pseudocode-based Code Translation (arXiv 2510.00920) | Part 1 |
-| A3 | NL in the Middle (CASCON 2025) | Part 1 设计依据 |
-| A6 | Assessing Intermediate Languages (arXiv 2407.05411) | Part 1 ablation 依据 |
-| B2 | Grammar Prompting (ACL 2023) | Part 2 |
-| B1 | DocCGen (EMNLP 2024) | Part 2 补充 |
-| B3 | CodeGRAG (arXiv 2405.02355) | Part 3 |
-| B4 | Syntax-Aware RAG (EMNLP 2023 Findings) | Part 3 补充 |
-
+| ID  | 论文                                                 | 对应 Part            |
+| --- | ---------------------------------------------------- | -------------------- |
+| A1  | Pseudocode-based Code Translation (arXiv 2510.00920) | Part 1               |
+| A3  | NL in the Middle (CASCON 2025)                       | Part 1 设计依据      |
+| A6  | Assessing Intermediate Languages (arXiv 2407.05411)  | Part 1 ablation 依据 |
+| B2  | Grammar Prompting (ACL 2023)                         | Part 2               |
+| B1  | DocCGen (EMNLP 2024)                                 | Part 2 补充          |
+| B3  | CodeGRAG (arXiv 2405.02355)                          | Part 3               |
+| B4  | Syntax-Aware RAG (EMNLP 2023 Findings)               | Part 3 补充          |

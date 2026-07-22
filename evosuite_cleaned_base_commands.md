@@ -99,7 +99,7 @@ data/java/schemas_evosuite_cleaned_base/<model>/<temperature>/<project>/
 ## 7. 重新生成 dependencies / traversal
 
 ```bash
-bash scripts/java/get_dependencies.sh "$project" "$suffix"
+bash scripts/java/parse_dependencies.sh "$project" "$suffix"
 ```
 
 产物：

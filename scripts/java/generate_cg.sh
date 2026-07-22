@@ -37,7 +37,7 @@ java -jar "$JAVACG_PATH" "$MERGED_JAR" > callgraph.txt
 
 echo "Call graph saved to callgraph.txt."
 
-# Also copy to data/java/call_graphs/ for downstream scripts (create_schema.py, get_dependencies.py)
+# Also copy to data/java/call_graphs/ for downstream scripts (create_schema.py, parse_dependencies.py)
 DATA_DIR="$script_dir/../../data/java/call_graphs/$project"
 mkdir -p "$DATA_DIR"
 cp callgraph.txt "$DATA_DIR/callgraph.txt"

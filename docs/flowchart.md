@@ -10,7 +10,7 @@ flowchart TD
 
     A6 -->|create_schema.sh<br/>tree-sitter AST解析| C1["data/java/schemas/&lt;project&gt;/*.json"]
     A5 -->|读取call graph| C1
-    A6 -->|get_dependencies.sh<br/>jdeps分析+拓扑排序| C2["data/java/dependencies/&lt;project&gt;/traversal.json + dependencies.json"]
+    A6 -->|parse_dependencies.sh<br/>jdeps分析+拓扑排序| C2["data/java/dependencies/&lt;project&gt;/traversal.json + dependencies.json"]
 
     D1["misc/CangjieCorpus/<br/>仓颉语料库(Markdown)"] -->|src/java/rag/indexer.py<br/>分块+embedding+索引| D2["data/java/rag/<br/>chromadb + bm25_index.pkl + chunks.json"]
     D3["Oracle Java API文档<br/>(java.base)"] -->|crawl_java_base.sh| D4["data/java/crawl/java.base_module_doc.json"]

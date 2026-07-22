@@ -296,13 +296,13 @@ Schema 文件为 JSON 格式，包含：
 **命令：**
 
 ```bash
-python src/java/utils/parse_dependencies.py --project_name=<project> --function=parse_dependencies --suffix=<suffix>
+python src/java/skeleton/parse_dependencies.py --project_name=<project> --function=parse_dependencies --suffix=<suffix>
 ```
 
 - **作用：** 使用 `jdeps` 分析 Java 依赖关系，生成 `traversal.json` 文件
 - **输入：** 编译后的项目（`projects/java/cleaned_final_projects{suffix}/{project}/target/classes`）
 - **生成文件：** `data/java/dependencies{suffix}/{project}/traversal.json`
-- **Python 脚本：** `src/java/utils/parse_dependencies.py`
+- **Python 脚本：** `src/java/skeleton/parse_dependencies.py`
 
 **traversal.json 格式：**
 
@@ -611,7 +611,7 @@ x2cangjie/
 │   ├── create_skeleton.sh       # 创建骨架
 │   ├── build_mock_corpus.sh     # 生成 mock 测试语料（前置一次性）
 │   ├── translate_fragment.sh     # 增量翻译验证（含 mock 测试）
-│   └── get_dependencies.sh      # 生成 traversal.json
+│   └── parse_dependencies.sh      # 生成 traversal.json
 ├── src/java/
 │   ├── decomposition/
 │   │   └── create_schema.py     # Schema 生成（tree-sitter）

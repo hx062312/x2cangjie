@@ -1,6 +1,7 @@
 # Fragment 翻译优化：实现说明文档
 
 > 本文记录 x2cangjie 三项 fragment 翻译增强改造的设计、实现与使用方式：
+>
 > - **Part 1**: 伪代码中间层（Java → 伪代码 → Cangjie 两阶段翻译）
 > - **Part 2**: Cangjie 语法 / EBNF 规则注入
 > - **Part 3**: 语法图 RAG（CFG/DFG 结构相似检索）
@@ -12,15 +13,18 @@
 ## 总体思路
 
 x2cangjie 的 fragment 翻译有两类错误：
+
 - **A: 错误继承 Java 源语法/API 模式** — LLM 倾向于模仿 Java 源实现方式，即使 Cangjie 不支持该模式。
 - **B: 使用错误的 Cangjie 语法/API** — LLM 对 Cangjie 训练数据稀薄，不知道该怎么写。
 
 针对上述问题分别引入：
+
 - **Part 1** 解决 A：先让 LLM 将 Java fragment 解为语言无关的"伪代码 + 自然语言注释"中间表示，再基于伪代码 + 元数据翻译成 Cangjie。两阶段解耦"理解 Java 语义"和"生成正确 Cangjie 语法/API"。
 - **Part 2** 解决 B：将 Cangjie 关键语法规则以 EBNF 摘要 + 运行时映射注释的形式注入 prompt 作为硬约束提示，不依赖约束解码。
 - **Part 3** 同时缓解 A/B：从 CangjieCorpus 提取控制流 + 数据流结构指纹，按结构相似度检索并注入 few-shot 结构示例。
 
 三部分均为**默认关闭**（`"false"`），按 flag 开启，**向后兼容**：
+
 - 关闭时行为与改造前完全一致。
 - 互为独立，可单独或组合打开。
 - 失败退化（fail-open）：任何 Part 失败时不影响主流程，仅打印警告。
@@ -33,28 +37,29 @@ x2cangjie 的 fragment 翻译有两类错误：
 
 ### 动机
 
-灵感来自 *Can Emulating Semantic Translation Help LLMs with Code Translation? A Study Based on Pseudocode*（arXiv:2510.00920）。论文在 Python/Java/C++/Go/Rust 上证明：相比于直接 `Source → Target`，使用伪代码中间表示可以显著减少"直接翻译时 LLM 模仿源语言实现方式导致的语义错误"。x2cangjie 中 Cangjie 是低资源语言，伪代码中间层解耦了语义理解与目标语言渲染，特别契合我们的场景。
+灵感来自 _Can Emulating Semantic Translation Help LLMs with Code Translation? A Study Based on Pseudocode_（arXiv:2510.00920）。论文在 Python/Java/C++/Go/Rust 上证明：相比于直接 `Source → Target`，使用伪代码中间表示可以显著减少"直接翻译时 LLM 模仿源语言实现方式导致的语义错误"。x2cangjie 中 Cangjie 是低资源语言，伪代码中间层解耦了语义理解与目标语言渲染，特别契合我们的场景。
 
 ### 设计要点
 
 1. **两阶段**：
-   - Phase 1 — `Java fragment → 伪代码（带 `//` 自语注释、语言无关、纯自然语言描述操作意图）`，作为"语义桥梁"。
-   - Phase 2 — `伪代码 + 元数据（部分骨架、泛型规则、RAG 文档、KB 例子、Part 2/3 注入）→ Cangjie`，作为实际翻译。
+    - Phase 1 — `Java fragment → 伪代码（带 `//` 自语注释、语言无关、纯自然语言描述操作意图）`，作为"语义桥梁"。
+    - Phase 2 — `伪代码 + 元数据（部分骨架、泛型规则、RAG 文档、KB 例子、Part 2/3 注入）→ Cangjie`，作为实际翻译。
 2. **不丢弃 Java 源码**：Phase 2 的 prompt 同时包含 Java 源代码和伪代码，伪代码居中解决歧义。这与论文中 "Strategy 4/5" 一致 —— LLM 可对照源码化解伪代码模糊性。
 3. 失败退化为直接翻译 — Phase 1 LLM 调用失败（网络/JSON/空响应）时返回空串，主翻译继续进行无语义桥梁的版本。
 
 ### 实现位置
 
-| 文件 | 变更 |
-|---|---|
+| 文件                                                           | 变更                                                                                                                                                                                                                                                                                                   |
+| -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `src/java/translation/compositional_translation_validation.py` | 新增 `PSEUDOCODE_SYSTEM_PROMPT`、`_extract_pseudocode()`、`_generate_pseudocode(fragment, args, model_info, client) -> str`；`translate()` 循环在构建 `PromptGenerator` 前先调用一次 LLM 拿伪代码块，再以 `pseudocode=` 形参传入；`__init__` 的 `argparse` 加入 `--use_pseudocode`（默认 `"false"`）。 |
-| `src/java/translation/prompt_generator.py` | `__init__` 新增 `pseudocode=""` 与 `_skip_prompt_build=False` 形参，新增 `self.pseudocode_context`；新增 `add_pseudocode_bridge()` 方法；`build_base_prompt()` 在 Java 源代码之后、partial translation 之前注入伪代码桥梁文本。 |
-| `configs/prompt_templates.yaml` | 新增模板 `pseudocode_generation_system`、`pseudocode_generation_user`、`pseudocode_bridge_context`（供人审阅；运行期使用代码内嵌字符串以保证确定性，见 `_generate_pseudocode()`）。 |
-| `scripts/java/translate_fragment.sh` | 新增第 9 位置参数 `use_pseudocode`（默认 `"false"`），加校验，透传 `--use_pseudocode=` 给 Python。 |
+| `src/java/translation/prompt_generator.py`                     | `__init__` 新增 `pseudocode=""` 与 `_skip_prompt_build=False` 形参，新增 `self.pseudocode_context`；新增 `add_pseudocode_bridge()` 方法；`build_base_prompt()` 在 Java 源代码之后、partial translation 之前注入伪代码桥梁文本。                                                                        |
+| `configs/prompt_templates.yaml`                                | 新增模板 `pseudocode_generation_system`、`pseudocode_generation_user`、`pseudocode_bridge_context`（供人审阅；运行期使用代码内嵌字符串以保证确定性，见 `_generate_pseudocode()`）。                                                                                                                    |
+| `scripts/java/translate_fragment.sh`                           | 新增第 9 位置参数 `use_pseudocode`（默认 `"false"`），加校验，透传 `--use_pseudocode=` 给 Python。                                                                                                                                                                                                     |
 
 ### Phase-1 prompt 规约
 
 要求 LLM 输出的伪代码块：
+
 - 仅一套三反引号包裹；
 - 仅使用 `FOR / WHILE / IF / ELSE / RETURN / BREAK` 等通用关键字；
 - 每个 Java API 调用改写为动词短语（如 `Collections.sort(xs)` → `sort xs in place`）；
@@ -74,7 +79,7 @@ x2cangjie 的 fragment 翻译有两类错误：
 
 ### 动机
 
-灵感来自 *Grammar Prompting for Domain-Specific Language Generation with Large Language Models*（Wang et al., ACL 2023）—— 证明**仅**在 prompt 里写入目标语言的 EBNF 规则（无需约束解码）已经能显著提升低资源/DSL 目标语言的语法正确率。Cangjie 对 LLM 而言近乎 DSL。DocCGen（EMNLP 2024）进一步证明从文档提取 grammar/schema 用于约束生成，在 OOD（未见库/低资源）场景效果显著。
+灵感来自 _Grammar Prompting for Domain-Specific Language Generation with Large Language Models_（Wang et al., ACL 2023）—— 证明**仅**在 prompt 里写入目标语言的 EBNF 规则（无需约束解码）已经能显著提升低资源/DSL 目标语言的语法正确率。Cangjie 对 LLM 而言近乎 DSL。DocCGen（EMNLP 2024）进一步证明从文档提取 grammar/schema 用于约束生成，在 OOD（未见库/低资源）场景效果显著。
 
 ### 设计要点
 
@@ -103,12 +108,12 @@ EBNF 就是把 Cangjie 的语法规则显式写进 prompt，让 LLM 在生成代
 
 ### 实现位置
 
-| 文件 | 变更 |
-|---|---|
-| `src/java/translation/grammar_prompt.py` | 新模块。`build_grammar_prompt()`、`get_grammar_prompt()` 单例 + `reset_cache()`；从 `configs/prompt_templates.yaml` 加载（缓存），失败回退到模块内 `_FALLBACK_GRAMMAR` / `_FALLBACK_RUNTIME`。 |
+| 文件                                       | 变更                                                                                                                                                                                                                                                                                  |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/java/translation/grammar_prompt.py`   | 新模块。`build_grammar_prompt()`、`get_grammar_prompt()` 单例 + `reset_cache()`；从 `configs/prompt_templates.yaml` 加载（缓存），失败回退到模块内 `_FALLBACK_GRAMMAR` / `_FALLBACK_RUNTIME`。                                                                                        |
 | `src/java/translation/prompt_generator.py` | 顶部 import `get_grammar_prompt`；`__init__` 加 `self.grammar_context`，当 `args.use_grammar_prompt == 'true'` 时调用 `get_grammar_prompt()` 取得文本；`build_base_prompt()` 在 `add_instruction()` 之后、`add_source_code()` 之前注入 grammar 文本，让模型先读硬约束再读 Java 源码。 |
-| `configs/prompt_templates.yaml` | 新增长模板 `cangjie_grammar_context`（EBNF 摘要 + G1-G8 约束）、`cangjie_grammar_runtime_note`（API 名映射表）。 |
-| `scripts/java/translate_fragment.sh` | 新增第 10 位置参数 `use_grammar_prompt`（默认 `"false"`），加校验，透传 `--use_grammar_prompt=`。 |
+| `configs/prompt_templates.yaml`            | 新增长模板 `cangjie_grammar_context`（EBNF 摘要 + G1-G8 约束）、`cangjie_grammar_runtime_note`（API 名映射表）。                                                                                                                                                                      |
+| `scripts/java/translate_fragment.sh`       | 新增第 10 位置参数 `use_grammar_prompt`（默认 `"false"`），加校验，透传 `--use_grammar_prompt=`。                                                                                                                                                                                     |
 
 ### 为什么不做约束解码
 
@@ -120,11 +125,12 @@ EBNF 就是把 Cangjie 的语法规则显式写进 prompt，让 LLM 在生成代
 
 ### 动机
 
-灵感来自 *CodeGRAG: Extracting Composed Syntax Graphs for Retrieval Augmented Cross-Lingual Code Generation*（Huang et al., 2024）。CodeGRAG 从代码提取 CFG + DFG，用 GNN + 跨语言检索器检索结构相似片段做 few-shot。我们做"实用化简化版"：纯正则结构指纹 + Jaccard 相似度，无 NN/CUDA/额外依赖。
+灵感来自 _CodeGRAG: Extracting Composed Syntax Graphs for Retrieval Augmented Cross-Lingual Code Generation_（Huang et al., 2024）。CodeGRAG 从代码提取 CFG + DFG，用 GNN + 跨语言检索器检索结构相似片段做 few-shot。我们做"实用化简化版"：纯正则结构指纹 + Jaccard 相似度，无 NN/CUDA/额外依赖。
 
 ### 结构指纹
 
 对 Java 或 Cangjie 代码块统一提取 `StructSig`（语言无关，因为关键字 token 集合包含 Java 与 Cangjie 两种范式）：
+
 - **shape_bag**: 桶化计数（0/1/2-4/≥5 → "0/1/2/3"）的 12 个操作类别，包括 `cf_if / cf_loop / cf_switch_match / cf_return / cf_throw / cf_try_catch / op_call / op_index / op_field_access / op_new_alloc / op_assign / op_lambda`。
 - **call_names**: 方法调用点的标识符集合（去除 `if/for` 等控制流关键字）。
 - **container_types**: 命中常见集合类型名（list/array/map/hashmap/set 等）。
@@ -134,13 +140,13 @@ EBNF 就是把 Cangjie 的语法规则显式写进 prompt，让 LLM 在生成代
 
 ### 实现
 
-| 文件 | 变更 |
-|---|---|
-| `src/java/rag/syntax_graph.py` | 新模块。`infer_structural_signature(code, category)` 公共提取器，`StructSig` dataclass；`build_syntax_graph_index(corpus_root, out_path)` 扫 `CangjieCorpus` 下 `.cj/.cangjie/.cj.txt` 文件和 `.md` 中 ```cangjie/cj``` 围栏块，pickle 序列化 `data/java/rag/syntax_graph_index.pkl`（+ `.jsonl` 人读副本）；`_SyntaxGraphRAG` 单例 retriever（Jaccard 加权：`0.6*shape + 0.25*call + 0.15*container`，得分 <0.05 丢弃），首次调用 _lazy build 索引若无则尝试在线 build。 |
-| `src/java/translation/prompt_generator.py` | 顶部 import `get_syntax_graph_rag`；`__init__` 加 `self.syntax_graph_context` 占位字段；在 `load_fragment()` 之后、`build_base_prompt()` 之前，当 `args.use_syntax_rag == 'true'` 时调用 `sgrag.inject(self.source_fragment_body, top_k=3)`；`build_base_prompt()` 在 RAG 文档之后、ICL 之前注入结构示例块。 |
-| `tests/test_syntax_graph.py` | 4 个 unit test：提取器、跨语言相似、空代码、无索引时 graceful 返回 ""。 |
-| `scripts/java/build_syntax_graph_index.sh` | 一键脚本：`bash scripts/java/build_syntax_graph_index.sh [corpus_root]`，可选预构建索引（retriever 也会第一次调用时 lazy-build，但预建会更快）。 |
-| `scripts/java/build_mock_corpus.sh` | （未改动，仅文档对齐说明）。 |
+| 文件                                       | 变更                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/java/rag/syntax_graph.py`             | 新模块。`infer_structural_signature(code, category)` 公共提取器，`StructSig` dataclass；`build_syntax_graph_index(corpus_root, out_path)` 扫 `CangjieCorpus` 下 `.cj/.cangjie/.cj.txt` 文件和 `.md` 中 `cangjie/cj` 围栏块，pickle 序列化 `data/java/rag/syntax_graph_index.pkl`（+ `.jsonl` 人读副本）；`_SyntaxGraphRAG` 单例 retriever（Jaccard 加权：`0.6*shape + 0.25*call + 0.15*container`，得分 <0.05 丢弃），首次调用 _lazy build 索引若无则尝试在线 build。 |
+| `src/java/translation/prompt_generator.py` | 顶部 import `get_syntax_graph_rag`；`__init__` 加 `self.syntax_graph_context` 占位字段；在 `load_fragment()` 之后、`build_base_prompt()` 之前，当 `args.use_syntax_rag == 'true'` 时调用 `sgrag.inject(self.source_fragment_body, top_k=3)`；`build_base_prompt()` 在 RAG 文档之后、ICL 之前注入结构示例块。                                                                                                                                                          |
+| `tests/test_syntax_graph.py`               | 4 个 unit test：提取器、跨语言相似、空代码、无索引时 graceful 返回 ""。                                                                                                                                                                                                                                                                                                                                                                                               |
+| `scripts/java/build_syntax_graph_index.sh` | 一键脚本：`bash scripts/java/build_syntax_graph_index.sh [corpus_root]`，可选预构建索引（retriever 也会第一次调用时 lazy-build，但预建会更快）。                                                                                                                                                                                                                                                                                                                      |
+| `scripts/java/build_mock_corpus.sh`        | （未改动，仅文档对齐说明）。                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
 ### 旁路附加：语法图 RAG vs 原 RAG
 
@@ -184,13 +190,13 @@ bash scripts/java/translate_fragment.sh jansi deepseek-chat _evosuite_cleaned_ba
 
 ### 推荐组合
 
-| 场景 | use_pseudocode | use_grammar_prompt | use_syntax_rag |
-|---|---|---|---|
-| 仅修 Java→Cangjie API 模式继承错 | true | false | false |
-| 不熟悉 Cangjie 语法（多为编译报语法错） | false | true | false |
-| 需要 few-shot 结构模板 | false | false | true |
-| **推荐起点**：同时解 A+B，性价比最高 | true | true | false |
-| 全开（贵但增益最高） | true | true | true |
+| 场景                                    | use_pseudocode | use_grammar_prompt | use_syntax_rag |
+| --------------------------------------- | -------------- | ------------------ | -------------- |
+| 仅修 Java→Cangjie API 模式继承错        | true           | false              | false          |
+| 不熟悉 Cangjie 语法（多为编译报语法错） | false          | true               | false          |
+| 需要 few-shot 结构模板                  | false          | false              | true           |
+| **推荐起点**：同时解 A+B，性价比最高    | true           | true               | false          |
+| 全开（贵但增益最高）                    | true           | true               | true           |
 
 ### 调试辅助
 
@@ -233,15 +239,15 @@ scripts/java/translate_fragment.sh                               # 三个新位�
 
 ## 单元测试 / 验证
 
-| 测试 | 覆盖 |
-|---|---|
+| 测试                                                                                              | 覆盖              |
+| ------------------------------------------------------------------------------------------------- | ----------------- |
 | `tests/test_grammar_prompt.py::test_build_grammar_prompt_returns_nonempty_block_with_ebnf_marker` | Part 2 加载与产物 |
-| `tests/test_grammar_prompt.py::test_get_grammar_prompt_is_cached` | 单例缓存 |
-| `tests/test_grammar_prompt.py::test_cache_reset_reloads` | fallback 路径 |
-| `tests/test_syntax_graph.py::test_signature_has_control_flow_tokens_for_loop_and_branch` | Part 3 提取器 |
-| `tests/test_syntax_graph.py::test_cross_lingual_similarity_high_for_equivalent_structure` | 跨语言相似度 |
-| `tests/test_syntax_graph.py::test_signature_empty_for_blank_code` | 边界 |
-| `tests/test_syntax_graph.py::test_singleton_returns_empty_when_no_index` | 无索引退化 |
+| `tests/test_grammar_prompt.py::test_get_grammar_prompt_is_cached`                                 | 单例缓存          |
+| `tests/test_grammar_prompt.py::test_cache_reset_reloads`                                          | fallback 路径     |
+| `tests/test_syntax_graph.py::test_signature_has_control_flow_tokens_for_loop_and_branch`          | Part 3 提取器     |
+| `tests/test_syntax_graph.py::test_cross_lingual_similarity_high_for_equivalent_structure`         | 跨语言相似度      |
+| `tests/test_syntax_graph.py::test_signature_empty_for_blank_code`                                 | 边界              |
+| `tests/test_syntax_graph.py::test_singleton_returns_empty_when_no_index`                          | 无索引退化        |
 
 **运行**：
 
@@ -306,7 +312,7 @@ bash scripts/java/create_schema.sh jansi "$model" "$temp" "$suffix"
 ## 3. 依赖顺序生成
 
 ```bash
-bash scripts/java/get_dependencies.sh jansi "$suffix"
+bash scripts/java/parse_dependencies.sh jansi "$suffix"
 # 产物：data/java/dependencies${suffix}/jansi/traversal.json
 ```
 
@@ -451,28 +457,28 @@ bash scripts/java/translate_fragment.sh jansi "$model" "$suffix" "$temp" \
 
 ## 涉及文件
 
-| 文件 | 用途 |
-|---|---|
-| `scripts/java/run_ablation.sh` | 一键跑 5 组组合：每组先重建 skeleton、再 translate_fragment、再 snapshot schema 到 per-run 子目录 |
-| `src/java/analysis/ablation_compare.py` | 读取 5 个 per-run schema 快照、计算指标、生成 Markdown 报告 + metrics.csv + significance.csv |
-| `tests/test_ablation_compare.py` | 单元测试：Fisher exact、stats_to_metrics、generate_markdown_report smoke |
-| 旧文件 `src/java/analysis/analyze_errors.py`、`scripts/java/analyze_errors.sh` | 未改动。新代码 `import` `analyze_project()` 复用，不修改 |
+| 文件                                                                           | 用途                                                                                              |
+| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| `scripts/java/run_ablation.sh`                                                 | 一键跑 5 组组合：每组先重建 skeleton、再 translate_fragment、再 snapshot schema 到 per-run 子目录 |
+| `src/java/analysis/ablation_compare.py`                                        | 读取 5 个 per-run schema 快照、计算指标、生成 Markdown 报告 + metrics.csv + significance.csv      |
+| `tests/test_ablation_compare.py`                                               | 单元测试：Fisher exact、stats_to_metrics、generate_markdown_report smoke                          |
+| 旧文件 `src/java/analysis/analyze_errors.py`、`scripts/java/analyze_errors.sh` | 未改动。新代码 `import` `analyze_project()` 复用，不修改                                          |
 
 ## 5 种 run-tag
 
-| run-tag | use_pseudocode | use_grammar_prompt | use_syntax_rag |
-|---|---|---|---|
-| `baseline` | false | false | false |
-| `pseudo` | true | false | false |
-| `grammar` | false | true | false |
-| `syntax` | false | false | true |
-| `all` | true | true | true |
+| run-tag    | use_pseudocode | use_grammar_prompt | use_syntax_rag |
+| ---------- | -------------- | ------------------ | -------------- |
+| `baseline` | false          | false              | false          |
+| `pseudo`   | true           | false              | false          |
+| `grammar`  | false          | true               | false          |
+| `syntax`   | false          | false              | true           |
+| `all`      | true           | true               | true           |
 
 run-tag 由 `run_ablation.sh` 自动写入，名称固定不可改（`ablation_compare.py` 中的 `RUN_TAGS` 数组必须与此保持一致）。
 
 ## 关键设计点
 
-1. **为何要 snapshot**：`translate_fragment.sh` 每次写回的是 *同一份* schema JSON 目录（`data/java/schemas<suffix>/<model>/<temp>/<project>/`），后一次运行会覆盖前一次的 translation_status/compilation_outcome。因此必须为每个 run-tag 拷贝一份独立的 schema 快照存到 `data/java/ablation/<run-tag>/`，否则后跑的会覆盖前面的统计数据。这是 **必须** 步骤，否则消融数据被污染。
+1. **为何要 snapshot**：`translate_fragment.sh` 每次写回的是 _同一份_ schema JSON 目录（`data/java/schemas<suffix>/<model>/<temp>/<project>/`），后一次运行会覆盖前一次的 translation_status/compilation_outcome。因此必须为每个 run-tag 拷贝一份独立的 schema 快照存到 `data/java/ablation/<run-tag>/`，否则后跑的会覆盖前面的统计数据。这是 **必须** 步骤，否则消融数据被污染。
 2. **skeleton 同步重建**：`run_ablation.sh` 在每组运行前调一次 `create_skeleton.sh`，保证翻译基线一致；否则前一组翻译产物可能影响后续组的骨架初始状态。
 3. **复用既有指标**：`ablation_compare.py` import `analyze_project()` 读取 statistics 字段，**不改旧文件**。
 4. **Fisher exact 自实现**：消融脚本不能依赖 scipy（未在 `environment.yaml`），用纯 python `lgamma` + hypergeometric 求和实现 2×2 Fisher exact two-sided p 值；适合 fragment count 在几十到几千之间。
@@ -560,15 +566,15 @@ bash scripts/java/run_ablation.sh <project> <model> <suffix> <temperature> \
 
 ## 指标解读
 
-| 指标 | 含义 | 期望方向 |
-|---|---|---|
-| `total_fragments` | 该 run 处理的 fragment 数（应所有组一致，否则数据被污染） | = |
-| `completed` / `completed_rate` | translation_status == 'completed' 的数 / 比例 | ↑ |
-| `compiled_pass` / `compiled_pass_rate` | cangjie_compilation.outcome == 'success' 的数 / 比例 | ↑ |
-| `test_pass` / `test_pass_rate_of_compiled` | 测试通过的数 / 在编译通过池中的比例 | ↑ |
-| `attempted` / `out_of_context` / `pending` | 中间态计数 | ↓（理想情况下 attempted→completed） |
-| `residual_todos` / `residual_todos_per_file` | .cj 中残留 `throw Exception('TODO')` 计数 | ↓ |
-| `elapsed_mean_s` | 平均每 fragment 耗时 | 视情况（提速 vs 提升） |
+| 指标                                         | 含义                                                      | 期望方向                            |
+| -------------------------------------------- | --------------------------------------------------------- | ----------------------------------- |
+| `total_fragments`                            | 该 run 处理的 fragment 数（应所有组一致，否则数据被污染） | =                                   |
+| `completed` / `completed_rate`               | translation_status == 'completed' 的数 / 比例             | ↑                                   |
+| `compiled_pass` / `compiled_pass_rate`       | cangjie_compilation.outcome == 'success' 的数 / 比例      | ↑                                   |
+| `test_pass` / `test_pass_rate_of_compiled`   | 测试通过的数 / 在编译通过池中的比例                       | ↑                                   |
+| `attempted` / `out_of_context` / `pending`   | 中间态计数                                                | ↓（理想情况下 attempted→completed） |
+| `residual_todos` / `residual_todos_per_file` | .cj 中残留 `throw Exception('TODO')` 计数                 | ↓                                   |
+| `elapsed_mean_s`                             | 平均每 fragment 耗时                                      | 视情况（提速 vs 提升）              |
 
 报告中三部分横向对比表 + delta vs baseline 表。delta 比例字段用 **pp**（percentage point, 0.1 = 10pp），不是相对百分比。
 
@@ -597,6 +603,7 @@ python -m pytest tests/test_ablation_compare.py -v
 ```
 
 6 个 test 覆盖：
+
 - Fisher identical table → p=1.0
 - Fisher maximal split (0/4 vs 4/0) → p<0.05
 - Fisher all-fail identical → p=1.0
@@ -606,4 +613,4 @@ python -m pytest tests/test_ablation_compare.py -v
 
 ## 旧的 `analyze_errors.sh` 仍可独立使用
 
-互不影响：`scripts/java/analyze_errors.sh` 仍对单个 run 输出 `data/java/analysis/<project>_<model>_<temp>_errors.txt`；ablation 工具是 *不同目录* 下的横向对比。所以你的既有分析脚本与本次消融工具并行存在。
+互不影响：`scripts/java/analyze_errors.sh` 仍对单个 run 输出 `data/java/analysis/<project>_<model>_<temp>_errors.txt`；ablation 工具是 _不同目录_ 下的横向对比。所以你的既有分析脚本与本次消融工具并行存在。
