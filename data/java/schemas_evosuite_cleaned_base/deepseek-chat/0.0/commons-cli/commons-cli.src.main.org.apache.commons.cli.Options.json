@@ -1,0 +1,2520 @@
+{
+    "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/main/java/org/apache/commons/cli/Options.java",
+    "imports": {
+        "20-20:import java.io.Serializable;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.io.Serializable;"
+        },
+        "21-21:import java.util.ArrayList;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.ArrayList;"
+        },
+        "22-22:import java.util.Collection;": {
+            "start": 22,
+            "end": 22,
+            "body": "import java.util.Collection;"
+        },
+        "23-23:import java.util.Collections;": {
+            "start": 23,
+            "end": 23,
+            "body": "import java.util.Collections;"
+        },
+        "24-24:import java.util.HashSet;": {
+            "start": 24,
+            "end": 24,
+            "body": "import java.util.HashSet;"
+        },
+        "25-25:import java.util.LinkedHashMap;": {
+            "start": 25,
+            "end": 25,
+            "body": "import java.util.LinkedHashMap;"
+        },
+        "26-26:import java.util.List;": {
+            "start": 26,
+            "end": 26,
+            "body": "import java.util.List;"
+        },
+        "27-27:import java.util.Map;": {
+            "start": 27,
+            "end": 27,
+            "body": "import java.util.Map;"
+        }
+    },
+    "classes": {
+        "40-328:Options": {
+            "start": 40,
+            "end": 328,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [
+                "Serializable"
+            ],
+            "extends": [],
+            "methods": {
+                "62-79:addOption0": {
+                    "start": 62,
+                    "end": 79,
+                    "body": [
+                        "public Options addOption0(final Option opt) {",
+                        "        final String key = opt.getKey();",
+                        "",
+                        "        if (opt.hasLongOpt()) {",
+                        "            longOpts.put(opt.getLongOpt(), opt);",
+                        "        }",
+                        "",
+                        "        if (opt.isRequired()) {",
+                        "            if (requiredOpts.contains(key)) {",
+                        "                requiredOpts.remove(requiredOpts.indexOf(key));",
+                        "            }",
+                        "            requiredOpts.add(key);",
+                        "        }",
+                        "",
+                        "        shortOpts.put(key, opt);",
+                        "",
+                        "        return this;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "addOption0(final Option opt)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Option",
+                            "name": "opt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "562-564:getKey"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "694-696:hasLongOpt"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "571-573:getLongOpt"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "put(java.lang.Object,java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "729-731:isRequired"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "contains(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "indexOf(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "remove(int)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "Options",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Options",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Options",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|Option|opt": {
+                                "identifier": "final|Option|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Option",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Option",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func addOption0(opt: Option): Options {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: 'contains' is not a member of class 'ArrayList<Interface-Any>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/Options.cj:27:26:\n   | \n27 |         if (requiredOpts.contains(key)) {\n   |                          ^^^^^^^^ \n   |\nerror: 'indexOf' is not a member of class 'ArrayList<Interface-Any>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/Options.cj:28:42:\n   | \n28 |         requiredOpts.remove(requiredOpts.indexOf(key))\n   |                                          ^^^^^^^ \n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 24.021055459976196,
+                    "generation_timestamp": "2026-07-16T16:30:41.058547",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func addOption0(opt: Option): Options {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "91-94:addOption1": {
+                    "start": 91,
+                    "end": 94,
+                    "body": [
+                        "public Options addOption1(final String opt, final boolean hasArg, final String description) {",
+                        "        addOption3(opt, null, hasArg, description);",
+                        "        return this;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [],
+                    "signature": "addOption1(final String opt, final boolean hasArg, final String description)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "opt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "hasArg"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "description"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "40-328:Options",
+                            "122-129:addOption3"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "Options",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Options",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Options",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|opt": {
+                                "identifier": "final|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|boolean|hasArg": {
+                                "identifier": "final|boolean|hasArg",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String|description": {
+                                "identifier": "final|String|description",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "addOption3(opt, \"\", hasArg, description)\nreturn this",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 4.481678247451782,
+                    "generation_timestamp": "2026-07-16T17:11:07.969387",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "addOption3(opt, \"\", hasArg, description)\nreturn this",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "106-109:addOption2": {
+                    "start": 106,
+                    "end": 109,
+                    "body": [
+                        "public Options addOption2(final String opt, final String description) {",
+                        "        addOption3(opt, null, false, description);",
+                        "        return this;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [],
+                    "signature": "addOption2(final String opt, final String description)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "opt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "description"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "40-328:Options",
+                            "122-129:addOption3"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "Options",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Options",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Options",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|String|opt": {
+                                "identifier": "final|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String|description": {
+                                "identifier": "final|String|description",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "addOption3(opt, \"\", false, description)\nreturn this",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 4.836479902267456,
+                    "generation_timestamp": "2026-07-16T17:11:12.830954",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "addOption3(opt, \"\", false, description)\nreturn this",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "122-129:addOption3": {
+                    "start": 122,
+                    "end": 129,
+                    "body": [
+                        "public Options addOption3(",
+                        "            final String opt,",
+                        "            final String longOpt,",
+                        "            final boolean hasArg,",
+                        "            final String description) {",
+                        "        addOption0(new Option(0, opt, longOpt, description, hasArg, null));",
+                        "        return this;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [
+                        "Option"
+                    ],
+                    "signature": "addOption3(final String opt, final String longOpt, final boolean hasArg, final String description)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "opt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "longOpt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "hasArg"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "description"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "336-375:Option"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "40-328:Options",
+                            "62-79:addOption0"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "Options",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Options",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Options",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "Option": {
+                                "identifier": "Option",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Option",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Option",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|opt": {
+                                "identifier": "final|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String|longOpt": {
+                                "identifier": "final|String|longOpt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|boolean|hasArg": {
+                                "identifier": "final|boolean|hasArg",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String|description": {
+                                "identifier": "final|String|description",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "addOption0(Option(0, opt, longOpt, description, hasArg, Option_Builder()))\nreturn this",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 6.126974582672119,
+                    "generation_timestamp": "2026-07-16T16:30:47.209259",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "addOption0(Option(0, opt, longOpt, description, hasArg, Option_Builder()))\nreturn this",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "137-150:addOptionGroup": {
+                    "start": 137,
+                    "end": 150,
+                    "body": [
+                        "public Options addOptionGroup(final OptionGroup group) {",
+                        "        if (group.isRequired()) {",
+                        "            requiredOpts.add(group);",
+                        "        }",
+                        "",
+                        "        for (final Option option : group.getOptions()) {",
+                        "            option.setRequired(false);",
+                        "            addOption0(option);",
+                        "",
+                        "            optionGroups.put(option.getKey(), group);",
+                        "        }",
+                        "",
+                        "        return this;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [
+                        "Option"
+                    ],
+                    "signature": "addOptionGroup(final OptionGroup group)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "OptionGroup",
+                            "name": "group"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionGroup",
+                            "27-145:OptionGroup",
+                            "78-80:isRequired"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionGroup",
+                            "27-145:OptionGroup",
+                            "62-64:getOptions"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collection",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "831-833:setRequired"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "40-328:Options",
+                            "62-79:addOption0"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "562-564:getKey"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "put(java.lang.Object,java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "Options",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Options",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Options",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "Option": {
+                                "identifier": "Option",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Option",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Option",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|OptionGroup|group": {
+                                "identifier": "final|OptionGroup|group",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "OptionGroup",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "OptionGroup",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func addOptionGroup(group: OptionGroup): Options {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: 'append' is not a member of class 'ArrayList<Interface-Any>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/Options.cj:39:22:\n   | \n39 |         requiredOpts.append(group)\n   |                      ^^^^^^ \n   |\nerror: unable to infer generic argument of this function\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/Options.cj:41:24:\n   | \n41 |         for (option in group.getOptions()) {\n   |                        ^^^^^^^^^^^^^^^^ \n   | \nnote: no information known for type variable 'Generics-Option'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionGroup.cj:27:33:\n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 27.60093641281128,
+                    "generation_timestamp": "2026-07-16T16:31:14.834331",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func addOptionGroup(group: OptionGroup): Options {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "173-182:addRequiredOption": {
+                    "start": 173,
+                    "end": 182,
+                    "body": [
+                        "public Options addRequiredOption(",
+                        "            final String opt,",
+                        "            final String longOpt,",
+                        "            final boolean hasArg,",
+                        "            final String description) {",
+                        "        final Option option = new Option(0, opt, longOpt, description, hasArg, null);",
+                        "        option.setRequired(true);",
+                        "        addOption0(option);",
+                        "        return this;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Options"
+                    ],
+                    "body_types": [
+                        "Option"
+                    ],
+                    "signature": "addRequiredOption(final String opt, final String longOpt, final boolean hasArg, final String description)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "opt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "longOpt"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "boolean",
+                            "name": "hasArg"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "description"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "336-375:Option"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "831-833:setRequired"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "40-328:Options",
+                            "62-79:addOption0"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Options": {
+                                "identifier": "Options",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Options",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Options",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "Option": {
+                                "identifier": "Option",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Option",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Option",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|opt": {
+                                "identifier": "final|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String|longOpt": {
+                                "identifier": "final|String|longOpt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|boolean|hasArg": {
+                                "identifier": "final|boolean|hasArg",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String|description": {
+                                "identifier": "final|String|description",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "let option = Option(0, opt, longOpt, description, hasArg, Option_Builder())\noption.required = true\naddOption0(option)\nreturn this",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 5.870981931686401,
+                    "generation_timestamp": "2026-07-16T16:31:20.728316",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "let option = Option(0, opt, longOpt, description, hasArg, Option_Builder())\noption.required = true\naddOption0(option)\nreturn this",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "191-207:getMatchingOptions": {
+                    "start": 191,
+                    "end": 207,
+                    "body": [
+                        "public List<String> getMatchingOptions(String opt) {",
+                        "        opt = Util.stripLeadingHyphens(opt);",
+                        "",
+                        "        final List<String> matchingOpts = new ArrayList<>();",
+                        "",
+                        "        if (longOpts.containsKey(opt)) {",
+                        "            return Collections.singletonList(opt);",
+                        "        }",
+                        "",
+                        "        for (final String longOpt : longOpts.keySet()) {",
+                        "            if (longOpt.startsWith(opt)) {",
+                        "                matchingOpts.add(longOpt);",
+                        "            }",
+                        "        }",
+                        "",
+                        "        return matchingOpts;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "List<String>"
+                    ],
+                    "body_types": [
+                        "List<String>",
+                        "ArrayList<>",
+                        "String"
+                    ],
+                    "signature": "getMatchingOptions( String opt)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "opt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Util",
+                            "21-64:Util",
+                            "51-63:stripLeadingHyphens"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "containsKey(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collections",
+                            "singletonList(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "keySet()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Set",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "startsWith(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "add(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "List<String>": {
+                                "identifier": "List<String>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "List<String>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<String>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "List<String>": {
+                                "identifier": "List<String>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "List<String>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<String>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "ArrayList<>": {
+                                "identifier": "ArrayList<>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "ArrayList<>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "|String|opt": {
+                                "identifier": "|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nlet matchingOpts = ArrayList<String>()\nif (longOpts.contains(strippedOpt)) {\nreturn ArrayList<String>([strippedOpt])\n}\nfor (longOpt in longOpts.keys()) {\nif (longOpt.startsWith(strippedOpt)) {\nmatchingOpts.add(longOpt)\n}\n}\nreturn matchingOpts",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 10.276511907577515,
+                    "generation_timestamp": "2026-07-16T16:31:31.034358",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nlet matchingOpts = ArrayList<String>()\nif (longOpts.contains(strippedOpt)) {\nreturn ArrayList<String>([strippedOpt])\n}\nfor (longOpt in longOpts.keys()) {\nif (longOpt.startsWith(strippedOpt)) {\nmatchingOpts.add(longOpt)\n}\n}\nreturn matchingOpts",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 3,
+                        "test_execution": 4
+                    }
+                },
+                "217-225:getOption": {
+                    "start": 217,
+                    "end": 225,
+                    "body": [
+                        "public Option getOption(String opt) {",
+                        "        opt = Util.stripLeadingHyphens(opt);",
+                        "",
+                        "        if (shortOpts.containsKey(opt)) {",
+                        "            return shortOpts.get(opt);",
+                        "        }",
+                        "",
+                        "        return longOpts.get(opt);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Option"
+                    ],
+                    "body_types": [],
+                    "signature": "getOption( String opt)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "opt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Util",
+                            "21-64:Util",
+                            "51-63:stripLeadingHyphens"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "containsKey(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "get(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Option": {
+                                "identifier": "Option",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Option",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Option",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|String|opt": {
+                                "identifier": "|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nif (shortOpts.contains(strippedOpt)) {\nreturn shortOpts.get(strippedOpt).getOrThrow()\n}\nreturn longOpts.get(strippedOpt).getOrThrow()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 13.627132177352905,
+                    "generation_timestamp": "2026-07-16T16:31:44.692367",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nif (shortOpts.contains(strippedOpt)) {\nreturn shortOpts.get(strippedOpt).getOrThrow()\n}\nreturn longOpts.get(strippedOpt).getOrThrow()",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 3,
+                        "test_execution": 4
+                    }
+                },
+                "233-235:getOptionGroup": {
+                    "start": 233,
+                    "end": 235,
+                    "body": [
+                        "public OptionGroup getOptionGroup(final Option opt) {",
+                        "        return optionGroups.get(opt.getKey());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "OptionGroup"
+                    ],
+                    "body_types": [],
+                    "signature": "getOptionGroup(final Option opt)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "Option",
+                            "name": "opt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Option",
+                            "39-902:Option",
+                            "562-564:getKey"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "get(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "OptionGroup": {
+                                "identifier": "OptionGroup",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "OptionGroup",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "OptionGroup",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|Option|opt": {
+                                "identifier": "final|Option|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Option",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Option",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "return this.optionGroups.get(opt.getKey()).getOrThrow()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 4.678746223449707,
+                    "generation_timestamp": "2026-07-16T16:31:49.396516",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "return this.optionGroups.get(opt.getKey()).getOrThrow()",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "242-244:getOptionGroups": {
+                    "start": 242,
+                    "end": 244,
+                    "body": [
+                        "Collection<OptionGroup> getOptionGroups() {",
+                        "        return new HashSet<>(optionGroups.values());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "Collection<OptionGroup>"
+                    ],
+                    "body_types": [
+                        "HashSet<>"
+                    ],
+                    "signature": "getOptionGroups()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Map",
+                            "values()"
+                        ],
+                        [
+                            "library",
+                            "java.util.HashSet",
+                            "<init>(java.util.Collection)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Collection<OptionGroup>": {
+                                "identifier": "Collection<OptionGroup>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Collection<OptionGroup>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<OptionGroup>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "HashSet<>": {
+                                "identifier": "HashSet<>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "HashSet<>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "HashSet<AnyHashable>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func getOptionGroups<OptionGroup>(): ArrayList<OptionGroup> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: --- cjc stderr ---\n\u001b[31merror\u001b[0m: expected declaration, found keyword 'return'\n \u001b[36m==>\u001b[0m /tmp/tmphcu5l4u8.cj:1:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m1\u001b[0m \u001b[36m| \u001b[0mreturn HashSet<OptionGroup>(this.optionGroups.values())\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n1 error generated, 1 error printed.\n\n--- cjc stdout ---\n"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 20.197956323623657,
+                    "generation_timestamp": "2026-07-16T16:32:09.625997",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getOptionGroups<OptionGroup>(): ArrayList<OptionGroup> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "251-253:getOptions": {
+                    "start": 251,
+                    "end": 253,
+                    "body": [
+                        "public Collection<Option> getOptions() {",
+                        "        return Collections.unmodifiableCollection(helpOptions());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "Collection<Option>"
+                    ],
+                    "body_types": [],
+                    "signature": "getOptions()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Options",
+                            "40-328:Options",
+                            "307-309:helpOptions"
+                        ],
+                        [
+                            "library",
+                            "java.util.Collections",
+                            "unmodifiableCollection(java.util.Collection)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "Collection<Option>": {
+                                "identifier": "Collection<Option>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Collection<Option>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Option>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func getOptions<Option>(): ArrayList<Option> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: --- cjc stderr ---\n\u001b[31merror\u001b[0m: undeclared type name 'ArrayList'\n \u001b[36m==>\u001b[0m /tmp/tmpof259398.cj:1:35:\n  \u001b[36m| \u001b[0m\n\u001b[36m1\u001b[0m \u001b[36m| \u001b[0mpublic func getOptions<Option>(): ArrayList<Option> { return ArrayList<Option>(this.helpOptions()) }\u001b[0m\n  \u001b[36m| \u001b[0m                                  \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[31merror\u001b[0m: undeclared identifier 'ArrayList'\n \u001b[36m==>\u001b[0m /tmp/tmpof259398.cj:1:62:\n  \u001b[36m| \u001b[0m\n\u001b[36m1\u001b[0m \u001b[36m| \u001b[0mpublic func getOptions<Option>(): ArrayList<Option> { return ArrayList<Option>(this.helpOptions()) }\u001b[0m\n  \u001b[36m| \u001b[0m                                                             \u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n\u001b[31merror\u001b[0m: 'main' is missing\n \u001b[36m==>\u001b[0m /tmp/tmpof259398.cj:1:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m1\u001b[0m \u001b[36m| \u001b[0mpublic func getOptions<Option>(): ArrayList<Option> { return ArrayList<Option>(this.helpOptions()) }\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n3 errors generated, 3 errors printed.\n\n--- cjc stdout ---\n"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 13.301826238632202,
+                    "generation_timestamp": "2026-07-16T17:11:26.159829",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getOptions<Option>(): ArrayList<Option> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "260-262:getRequiredOptions": {
+                    "start": 260,
+                    "end": 262,
+                    "body": [
+                        "public List getRequiredOptions() {",
+                        "        return Collections.unmodifiableList(requiredOpts);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "List"
+                    ],
+                    "body_types": [],
+                    "signature": "getRequiredOptions()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Collections",
+                            "unmodifiableList(java.util.List)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "List": {
+                                "identifier": "List",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "List",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": "return this.requiredOpts",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 10.817368745803833,
+                    "generation_timestamp": "2026-07-16T16:32:20.467125",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "return this.requiredOpts",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 3,
+                        "test_execution": 4
+                    }
+                },
+                "271-275:hasLongOption": {
+                    "start": 271,
+                    "end": 275,
+                    "body": [
+                        "public boolean hasLongOption(String opt) {",
+                        "        opt = Util.stripLeadingHyphens(opt);",
+                        "",
+                        "        return longOpts.containsKey(opt);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "hasLongOption( String opt)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "opt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Util",
+                            "21-64:Util",
+                            "51-63:stripLeadingHyphens"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "containsKey(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|String|opt": {
+                                "identifier": "|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nreturn longOpts.contains(strippedOpt)",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 6.75244140625,
+                    "generation_timestamp": "2026-07-16T16:32:27.244561",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nreturn longOpts.contains(strippedOpt)",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "283-287:hasOption": {
+                    "start": 283,
+                    "end": 287,
+                    "body": [
+                        "public boolean hasOption(String opt) {",
+                        "        opt = Util.stripLeadingHyphens(opt);",
+                        "",
+                        "        return shortOpts.containsKey(opt) || longOpts.containsKey(opt);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "hasOption( String opt)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "opt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Util",
+                            "21-64:Util",
+                            "51-63:stripLeadingHyphens"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "containsKey(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|String|opt": {
+                                "identifier": "|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nreturn shortOpts.contains(strippedOpt) || longOpts.contains(strippedOpt)",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 7.08530592918396,
+                    "generation_timestamp": "2026-07-16T16:32:34.355120",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nreturn shortOpts.contains(strippedOpt) || longOpts.contains(strippedOpt)",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "296-300:hasShortOption": {
+                    "start": 296,
+                    "end": 300,
+                    "body": [
+                        "public boolean hasShortOption(String opt) {",
+                        "        opt = Util.stripLeadingHyphens(opt);",
+                        "",
+                        "        return shortOpts.containsKey(opt);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "hasShortOption( String opt)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "String",
+                            "name": "opt"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.Util",
+                            "21-64:Util",
+                            "51-63:stripLeadingHyphens"
+                        ],
+                        [
+                            "library",
+                            "java.util.Map",
+                            "containsKey(java.lang.Object)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "|String|opt": {
+                                "identifier": "|String|opt",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nreturn shortOpts.contains(strippedOpt)",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 7.892120838165283,
+                    "generation_timestamp": "2026-07-16T16:32:42.272163",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "let strippedOpt = Util.stripLeadingHyphens(opt)\nreturn shortOpts.contains(strippedOpt)",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    }
+                },
+                "307-309:helpOptions": {
+                    "start": 307,
+                    "end": 309,
+                    "body": [
+                        "List<Option> helpOptions() {",
+                        "        return new ArrayList<>(shortOpts.values());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [],
+                    "return_types": [
+                        "List<Option>"
+                    ],
+                    "body_types": [
+                        "ArrayList<>"
+                    ],
+                    "signature": "helpOptions()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.util.Map",
+                            "values()"
+                        ],
+                        [
+                            "library",
+                            "java.util.ArrayList",
+                            "<init>(java.util.Collection)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "List<Option>": {
+                                "identifier": "List<Option>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "List<Option>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Option>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "ArrayList<>": {
+                                "identifier": "ArrayList<>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "ArrayList<>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func helpOptions<Option>(): ArrayList<Option> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: --- cjc stderr ---\n\u001b[31merror\u001b[0m: expected declaration, found keyword 'return'\n \u001b[36m==>\u001b[0m /tmp/tmpsx1b4or7.cj:1:1:\n  \u001b[36m| \u001b[0m\n\u001b[36m1\u001b[0m \u001b[36m| \u001b[0mreturn ArrayList<Option>(this.shortOpts.values())\u001b[0m\n  \u001b[36m| \u001b[0m\u001b[31m^^^^^^ expected declaration here\u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mnote\u001b[0m: only declarations or macro expressions can be used in the top-level\n\n1 error generated, 1 error printed.\n\n--- cjc stdout ---\n"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 41.678508281707764,
+                    "generation_timestamp": "2026-07-16T16:33:23.979202",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func helpOptions<Option>(): ArrayList<Option> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "316-327:toString": {
+                    "start": 316,
+                    "end": 327,
+                    "body": [
+                        "@Override",
+                        "    public String toString() {",
+                        "        final StringBuilder buf = new StringBuilder();",
+                        "",
+                        "        buf.append(\"[ Options: [ short \");",
+                        "        buf.append(shortOpts.toString());",
+                        "        buf.append(\" ] [ long \");",
+                        "        buf.append(longOpts);",
+                        "        buf.append(\" ]\");",
+                        "",
+                        "        return buf.toString();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Override"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "StringBuilder"
+                    ],
+                    "signature": "toString()",
+                    "parameters": [],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.Object",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "StringBuilder": {
+                                "identifier": "StringBuilder",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "StringBuilder",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "StringBuilder",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [
+                        "    public open func toString(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: 'toString' is not a member of class 'HashMap<Struct-String, Class-Option>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/Options.cj:88:30:\n   | \n88 |         buf.append(shortOpts.toString())\n   |                              ^^^^^^^^ \n   |\nerror: 'toString' is not a member of class 'HashMap<Struct-String, Class-Option>'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/Options.cj:90:29:\n   | \n90 |         buf.append(longOpts.toString())\n   |                             ^^^^^^^^ \n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 24.518004655838013,
+                    "generation_timestamp": "2026-07-16T16:33:48.522520",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func toString(): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                }
+            },
+            "fields": {
+                "42-42:serialVersionUID": {
+                    "start": 42,
+                    "end": 42,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final long serialVersionUID = 1L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "long"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "long": {
+                                "identifier": "long",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "long",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "skipped": true,
+                    "partial_translation": []
+                },
+                "45-45:shortOpts": {
+                    "start": 45,
+                    "end": 45,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Map<String, Option> shortOpts = new LinkedHashMap<>();"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Map<String, Option>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Map<String, Option>": {
+                                "identifier": "Map<String, Option>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Map<String, Option>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "HashMap<String, Option>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        }
+                    },
+                    "translation": "var shortOpts: HashMap<String, Option> = HashMap<String, Option>()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 13.779350519180298,
+                    "generation_timestamp": "2026-07-16T16:29:45.824036",
+                    "model_name": "",
+                    "partial_translation": "var shortOpts: HashMap<String, Option> = HashMap<String, Option>()",
+                    "original_budget": {
+                        "syntactic": 2,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    },
+                    "final_budget": {
+                        "syntactic": 1,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    }
+                },
+                "48-48:longOpts": {
+                    "start": 48,
+                    "end": 48,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Map<String, Option> longOpts = new LinkedHashMap<>();"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Map<String, Option>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Map<String, Option>": {
+                                "identifier": "Map<String, Option>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Map<String, Option>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "HashMap<String, Option>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        }
+                    },
+                    "translation": "var longOpts: HashMap<String, Option> = HashMap<String, Option>()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 11.168103456497192,
+                    "generation_timestamp": "2026-07-16T16:29:57.071057",
+                    "model_name": "",
+                    "partial_translation": "var longOpts: HashMap<String, Option> = HashMap<String, Option>()",
+                    "original_budget": {
+                        "syntactic": 2,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    },
+                    "final_budget": {
+                        "syntactic": 1,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    }
+                },
+                "51-51:requiredOpts": {
+                    "start": 51,
+                    "end": 51,
+                    "enum_constant": false,
+                    "body": [
+                        "private final List<Object> requiredOpts = new ArrayList<>();"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "List<Object>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "List<Object>": {
+                                "identifier": "List<Object>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "List<Object>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        }
+                    },
+                    "translation": "var requiredOpts: ArrayList<Any> = ArrayList<Any>()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 10.490737438201904,
+                    "generation_timestamp": "2026-07-16T16:30:07.855965",
+                    "model_name": "",
+                    "partial_translation": "var requiredOpts: ArrayList<Any> = ArrayList<Any>()",
+                    "original_budget": {
+                        "syntactic": 2,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    },
+                    "final_budget": {
+                        "syntactic": 1,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    }
+                },
+                "54-54:optionGroups": {
+                    "start": 54,
+                    "end": 54,
+                    "enum_constant": false,
+                    "body": [
+                        "private final Map<String, OptionGroup> optionGroups = new LinkedHashMap<>();"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "final"
+                    ],
+                    "types": [
+                        "Map<String, OptionGroup>"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Map<String, OptionGroup>": {
+                                "identifier": "Map<String, OptionGroup>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "Map<String, OptionGroup>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "HashMap<String, OptionGroup>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        }
+                    },
+                    "translation": "var optionGroups: HashMap<String, OptionGroup> = HashMap<String, OptionGroup>()",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 9.086307525634766,
+                    "generation_timestamp": "2026-07-16T16:30:17.014336",
+                    "model_name": "",
+                    "partial_translation": "var optionGroups: HashMap<String, OptionGroup> = HashMap<String, OptionGroup>()",
+                    "original_budget": {
+                        "syntactic": 2,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    },
+                    "final_budget": {
+                        "syntactic": 1,
+                        "cangjie_compilation": 2,
+                        "test_execution": 2
+                    }
+                }
+            },
+            "cangjie_class_declaration": "public open class Options {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/Options.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/Options.cj",
+    "import_map": {
+        "Serializable": "java.io.Serializable",
+        "ArrayList": "java.util.ArrayList",
+        "Collection": "java.util.Collection",
+        "Collections": "java.util.Collections",
+        "HashSet": "java.util.HashSet",
+        "LinkedHashMap": "java.util.LinkedHashMap",
+        "List": "java.util.List",
+        "Map": "java.util.Map"
+    }
+}

@@ -1,0 +1,567 @@
+{
+    "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/test/java/org/apache/commons/cli/bug/BugCLI265Test.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertEquals;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "21-21:import static org.junit.Assert.assertFalse;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertFalse;"
+        },
+        "22-22:import static org.junit.Assert.assertNotEquals;": {
+            "start": 22,
+            "end": 22,
+            "body": "import static org.junit.Assert.assertNotEquals;"
+        },
+        "23-23:import static org.junit.Assert.assertNull;": {
+            "start": 23,
+            "end": 23,
+            "body": "import static org.junit.Assert.assertNull;"
+        },
+        "24-24:import static org.junit.Assert.assertTrue;": {
+            "start": 24,
+            "end": 24,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "26-26:import org.apache.commons.cli.CommandLine;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.apache.commons.cli.CommandLine;"
+        },
+        "27-27:import org.apache.commons.cli.DefaultParser;": {
+            "start": 27,
+            "end": 27,
+            "body": "import org.apache.commons.cli.DefaultParser;"
+        },
+        "28-28:import org.apache.commons.cli.Option;": {
+            "start": 28,
+            "end": 28,
+            "body": "import org.apache.commons.cli.Option;"
+        },
+        "29-29:import org.apache.commons.cli.Options;": {
+            "start": 29,
+            "end": 29,
+            "body": "import org.apache.commons.cli.Options;"
+        },
+        "30-30:import org.junit.Before;": {
+            "start": 30,
+            "end": 30,
+            "body": "import org.junit.Before;"
+        },
+        "31-31:import org.junit.Test;": {
+            "start": 31,
+            "end": 31,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "38-102:BugCLI265Test": {
+            "start": 38,
+            "end": 102,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "43-64:setUp": {
+                    "start": 43,
+                    "end": 64,
+                    "body": [
+                        "@Before",
+                        "    public void setUp() {",
+                        "        parser = new DefaultParser(2, false, null);",
+                        "",
+                        "        final Option optionT1 =",
+                        "                Option.builder1(\"t1\")",
+                        "                        .hasArg0()",
+                        "                        .numberOfArgs(1)",
+                        "                        .optionalArg(true)",
+                        "                        .argName(\"t1_path\")",
+                        "                        .build();",
+                        "        final Option optionA = Option.builder1(\"a\").hasArg1(false).build();",
+                        "        final Option optionB = Option.builder1(\"b\").hasArg1(false).build();",
+                        "        final Option optionLast = Option.builder1(\"last\").hasArg1(false).build();",
+                        "",
+                        "        options =",
+                        "                new Options()",
+                        "                        .addOption0(optionT1)",
+                        "                        .addOption0(optionA)",
+                        "                        .addOption0(optionB)",
+                        "                        .addOption0(optionLast);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Before"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "DefaultParser",
+                        "Option",
+                        "Options"
+                    ],
+                    "signature": "setUp()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "DefaultParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Option": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": []
+                },
+                "66-77:shouldParseConcatenatedShortOptions": {
+                    "start": 66,
+                    "end": 77,
+                    "body": [
+                        "@Test",
+                        "    public void shouldParseConcatenatedShortOptions() throws Exception {",
+                        "        final String[] concatenatedShortOptions = {\"-t1\", \"-ab\"};",
+                        "",
+                        "        final CommandLine commandLine = parser.parse0(options, concatenatedShortOptions);",
+                        "",
+                        "        assertTrue(commandLine.hasOption2(\"t1\"));",
+                        "        assertNull(commandLine.getOptionValue4(\"t1\"));",
+                        "        assertTrue(commandLine.hasOption2(\"a\"));",
+                        "        assertTrue(commandLine.hasOption2(\"b\"));",
+                        "        assertFalse(commandLine.hasOption2(\"last\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String[]",
+                        "CommandLine"
+                    ],
+                    "signature": "shouldParseConcatenatedShortOptions()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": []
+                },
+                "79-91:shouldParseShortOptionWithoutValue": {
+                    "start": 79,
+                    "end": 91,
+                    "body": [
+                        "@Test",
+                        "    public void shouldParseShortOptionWithoutValue() throws Exception {",
+                        "        final String[] twoShortOptions = {\"-t1\", \"-last\"};",
+                        "",
+                        "        final CommandLine commandLine = parser.parse0(options, twoShortOptions);",
+                        "",
+                        "        assertTrue(commandLine.hasOption2(\"t1\"));",
+                        "        assertNotEquals(",
+                        "                \"Second option has been used as value for first option\",",
+                        "                \"-last\",",
+                        "                commandLine.getOptionValue4(\"t1\"));",
+                        "        assertTrue(\"Second option has not been detected\", commandLine.hasOption2(\"last\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String[]",
+                        "CommandLine"
+                    ],
+                    "signature": "shouldParseShortOptionWithoutValue()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": []
+                },
+                "93-101:shouldParseShortOptionWithValue": {
+                    "start": 93,
+                    "end": 101,
+                    "body": [
+                        "@Test",
+                        "    public void shouldParseShortOptionWithValue() throws Exception {",
+                        "        final String[] shortOptionWithValue = {\"-t1\", \"path/to/my/db\"};",
+                        "",
+                        "        final CommandLine commandLine = parser.parse0(options, shortOptionWithValue);",
+                        "",
+                        "        assertEquals(\"path/to/my/db\", commandLine.getOptionValue4(\"t1\"));",
+                        "        assertFalse(commandLine.hasOption2(\"last\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String[]",
+                        "CommandLine"
+                    ],
+                    "signature": "shouldParseShortOptionWithValue()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": []
+                }
+            },
+            "fields": {
+                "40-40:parser": {
+                    "start": 40,
+                    "end": 40,
+                    "enum_constant": false,
+                    "body": [
+                        "private DefaultParser parser;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "DefaultParser"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "DefaultParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": []
+                },
+                "41-41:options": {
+                    "start": 41,
+                    "end": 41,
+                    "enum_constant": false,
+                    "body": [
+                        "private Options options;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "Options"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": []
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "",
+    "cangjie_translations_skeleton_path": "",
+    "import_map": {
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertFalse": "static org.junit.Assert.assertFalse",
+        "assertNotEquals": "static org.junit.Assert.assertNotEquals",
+        "assertNull": "static org.junit.Assert.assertNull",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "CommandLine": "org.apache.commons.cli.CommandLine",
+        "DefaultParser": "org.apache.commons.cli.DefaultParser",
+        "Option": "org.apache.commons.cli.Option",
+        "Options": "org.apache.commons.cli.Options",
+        "Before": "org.junit.Before",
+        "Test": "org.junit.Test"
+    }
+}

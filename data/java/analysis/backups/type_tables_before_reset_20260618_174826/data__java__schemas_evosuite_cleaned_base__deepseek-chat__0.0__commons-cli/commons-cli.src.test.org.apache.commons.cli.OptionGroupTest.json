@@ -1,0 +1,1460 @@
+{
+  "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/test/java/org/apache/commons/cli/OptionGroupTest.java",
+  "imports": {
+    "20-20:import static org.junit.Assert.assertEquals;": {
+      "start": 20,
+      "end": 20,
+      "body": "import static org.junit.Assert.assertEquals;"
+    },
+    "21-21:import static org.junit.Assert.assertFalse;": {
+      "start": 21,
+      "end": 21,
+      "body": "import static org.junit.Assert.assertFalse;"
+    },
+    "22-22:import static org.junit.Assert.assertNotNull;": {
+      "start": 22,
+      "end": 22,
+      "body": "import static org.junit.Assert.assertNotNull;"
+    },
+    "23-23:import static org.junit.Assert.assertTrue;": {
+      "start": 23,
+      "end": 23,
+      "body": "import static org.junit.Assert.assertTrue;"
+    },
+    "24-24:import static org.junit.Assert.fail;": {
+      "start": 24,
+      "end": 24,
+      "body": "import static org.junit.Assert.fail;"
+    },
+    "26-26:import org.junit.Before;": {
+      "start": 26,
+      "end": 26,
+      "body": "import org.junit.Before;"
+    },
+    "27-27:import org.junit.Test;": {
+      "start": 27,
+      "end": 27,
+      "body": "import org.junit.Test;"
+    },
+    "29-29:import java.util.Properties;": {
+      "start": 29,
+      "end": 29,
+      "body": "import java.util.Properties;"
+    }
+  },
+  "classes": {
+    "31-239:OptionGroupTest": {
+      "start": 31,
+      "end": 239,
+      "is_abstract": false,
+      "is_interface": false,
+      "is_enum": false,
+      "modifiers": [
+        "@SuppressWarnings(\"deprecation\")",
+        "// tests some deprecated classes",
+        "public"
+      ],
+      "nested_inside": "",
+      "nests": [],
+      "implements": [],
+      "extends": [],
+      "methods": {
+        "36-61:setUp": {
+          "start": 36,
+          "end": 61,
+          "body": [
+            "@Before",
+            "    public void setUp() {",
+            "        final Option file = new Option(0, \"f\", \"file\", \"file to process\", false, null);",
+            "        final Option dir = new Option(0, \"d\", \"directory\", \"directory to process\", false, null);",
+            "        final OptionGroup group = new OptionGroup();",
+            "        group.addOption(file);",
+            "        group.addOption(dir);",
+            "        options = new Options().addOptionGroup(group);",
+            "",
+            "        final Option section = new Option(0, \"s\", \"section\", \"section to process\", false, null);",
+            "        final Option chapter = new Option(0, \"c\", \"chapter\", \"chapter to process\", false, null);",
+            "        final OptionGroup group2 = new OptionGroup();",
+            "        group2.addOption(section);",
+            "        group2.addOption(chapter);",
+            "",
+            "        options.addOptionGroup(group2);",
+            "",
+            "        final Option importOpt = new Option(0, null, \"import\", \"section to process\", false, null);",
+            "        final Option exportOpt = new Option(0, null, \"export\", \"chapter to process\", false, null);",
+            "        final OptionGroup group3 = new OptionGroup();",
+            "        group3.addOption(importOpt);",
+            "        group3.addOption(exportOpt);",
+            "        options.addOptionGroup(group3);",
+            "",
+            "        options.addOption3(\"r\", \"revision\", false, \"revision number\");",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Before"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "Option",
+            "OptionGroup",
+            "Options"
+          ],
+          "signature": "setUp()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "Option": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "OptionGroup": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "Options": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "63-73:testGetNames": {
+          "start": 63,
+          "end": 73,
+          "body": [
+            "@Test",
+            "    public void testGetNames() {",
+            "        final OptionGroup group = new OptionGroup();",
+            "        group.addOption(OptionBuilder.create1('a'));",
+            "        group.addOption(OptionBuilder.create1('b'));",
+            "",
+            "        assertNotNull(\"null names\", group.getNames());",
+            "        assertEquals(2, group.getNames().size());",
+            "        assertTrue(group.getNames().contains(\"a\"));",
+            "        assertTrue(group.getNames().contains(\"b\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "OptionGroup"
+          ],
+          "signature": "testGetNames()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "OptionGroup": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "75-87:testNoOptionsExtraArgs": {
+          "start": 75,
+          "end": 87,
+          "body": [
+            "@Test",
+            "    public void testNoOptionsExtraArgs() throws Exception {",
+            "        final String[] args = {\"arg1\", \"arg2\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertFalse(\"Confirm -r is NOT set\", cl.hasOption2(\"r\"));",
+            "        assertFalse(\"Confirm -f is NOT set\", cl.hasOption2(\"f\"));",
+            "        assertFalse(\"Confirm -d is NOT set\", cl.hasOption2(\"d\"));",
+            "        assertFalse(\"Confirm -s is NOT set\", cl.hasOption2(\"s\"));",
+            "        assertFalse(\"Confirm -c is NOT set\", cl.hasOption2(\"c\"));",
+            "        assertEquals(\"Confirm TWO extra args\", 2, cl.getArgList().size());",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testNoOptionsExtraArgs()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "89-101:testSingleLongOption": {
+          "start": 89,
+          "end": 101,
+          "body": [
+            "@Test",
+            "    public void testSingleLongOption() throws Exception {",
+            "        final String[] args = {\"--file\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertFalse(\"Confirm -r is NOT set\", cl.hasOption2(\"r\"));",
+            "        assertTrue(\"Confirm -f is set\", cl.hasOption2(\"f\"));",
+            "        assertFalse(\"Confirm -d is NOT set\", cl.hasOption2(\"d\"));",
+            "        assertFalse(\"Confirm -s is NOT set\", cl.hasOption2(\"s\"));",
+            "        assertFalse(\"Confirm -c is NOT set\", cl.hasOption2(\"c\"));",
+            "        assertTrue(\"Confirm no extra args\", cl.getArgList().isEmpty());",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testSingleLongOption()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "103-115:testSingleOption": {
+          "start": 103,
+          "end": 115,
+          "body": [
+            "@Test",
+            "    public void testSingleOption() throws Exception {",
+            "        final String[] args = {\"-r\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertTrue(\"Confirm -r is set\", cl.hasOption2(\"r\"));",
+            "        assertFalse(\"Confirm -f is NOT set\", cl.hasOption2(\"f\"));",
+            "        assertFalse(\"Confirm -d is NOT set\", cl.hasOption2(\"d\"));",
+            "        assertFalse(\"Confirm -s is NOT set\", cl.hasOption2(\"s\"));",
+            "        assertFalse(\"Confirm -c is NOT set\", cl.hasOption2(\"c\"));",
+            "        assertTrue(\"Confirm no extra args\", cl.getArgList().isEmpty());",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testSingleOption()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "117-129:testSingleOptionFromGroup": {
+          "start": 117,
+          "end": 129,
+          "body": [
+            "@Test",
+            "    public void testSingleOptionFromGroup() throws Exception {",
+            "        final String[] args = {\"-f\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertFalse(\"Confirm -r is NOT set\", cl.hasOption2(\"r\"));",
+            "        assertTrue(\"Confirm -f is set\", cl.hasOption2(\"f\"));",
+            "        assertFalse(\"Confirm -d is NOT set\", cl.hasOption2(\"d\"));",
+            "        assertFalse(\"Confirm -s is NOT set\", cl.hasOption2(\"s\"));",
+            "        assertFalse(\"Confirm -c is NOT set\", cl.hasOption2(\"c\"));",
+            "        assertTrue(\"Confirm no extra args\", cl.getArgList().isEmpty());",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testSingleOptionFromGroup()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "131-148:testToString": {
+          "start": 131,
+          "end": 148,
+          "body": [
+            "@Test",
+            "    public void testToString() {",
+            "        final OptionGroup group1 = new OptionGroup();",
+            "        group1.addOption(new Option(0, null, \"foo\", \"Foo\", false, null));",
+            "        group1.addOption(new Option(0, null, \"bar\", \"Bar\", false, null));",
+            "",
+            "        if (!\"[--bar Bar, --foo Foo]\".equals(group1.toString())) {",
+            "            assertEquals(\"[--foo Foo, --bar Bar]\", group1.toString());",
+            "        }",
+            "",
+            "        final OptionGroup group2 = new OptionGroup();",
+            "        group2.addOption(new Option(0, \"f\", \"foo\", \"Foo\", false, null));",
+            "        group2.addOption(new Option(0, \"b\", \"bar\", \"Bar\", false, null));",
+            "",
+            "        if (!\"[-b Bar, -f Foo]\".equals(group2.toString())) {",
+            "            assertEquals(\"[-f Foo, -b Bar]\", group2.toString());",
+            "        }",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "OptionGroup",
+            "Option"
+          ],
+          "signature": "testToString()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "OptionGroup": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "Option": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "150-162:testTwoLongOptionsFromGroup": {
+          "start": 150,
+          "end": 162,
+          "body": [
+            "@Test",
+            "    public void testTwoLongOptionsFromGroup() throws Exception {",
+            "        final String[] args = {\"--file\", \"--directory\"};",
+            "",
+            "        try {",
+            "            parser.parse0(options, args);",
+            "            fail(\"two arguments from group not allowed\");",
+            "        } catch (final AlreadySelectedException e) {",
+            "            assertNotNull(\"null option group\", e.getOptionGroup());",
+            "            assertEquals(\"selected option\", \"f\", e.getOptionGroup().getSelected());",
+            "            assertEquals(\"option\", \"d\", e.getOption().getOpt());",
+            "        }",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "AlreadySelectedException"
+          ],
+          "signature": "testTwoLongOptionsFromGroup()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "AlreadySelectedException": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "164-175:testTwoOptionsFromDifferentGroup": {
+          "start": 164,
+          "end": 175,
+          "body": [
+            "@Test",
+            "    public void testTwoOptionsFromDifferentGroup() throws Exception {",
+            "        final String[] args = {\"-f\", \"-s\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "        assertFalse(\"Confirm -r is NOT set\", cl.hasOption2(\"r\"));",
+            "        assertTrue(\"Confirm -f is set\", cl.hasOption2(\"f\"));",
+            "        assertFalse(\"Confirm -d is NOT set\", cl.hasOption2(\"d\"));",
+            "        assertTrue(\"Confirm -s is set\", cl.hasOption2(\"s\"));",
+            "        assertFalse(\"Confirm -c is NOT set\", cl.hasOption2(\"c\"));",
+            "        assertTrue(\"Confirm NO extra args\", cl.getArgList().isEmpty());",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testTwoOptionsFromDifferentGroup()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "177-189:testTwoOptionsFromGroup": {
+          "start": 177,
+          "end": 189,
+          "body": [
+            "@Test",
+            "    public void testTwoOptionsFromGroup() throws Exception {",
+            "        final String[] args = {\"-f\", \"-d\"};",
+            "",
+            "        try {",
+            "            parser.parse0(options, args);",
+            "            fail(\"two arguments from group not allowed\");",
+            "        } catch (final AlreadySelectedException e) {",
+            "            assertNotNull(\"null option group\", e.getOptionGroup());",
+            "            assertEquals(\"selected option\", \"f\", e.getOptionGroup().getSelected());",
+            "            assertEquals(\"option\", \"d\", e.getOption().getOpt());",
+            "        }",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "AlreadySelectedException"
+          ],
+          "signature": "testTwoOptionsFromGroup()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "AlreadySelectedException": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "191-201:testTwoOptionsFromGroupWithProperties": {
+          "start": 191,
+          "end": 201,
+          "body": [
+            "@Test",
+            "    public void testTwoOptionsFromGroupWithProperties() throws Exception {",
+            "        final String[] args = {\"-f\"};",
+            "",
+            "        final Properties properties = new Properties();",
+            "        properties.put(\"d\", \"true\");",
+            "",
+            "        final CommandLine cl = parser.parse2(options, args, properties);",
+            "        assertTrue(cl.hasOption2(\"f\"));",
+            "        assertFalse(cl.hasOption2(\"d\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "Properties",
+            "CommandLine"
+          ],
+          "signature": "testTwoOptionsFromGroupWithProperties()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "Properties": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "203-215:testTwoValidLongOptions": {
+          "start": 203,
+          "end": 215,
+          "body": [
+            "@Test",
+            "    public void testTwoValidLongOptions() throws Exception {",
+            "        final String[] args = {\"--revision\", \"--file\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertTrue(\"Confirm -r is set\", cl.hasOption2(\"r\"));",
+            "        assertTrue(\"Confirm -f is set\", cl.hasOption2(\"f\"));",
+            "        assertFalse(\"Confirm -d is NOT set\", cl.hasOption2(\"d\"));",
+            "        assertFalse(\"Confirm -s is NOT set\", cl.hasOption2(\"s\"));",
+            "        assertFalse(\"Confirm -c is NOT set\", cl.hasOption2(\"c\"));",
+            "        assertTrue(\"Confirm no extra args\", cl.getArgList().isEmpty());",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testTwoValidLongOptions()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "217-229:testTwoValidOptions": {
+          "start": 217,
+          "end": 229,
+          "body": [
+            "@Test",
+            "    public void testTwoValidOptions() throws Exception {",
+            "        final String[] args = {\"-r\", \"-f\"};",
+            "",
+            "        final CommandLine cl = parser.parse0(options, args);",
+            "",
+            "        assertTrue(\"Confirm -r is set\", cl.hasOption2(\"r\"));",
+            "        assertTrue(\"Confirm -f is set\", cl.hasOption2(\"f\"));",
+            "        assertFalse(\"Confirm -d is NOT set\", cl.hasOption2(\"d\"));",
+            "        assertFalse(\"Confirm -s is NOT set\", cl.hasOption2(\"s\"));",
+            "        assertFalse(\"Confirm -c is NOT set\", cl.hasOption2(\"c\"));",
+            "        assertTrue(\"Confirm no extra args\", cl.getArgList().isEmpty());",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "String[]",
+            "CommandLine"
+          ],
+          "signature": "testTwoValidOptions()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "String[]": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "231-238:testValidLongOnlyOptions": {
+          "start": 231,
+          "end": 238,
+          "body": [
+            "@Test",
+            "    public void testValidLongOnlyOptions() throws Exception {",
+            "        final CommandLine cl1 = parser.parse0(options, new String[] {\"--export\"});",
+            "        assertTrue(\"Confirm --export is set\", cl1.hasOption2(\"export\"));",
+            "",
+            "        final CommandLine cl2 = parser.parse0(options, new String[] {\"--import\"});",
+            "        assertTrue(\"Confirm --import is set\", cl2.hasOption2(\"import\"));",
+            "    }"
+          ],
+          "is_constructor": false,
+          "annotations": [
+            "@Test"
+          ],
+          "modifiers": [
+            "public"
+          ],
+          "return_types": [
+            "void"
+          ],
+          "body_types": [
+            "CommandLine",
+            "String"
+          ],
+          "signature": "testValidLongOnlyOptions()",
+          "parameters": [],
+          "calls": [],
+          "type_translations": {
+            "return_types": {
+              "void": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "body_types": {
+              "CommandLine": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              },
+              "String": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            },
+            "parameters": {},
+            "types": {}
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        }
+      },
+      "fields": {
+        "33-33:options": {
+          "start": 33,
+          "end": 33,
+          "enum_constant": false,
+          "body": [
+            "private Options options;"
+          ],
+          "modifiers": [
+            "private"
+          ],
+          "types": [
+            "Options"
+          ],
+          "type_translations": {
+            "return_types": {},
+            "body_types": {},
+            "parameters": {},
+            "types": {
+              "Options": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            }
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        },
+        "34-34:parser": {
+          "start": 34,
+          "end": 34,
+          "enum_constant": false,
+          "body": [
+            "private final Parser parser = new PosixParser();"
+          ],
+          "modifiers": [
+            "private",
+            "final"
+          ],
+          "types": [
+            "Parser"
+          ],
+          "type_translations": {
+            "return_types": {},
+            "body_types": {},
+            "parameters": {},
+            "types": {
+              "Parser": {
+                "identifier": "",
+                "translated": false,
+                "attempted": false,
+                "type_variation": "",
+                "timestamp": "",
+                "source_type": "",
+                "generation": "",
+                "imports": "",
+                "translated_target_type": "",
+                "reasoning": "",
+                "prompt": ""
+              }
+            }
+          },
+          "translation": [],
+          "translation_status": "pending",
+          "syntactic_validation": "pending",
+          "cangjie_compilation": "pending",
+          "test_execution": "pending",
+          "elapsed_time": 0,
+          "generation_timestamp": null,
+          "model_name": null
+        }
+      }
+    }
+  },
+  "cangjie_skeleton_path": "",
+  "cangjie_translations_skeleton_path": "",
+  "import_map": {
+    "assertEquals": "static org.junit.Assert.assertEquals",
+    "assertFalse": "static org.junit.Assert.assertFalse",
+    "assertNotNull": "static org.junit.Assert.assertNotNull",
+    "assertTrue": "static org.junit.Assert.assertTrue",
+    "fail": "static org.junit.Assert.fail",
+    "Before": "org.junit.Before",
+    "Test": "org.junit.Test",
+    "Properties": "java.util.Properties"
+  }
+}

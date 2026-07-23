@@ -1,0 +1,623 @@
+{
+    "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/main/java/org/apache/commons/cli/MissingOptionException.java",
+    "imports": {
+        "20-20:import java.util.Iterator;": {
+            "start": 20,
+            "end": 20,
+            "body": "import java.util.Iterator;"
+        },
+        "21-21:import java.util.List;": {
+            "start": 21,
+            "end": 21,
+            "body": "import java.util.List;"
+        }
+    },
+    "classes": {
+        "24-93:MissingOptionException": {
+            "start": 24,
+            "end": 93,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [
+                "ParseException"
+            ],
+            "methods": {
+                "34-48:createMessage": {
+                    "start": 34,
+                    "end": 48,
+                    "body": [
+                        "private static String createMessage(final List<?> missingOptions) {",
+                        "        final StringBuilder buf = new StringBuilder(\"Missing required option\");",
+                        "        buf.append(missingOptions.size() == 1 ? \"\" : \"s\");",
+                        "        buf.append(\": \");",
+                        "",
+                        "        final Iterator<?> it = missingOptions.iterator();",
+                        "        while (it.hasNext()) {",
+                        "            buf.append(it.next());",
+                        "            if (it.hasNext()) {",
+                        "                buf.append(\", \");",
+                        "            }",
+                        "        }",
+                        "",
+                        "        return buf.toString();",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "StringBuilder",
+                        "Iterator<?>"
+                    ],
+                    "signature": "createMessage(final List<?> missingOptions)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "List<?>",
+                            "name": "missingOptions"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "size()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.util.List",
+                            "iterator()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "hasNext()"
+                        ],
+                        [
+                            "library",
+                            "java.util.Iterator",
+                            "next()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.Object)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 02:31:24",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "StringBuilder": {
+                                "identifier": "StringBuilder",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-25 02:31:31",
+                                "source_type": "StringBuilder",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Any",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": "Cangjie compilation error: \u001b[31merror\u001b[0m: 'StringBuilder' is not accessible in package 'std'\n \u001b[36m==>\u001b[0m /tmp/tmp8kfiweso.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.StringBuilder\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^^^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n\n1 error generated, 1 error printed.\n"
+                            },
+                            "Iterator<?>": {
+                                "identifier": "Iterator<?>",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "Iterator<?>",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Any",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": "Cangjie compilation error: \u001b[31merror\u001b[0m: can not find package 'std.collection.iterator'\n \u001b[36m==>\u001b[0m /tmp/tmpfykvbrwy.cj:3:8:\n  \u001b[36m| \u001b[0m\n\u001b[36m3\u001b[0m \u001b[36m| \u001b[0mimport std.collection.iterator.Iterator\u001b[0m\n  \u001b[36m| \u001b[0m       \u001b[31m^^^^^^^^^^^^^^^^^^^^^^^ \u001b[0m\n  \u001b[36m| \u001b[0m\n  \u001b[36m#\u001b[0m \u001b[0mhelp\u001b[0m: check if the .cjo file of the package exists in CANGJIE_PATH or CANGJIE_HOME, or use '--import-path' to specify the .cjo file path\n\n1 error generated, 1 error printed.\n"
+                            }
+                        },
+                        "parameters": {
+                            "final|List<?>|missingOptions": {
+                                "identifier": "final|List<?>|missingOptions",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 02:31:24",
+                                "source_type": "List<?>",
+                                "generation": "CANGJIE IMPORTS:\n```\nimport std.collection.ArrayList\n```\n\nCANGJIE TRANSLATION:\n```\nArrayList<Nothing>\n```\n\nREASONING:\nThe Java type `List<?>` represents an unbounded wildcard list, meaning a list of unknown type. In Cangjie, the equivalent is `ArrayList<Nothing>`, as `Nothing` is the bottom type that can represent any type in a collection context, and `ArrayList` is the standard mutable list implementation. The provided Java code uses the list only for iteration and string building, which does not require specific element type knowledge, so `ArrayList<Nothing>` is appropriate.",
+                                "imports": "import std.collection.ArrayList",
+                                "translated_target_type": "ArrayList<Nothing>",
+                                "reasoning": "The Java type `List<?>` represents an unbounded wildcard list, meaning a list of unknown type. In Cangjie, the equivalent is `ArrayList<Nothing>`, as `Nothing` is the bottom type that can represent any type in a collection context, and `ArrayList` is the standard mutable list implementation. The provided Java code uses the list only for iteration and string building, which does not require specific element type knowledge, so `ArrayList<Nothing>` is appropriate.",
+                                "prompt": "### Reference: Cangjie documentation\nThe following documentation from Cangjie standard library may help:\n---\n### Reference [Source: Language Manual]\n[Context: ArrayList > \u4fee\u6539 ArrayList]\n[Context: ArrayList > \u4fee\u6539 ArrayList]\n\n\u53ef\u4ee5\u4f7f\u7528\u4e0b\u6807\u8bed\u6cd5\u5bf9\u67d0\u4e2a\u4f4d\u7f6e\u7684\u5143\u7d20\u8fdb\u884c\u4fee\u6539\u3002\n\n<!-- run -->\n\n```cangjie\nlet list = ArrayList<Int64>([0, 1, 2])\nlist[0] = 3\n```\n\nArrayList \u662f\u5f15\u7528\u7c7b\u578b\uff0cArrayList \u5728\u4f5c\u4e3a\u8868\u8fbe\u5f0f\u4f7f\u7528\u65f6\u4e0d\u4f1a\u62f7\u8d1d\u526f\u672c\uff0c\u540c\u4e00\u4e2a ArrayList \u5b9e\u4f8b\u7684\u6240\u6709\u5f15\u7528\u90fd\u4f1a\u5171\u4eab\u540c\u6837\u7684\u6570\u636e\u3002\n\n\u56e0\u6b64\u5bf9 ArrayList \u5143\u7d20\u7684\u4fee\u6539\u4f1a\u5f71\u54cd\u5230\u8be5\u5b9e\u4f8b\u7684\u6240\u6709\u5f15\u7528\u3002\n\n<!-- run -->\n\n```cangjie\nlet list1 = ArrayList<Int64>([0, 1, 2])\nlet list2 = list1\nlist2[0] = 3\n// list1 contains elements 3, 1, 2\n// list2 contains elements 3, 1, 2\n```\n\n\u5982\u679c\u9700\u8981\u5c06\u5355\u4e2a\u5143\u7d20\u6dfb\u52a0\u5230 ArrayList \u7684\u672b\u5c3e\uff0c\u8bf7\u4f7f\u7528 add \u51fd\u6570\u3002\u5982\u679c\u5e0c\u671b\u540c\u65f6\u6dfb\u52a0\u591a\u4e2a\u5143\u7d20\u5230\u672b\u5c3e\uff0c\u53ef\u4ee5\u4f7f\u7528 `add(all!: Collection<T>)` \u51fd\u6570\uff0c\u8fd9\u4e2a\u51fd\u6570\u53ef\u4ee5\u63a5\u53d7\u5176\u4ed6\u76f8\u540c\u5143\u7d20\u7c7b\u578b\u7684 Collection \u7c7b\u578b\uff0c\u5982 Array\u3002Collection \u7c7b\u578b\u8be6\u89c1[\u57fa\u7840 Collection \u7c7b\u578b\u6982\u8ff0](collection_overview.md)\u3002\n\n<!-- run -->\n\n```cangjie\nimport std.collection.ArrayList\n\nmain() {\n    let list = ArrayList<Int64>()\n    list.add(0) // list contains element 0\n    list.add(1) // list contains elements 0, 1\n    let li = [2, 3]\n    list.add(all: li) // list contains elements 0, 1, 2, 3\n}\n```\n\n\u53ef\u4ee5\u901a\u8fc7 `add(T, at!: Int64)` \u548c `add(all!: Collection<T>, at!: Int64)` \u51fd\u6570\u5c06\u6307\u5b9a\u7684\u5355\u4e2a\u5143\u7d20\u6216\u76f8\u540c\u5143\u7d20\u7c7b\u578b\u7684 Collection \u503c\u63d2\u5165\u5230\u6307\u5b9a\u7d22\u5f15\u7684\u4f4d\u7f6e\u3002\u8be5\u7d22\u5f15\u5904\u7684\u5143\u7d20\u548c\u540e\u9762\u7684\u5143\u7d20\u4f1a\u88ab\u632a\u540e\u4ee5\u817e\u51fa\u7a7a\u95f4\u3002\n\n<!-- run -->\n\n```cangjie\nlet list = ArrayList<Int64>([0, 1, 2]) // list contains elements 0, 1, 2\nlist.add(4, at: 1) // list contains elements 0, 4, 1, 2\n```\n\n\u4ece ArrayList \u4e2d\u5220\u9664\u5143\u7d20\uff0c\u53ef\u4ee5\u4f7f\u7528 remove \u51fd\u6570\uff0c\u9700\u8981\u6307\u5b9a\u5220\u9664\u7684\u7d22\u5f15\u3002\u8be5\u7d22\u5f15\u5904\u540e\u9762\u7684\u5143\u7d20\u4f1a\u524d\u79fb\u4ee5\u586b\u5145\u7a7a\u95f4\u3002\n\n<!-- run -->\n\n```cangjie\nlet list = ArrayList<String>([\"a\", \"b\", \"c\", \"d\"]) // list contains the elements \"a\", \"b\", \"c\", \"d\"\nlist.remove(at: 1) // Delete the element at subscript 1, now the list contains elements \"a\", \"c\", \"d\"\n```\n\n### Reference [Source: Language Manual]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n[Context: ArrayList > \u589e\u52a0 ArrayList \u7684\u5927\u5c0f]\n\n\u6bcf\u4e2a ArrayList \u90fd\u9700\u8981\u7279\u5b9a\u6570\u91cf\u7684\u5185\u5b58\u6765\u4fdd\u5b58\u5176\u5185\u5bb9\u3002\u5f53\u5411 ArrayList \u6dfb\u52a0\u5143\u7d20\u5e76\u4e14\u8be5 ArrayList \u5f00\u59cb\u8d85\u51fa\u5176\u4fdd\u7559\u5bb9\u91cf\u65f6\uff0c\u8be5 ArrayList \u4f1a\u5206\u914d\u66f4\u5927\u7684\u5185\u5b58\u533a\u57df\u5e76\u5c06\u5176\u6240\u6709\u5143\u7d20\u590d\u5236\u5230\u65b0\u5185\u5b58\u4e2d\u3002\u8fd9\u79cd\u589e\u957f\u7b56\u7565\u610f\u5473\u7740\u89e6\u53d1\u91cd\u65b0\u5206\u914d\u5185\u5b58\u7684\u6dfb\u52a0\u64cd\u4f5c\u5177\u6709\u6027\u80fd\u6210\u672c\uff0c\u4f46\u968f\u7740 ArrayList \u7684\u4fdd\u7559\u5185\u5b58\u53d8\u5927\uff0c\u5b83\u4eec\u53d1\u751f\u7684\u9891\u7387\u4f1a\u8d8a\u6765\u8d8a\u4f4e\u3002\n\n\u5982\u679c\u77e5\u9053\u5927\u7ea6\u9700\u8981\u6dfb\u52a0\u591a\u5c11\u4e2a\u5143\u7d20\uff0c\u53ef\u4ee5\u5728\u6dfb\u52a0\u4e4b\u524d\u9884\u5907\u8db3\u591f\u7684\u5185\u5b58\u4ee5\u907f\u514d\u4e2d\u95f4\u91cd\u65b0\u5206\u914d\uff0c\u8fd9\u6837\u53ef\u4ee5\u63d0\u5347\u6027\u80fd\u8868\u73b0\u3002\n\n<!-- run -->\n\n```cangjie\nimport std.collection.ArrayList\n\nmain() {\n    let list = ArrayList<Int64>(100) // Allocate space at once\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n    list.reserve(100) // Prepare more space\n    for (i in 0..100) {\n        list.add(i) // Does not trigger reallocation of space\n    }\n}\n```\n\n---\n\nUse your expertise to translate the given type according to the instructions. Find an equivalent type (corresponding type that maintains the same functionality) in Cangjie by looking into \"JAVA TYPE\", \"JAVA TYPE DESCRIPTION\" and \"JAVA CODE\" as context.\n\nJAVA TYPE:\n```\nList<?>\n```\n\nJAVA TYPE DESCRIPTION:\nAn ordered collection, where the user has precise control over where in the\n list each element is inserted.  The user can access elements by their integer\n index (position in the list), and search for elements in the list.\n\n\nJAVA CODE:\n```\n    private static String createMessage(final List<?> missingOptions) {\n        final StringBuilder buf = new StringBuilder(\"Missing required option\");\n        buf.append(missingOptions.size() == 1 ? \"\" : \"s\");\n        buf.append(\": \");\n\n        final Iterator<?> it = missingOptions.iterator();\n        while (it.hasNext()) {\n            buf.append(it.next());\n            if (it.hasNext()) {\n                buf.append(\", \");\n            }\n        }\n\n        return buf.toString();\n    }\n```\n\nRESPONSE FORMAT: You must provide your response in the following format by enclosing IMPORTS and TRANSLATION inside three backticks. DO NOT include any additional information in your response. Your response should only contain the translated type without any other CANGJIE code syntax (e.g., assignments, definitions, expressions). Every non-empty import line must be valid Cangjie syntax starting with \"import \"; do NOT use Python-style \"from ... import ...\".\n\nCANGJIE IMPORTS:\n```\n<cangjie_imports_if_any>\n```\n\nCANGJIE TRANSLATION:\n```\n<cangjie_type_translation>\n```\n\nREASONING:\n<natural_language_reasoning>",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func createMessage(missingOptions: ArrayList<Nothing>): String {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "59-66:MissingOptionException": {
+                    "start": 59,
+                    "end": 66,
+                    "body": [
+                        "public MissingOptionException(",
+                        "            int constructorId, final List missingOptions, final String message) {",
+                        "",
+                        "        super(message);",
+                        "        if (constructorId == 1) {",
+                        "            this.missingOptions = missingOptions;",
+                        "        }",
+                        "    }"
+                    ],
+                    "is_constructor": true,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [],
+                    "body_types": [],
+                    "signature": "MissingOptionException( int constructorId, final List missingOptions, final String message)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "int",
+                            "name": "constructorId"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "List",
+                            "name": "missingOptions"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "message"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.ParseException",
+                            "21-33:ParseException",
+                            "30-32:ParseException"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {
+                            "|int|constructorId": {
+                                "identifier": "|int|constructorId",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|List|missingOptions": {
+                                "identifier": "final|List|missingOptions",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "List",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String|message": {
+                                "identifier": "final|String|message",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public init(constructorId: Int64, missingOptions: ArrayList<Any>, message: String) {",
+                        "        super()\n        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "68-75:MissingOptionException1": {
+                    "start": 68,
+                    "end": 75,
+                    "body": [
+                        "public static MissingOptionException MissingOptionException1(",
+                        "            int constructorId, final List missingOptions, final String message) {",
+                        "        if (constructorId == 1) {",
+                        "            return new MissingOptionException(",
+                        "                    constructorId, missingOptions, createMessage(missingOptions));",
+                        "        }",
+                        "        return new MissingOptionException(constructorId, missingOptions, message);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public",
+                        "static"
+                    ],
+                    "return_types": [
+                        "MissingOptionException"
+                    ],
+                    "body_types": [
+                        "MissingOptionException"
+                    ],
+                    "signature": "MissingOptionException1( int constructorId, final List missingOptions, final String message)",
+                    "parameters": [
+                        {
+                            "modifier": "",
+                            "type": "int",
+                            "name": "constructorId"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "List",
+                            "name": "missingOptions"
+                        },
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "message"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.MissingOptionException",
+                            "24-93:MissingOptionException",
+                            "34-48:createMessage"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.MissingOptionException",
+                            "24-93:MissingOptionException",
+                            "59-66:MissingOptionException"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "MissingOptionException": {
+                                "identifier": "MissingOptionException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "MissingOptionException",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "MissingOptionException",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "MissingOptionException": {
+                                "identifier": "MissingOptionException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "MissingOptionException",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "MissingOptionException",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "|int|constructorId": {
+                                "identifier": "|int|constructorId",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "int",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|List|missingOptions": {
+                                "identifier": "final|List|missingOptions",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "List",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "final|String|message": {
+                                "identifier": "final|String|message",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public static func MissingOptionException1(constructorId: Int64, missingOptions: ArrayList<Any>, message: String): MissingOptionException {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                },
+                "90-92:getMissingOptions": {
+                    "start": 90,
+                    "end": 92,
+                    "body": [
+                        "public List getMissingOptions() {",
+                        "        return missingOptions;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "List"
+                    ],
+                    "body_types": [],
+                    "signature": "getMissingOptions()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "List": {
+                                "identifier": "List",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-05-25 02:31:36",
+                                "source_type": "List",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    public open func getMissingOptions(): ArrayList<Any> {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ]
+                }
+            },
+            "fields": {
+                "26-26:serialVersionUID": {
+                    "start": 26,
+                    "end": 26,
+                    "enum_constant": false,
+                    "body": [
+                        "private static final long serialVersionUID = 8161889051578563249L;"
+                    ],
+                    "modifiers": [
+                        "private",
+                        "static",
+                        "final"
+                    ],
+                    "types": [
+                        "long"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "long": {
+                                "identifier": "long",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-25 02:31:24",
+                                "source_type": "long",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Int64",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    static let serialVersionUID: Int64 = throw Exception('TODO')\n"
+                    ]
+                },
+                "51-51:missingOptions": {
+                    "start": 51,
+                    "end": 51,
+                    "enum_constant": false,
+                    "body": [
+                        "private List missingOptions;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "List"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "List": {
+                                "identifier": "List",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "types",
+                                "timestamp": "2026-05-25 02:31:24",
+                                "source_type": "List",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "ArrayList<Any>",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": "",
+                    "partial_translation": [
+                        "    var missingOptions: ArrayList<Any> = throw Exception('TODO')\n"
+                    ]
+                }
+            },
+            "cangjie_class_declaration": "public open class MissingOptionException <: ParseException {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/MissingOptionException.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/MissingOptionException.cj",
+    "import_map": {
+        "Iterator": "java.util.Iterator",
+        "List": "java.util.List"
+    }
+}

@@ -1,0 +1,426 @@
+{
+    "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/main/java/org/apache/commons/cli/OptionValidator.java",
+    "imports": {},
+    "classes": {
+        "25-86:OptionValidator": {
+            "start": 25,
+            "end": 86,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "final"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "32-34:isValidChar": {
+                    "start": 32,
+                    "end": 34,
+                    "body": [
+                        "private static boolean isValidChar(final char c) {",
+                        "        return Character.isJavaIdentifierPart(c);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isValidChar(final char c)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.Character",
+                            "isJavaIdentifierPart(char)"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|char|c": {
+                                "identifier": "final|char|c",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "char",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Rune",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    private static func isValidChar(c: Rune): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: undeclared identifier 'isIdentifierPart'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionValidator.cj:14:26:\n   | \n14 |                 return c.isIdentifierPart()\n   |                          ^^^^^^^^^^^^^^^^ \n   |"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 20.570246934890747,
+                    "generation_timestamp": "2026-07-16T16:19:16.681103",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func isValidChar(c: Rune): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "42-44:isValidOpt": {
+                    "start": 42,
+                    "end": 44,
+                    "body": [
+                        "private static boolean isValidOpt(final char c) {",
+                        "        return isValidChar(c) || c == '?' || c == '@';",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "private",
+                        "static"
+                    ],
+                    "return_types": [
+                        "boolean"
+                    ],
+                    "body_types": [],
+                    "signature": "isValidOpt(final char c)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "char",
+                            "name": "c"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionValidator",
+                            "25-86:OptionValidator",
+                            "32-34:isValidChar"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "boolean": {
+                                "identifier": "boolean",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "boolean",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Bool",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {
+                            "final|char|c": {
+                                "identifier": "final|char|c",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "char",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Rune",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": [
+                        "    private static func isValidOpt(c: Rune): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "translation_status": "attempted",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "error",
+                        "message": "Compilation failed: error: invalid binary operator '==' on type 'Rune' and 'Struct-String'\n  ==> /home/lin/computer_science/paperCode/x2cangjie/x2cangjie/data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionValidator.cj:18:44:\n   | \n18 |                 return isValidChar(c) || c == '?' || c == '@'\n   |                                            ^^ \n   | \n   # note: you may want to implement 'operator func ==(right: Struct-String)' for type 'Rune'"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 44.31995105743408,
+                    "generation_timestamp": "2026-07-16T16:20:01.020977",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": [
+                        "    private static func isValidOpt(c: Rune): Bool {",
+                        "        throw Exception('TODO')",
+                        "    }\n"
+                    ],
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 1,
+                        "test_execution": 4
+                    }
+                },
+                "60-85:validate": {
+                    "start": 60,
+                    "end": 85,
+                    "body": [
+                        "static String validate(final String option) throws IllegalArgumentException {",
+                        "        if (option == null) {",
+                        "            return null;",
+                        "        }",
+                        "",
+                        "        if (option.length() == 1) {",
+                        "            final char ch = option.charAt(0);",
+                        "",
+                        "            if (!isValidOpt(ch)) {",
+                        "                throw new IllegalArgumentException(\"Illegal option name '\" + ch + \"'\");",
+                        "            }",
+                        "        } else {",
+                        "            for (final char ch : option.toCharArray()) {",
+                        "                if (!isValidChar(ch)) {",
+                        "                    throw new IllegalArgumentException(",
+                        "                            \"The option '\"",
+                        "                                    + option",
+                        "                                    + \"' contains an illegal \"",
+                        "                                    + \"character : '\"",
+                        "                                    + ch",
+                        "                                    + \"'\");",
+                        "                }",
+                        "            }",
+                        "        }",
+                        "        return option;",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [],
+                    "modifiers": [
+                        "static"
+                    ],
+                    "return_types": [
+                        "String"
+                    ],
+                    "body_types": [
+                        "char",
+                        "IllegalArgumentException"
+                    ],
+                    "signature": "validate(final String option)",
+                    "parameters": [
+                        {
+                            "modifier": "final",
+                            "type": "String",
+                            "name": "option"
+                        }
+                    ],
+                    "calls": [
+                        [
+                            "library",
+                            "java.lang.String",
+                            "length()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "charAt(int)"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionValidator",
+                            "25-86:OptionValidator",
+                            "42-44:isValidOpt"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "<init>()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "append(char)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.StringBuilder",
+                            "toString()"
+                        ],
+                        [
+                            "library",
+                            "java.lang.IllegalArgumentException",
+                            "<init>(java.lang.String)"
+                        ],
+                        [
+                            "library",
+                            "java.lang.String",
+                            "toCharArray()"
+                        ],
+                        [
+                            "commons-cli.src.main.org.apache.commons.cli.OptionValidator",
+                            "25-86:OptionValidator",
+                            "32-34:isValidChar"
+                        ]
+                    ],
+                    "type_translations": {
+                        "return_types": {
+                            "String": {
+                                "identifier": "String",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "return_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "body_types": {
+                            "char": {
+                                "identifier": "char",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "char",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "Rune",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            },
+                            "IllegalArgumentException": {
+                                "identifier": "IllegalArgumentException",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "body_types",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "IllegalArgumentException",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "IllegalArgumentException",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "parameters": {
+                            "final|String|option": {
+                                "identifier": "final|String|option",
+                                "translated": true,
+                                "attempted": true,
+                                "type_variation": "parameters",
+                                "timestamp": "2026-07-16 15:05:56",
+                                "source_type": "String",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "String",
+                                "reasoning": "",
+                                "prompt": "",
+                                "feedback": ""
+                            }
+                        },
+                        "types": {}
+                    },
+                    "translation": "if (option == \"\") {\nreturn option\n}\nif (option.size == 1) {\nlet ch: Rune = Rune(option[0])\nif (!isValidOpt(ch)) {\nthrow IllegalArgumentException(\"Illegal option name '\" + ch.toString() + \"'\")\n}\n} else {\nfor (ch in option.runes()) {\nif (!isValidChar(ch)) {\nthrow IllegalArgumentException(\"The option '\" + option + \"' contains an illegal character : '\" + ch.toString() + \"'\")\n}\n}\n}\nreturn option",
+                    "translation_status": "completed",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": {
+                        "outcome": "success",
+                        "message": "Compilation successful"
+                    },
+                    "test_execution": "pending",
+                    "elapsed_time": 24.43343734741211,
+                    "generation_timestamp": "2026-07-16T16:20:25.473771",
+                    "model_name": "",
+                    "is_overload": false,
+                    "is_override": false,
+                    "needs_open": false,
+                    "partial_translation": "if (option == \"\") {\nreturn option\n}\nif (option.size == 1) {\nlet ch: Rune = Rune(option[0])\nif (!isValidOpt(ch)) {\nthrow IllegalArgumentException(\"Illegal option name '\" + ch.toString() + \"'\")\n}\n} else {\nfor (ch in option.runes()) {\nif (!isValidChar(ch)) {\nthrow IllegalArgumentException(\"The option '\" + option + \"' contains an illegal character : '\" + ch.toString() + \"'\")\n}\n}\n}\nreturn option",
+                    "original_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 4,
+                        "test_execution": 4
+                    },
+                    "final_budget": {
+                        "syntactic": 4,
+                        "cangjie_compilation": 2,
+                        "test_execution": 4
+                    }
+                }
+            },
+            "fields": {},
+            "cangjie_class_declaration": "class OptionValidator {\n"
+        }
+    },
+    "cangjie_skeleton_path": "data/java/skeletons/commons-cli/src/OptionValidator.cj",
+    "cangjie_translations_skeleton_path": "data/java/skeletons/translations/deepseek-chat/0.0/commons-cli/src/OptionValidator.cj"
+}

@@ -1,0 +1,758 @@
+{
+    "path": "projects/java/cleaned_final_projects_evosuite_cleaned_base/commons-cli/src/test/java/org/apache/commons/cli/ValuesTest.java",
+    "imports": {
+        "20-20:import static org.junit.Assert.assertArrayEquals;": {
+            "start": 20,
+            "end": 20,
+            "body": "import static org.junit.Assert.assertArrayEquals;"
+        },
+        "21-21:import static org.junit.Assert.assertEquals;": {
+            "start": 21,
+            "end": 21,
+            "body": "import static org.junit.Assert.assertEquals;"
+        },
+        "22-22:import static org.junit.Assert.assertNull;": {
+            "start": 22,
+            "end": 22,
+            "body": "import static org.junit.Assert.assertNull;"
+        },
+        "23-23:import static org.junit.Assert.assertTrue;": {
+            "start": 23,
+            "end": 23,
+            "body": "import static org.junit.Assert.assertTrue;"
+        },
+        "25-25:import org.junit.Before;": {
+            "start": 25,
+            "end": 25,
+            "body": "import org.junit.Before;"
+        },
+        "26-26:import org.junit.Test;": {
+            "start": 26,
+            "end": 26,
+            "body": "import org.junit.Test;"
+        }
+    },
+    "classes": {
+        "28-186:ValuesTest": {
+            "start": 28,
+            "end": 186,
+            "is_abstract": false,
+            "is_interface": false,
+            "is_enum": false,
+            "modifiers": [
+                "@SuppressWarnings(\"deprecation\")",
+                "// tests some deprecated classes",
+                "public"
+            ],
+            "nested_inside": "",
+            "nests": [],
+            "implements": [],
+            "extends": [],
+            "methods": {
+                "32-101:setUp": {
+                    "start": 32,
+                    "end": 101,
+                    "body": [
+                        "@Before",
+                        "    public void setUp() throws Exception {",
+                        "        final Options options = new Options();",
+                        "",
+                        "        options.addOption1(\"a\", false, \"toggle -a\");",
+                        "        options.addOption1(\"b\", true, \"set -b\");",
+                        "        options.addOption3(\"c\", \"c\", false, \"toggle -c\");",
+                        "        options.addOption3(\"d\", \"d\", true, \"set -d\");",
+                        "",
+                        "        options.addOption0(",
+                        "                OptionBuilder.withLongOpt(\"e\").hasArgs0().withDescription(\"set -e \").create1('e'));",
+                        "        options.addOption3(\"f\", \"f\", false, \"jk\");",
+                        "        options.addOption0(",
+                        "                OptionBuilder.withLongOpt(\"g\").hasArgs1(2).withDescription(\"set -g\").create1('g'));",
+                        "        options.addOption0(",
+                        "                OptionBuilder.withLongOpt(\"h\").hasArg0().withDescription(\"set -h\").create1('h'));",
+                        "        options.addOption0(OptionBuilder.withLongOpt(\"i\").withDescription(\"set -i\").create1('i'));",
+                        "        options.addOption0(",
+                        "                OptionBuilder.withLongOpt(\"j\")",
+                        "                        .hasArgs0()",
+                        "                        .withDescription(\"set -j\")",
+                        "                        .withValueSeparator1('=')",
+                        "                        .create1('j'));",
+                        "        options.addOption0(",
+                        "                OptionBuilder.withLongOpt(\"k\")",
+                        "                        .hasArgs0()",
+                        "                        .withDescription(\"set -k\")",
+                        "                        .withValueSeparator1('=')",
+                        "                        .create1('k'));",
+                        "        options.addOption0(",
+                        "                OptionBuilder.withLongOpt(\"m\")",
+                        "                        .hasArgs0()",
+                        "                        .withDescription(\"set -m\")",
+                        "                        .withValueSeparator0()",
+                        "                        .create1('m'));",
+                        "",
+                        "        final String[] args = {",
+                        "            \"-a\",",
+                        "            \"-b\",",
+                        "            \"foo\",",
+                        "            \"--c\",",
+                        "            \"--d\",",
+                        "            \"bar\",",
+                        "            \"-e\",",
+                        "            \"one\",",
+                        "            \"two\",",
+                        "            \"-f\",",
+                        "            \"arg1\",",
+                        "            \"arg2\",",
+                        "            \"-g\",",
+                        "            \"val1\",",
+                        "            \"val2\",",
+                        "            \"arg3\",",
+                        "            \"-h\",",
+                        "            \"val1\",",
+                        "            \"-i\",",
+                        "            \"-h\",",
+                        "            \"val2\",",
+                        "            \"-jkey=value\",",
+                        "            \"-j\",",
+                        "            \"key=value\",",
+                        "            \"-kkey1=value1\",",
+                        "            \"-kkey2=value2\",",
+                        "            \"-mkey=value\"",
+                        "        };",
+                        "",
+                        "        final CommandLineParser parser = new PosixParser();",
+                        "",
+                        "        cmd = parser.parse0(options, args);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Before"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "Options",
+                        "String[]",
+                        "CommandLineParser",
+                        "PosixParser"
+                    ],
+                    "signature": "setUp()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "Options": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "String[]": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "CommandLineParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            },
+                            "PosixParser": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "103-121:testCharSeparator": {
+                    "start": 103,
+                    "end": 121,
+                    "body": [
+                        "@Test",
+                        "    public void testCharSeparator() {",
+                        "        assertTrue(\"Option j is not set\", cmd.hasOption2(\"j\"));",
+                        "        assertTrue(\"Option j is not set\", cmd.hasOption0('j'));",
+                        "        assertArrayEquals(new String[] {\"key\", \"value\", \"key\", \"value\"}, cmd.getOptionValues2(\"j\"));",
+                        "        assertArrayEquals(new String[] {\"key\", \"value\", \"key\", \"value\"}, cmd.getOptionValues0('j'));",
+                        "",
+                        "        assertTrue(\"Option k is not set\", cmd.hasOption2(\"k\"));",
+                        "        assertTrue(\"Option k is not set\", cmd.hasOption0('k'));",
+                        "        assertArrayEquals(",
+                        "                new String[] {\"key1\", \"value1\", \"key2\", \"value2\"}, cmd.getOptionValues2(\"k\"));",
+                        "        assertArrayEquals(",
+                        "                new String[] {\"key1\", \"value1\", \"key2\", \"value2\"}, cmd.getOptionValues0('k'));",
+                        "",
+                        "        assertTrue(\"Option m is not set\", cmd.hasOption2(\"m\"));",
+                        "        assertTrue(\"Option m is not set\", cmd.hasOption0('m'));",
+                        "        assertArrayEquals(new String[] {\"key\", \"value\"}, cmd.getOptionValues2(\"m\"));",
+                        "        assertArrayEquals(new String[] {\"key\", \"value\"}, cmd.getOptionValues0('m'));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "testCharSeparator()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "123-128:testComplexValues": {
+                    "start": 123,
+                    "end": 128,
+                    "body": [
+                        "@Test",
+                        "    public void testComplexValues() {",
+                        "        assertTrue(\"Option i is not set\", cmd.hasOption2(\"i\"));",
+                        "        assertTrue(\"Option h is not set\", cmd.hasOption2(\"h\"));",
+                        "        assertArrayEquals(new String[] {\"val1\", \"val2\"}, cmd.getOptionValues2(\"h\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "testComplexValues()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "130-133:testExtraArgs": {
+                    "start": 130,
+                    "end": 133,
+                    "body": [
+                        "@Test",
+                        "    public void testExtraArgs() {",
+                        "        assertArrayEquals(\"Extra args\", new String[] {\"arg1\", \"arg2\", \"arg3\"}, cmd.getArgs());",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "testExtraArgs()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "135-139:testMultipleArgValues": {
+                    "start": 135,
+                    "end": 139,
+                    "body": [
+                        "@Test",
+                        "    public void testMultipleArgValues() {",
+                        "        assertTrue(\"Option e is not set\", cmd.hasOption2(\"e\"));",
+                        "        assertArrayEquals(new String[] {\"one\", \"two\"}, cmd.getOptionValues2(\"e\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "testMultipleArgValues()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "141-148:testShortArgs": {
+                    "start": 141,
+                    "end": 148,
+                    "body": [
+                        "@Test",
+                        "    public void testShortArgs() {",
+                        "        assertTrue(\"Option a is not set\", cmd.hasOption2(\"a\"));",
+                        "        assertTrue(\"Option c is not set\", cmd.hasOption2(\"c\"));",
+                        "",
+                        "        assertNull(cmd.getOptionValues2(\"a\"));",
+                        "        assertNull(cmd.getOptionValues2(\"c\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testShortArgs()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "150-159:testShortArgsWithValue": {
+                    "start": 150,
+                    "end": 159,
+                    "body": [
+                        "@Test",
+                        "    public void testShortArgsWithValue() {",
+                        "        assertTrue(\"Option b is not set\", cmd.hasOption2(\"b\"));",
+                        "        assertEquals(\"foo\", cmd.getOptionValue4(\"b\"));",
+                        "        assertEquals(1, cmd.getOptionValues2(\"b\").length);",
+                        "",
+                        "        assertTrue(\"Option d is not set\", cmd.hasOption2(\"d\"));",
+                        "        assertEquals(\"bar\", cmd.getOptionValue4(\"d\"));",
+                        "        assertEquals(1, cmd.getOptionValues2(\"d\").length);",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [],
+                    "signature": "testShortArgsWithValue()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                },
+                "161-165:testTwoArgValues": {
+                    "start": 161,
+                    "end": 165,
+                    "body": [
+                        "@Test",
+                        "    public void testTwoArgValues() {",
+                        "        assertTrue(\"Option g is not set\", cmd.hasOption2(\"g\"));",
+                        "        assertArrayEquals(new String[] {\"val1\", \"val2\"}, cmd.getOptionValues2(\"g\"));",
+                        "    }"
+                    ],
+                    "is_constructor": false,
+                    "annotations": [
+                        "@Test"
+                    ],
+                    "modifiers": [
+                        "public"
+                    ],
+                    "return_types": [
+                        "void"
+                    ],
+                    "body_types": [
+                        "String"
+                    ],
+                    "signature": "testTwoArgValues()",
+                    "parameters": [],
+                    "calls": [],
+                    "type_translations": {
+                        "return_types": {
+                            "void": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "body_types": {
+                            "String": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        },
+                        "parameters": {},
+                        "types": {}
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            },
+            "fields": {
+                "30-30:cmd": {
+                    "start": 30,
+                    "end": 30,
+                    "enum_constant": false,
+                    "body": [
+                        "private CommandLine cmd;"
+                    ],
+                    "modifiers": [
+                        "private"
+                    ],
+                    "types": [
+                        "CommandLine"
+                    ],
+                    "type_translations": {
+                        "return_types": {},
+                        "body_types": {},
+                        "parameters": {},
+                        "types": {
+                            "CommandLine": {
+                                "identifier": "",
+                                "translated": false,
+                                "attempted": false,
+                                "type_variation": "",
+                                "timestamp": "",
+                                "source_type": "",
+                                "generation": "",
+                                "imports": "",
+                                "translated_target_type": "",
+                                "reasoning": "",
+                                "prompt": ""
+                            }
+                        }
+                    },
+                    "translation": [],
+                    "translation_status": "pending",
+                    "syntactic_validation": "pending",
+                    "cangjie_compilation": "pending",
+                    "test_execution": "pending",
+                    "elapsed_time": 0,
+                    "generation_timestamp": 0,
+                    "model_name": ""
+                }
+            }
+        }
+    },
+    "cangjie_skeleton_path": "",
+    "cangjie_translations_skeleton_path": "",
+    "import_map": {
+        "assertArrayEquals": "static org.junit.Assert.assertArrayEquals",
+        "assertEquals": "static org.junit.Assert.assertEquals",
+        "assertNull": "static org.junit.Assert.assertNull",
+        "assertTrue": "static org.junit.Assert.assertTrue",
+        "Before": "org.junit.Before",
+        "Test": "org.junit.Test"
+    }
+}
